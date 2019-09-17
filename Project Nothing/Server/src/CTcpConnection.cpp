@@ -1,24 +1,24 @@
 #include "stdafx.h"
 
-#include "CConnection.h"
+#include "CTcpConnection.h"
 
-CConnection::CConnection (tcp::socket _socket)
+CTcpConnection::CTcpConnection (tcp::socket _socket)
 	: m_kSocket (std::move (_socket))
 	, m_kSend_buffer ()
 	, m_kReceive_buffer ()
 {
 }
 
-CConnection::~CConnection ()
+CTcpConnection::~CTcpConnection ()
 {
 }
 
-void CConnection::Init ()
+void CTcpConnection::Init ()
 {
 	do_read ();
 }
 
-void CConnection::do_read ()
+void CTcpConnection::do_read ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_read_some (asio::buffer (m_kReceive_buffer, 1024),
@@ -33,7 +33,7 @@ void CConnection::do_read ()
 		});
 }
 
-void CConnection::do_write (std::size_t length)
+void CTcpConnection::do_write (std::size_t length)
 {
 	auto self (shared_from_this ());
 	asio::async_write (m_kSocket, asio::buffer (m_kReceive_buffer, length),

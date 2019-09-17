@@ -2,11 +2,11 @@
 
 using asio::ip::tcp;
 
-class CConnection : public std::enable_shared_from_this<CConnection>
+class CTcpConnection : public std::enable_shared_from_this<CTcpConnection>
 {
 public:
-	CConnection (tcp::socket _socket);
-	virtual ~CConnection ();
+	CTcpConnection (tcp::socket _socket);
+	virtual ~CTcpConnection ();
 
 	void Init ();
 

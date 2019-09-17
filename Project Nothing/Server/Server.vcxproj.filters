@@ -6,12 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CConnection.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CListener.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -21,14 +15,17 @@
     <ClCompile Include="src\COutStream.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\CTcpConnection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CTcpListener.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CTcpSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CConnection.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CListener.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -36,6 +33,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\COutStream.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CTcpConnection.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CTcpListener.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CTcpSession.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
