@@ -20,12 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CConnection.cpp" />
+    <ClCompile Include="src\CInStream.cpp" />
     <ClCompile Include="src\CListener.cpp" />
+    <ClCompile Include="src\COutStream.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CConnection.h" />
+    <ClInclude Include="src\CInStream.h" />
     <ClInclude Include="src\CListener.h" />
+    <ClInclude Include="src\COutStream.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

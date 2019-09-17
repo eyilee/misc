@@ -15,6 +15,12 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\CInStream.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\COutStream.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CConnection.h">
@@ -24,6 +30,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CInStream.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\COutStream.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 
+#include "CInStream.h"
+#include "COutStream.h"
+
 #include "CConnection.h"
 #include "CListener.h"
 
