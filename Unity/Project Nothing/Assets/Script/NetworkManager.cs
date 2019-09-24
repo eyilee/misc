@@ -1,50 +1,50 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-public class NetworkManager : MonoBehaviour
+namespace ProjectNothing
 {
-    readonly TcpClient tcpClient = new TcpClient ();
-
-    void Start ()
+    public class NetworkManager : MonoSingleton<NetworkManager>
     {
-        tcpClient.BeginConnect ("127.0.0.1", 3000, OnConnect, null);
+        readonly TcpClient tcpClient = new TcpClient ();
 
-        //IPAddress.HostToNetworkOrder ();
-        //IPAddress.NetworkToHostOrder ();
-    }
-
-    void OnConnect (IAsyncResult asyncResult)
-    {
-        Debug.Log ("Server connected.");
-
-        NetworkStream networkStream = tcpClient.GetStream ();
-
-        if (networkStream.CanWrite)
+        void Start ()
         {
-            string message = "This is a test.";
+            tcpClient.BeginConnect ("127.0.0.1", 3000, OnConnect, null);
 
-            byte[] data = System.Text.Encoding.ASCII.GetBytes (message);
-
-            networkStream.Write (data, 0, data.Length);
+            //IPAddress.HostToNetworkOrder ();
+            //IPAddress.NetworkToHostOrder ();
         }
 
-        if (networkStream.CanRead)
+        void OnConnect (IAsyncResult asyncResult)
         {
-            byte[] data = new byte[128];
+            Debug.Log ("Server connected.");
 
-            int length = networkStream.Read (data, 0, data.Length);
+            NetworkStream networkStream = tcpClient.GetStream ();
 
-            string message = System.Text.Encoding.ASCII.GetString (data, 0, length);
+            if (networkStream.CanWrite)
+            {
+                string message = "This is a test.";
 
-            Debug.Log (message);
+                byte[] data = System.Text.Encoding.ASCII.GetBytes (message);
+
+                networkStream.Write (data, 0, data.Length);
+            }
+
+            if (networkStream.CanRead)
+            {
+                byte[] data = new byte[128];
+
+                int length = networkStream.Read (data, 0, data.Length);
+
+                string message = System.Text.Encoding.ASCII.GetString (data, 0, length);
+
+                Debug.Log (message);
+            }
+
+            tcpClient.EndConnect (asyncResult);
+
+            tcpClient.Close ();
         }
-
-        tcpClient.EndConnect (asyncResult);
-
-        tcpClient.Close ();
     }
 }
