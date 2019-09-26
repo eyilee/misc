@@ -18,7 +18,10 @@ namespace ProjectNothing
 
         void OnConnect (IAsyncResult asyncResult)
         {
-            Debug.Log ("Server connected.");
+            if (tcpClient.Connected)
+            {
+                Debug.Log ("Server connected.");
+            }
 
             NetworkStream networkStream = tcpClient.GetStream ();
 

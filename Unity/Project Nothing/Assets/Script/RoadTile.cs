@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
-public class RoadTile : Tile
+[CreateAssetMenu (fileName = "New Road Tile", menuName = "Tiles/Road Tile")]
+public class RoadTile : WorldTile
 {
+    [Space(20)]
+    [Header("Road Tile")]
     public Sprite[] m_Sprites;
-    public Sprite m_Preview;
+    public override bool StartUp (Vector3Int position, ITilemap tilemap, GameObject go)
+    {
+        return base.StartUp (position, tilemap, go);
+    }
+
     // This refreshes itself and other RoadTiles that are orthogonally and diagonally adjacent
     public override void RefreshTile (Vector3Int location, ITilemap tilemap)
     {
@@ -92,16 +96,4 @@ public class RoadTile : Tile
         }
         return Quaternion.Euler (0f, 0f, 0f);
     }
-#if UNITY_EDITOR
-    // The following is a helper that adds a menu item to create a RoadTile Asset
-    [MenuItem ("Assets/Create/RoadTile")]
-    public static void CreateRoadTile ()
-    {
-        string path = EditorUtility.SaveFilePanelInProject ("Save Road Tile", "New Road Tile", "Asset", "Save Road Tile", "Assets");
-        if (path == "")
-            return;
-        AssetDatabase.CreateAsset (ScriptableObject.CreateInstance<RoadTile> (), path);
-
-    }
-#endif
 }

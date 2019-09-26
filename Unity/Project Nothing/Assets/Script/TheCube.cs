@@ -9,6 +9,20 @@ public class TheCube : Selectable
     bool isSelected = false;
     Coroutine move = null;
 
+    protected override void Start ()
+    {
+        StartCoroutine (Log ());
+    }
+
+    private IEnumerator Log ()
+    {
+        while (true)
+        {
+        Debug.Log ("LOG");
+        yield return new WaitForSeconds (1.0f);
+        }
+    }
+
     public void Update ()
     {
         if (Input.GetMouseButton (1))
