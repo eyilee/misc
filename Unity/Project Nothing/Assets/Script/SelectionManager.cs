@@ -1,32 +1,41 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using System;
+using UnityEngine;
 
 namespace ProjectNothing
 {
+    public delegate void PointerEventHandler (Vector2 point);
+
     public class SelectionManager : MonoSingleton<SelectionManager>
     {
-        public delegate void PointerEventHandler (Vector2 point);
-        //event PointerEventHandler OnLongPress;
-        //event PointerEventHandler OnLongPressEnd;
-        //event PointerEventHandler OnClick;
+        Camera m_Camera;
+
+        int m_LayerMask = 0;
+
         event PointerEventHandler OnLayerMapPointerDown;
 
-        // current scene
-        // current state
-        bool isLeftButtonPressed = false;
+        bool m_IsLeftButtonPressed = false;
+
+        public void Awake ()
+        {
+            m_Camera = Camera.main;
+
+            foreach (ELayerType eLayerType in Enum.GetValues (typeof (ELayerType)))
+            {
+                m_LayerMask |= 1 << (int)eLayerType;
+            }
+        }
 
         public void Start ()
         {
-
         }
 
         public void Update ()
         {
-            if (!isLeftButtonPressed && Input.GetMouseButton (0))
+            if (!m_IsLeftButtonPressed && Input.GetMouseButton (0))
             {
-                isLeftButtonPressed = true;
+                m_IsLeftButtonPressed = true;
 
-                RaycastHit2D hit = Physics2D.Raycast (Input.mousePosition, Vector2.zero);
+                RaycastHit2D hit = Physics2D.Raycast (m_Camera.ScreenToWorldPoint (Input.mousePosition), Vector2.zero, 1.0f, m_LayerMask);
                 if (hit.collider != null)
                 {
                     switch ((ELayerType)hit.collider.gameObject.layer)
@@ -49,9 +58,9 @@ namespace ProjectNothing
                     }
                 }
             }
-            else if (isLeftButtonPressed && !Input.GetMouseButton (0))
+            else if (m_IsLeftButtonPressed && !Input.GetMouseButton (0))
             {
-                isLeftButtonPressed = false;
+                m_IsLeftButtonPressed = false;
             }
         }
 
@@ -77,12 +86,26 @@ namespace ProjectNothing
             }
         }
 
-        public void OnSelect ()
+        public void RemoveLayerPointerDown (ELayerType eLayerType, PointerEventHandler pointerEventHandler)
         {
-        }
-
-        public void OnDeSelect ()
-        {
+            switch (eLayerType)
+            {
+                case ELayerType.eLayer_Default:
+                    break;
+                case ELayerType.eLayer_TransparentFX:
+                    break;
+                case ELayerType.eLayer_IgnoreRaycast:
+                    break;
+                case ELayerType.eLayer_Water:
+                    break;
+                case ELayerType.eLayer_UI:
+                    break;
+                case ELayerType.eLayer_Map:
+                    OnLayerMapPointerDown -= pointerEventHandler;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public enum TileType
+﻿namespace ProjectNothing
 {
-    eTile_None,
-    eTile_Road
+    public enum TileType
+    {
+        eTile_None,
+        eTile_Road
+    }
 }
