@@ -30,13 +30,15 @@ public class GameManager : MonoBehaviour
     void Start ()
     {
         manager = World.Active.GetOrCreateManager<EntityManager> ();
+
+        AddCubes (2000);
     }
 
     void Update ()
     {
         if (Input.GetKeyDown ("space"))
         {
-            AddCubes (20);
+            AddCubes (2000);
         }
     }
 

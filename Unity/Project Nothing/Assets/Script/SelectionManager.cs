@@ -11,6 +11,7 @@ namespace ProjectNothing
 
         int m_LayerMask = 0;
 
+        event PointerEventHandler OnPointerDown;
         event PointerEventHandler OnLayerMapPointerDown;
 
         bool m_IsLeftButtonPressed = false;
@@ -51,17 +52,35 @@ namespace ProjectNothing
                         case ELayerType.eLayer_UI:
                             break;
                         case ELayerType.eLayer_Map:
-                            OnLayerMapPointerDown (hit.point);
+                            if (OnLayerMapPointerDown != null)
+                            {
+                                OnLayerMapPointerDown (hit.point);
+                            }
                             break;
                         default:
                             break;
                     }
+                }
+
+                if (OnPointerDown != null)
+                {
+                    OnPointerDown (Input.mousePosition);
                 }
             }
             else if (m_IsLeftButtonPressed && !Input.GetMouseButton (0))
             {
                 m_IsLeftButtonPressed = false;
             }
+        }
+
+        public void AddPointDown (PointerEventHandler pointerEventHandler)
+        {
+            OnPointerDown += pointerEventHandler;
+        }
+
+        public void RemovePointDown (PointerEventHandler pointerEventHandler)
+        {
+            OnPointerDown -= pointerEventHandler;
         }
 
         public void AddLayerPointerDown (ELayerType eLayerType, PointerEventHandler pointerEventHandler)
