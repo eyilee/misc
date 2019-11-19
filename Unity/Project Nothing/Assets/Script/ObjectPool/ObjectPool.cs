@@ -6,7 +6,7 @@ public abstract class ObjectPool<TPool, TObject, TInfo> : ObjectPool<TPool, TObj
     where TPool : ObjectPool<TPool, TObject, TInfo>
     where TObject : PoolObject<TPool, TObject, TInfo>, new()
 {
-    void Start ()
+    private void Start ()
     {
         for (int i = 0; i < initialPoolCount; i++)
         {
@@ -44,7 +44,7 @@ public abstract class ObjectPool<TPool, TObject> : MonoBehaviour
     [HideInInspector]
     public List<TObject> pool = new List<TObject> ();
 
-    void Start ()
+    private void Start ()
     {
         for (int i = 0; i < initialPoolCount; i++)
         {
@@ -105,6 +105,7 @@ public abstract class PoolObject<TPool, TObject>
     where TObject : PoolObject<TPool, TObject>, new()
 {
     public bool inPool;
+    [NonSerialized]
     public GameObject instance;
     public TPool objectPool;
 

@@ -8,7 +8,7 @@ namespace ProjectNothing
     {
         public Tilemap Tilemap { get; private set; }
 
-        readonly Dictionary<Vector3Int, WorldTile> m_WorldMap = new Dictionary<Vector3Int, WorldTile> ();
+        private readonly Dictionary<Vector3Int, WorldTile> m_WorldMap = new Dictionary<Vector3Int, WorldTile> ();
 
         public void Awake ()
         {
@@ -59,7 +59,7 @@ namespace ProjectNothing
             OnTileClick (cell);
         }
 
-        void OnTileClick (Vector3Int position)
+        private void OnTileClick (Vector3Int position)
         {
             if (m_WorldMap.ContainsKey (position))
             {

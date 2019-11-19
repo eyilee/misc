@@ -7,14 +7,13 @@ namespace ProjectNothing
 
     public class SelectionManager : MonoSingleton<SelectionManager>
     {
-        Camera m_Camera;
+        private Camera m_Camera;
+        private int m_LayerMask = 0;
 
-        int m_LayerMask = 0;
+        private bool m_IsLeftButtonPressed = false;
 
-        event PointerEventHandler OnPointerDown;
-        event PointerEventHandler OnLayerMapPointerDown;
-
-        bool m_IsLeftButtonPressed = false;
+        private event PointerEventHandler OnPointerDown;
+        private event PointerEventHandler OnLayerMapPointerDown;
 
         public void Awake ()
         {
@@ -24,10 +23,6 @@ namespace ProjectNothing
             {
                 m_LayerMask |= 1 << (int)eLayerType;
             }
-        }
-
-        public void Start ()
-        {
         }
 
         public void Update ()
@@ -52,20 +47,14 @@ namespace ProjectNothing
                         case ELayerType.eLayer_UI:
                             break;
                         case ELayerType.eLayer_Map:
-                            if (OnLayerMapPointerDown != null)
-                            {
-                                OnLayerMapPointerDown (hit.point);
-                            }
+                            OnLayerMapPointerDown?.Invoke (hit.point);
                             break;
                         default:
                             break;
                     }
                 }
 
-                if (OnPointerDown != null)
-                {
-                    OnPointerDown (Input.mousePosition);
-                }
+                OnPointerDown?.Invoke (Input.mousePosition);
             }
             else if (m_IsLeftButtonPressed && !Input.GetMouseButton (0))
             {

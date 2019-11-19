@@ -8,22 +8,20 @@ namespace ProjectNothing
     public class PlayerController : MonoBehaviour, IPointerClickHandler
     {
         public TileMapController tileMapController;
+        private Vector3Int m_Position;
+        private PointerEventHandler m_OnPointerDownHandler;
 
-        Vector3Int m_Position;
-
-        PointerEventHandler m_OnPointerDownHandler;
-
-        void Awake ()
+        private void Awake ()
         {
             m_OnPointerDownHandler = OnTargetClick;
         }
 
-        void Start ()
+        private void Start ()
         {
             m_Position = tileMapController.Tilemap.WorldToCell (transform.position);
         }
 
-        void MoveToPosition (Vector3Int target)
+        private void MoveToPosition (Vector3Int target)
         {
             Tilemap tilemap = tileMapController.Tilemap;
 
@@ -34,14 +32,14 @@ namespace ProjectNothing
             StartCoroutine (MoveToTarget (fromPosition, targetPosition));
         }
 
-        IEnumerator MoveToTarget (Vector3 from, Vector3 to)
+        private IEnumerator MoveToTarget (Vector3 from, Vector3 to)
         {
             Vector3 path = to - from;
 
             float time = 0.0f;
             while (time < 2.0f)
             {
-                transform.position = from + path * (time / 2.0f);
+                transform.position = from + (path * (time / 2.0f));
 
                 time += Time.deltaTime;
 
@@ -53,7 +51,7 @@ namespace ProjectNothing
         {
             Vector3Int cell = tileMapController.Tilemap.WorldToCell (eventData.position);
 
-            SelectionManager.Instance.AddPointDown (m_OnPointerDownHandler);
+            SelectionManager.Instance.AddPointDown (OnTargetClick);
         }
 
         public void OnTargetClick (Vector2 point)
@@ -62,7 +60,7 @@ namespace ProjectNothing
 
             MoveToPosition (cell);
 
-            SelectionManager.Instance.RemovePointDown (m_OnPointerDownHandler);
+            SelectionManager.Instance.RemovePointDown (OnTargetClick);
         }
     }
 }

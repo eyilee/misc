@@ -6,9 +6,9 @@ namespace ProjectNothing
 {
     public class NetworkManager : MonoSingleton<NetworkManager>
     {
-        readonly TcpClient tcpClient = new TcpClient ();
+        private readonly TcpClient tcpClient = new TcpClient ();
 
-        void Start ()
+        private void Start ()
         {
             tcpClient.BeginConnect ("127.0.0.1", 3000, OnConnect, null);
 
@@ -16,7 +16,7 @@ namespace ProjectNothing
             //IPAddress.NetworkToHostOrder ();
         }
 
-        void OnConnect (IAsyncResult asyncResult)
+        private void OnConnect (IAsyncResult asyncResult)
         {
             if (tcpClient.Connected)
             {
