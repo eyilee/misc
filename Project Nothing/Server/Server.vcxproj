@@ -19,19 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CTcpConnection.cpp" />
+    <ClCompile Include="src\CTcpSession.cpp" />
     <ClCompile Include="src\CInStream.cpp" />
     <ClCompile Include="src\CTcpListener.cpp" />
     <ClCompile Include="src\COutStream.cpp" />
-    <ClCompile Include="src\CTcpSession.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CTcpConnection.h" />
+    <ClInclude Include="src\CTcpSession.h" />
     <ClInclude Include="src\CInStream.h" />
     <ClInclude Include="src\CTcpListener.h" />
     <ClInclude Include="src\COutStream.h" />
-    <ClInclude Include="src\CTcpSession.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

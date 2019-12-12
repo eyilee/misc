@@ -15,9 +15,6 @@
     <ClCompile Include="src\COutStream.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CTcpConnection.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\CTcpListener.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -33,9 +30,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\COutStream.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CTcpConnection.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\CTcpListener.h">

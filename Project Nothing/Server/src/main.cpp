@@ -3,9 +3,8 @@
 #include "CInStream.h"
 #include "COutStream.h"
 
-#include "CTcpConnection.h"
-#include "CTcpSession.h"
 #include "CTcpListener.h"
+#include "CTcpSession.h"
 
 static std::map<int, std::shared_ptr<CTcpSession>> g_kSession_manager;
 
@@ -15,7 +14,7 @@ int main (int argc, char* argv[])
 	{
 		if (argc != 2)
 		{
-			std::cerr << "Usage: async_tcp_echo_server <port>\n";
+			std::cerr << "Usage: async_tcp_echo_server <port>" << std::endl;
 			return 1;
 		}
 
@@ -27,9 +26,9 @@ int main (int argc, char* argv[])
 
 		io_context.run ();
 	}
-	catch (std::exception& e)
+	catch (std::exception & e)
 	{
-		std::cerr << "Exception: " << e.what () << "\n";
+		std::cerr << "Exception: " << e.what () << std::endl;
 	}
 
 	return 0;

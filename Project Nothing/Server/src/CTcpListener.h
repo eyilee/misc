@@ -2,6 +2,8 @@
 
 using asio::ip::tcp;
 
+class CTcpSession;
+
 class CTcpListener
 {
 public:
@@ -10,7 +12,7 @@ public:
 	void Init (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager);
 
 private:
-	void do_accept (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager);
+	void AsyncAccept (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager);
 
 private:
 	tcp::acceptor m_kAcceptor;
