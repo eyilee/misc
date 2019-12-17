@@ -10,7 +10,7 @@ namespace ProjectNothing
 
         private void Start ()
         {
-            tcpClient.BeginConnect ("127.0.0.1", 3000, OnConnect, null);
+            tcpClient.BeginConnect ("127.0.0.1", 8484, OnConnect, null);
 
             //IPAddress.HostToNetworkOrder ();
             //IPAddress.NetworkToHostOrder ();
