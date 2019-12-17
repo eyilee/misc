@@ -4,6 +4,9 @@
     <Filter Include="src">
       <UniqueIdentifier>{3fb3084c-b43d-4433-8fcc-412c43b9d228}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\manager">
+      <UniqueIdentifier>{a5a54b90-75f1-4e04-81ac-ac88be204878}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -21,6 +24,9 @@
     <ClCompile Include="src\CTcpSession.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\manager\CSessionManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -37,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="src\CTcpSession.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\CSessionManager.h">
+      <Filter>src\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

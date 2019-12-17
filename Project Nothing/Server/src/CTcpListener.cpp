@@ -1,19 +1,29 @@
 #include "stdafx.h"
 
 #include "CTcpSession.h"
+#include "CSessionManager.h"
 #include "CTcpListener.h"
 
 CTcpListener::CTcpListener (asio::io_context& _kio_context, short _nPort)
 	: m_kAcceptor (_kio_context, tcp::endpoint (tcp::v4 (), _nPort))
+	, m_pSession_manager (nullptr)
 {
 }
 
-void CTcpListener::Init (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager)
+CTcpListener::~CTcpListener ()
 {
-	AsyncAccept (_kSession_manager);
 }
 
-void CTcpListener::AsyncAccept (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager)
+void CTcpListener::Init (CSessionManager& _kSession_manager)
+{
+	m_pSession_manager = &_kSession_manager;
+
+	AsyncAccept ();
+
+	std::cout << "TcpListener init, waiting for connection." << std::endl;
+}
+
+void CTcpListener::AsyncAccept ()
 {
 	m_kAcceptor.async_accept ([&](std::error_code error, tcp::socket socket)
 		{
@@ -26,9 +36,9 @@ void CTcpListener::AsyncAccept (std::map<int, std::shared_ptr<CTcpSession>>& _kS
 
 				kSession->Init ();
 
-				_kSession_manager.emplace (0, std::move (kSession));
+				m_pSession_manager->AddSession (kSession);
 			}
 
-			AsyncAccept (_kSession_manager);
+			AsyncAccept ();
 		});
 }

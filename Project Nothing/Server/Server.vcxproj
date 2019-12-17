@@ -24,12 +24,14 @@
     <ClCompile Include="src\CTcpListener.cpp" />
     <ClCompile Include="src\COutStream.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\manager\CSessionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CTcpSession.h" />
     <ClInclude Include="src\CInStream.h" />
     <ClInclude Include="src\CTcpListener.h" />
     <ClInclude Include="src\COutStream.h" />
+    <ClInclude Include="src\manager\CSessionManager.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -106,8 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_DEBUG;_CONSOLE;ASIO_STANDALONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,8 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;_DEBUG;_CONSOLE;ASIO_STANDALONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

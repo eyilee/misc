@@ -3,17 +3,21 @@
 using asio::ip::tcp;
 
 class CTcpSession;
+class CSessionManager;
 
 class CTcpListener
 {
 public:
 	CTcpListener (asio::io_context& _kIo_context, short _nPort);
+	virtual ~CTcpListener ();
 
-	void Init (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager);
+	void Init (CSessionManager& _kSession_manager);
 
 private:
-	void AsyncAccept (std::map<int, std::shared_ptr<CTcpSession>>& _kSession_manager);
+	void AsyncAccept ();
 
 private:
 	tcp::acceptor m_kAcceptor;
+
+	CSessionManager* m_pSession_manager;
 };

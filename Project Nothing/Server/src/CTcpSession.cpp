@@ -16,6 +16,8 @@ CTcpSession::~CTcpSession ()
 void CTcpSession::Init ()
 {
 	AsyncRead ();
+
+	std::cout << "TcpSession init, connection establish." << std::endl;
 }
 
 void CTcpSession::AsyncRead ()

@@ -1,12 +1,8 @@
 #include "stdafx.h"
 
-#include "CInStream.h"
-#include "COutStream.h"
+#include "CSessionManager.h"
 
-#include "CTcpListener.h"
-#include "CTcpSession.h"
-
-static std::map<int, std::shared_ptr<CTcpSession>> g_kSession_manager;
+static CSessionManager* g_kSession_manager;
 
 int main (int argc, char* argv[])
 {
@@ -14,20 +10,18 @@ int main (int argc, char* argv[])
 	{
 		if (argc != 2)
 		{
-			std::cerr << "Usage: async_tcp_echo_server <port>" << std::endl;
+			std::cerr << "Usage: server <port>" << std::endl;
 			return 1;
 		}
 
 		asio::io_context io_context;
 
-		CTcpListener kListener (io_context, std::atoi (argv[1]));
-
-		kListener.Init (g_kSession_manager);
+		g_kSession_manager = new CSessionManager ();
+		g_kSession_manager->Init (io_context, std::atoi (argv[1]));
 
 		io_context.run ();
 	}
-	catch (std::exception & e)
-	{
+	catch (std::exception & e) {
 		std::cerr << "Exception: " << e.what () << std::endl;
 	}
 
