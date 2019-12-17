@@ -4,7 +4,7 @@
     <Filter Include="src">
       <UniqueIdentifier>{3fb3084c-b43d-4433-8fcc-412c43b9d228}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\manager">
+    <Filter Include="src\network">
       <UniqueIdentifier>{a5a54b90-75f1-4e04-81ac-ac88be204878}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -12,40 +12,52 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CInStream.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\network\CEntityManager.cpp">
+      <Filter>src\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\COutStream.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\network\CInStream.cpp">
+      <Filter>src\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\CTcpListener.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\network\CNetBridge.cpp">
+      <Filter>src\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\CTcpSession.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\network\COutStream.cpp">
+      <Filter>src\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\manager\CSessionManager.cpp">
-      <Filter>src\manager</Filter>
+    <ClCompile Include="src\network\CSessionManager.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\CTcpListener.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\CTcpSession.cpp">
+      <Filter>src\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CInStream.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\network\CEntityManager.h">
+      <Filter>src\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\COutStream.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\network\CInStream.h">
+      <Filter>src\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\CTcpListener.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\network\CNetBridge.h">
+      <Filter>src\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\CTcpSession.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\network\COutStream.h">
+      <Filter>src\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\manager\CSessionManager.h">
-      <Filter>src\manager</Filter>
+    <ClInclude Include="src\network\CSessionManager.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\CTcpListener.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\CTcpSession.h">
+      <Filter>src\network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

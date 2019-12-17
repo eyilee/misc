@@ -5,7 +5,7 @@ using asio::ip::tcp;
 class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 {
 public:
-	CTcpSession (tcp::socket _socket);
+	CTcpSession (tcp::socket& _socket);
 	virtual ~CTcpSession ();
 
 	void Init ();

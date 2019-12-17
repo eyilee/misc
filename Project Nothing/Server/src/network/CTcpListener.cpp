@@ -32,7 +32,7 @@ void CTcpListener::AsyncAccept ()
 			}
 			else
 			{
-				std::shared_ptr<CTcpSession> kSession = std::make_shared<CTcpSession> (std::move (socket));
+				std::shared_ptr<CTcpSession> kSession = std::make_shared<CTcpSession> (socket);
 
 				kSession->Init ();
 

@@ -2,7 +2,7 @@
 
 #include "CTcpSession.h"
 
-CTcpSession::CTcpSession (tcp::socket _socket)
+CTcpSession::CTcpSession (tcp::socket& _socket)
 	: m_kSocket (std::move (_socket))
 	, m_kSend_buffer ()
 	, m_kReceive_buffer ()
