@@ -6,7 +6,7 @@ public:
 	COutStream ();
 	virtual ~COutStream ();
 
-	const std::vector<char>& Data () const { return m_kData; }
+	const std::vector<char>& data () const { return m_kData; }
 
 	COutStream& operator << (const bool& _b);
 	COutStream& operator << (const char& _c);

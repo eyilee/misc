@@ -3,8 +3,8 @@
 #include "CSessionManager.h"
 #include "CEntityManager.h"
 
-static CSessionManager* g_pSession_manager;
-static CEntityManager* g_pEntity_manager;
+static std::shared_ptr<CSessionManager> g_pSession_manager;
+static std::shared_ptr<CEntityManager> g_pEntity_manager;
 
 int main (int argc, char* argv[])
 {
@@ -18,10 +18,10 @@ int main (int argc, char* argv[])
 
 		asio::io_context io_context;
 
-		g_pSession_manager = new CSessionManager ();
-		g_pSession_manager->Init (io_context, std::atoi (argv[1]));
+		g_pSession_manager = std::make_shared<CSessionManager> ();
+		g_pSession_manager->init (io_context, std::atoi (argv[1]));
 
-		g_pEntity_manager = new CEntityManager ();
+		g_pEntity_manager = std::make_shared<CEntityManager> ();
 
 		io_context.run ();
 	}

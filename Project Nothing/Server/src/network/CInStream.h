@@ -6,7 +6,7 @@ public:
 	CInStream (const std::vector<char>& _kData);
 	virtual ~CInStream ();
 
-	const std::vector<char>& Data () const { return m_kData; }
+	const std::vector<char>& data () const { return m_kData; }
 
 	CInStream& operator >> (bool& _b);
 	CInStream& operator >> (char& _c);

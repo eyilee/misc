@@ -5,7 +5,6 @@
 #include "CSessionManager.h"
 
 CSessionManager::CSessionManager ()
-	: m_pListener (nullptr)
 {
 }
 
@@ -13,15 +12,16 @@ CSessionManager::~CSessionManager ()
 {
 }
 
-void CSessionManager::Init (asio::io_context& _kIo_context, short _nPort)
+void CSessionManager::init (asio::io_context& _kIo_context, const short _nPort)
 {
-	m_pListener = new CTcpListener (_kIo_context, _nPort);
-	m_pListener->Init (*this);
+	auto self (shared_from_this ());
+	m_pListener = std::make_shared<CTcpListener> (_kIo_context, _nPort);
+	m_pListener->init (self);
 
 	std::cout << "SessionManager init." << std::endl;
 }
 
-void CSessionManager::AddSession (std::shared_ptr<CTcpSession>& _kSession)
+void CSessionManager::add_session (std::shared_ptr<CTcpSession>& _kSession)
 {
-	m_kSession_list.emplace_back (_kSession->shared_from_this ());
+	m_kSession_list.emplace_back (_kSession);
 }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "CNetBridge.h"
 #include "CTcpSession.h"
 
 CTcpSession::CTcpSession (tcp::socket& _socket)
@@ -7,20 +8,21 @@ CTcpSession::CTcpSession (tcp::socket& _socket)
 	, m_kSend_buffer ()
 	, m_kReceive_buffer ()
 {
+	m_pNet_bridge = std::make_shared<CNetBridge> (shared_from_this ());
 }
 
 CTcpSession::~CTcpSession ()
 {
 }
 
-void CTcpSession::Init ()
+void CTcpSession::init ()
 {
-	AsyncRead ();
+	async_read ();
 
 	std::cout << "TcpSession init, connection establish." << std::endl;
 }
 
-void CTcpSession::AsyncRead ()
+void CTcpSession::async_read ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_read_some (asio::buffer (m_kReceive_buffer, 1024),
@@ -30,12 +32,12 @@ void CTcpSession::AsyncRead ()
 				std::cout << error.message () << std::endl;
 			}
 			else {
-				AsyncWrite (length);
+				async_write (length);
 			}
 		});
 }
 
-void CTcpSession::AsyncWrite (std::size_t length)
+void CTcpSession::async_write (std::size_t length)
 {
 	auto self (shared_from_this ());
 	asio::async_write (m_kSocket, asio::buffer (m_kReceive_buffer, length),
@@ -45,7 +47,7 @@ void CTcpSession::AsyncWrite (std::size_t length)
 				std::cout << error.message () << std::endl;
 			}
 			else {
-				AsyncRead ();
+				async_read ();
 			}
 		});
 }

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\network\CEntity.cpp" />
     <ClCompile Include="src\network\CEntityManager.cpp" />
     <ClCompile Include="src\network\CInStream.cpp" />
     <ClCompile Include="src\network\CNetBridge.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="src\network\CTcpSession.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\network\CEntity.h" />
     <ClInclude Include="src\network\CEntityManager.h" />
     <ClInclude Include="src\network\CInStream.h" />
     <ClInclude Include="src\network\CNetBridge.h" />

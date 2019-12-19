@@ -5,20 +5,20 @@ using asio::ip::tcp;
 class CTcpListener;
 class CTcpSession;
 
-class CSessionManager
+class CSessionManager : public std::enable_shared_from_this<CSessionManager>
 {
 public:
 	CSessionManager ();
 	virtual ~CSessionManager ();
 
-	void Init (asio::io_context& _kIo_context, short _nPort);
+	void init (asio::io_context& _kIo_context, const short _nPort);
 
-	void AddSession (std::shared_ptr<CTcpSession>& _kSession);
+	void add_session (std::shared_ptr<CTcpSession>& _pSession);
 
 private:
 	std::list<std::shared_ptr<CTcpSession>> m_kSession_list;
 	std::map<int, std::shared_ptr<CTcpSession>> m_kSession_map;
 
-	CTcpListener* m_pListener;
+	std::shared_ptr<CTcpListener> m_pListener;
 };
 

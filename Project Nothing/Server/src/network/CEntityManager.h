@@ -2,5 +2,7 @@
 
 class CEntityManager
 {
-
+public:
+	CEntityManager ();
+	virtual ~CEntityManager ();
 };

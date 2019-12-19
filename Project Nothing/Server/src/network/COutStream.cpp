@@ -31,7 +31,7 @@ COutStream& COutStream::operator << (const unsigned char& _uc)
 COutStream& COutStream::operator << (const short& _s)
 {
 	short nTemp = htons (_s);
-	char* pPostion = (char*)& nTemp;
+	char* pPostion = (char*)&nTemp;
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_s));
 	return *this;
 }
@@ -39,7 +39,7 @@ COutStream& COutStream::operator << (const short& _s)
 COutStream& COutStream::operator << (const unsigned short& _us)
 {
 	unsigned short nTemp = htons (_us);
-	char* pPostion = (char*)& nTemp;
+	char* pPostion = (char*)&nTemp;
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_us));
 	return *this;
 }
@@ -47,7 +47,7 @@ COutStream& COutStream::operator << (const unsigned short& _us)
 COutStream& COutStream::operator << (const int& _i)
 {
 	int nTemp = htonl (_i);
-	char* pPostion = (char*)& nTemp;
+	char* pPostion = (char*)&nTemp;
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_i));
 	return *this;
 }
@@ -55,7 +55,7 @@ COutStream& COutStream::operator << (const int& _i)
 COutStream& COutStream::operator << (const unsigned int& _ui)
 {
 	unsigned int nTemp = htonl (_ui);
-	char* pPostion = (char*)& nTemp;
+	char* pPostion = (char*)&nTemp;
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_ui));
 	return *this;
 }
@@ -63,7 +63,7 @@ COutStream& COutStream::operator << (const unsigned int& _ui)
 COutStream& COutStream::operator << (const long& _l)
 {
 	long nTemp = htonl (_l);
-	char* pPostion = (char*)& nTemp;
+	char* pPostion = (char*)&nTemp;
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_l));
 	return *this;
 }
@@ -71,7 +71,7 @@ COutStream& COutStream::operator << (const long& _l)
 COutStream& COutStream::operator << (const unsigned long& _ul)
 {
 	unsigned long nTemp = htonl (_ul);
-	char* pPostion = (char*)& nTemp;
+	char* pPostion = (char*)&nTemp;
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_ul));
 	return *this;
 }

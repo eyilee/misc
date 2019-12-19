@@ -8,16 +8,16 @@ class CSessionManager;
 class CTcpListener
 {
 public:
-	CTcpListener (asio::io_context& _kIo_context, short _nPort);
+	CTcpListener (asio::io_context& _kIo_context, const short _nPort);
 	virtual ~CTcpListener ();
 
-	void Init (CSessionManager& _kSession_manager);
+	void init (std::shared_ptr<CSessionManager>& _pSession_manager);
 
 private:
-	void AsyncAccept ();
+	void async_accept ();
 
 private:
 	tcp::acceptor m_kAcceptor;
 
-	CSessionManager* m_pSession_manager;
+	std::shared_ptr<CSessionManager> m_pSession_manager;
 };
