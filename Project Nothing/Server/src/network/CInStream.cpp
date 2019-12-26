@@ -3,7 +3,12 @@
 #include "CInStream.h"
 
 CInStream::CInStream (const std::vector<char>& _kData)
-	:m_kData (_kData)
+	: m_kData (_kData)
+{
+}
+
+CInStream::CInStream (const char* _pData, size_t _nSize)
+	: m_kData (_pData, _pData + _nSize)
 {
 }
 

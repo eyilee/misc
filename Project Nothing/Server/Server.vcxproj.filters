@@ -7,6 +7,9 @@
     <Filter Include="src\network">
       <UniqueIdentifier>{a5a54b90-75f1-4e04-81ac-ac88be204878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\protocol">
+      <UniqueIdentifier>{561c6c9d-f28c-43cc-86d2-472ef5d31902}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -36,6 +39,9 @@
     <ClCompile Include="src\network\CEntity.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\CNetProtocol.cpp">
+      <Filter>src\protocol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="src\network\CEntity.h">
       <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\CNetProtocol.h">
+      <Filter>src\protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

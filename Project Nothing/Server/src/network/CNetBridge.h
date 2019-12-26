@@ -6,7 +6,7 @@ class CTcpSession;
 class CNetBridge
 {
 public:
-	CNetBridge (const std::shared_ptr<CTcpSession>& _pSession);
+	CNetBridge (std::shared_ptr<CTcpSession>& _pSession);
 	virtual ~CNetBridge ();
 
 	void set_entity (std::shared_ptr<CEntity>& _pEntity);

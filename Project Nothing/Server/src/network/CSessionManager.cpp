@@ -5,6 +5,7 @@
 #include "CSessionManager.h"
 
 CSessionManager::CSessionManager ()
+	: m_pListener (nullptr)
 {
 }
 

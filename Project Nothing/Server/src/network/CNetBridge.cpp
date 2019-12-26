@@ -4,8 +4,9 @@
 #include "CTcpSession.h"
 #include "CNetBridge.h"
 
-CNetBridge::CNetBridge (const std::shared_ptr<CTcpSession>& _pSession)
+CNetBridge::CNetBridge (std::shared_ptr<CTcpSession>& _pSession)
 	: m_pSession (_pSession)
+	, m_pEntity (nullptr)
 {
 }
 

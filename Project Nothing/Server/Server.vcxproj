@@ -28,6 +28,7 @@
     <ClCompile Include="src\network\CSessionManager.cpp" />
     <ClCompile Include="src\network\CTcpListener.cpp" />
     <ClCompile Include="src\network\CTcpSession.cpp" />
+    <ClCompile Include="src\protocol\CNetProtocol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\network\CEntity.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="src\network\CSessionManager.h" />
     <ClInclude Include="src\network\CTcpListener.h" />
     <ClInclude Include="src\network\CTcpSession.h" />
+    <ClInclude Include="src\protocol\CNetProtocol.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -114,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_DEBUG;_CONSOLE;ASIO_STANDALONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;_DEBUG;_CONSOLE;ASIO_STANDALONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

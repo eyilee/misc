@@ -14,7 +14,10 @@ public:
 
 private:
 	void async_read ();
-	void async_write (std::size_t length);
+	void async_write (std::size_t _nLength);
+
+	void on_read (const asio::const_buffer& _kBuffer);
+	void on_write ();
 
 private:
 	tcp::socket m_kSocket;

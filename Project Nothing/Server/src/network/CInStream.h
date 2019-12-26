@@ -4,6 +4,7 @@ class CInStream
 {
 public:
 	CInStream (const std::vector<char>& _kData);
+	CInStream (const char* _pData, size_t _nSize);
 	virtual ~CInStream ();
 
 	const std::vector<char>& data () const { return m_kData; }
