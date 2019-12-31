@@ -29,7 +29,8 @@
     <ClCompile Include="src\network\CSessionManager.cpp" />
     <ClCompile Include="src\network\CTcpListener.cpp" />
     <ClCompile Include="src\network\CTcpSession.cpp" />
-    <ClCompile Include="src\protocol\CNetProtocol.cpp" />
+    <ClCompile Include="src\protocol\CProtocolManager.cpp" />
+    <ClCompile Include="src\protocol\INetProtocol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
@@ -41,7 +42,8 @@
     <ClInclude Include="src\network\CSessionManager.h" />
     <ClInclude Include="src\network\CTcpListener.h" />
     <ClInclude Include="src\network\CTcpSession.h" />
-    <ClInclude Include="src\protocol\CNetProtocol.h" />
+    <ClInclude Include="src\protocol\INetProtocol.h" />
+    <ClInclude Include="src\protocol\CProtocolManager.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

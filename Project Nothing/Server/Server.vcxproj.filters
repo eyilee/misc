@@ -39,11 +39,14 @@
     <ClCompile Include="src\network\CEntity.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\CNetProtocol.cpp">
-      <Filter>src\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="src\CServer.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\CProtocolManager.cpp">
+      <Filter>src\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\INetProtocol.cpp">
+      <Filter>src\protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +77,14 @@
     <ClInclude Include="src\network\CEntity.h">
       <Filter>src\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\CNetProtocol.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
     <ClInclude Include="src\CServer.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\CProtocolManager.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\INetProtocol.h">
+      <Filter>src\protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,8 +12,8 @@ int main (int argc, char* argv[])
 
 	CServer kServer;
 
-	kServer.Init (std::atoi (argv[1]));
-	kServer.Run ();
+	kServer.init (std::atoi (argv[1]));
+	kServer.run ();
 
 	return 0;
 }

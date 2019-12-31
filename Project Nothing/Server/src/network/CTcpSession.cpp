@@ -52,9 +52,6 @@ void CTcpSession::async_write (std::size_t _nLength)
 			if (error) {
 				std::cout << error.message () << std::endl;
 			}
-			else {
-				async_read ();
-			}
 		});
 }
 
@@ -62,6 +59,8 @@ void CTcpSession::on_read (const asio::const_buffer& _kBuffer)
 {
 	const char* pBuffer = asio::buffer_cast<const char*>(_kBuffer);
 	CInStream kIn_stream (pBuffer, _kBuffer.size ());
+
+	m_pNet_bridge->resolve_input (kIn_stream);
 }
 
 void CTcpSession::on_write ()

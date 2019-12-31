@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "CInStream.h"
 #include "CEntity.h"
 #include "CTcpSession.h"
 #include "CNetBridge.h"
@@ -22,4 +23,8 @@ void CNetBridge::set_entity (std::shared_ptr<CEntity>& _pEntity)
 std::shared_ptr<CEntity>& CNetBridge::get_entity ()
 {
 	return m_pEntity;
+}
+
+void CNetBridge::resolve_input (CInStream& _kIn_Stream)
+{
 }
