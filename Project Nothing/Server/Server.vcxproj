@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CServer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\network\CEntity.cpp" />
     <ClCompile Include="src\network\CEntityManager.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="src\protocol\CNetProtocol.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CServer.h" />
     <ClInclude Include="src\network\CEntity.h" />
     <ClInclude Include="src\network\CEntityManager.h" />
     <ClInclude Include="src\network\CInStream.h" />

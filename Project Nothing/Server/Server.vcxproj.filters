@@ -42,6 +42,9 @@
     <ClCompile Include="src\protocol\CNetProtocol.cpp">
       <Filter>src\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="src\CServer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="src\protocol\CNetProtocol.h">
       <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CServer.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,10 +1,6 @@
 #include "stdafx.h"
 
-#include "network/CSessionManager.h"
-#include "network/CEntityManager.h"
-
-static std::shared_ptr<CSessionManager> g_pSession_manager;
-static std::shared_ptr<CEntityManager> g_pEntity_manager;
+#include "CServer.h"
 
 int main (int argc, char* argv[])
 {
@@ -14,14 +10,10 @@ int main (int argc, char* argv[])
 		return 1;
 	}
 
-	asio::io_context io_context;
+	CServer kServer;
 
-	g_pSession_manager = std::make_shared<CSessionManager> ();
-	g_pSession_manager->init (io_context, std::atoi (argv[1]));
-
-	g_pEntity_manager = std::make_shared<CEntityManager> ();
-
-	io_context.run ();
+	kServer.Init (std::atoi (argv[1]));
+	kServer.Run ();
 
 	return 0;
 }
