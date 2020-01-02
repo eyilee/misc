@@ -10,10 +10,10 @@ int main (int argc, char* argv[])
 		return 1;
 	}
 
-	CServer kServer;
+	std::shared_ptr<CServer> pServer = std::make_shared<CServer> ();
 
-	kServer.init (std::atoi (argv[1]));
-	kServer.run ();
+	pServer->init (std::atoi (argv[1]));
+	pServer->run ();
 
 	return 0;
 }

@@ -48,6 +48,9 @@
     <ClCompile Include="src\protocol\INetProtocol.cpp">
       <Filter>src\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\INetProtocolGenerator.cpp">
+      <Filter>src\protocol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -84,6 +87,9 @@
       <Filter>src\protocol</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\INetProtocol.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\INetProtocolGenerator.h">
       <Filter>src\protocol</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,10 @@
 #pragma once
 
 class CInStream;
+class COutStream;
 class CEntity;
 class CTcpSession;
+class INetProtocol;
 
 class CNetBridge
 {
@@ -14,6 +16,10 @@ public:
 	std::shared_ptr<CEntity>& get_entity ();
 
 	void resolve_input (CInStream& _kIn_Stream);
+	void compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol);
+
+private:
+	std::shared_ptr<INetProtocol> generate_protocol (unsigned short _nProtocol_id);
 
 private:
 	std::shared_ptr<CTcpSession> m_pSession;

@@ -31,6 +31,7 @@
     <ClCompile Include="src\network\CTcpSession.cpp" />
     <ClCompile Include="src\protocol\CProtocolManager.cpp" />
     <ClCompile Include="src\protocol\INetProtocol.cpp" />
+    <ClCompile Include="src\protocol\INetProtocolGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
@@ -44,6 +45,7 @@
     <ClInclude Include="src\network\CTcpSession.h" />
     <ClInclude Include="src\protocol\INetProtocol.h" />
     <ClInclude Include="src\protocol\CProtocolManager.h" />
+    <ClInclude Include="src\protocol\INetProtocolGenerator.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
