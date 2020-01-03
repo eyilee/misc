@@ -2,7 +2,7 @@
 
 #include "network/CSessionManager.h"
 #include "network/CEntityManager.h"
-#include "protocol/CProtocolManager.h"
+#include "network/CProtocolManager.h"
 #include "CServer.h"
 
 std::shared_ptr<CServer> CServer::m_Instance = nullptr;

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
-#include "network/CInStream.h"
-#include "protocol/INetProtocol.h"
+#include "network/CNetProtocol.h"
 
 #include "ServerEcho.h"
 

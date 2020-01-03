@@ -1,12 +1,9 @@
 #include "stdafx.h"
 
-#include "CInStream.h"
-#include "COutStream.h"
 #include "CEntity.h"
 #include "CTcpSession.h"
-#include "protocol/INetProtocol.h"
-#include "protocol/CProtocolManager.h"
-#include "CServer.h"
+#include "CNetProtocol.h"
+#include "CProtocolManager.h"
 
 #include "CNetBridge.h"
 
@@ -37,7 +34,6 @@ void CNetBridge::resolve_input (CInStream& _kIn_Stream)
 
 	auto self (shared_from_this ());
 	std::shared_ptr<INetProtocol> pNet_protocol = generate_protocol (nProtocol_id, self);
-
 	pNet_protocol->deserialize (_kIn_Stream);
 	pNet_protocol->excute ();
 }
@@ -45,9 +41,7 @@ void CNetBridge::resolve_input (CInStream& _kIn_Stream)
 void CNetBridge::compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol)
 {
 	COutStream kOut_Stream;
-	kOut_Stream << _pNet_protocol->get_protocol_id ();
-
-	_pNet_protocol->serialize (kOut_Stream);
+	_pNet_protocol->on_serialize (kOut_Stream);
 	m_pSession->on_write (kOut_Stream);
 }
 

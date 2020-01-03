@@ -1,8 +1,9 @@
 #pragma once
 
-class INetProtocol;
+template <typename T>
+class CNetProtocol;
 
-class ServerEcho : public INetProtocol
+class ServerEcho : public CNetProtocol<ServerEcho>
 {
 public:
 	ServerEcho ();

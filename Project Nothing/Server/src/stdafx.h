@@ -19,3 +19,8 @@
 
 // 3rd party
 #include "asio.hpp"
+
+// custom
+#include "network/CInStream.h"
+#include "network/COutStream.h"
+#include "CServer.h"

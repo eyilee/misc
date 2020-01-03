@@ -48,20 +48,17 @@
     <ClCompile Include="src\CServer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\CProtocolManager.cpp">
-      <Filter>src\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\INetProtocol.cpp">
-      <Filter>src\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\INetProtocolGenerator.cpp">
-      <Filter>src\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\CNetProtocolGenerator.cpp">
-      <Filter>src\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="src\protocol\client\ServerEcho.cpp">
       <Filter>src\protocol\server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\CNetProtocolGenerator.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\CProtocolManager.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\CNetProtocol.cpp">
+      <Filter>src\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,26 +92,23 @@
     <ClInclude Include="src\CServer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\CProtocolManager.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\INetProtocol.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\INetProtocolGenerator.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\CNetProtocolGenerator.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\server\ServerProtocols.h">
-      <Filter>src\protocol\server</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\client\ClientProtocols.h">
-      <Filter>src\protocol\client</Filter>
-    </ClInclude>
     <ClInclude Include="src\protocol\client\ServerEcho.h">
       <Filter>src\protocol\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\CNetProtocolGenerator.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\CProtocolManager.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\ClientProtocols.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\ServerProtocols.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\CNetProtocol.h">
+      <Filter>src\network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

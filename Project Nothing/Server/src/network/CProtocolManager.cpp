@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
-#include "network/CNetBridge.h"
-#include "INetProtocol.h"
-#include "INetProtocolGenerator.h"
+#include "CNetBridge.h"
+#include "CNetProtocol.h"
 #include "CNetProtocolGenerator.h"
 
 #include "CProtocolManager.h"

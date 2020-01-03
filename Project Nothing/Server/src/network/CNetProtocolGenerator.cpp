@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "INetProtocol.h"
+#include "CNetProtocol.h"
 
-#include "INetProtocolGenerator.h"
+#include "CNetProtocolGenerator.h"
 
 INetProtocolGenerator::INetProtocolGenerator ()
 {

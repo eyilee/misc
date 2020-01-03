@@ -1,7 +1,5 @@
 #pragma once
 
-class CInStream;
-class COutStream;
 class CEntity;
 class CTcpSession;
 class INetProtocol;

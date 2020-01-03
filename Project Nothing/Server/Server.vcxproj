@@ -25,15 +25,14 @@
     <ClCompile Include="src\network\CEntityManager.cpp" />
     <ClCompile Include="src\network\CInStream.cpp" />
     <ClCompile Include="src\network\CNetBridge.cpp" />
+    <ClCompile Include="src\network\CNetProtocolGenerator.cpp" />
     <ClCompile Include="src\network\COutStream.cpp" />
+    <ClCompile Include="src\network\CProtocolManager.cpp" />
     <ClCompile Include="src\network\CSessionManager.cpp" />
     <ClCompile Include="src\network\CTcpListener.cpp" />
     <ClCompile Include="src\network\CTcpSession.cpp" />
+    <ClCompile Include="src\network\CNetProtocol.cpp" />
     <ClCompile Include="src\protocol\client\ServerEcho.cpp" />
-    <ClCompile Include="src\protocol\CNetProtocolGenerator.cpp" />
-    <ClCompile Include="src\protocol\CProtocolManager.cpp" />
-    <ClCompile Include="src\protocol\INetProtocol.cpp" />
-    <ClCompile Include="src\protocol\INetProtocolGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
@@ -41,17 +40,16 @@
     <ClInclude Include="src\network\CEntityManager.h" />
     <ClInclude Include="src\network\CInStream.h" />
     <ClInclude Include="src\network\CNetBridge.h" />
+    <ClInclude Include="src\network\CNetProtocolGenerator.h" />
     <ClInclude Include="src\network\COutStream.h" />
+    <ClInclude Include="src\network\CProtocolManager.h" />
     <ClInclude Include="src\network\CSessionManager.h" />
     <ClInclude Include="src\network\CTcpListener.h" />
     <ClInclude Include="src\network\CTcpSession.h" />
-    <ClInclude Include="src\protocol\client\ClientProtocols.h" />
+    <ClInclude Include="src\network\CNetProtocol.h" />
+    <ClInclude Include="src\protocol\ClientProtocols.h" />
     <ClInclude Include="src\protocol\client\ServerEcho.h" />
-    <ClInclude Include="src\protocol\CNetProtocolGenerator.h" />
-    <ClInclude Include="src\protocol\INetProtocol.h" />
-    <ClInclude Include="src\protocol\CProtocolManager.h" />
-    <ClInclude Include="src\protocol\INetProtocolGenerator.h" />
-    <ClInclude Include="src\protocol\server\ServerProtocols.h" />
+    <ClInclude Include="src\protocol\ServerProtocols.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

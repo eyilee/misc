@@ -1,6 +1,13 @@
 #pragma once
 
-class INetProtocolGenerator;
+class INetProtocolGenerator
+{
+public:
+	INetProtocolGenerator ();
+	virtual ~INetProtocolGenerator ();
+
+	virtual std::shared_ptr<INetProtocol> generate () = 0;
+};
 
 template <typename T>
 class CNetProtocolGenerator : public INetProtocolGenerator

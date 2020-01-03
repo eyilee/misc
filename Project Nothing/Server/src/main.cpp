@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#include "CServer.h"
-
 int main (int argc, char* argv[])
 {
 	if (argc != 2)

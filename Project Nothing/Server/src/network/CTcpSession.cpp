@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#include "CInStream.h"
-#include "COutStream.h"
 #include "CNetBridge.h"
 
 #include "CTcpSession.h"
