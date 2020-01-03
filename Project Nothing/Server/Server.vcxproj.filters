@@ -10,6 +10,12 @@
     <Filter Include="src\protocol">
       <UniqueIdentifier>{561c6c9d-f28c-43cc-86d2-472ef5d31902}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\protocol\client">
+      <UniqueIdentifier>{0c7eb2df-c790-409d-9ebb-28f1bb404a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\protocol\server">
+      <UniqueIdentifier>{22ff93e9-80ed-4131-9a84-dcaedb3ec40e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -51,6 +57,12 @@
     <ClCompile Include="src\protocol\INetProtocolGenerator.cpp">
       <Filter>src\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\CNetProtocolGenerator.cpp">
+      <Filter>src\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\client\ServerEcho.cpp">
+      <Filter>src\protocol\server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -91,6 +103,18 @@
     </ClInclude>
     <ClInclude Include="src\protocol\INetProtocolGenerator.h">
       <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\CNetProtocolGenerator.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerProtocols.h">
+      <Filter>src\protocol\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\client\ClientProtocols.h">
+      <Filter>src\protocol\client</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\client\ServerEcho.h">
+      <Filter>src\protocol\server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

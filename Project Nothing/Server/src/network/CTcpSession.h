@@ -2,6 +2,7 @@
 
 using asio::ip::tcp;
 
+class CInStream;
 class COutStream;
 class CNetBridge;
 

@@ -2,8 +2,8 @@
 
 using asio::ip::tcp;
 
-class CTcpListener;
 class CTcpSession;
+class CTcpListener;
 
 class CSessionManager : public std::enable_shared_from_this<CSessionManager>
 {

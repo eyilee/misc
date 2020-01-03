@@ -18,7 +18,7 @@ CServer::~CServer ()
 void CServer::init (const int _nPort)
 {
 	if (m_Instance == nullptr) {
-		m_Instance = shared_from_this();
+		m_Instance = shared_from_this ();
 	}
 
 	if (m_pSession_manager == nullptr)

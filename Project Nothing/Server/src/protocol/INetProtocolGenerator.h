@@ -2,22 +2,11 @@
 
 class INetProtocol;
 
-template <typename T>
 class INetProtocolGenerator
 {
+public:
 	INetProtocolGenerator ();
 	virtual ~INetProtocolGenerator ();
 
-	virtual std::shared_ptr<INetProtocol> generate ();
+	virtual std::shared_ptr<INetProtocol> generate () = 0;
 };
-
-template<typename T>
-inline INetProtocolGenerator<T>::~INetProtocolGenerator ()
-{
-}
-
-template<typename T>
-inline std::shared_ptr<INetProtocol> INetProtocolGenerator<T>::generate ()
-{
-	return std::make_shared<T> ();
-}

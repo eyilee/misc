@@ -5,8 +5,10 @@ class COutStream;
 class CEntity;
 class CTcpSession;
 class INetProtocol;
+class CProtocolManager;
+class CServer;
 
-class CNetBridge
+class CNetBridge : public std::enable_shared_from_this<CNetBridge>
 {
 public:
 	CNetBridge (std::shared_ptr<CTcpSession>& _pSession);
@@ -19,7 +21,7 @@ public:
 	void compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol);
 
 private:
-	std::shared_ptr<INetProtocol> generate_protocol (unsigned short _nProtocol_id);
+	std::shared_ptr<INetProtocol> generate_protocol (unsigned short _nProtocol_id, std::shared_ptr<CNetBridge>& _pNetBridge);
 
 private:
 	std::shared_ptr<CTcpSession> m_pSession;

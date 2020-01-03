@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
-#include "CTcpListener.h"
 #include "CTcpSession.h"
+#include "CTcpListener.h"
+
 #include "CSessionManager.h"
 
 CSessionManager::CSessionManager ()

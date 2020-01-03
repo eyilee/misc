@@ -2,6 +2,7 @@
 
 class CInStream;
 class COutStream;
+class CNetBridge;
 
 class INetProtocol
 {
@@ -9,13 +10,18 @@ public:
 	INetProtocol ();
 	virtual ~INetProtocol ();
 
-	const unsigned short get_protocol_id () const { return m_nProtocol_id; };
+	static const unsigned short get_protocol_id () { return m_nProtocol_id; };
+	static void set_protocol_id (const unsigned short _nProtocol_id) { m_nProtocol_id = _nProtocol_id; }
 
-	virtual void serialize (COutStream& _kOut_Stream) {};
-	virtual void deserialize (CInStream& _kIn_Stream) {};
+	void set_net_bridge (std::shared_ptr<CNetBridge>& _pNet_Bridge) { m_pNet_Bridge = _pNet_Bridge; };
 
-	virtual void excute () {};
+	virtual void serialize (COutStream& _kOut_Stream) = 0;
+	virtual void deserialize (CInStream& _kIn_Stream) = 0;
+	virtual void excute () = 0;
+
+protected:
+	std::shared_ptr<CNetBridge> m_pNet_Bridge;
 
 private:
-	unsigned short m_nProtocol_id;
+	static unsigned short m_nProtocol_id;
 };
