@@ -109,7 +109,7 @@ namespace ProjectNothing.Network
         {
             long l = IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (data, index));
             d = BitConverter.ToDouble (BitConverter.GetBytes (l), 0);
-            index += sizeof (long);
+            index += sizeof (double);
             return this;
         }
 
