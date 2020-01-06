@@ -1,5 +1,7 @@
 #pragma once
 
+class INetProtocol;
+
 class INetProtocolGenerator
 {
 public:

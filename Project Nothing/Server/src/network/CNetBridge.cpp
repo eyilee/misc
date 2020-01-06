@@ -1,10 +1,5 @@
 #include "stdafx.h"
 
-#include "CEntity.h"
-#include "CTcpSession.h"
-#include "CNetProtocol.h"
-#include "CProtocolManager.h"
-
 #include "CNetBridge.h"
 
 CNetBridge::CNetBridge (std::shared_ptr<CTcpSession>& _pSession)

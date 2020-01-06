@@ -114,3 +114,13 @@ COutStream& COutStream::operator << (const double& _d)
 	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_d));
 	return *this;
 }
+
+COutStream& COutStream::operator << (const std::string& _s)
+{
+	size_t nSize = _s.size ();
+	*this << (unsigned int)nSize;
+	for (size_t i = 0; i < nSize; i++) {
+		*this << _s[i];
+	}
+	return *this;
+}

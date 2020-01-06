@@ -21,6 +21,5 @@
 #include "asio.hpp"
 
 // custom
-#include "network/CInStream.h"
-#include "network/COutStream.h"
+#include "network.h"
 #include "CServer.h"

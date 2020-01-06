@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#include "CNetBridge.h"
-
 #include "CNetProtocol.h"
 
 INetProtocol::INetProtocol ()

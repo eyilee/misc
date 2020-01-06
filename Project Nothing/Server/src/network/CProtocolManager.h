@@ -2,11 +2,7 @@
 
 class CNetBridge;
 class INetProtocol;
-template <typename T>
-class CNetProtocol;
 class INetProtocolGenerator;
-template <typename T>
-class CNetProtocolGenerator;
 
 class CProtocolManager
 {

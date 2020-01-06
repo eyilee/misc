@@ -1,10 +1,9 @@
 #pragma once
 
 class CEntity;
-class CTcpSession;
+class CInStream;
 class INetProtocol;
-class CProtocolManager;
-class CServer;
+class CTcpSession;
 
 class CNetBridge : public std::enable_shared_from_this<CNetBridge>
 {

@@ -32,10 +32,12 @@
     <ClCompile Include="src\network\CTcpListener.cpp" />
     <ClCompile Include="src\network\CTcpSession.cpp" />
     <ClCompile Include="src\network\CNetProtocol.cpp" />
+    <ClCompile Include="src\protocol\client\ClientEcho.cpp" />
     <ClCompile Include="src\protocol\client\ServerEcho.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
+    <ClInclude Include="src\network.h" />
     <ClInclude Include="src\network\CEntity.h" />
     <ClInclude Include="src\network\CEntityManager.h" />
     <ClInclude Include="src\network\CInStream.h" />
@@ -48,6 +50,7 @@
     <ClInclude Include="src\network\CTcpSession.h" />
     <ClInclude Include="src\network\CNetProtocol.h" />
     <ClInclude Include="src\protocol\ClientProtocols.h" />
+    <ClInclude Include="src\protocol\client\ClientEcho.h" />
     <ClInclude Include="src\protocol\client\ServerEcho.h" />
     <ClInclude Include="src\protocol\ServerProtocols.h" />
     <ClInclude Include="src\stdafx.h" />

@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-#include "CTcpSession.h"
-#include "CSessionManager.h"
-
 #include "CTcpListener.h"
 
 CTcpListener::CTcpListener (asio::io_context& _kio_context, const short _nPort)
@@ -19,8 +16,6 @@ void CTcpListener::init (std::shared_ptr<CSessionManager>& _pSession_manager)
 	m_pSession_manager = _pSession_manager;
 
 	async_accept ();
-
-	std::cout << "TcpListener init, waiting for connection." << std::endl;
 }
 
 void CTcpListener::async_accept ()

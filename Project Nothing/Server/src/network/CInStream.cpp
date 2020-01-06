@@ -123,3 +123,16 @@ CInStream& CInStream::operator >> (double& _d)
 	m_kData.erase (m_kData.begin (), m_kData.begin () + sizeof (_d));
 	return *this;
 }
+
+CInStream& CInStream::operator >> (std::string& _s)
+{
+	unsigned int nSize;
+	*this >> nSize;
+	for (size_t i = 0; i < nSize; i++)
+	{
+		char c;
+		*this >> c;
+		_s.push_back (c);
+	}
+	return *this;
+}

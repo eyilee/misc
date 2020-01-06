@@ -3,6 +3,7 @@
 using asio::ip::tcp;
 
 class CNetBridge;
+class COutStream;
 
 class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 {

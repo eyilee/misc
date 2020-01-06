@@ -22,6 +22,7 @@ public:
 	CInStream& operator >> (unsigned long long& _ull);
 	CInStream& operator >> (float& _f);
 	CInStream& operator >> (double& _d);
+	CInStream& operator >> (std::string& _s);
 
 private:
 	std::vector<char> m_kData;

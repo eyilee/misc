@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#include "CNetBridge.h"
-
 #include "CTcpSession.h"
 
 CTcpSession::CTcpSession (tcp::socket& _socket)
@@ -22,8 +20,6 @@ void CTcpSession::init ()
 	m_pNet_bridge = std::make_shared<CNetBridge> (self);
 
 	async_read ();
-
-	std::cout << "TcpSession init, connection establish." << std::endl;
 }
 
 void CTcpSession::async_read ()

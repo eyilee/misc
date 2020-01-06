@@ -1,9 +1,5 @@
 #include "stdafx.h"
 
-#include "CNetBridge.h"
-#include "CNetProtocol.h"
-#include "CNetProtocolGenerator.h"
-
 #include "CProtocolManager.h"
 
 CProtocolManager::CProtocolManager ()

@@ -1,6 +1,8 @@
 #pragma once
 
+class CInStream;
 class CNetBridge;
+class COutStream;
 
 class INetProtocol
 {

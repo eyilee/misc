@@ -2,7 +2,6 @@
 
 using asio::ip::tcp;
 
-class CTcpSession;
 class CSessionManager;
 
 class CTcpListener
