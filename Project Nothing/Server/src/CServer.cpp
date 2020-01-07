@@ -31,7 +31,8 @@ void CServer::init (const int _nPort)
 		m_pEntity_manager = std::make_shared<CEntityManager> ();
 	}
 
-	if (m_pProtocl_manager == nullptr) {
+	if (m_pProtocl_manager == nullptr)
+	{
 		m_pProtocl_manager = std::make_shared<CProtocolManager> ();
 		m_pProtocl_manager->init ();
 	}
