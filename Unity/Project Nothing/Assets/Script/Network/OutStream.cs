@@ -4,24 +4,15 @@ using System.Net;
 
 namespace ProjectNothing.Network
 {
-    class OutStream
+    sealed class OutStream
     {
-        #region Fields
         private readonly List<byte> data;
-        #endregion
 
-        #region Properties
-
-        #endregion
-
-        #region Constructor
         public OutStream ()
         {
             data = new List<byte> ();
         }
-        #endregion
 
-        #region Methods
         public byte[] Data ()
         {
             return data.ToArray ();
@@ -121,6 +112,5 @@ namespace ProjectNothing.Network
             }
             return this;
         }
-        #endregion
     }
 }

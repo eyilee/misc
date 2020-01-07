@@ -12,10 +12,11 @@ public:
 
 	void init ();
 
+	std::shared_ptr<INetProtocol> generate_protocol (const unsigned short _nProtocol_id, std::shared_ptr<CNetBridge>& _pNet_Bridge);
+
+private:
 	template <typename T>
 	void register_protocol (const unsigned short _nProtocol_id);
-
-	std::shared_ptr<INetProtocol> generate_protocol (const unsigned short _nProtocol_id, std::shared_ptr<CNetBridge>& _pNet_Bridge);
 
 private:
 	std::map<int, std::shared_ptr<INetProtocolGenerator>> m_kProtocol_map;

@@ -3,6 +3,7 @@
 class ClientEcho : public CNetProtocol<ClientEcho>
 {
 public:
+	ClientEcho ();
 	ClientEcho (const std::string& _kString);
 	virtual ~ClientEcho ();
 

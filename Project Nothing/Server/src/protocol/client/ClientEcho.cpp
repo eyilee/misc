@@ -2,6 +2,10 @@
 
 #include "ClientEcho.h"
 
+ClientEcho::ClientEcho ()
+{
+}
+
 ClientEcho::ClientEcho (const std::string& _kString)
 	: m_kString (_kString)
 {

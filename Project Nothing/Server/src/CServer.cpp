@@ -33,6 +33,7 @@ void CServer::init (const int _nPort)
 
 	if (m_pProtocl_manager == nullptr) {
 		m_pProtocl_manager = std::make_shared<CProtocolManager> ();
+		m_pProtocl_manager->init ();
 	}
 }
 

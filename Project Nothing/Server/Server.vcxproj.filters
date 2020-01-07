@@ -48,9 +48,6 @@
     <ClCompile Include="src\CServer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\client\ServerEcho.cpp">
-      <Filter>src\protocol\server</Filter>
-    </ClCompile>
     <ClCompile Include="src\network\CNetProtocolGenerator.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
@@ -62,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="src\protocol\client\ClientEcho.cpp">
       <Filter>src\protocol\client</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\server\ServerEcho.cpp">
+      <Filter>src\protocol\server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +95,6 @@
     <ClInclude Include="src\CServer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\client\ServerEcho.h">
-      <Filter>src\protocol\server</Filter>
-    </ClInclude>
     <ClInclude Include="src\network\CNetProtocolGenerator.h">
       <Filter>src\network</Filter>
     </ClInclude>
@@ -118,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="src\network.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerEcho.h">
+      <Filter>src\protocol\server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

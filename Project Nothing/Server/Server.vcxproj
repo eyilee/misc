@@ -33,7 +33,7 @@
     <ClCompile Include="src\network\CTcpSession.cpp" />
     <ClCompile Include="src\network\CNetProtocol.cpp" />
     <ClCompile Include="src\protocol\client\ClientEcho.cpp" />
-    <ClCompile Include="src\protocol\client\ServerEcho.cpp" />
+    <ClCompile Include="src\protocol\server\ServerEcho.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
@@ -51,8 +51,8 @@
     <ClInclude Include="src\network\CNetProtocol.h" />
     <ClInclude Include="src\protocol\ClientProtocols.h" />
     <ClInclude Include="src\protocol\client\ClientEcho.h" />
-    <ClInclude Include="src\protocol\client\ServerEcho.h" />
     <ClInclude Include="src\protocol\ServerProtocols.h" />
+    <ClInclude Include="src\protocol\server\ServerEcho.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

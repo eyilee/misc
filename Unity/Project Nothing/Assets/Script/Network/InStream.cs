@@ -4,26 +4,24 @@ using System.Net;
 
 namespace ProjectNothing.Network
 {
-    class InStream
+    sealed class InStream
     {
-        #region Fields
         private readonly byte[] data;
         private int index;
-        #endregion
 
-        #region Properties
-
-        #endregion
-
-        #region Constructor
         public InStream (byte[] bytes)
         {
             data = bytes;
             index = 0;
         }
-        #endregion
 
-        #region Methods
+        public InStream (byte[] bytes, int length)
+        {
+            data = new byte[length];
+            Array.Copy (bytes, data, length);
+            index = 0;
+        }
+
         public byte[] Data ()
         {
             return data;
@@ -129,6 +127,5 @@ namespace ProjectNothing.Network
             s = new string (letters.ToArray ());
             return this;
         }
-        #endregion
     }
 }

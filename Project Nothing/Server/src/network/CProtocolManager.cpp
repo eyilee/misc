@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "protocol/ServerProtocols.h"
+#include "protocol/ClientProtocols.h"
 #include "CProtocolManager.h"
 
 CProtocolManager::CProtocolManager ()
@@ -12,6 +14,8 @@ CProtocolManager::~CProtocolManager ()
 
 void CProtocolManager::init ()
 {
+	register_protocol<ServerEcho> (100);
+	register_protocol<ClientEcho> (200);
 }
 
 std::shared_ptr<INetProtocol> CProtocolManager::generate_protocol (const unsigned short _nProtocol_id, std::shared_ptr<CNetBridge>& _pNetBridge)
