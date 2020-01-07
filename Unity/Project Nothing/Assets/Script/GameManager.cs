@@ -7,6 +7,7 @@ namespace ProjectNothing
 {
     public class GameManager : MonoBehaviour
     {
+        bool isInit = false;
         float time = 0.0f;
 
         public void Awake ()
@@ -16,12 +17,15 @@ namespace ProjectNothing
 
         public void Update ()
         {
-            time += Time.deltaTime;
-
-            if (time >= 3.0f)
+            if (isInit)
             {
-                NetworkManager.Instance.netBridge.ComposeOutput (new ServerEcho { kString = "Hello World!" });
-                time = 0.0f;
+                time += Time.deltaTime;
+
+                if (time >= 0.025f)
+                {
+                    NetworkManager.Instance.netBridge.ComposeOutput (new ServerEcho { kString = "Hello World!" });
+                    time = 0.0f;
+                }
             }
         }
 
@@ -49,6 +53,8 @@ namespace ProjectNothing
             {
                 Debug.Log ("SelectionManager exist.");
             }
+
+            isInit = true;
         }
     }
 }
