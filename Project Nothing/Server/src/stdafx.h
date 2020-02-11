@@ -21,5 +21,6 @@
 #include "asio.hpp"
 
 // custom
-#include "network.h"
+#include "network/network.h"
+#include "manager/manager.h"
 #include "CServer.h"

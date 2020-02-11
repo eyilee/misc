@@ -21,14 +21,15 @@
   <ItemGroup>
     <ClCompile Include="src\CServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\manager\CEntityManager.cpp" />
+    <ClCompile Include="src\manager\CBaseManager.cpp" />
+    <ClCompile Include="src\manager\CProtocolManager.cpp" />
+    <ClCompile Include="src\manager\CSessionManager.cpp" />
     <ClCompile Include="src\network\CEntity.cpp" />
-    <ClCompile Include="src\network\CEntityManager.cpp" />
     <ClCompile Include="src\network\CInStream.cpp" />
     <ClCompile Include="src\network\CNetBridge.cpp" />
     <ClCompile Include="src\network\CNetProtocolGenerator.cpp" />
     <ClCompile Include="src\network\COutStream.cpp" />
-    <ClCompile Include="src\network\CProtocolManager.cpp" />
-    <ClCompile Include="src\network\CSessionManager.cpp" />
     <ClCompile Include="src\network\CTcpListener.cpp" />
     <ClCompile Include="src\network\CTcpSession.cpp" />
     <ClCompile Include="src\network\CNetProtocol.cpp" />
@@ -37,18 +38,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
-    <ClInclude Include="src\network.h" />
+    <ClInclude Include="src\manager\CEntityManager.h" />
+    <ClInclude Include="src\manager\CBaseManager.h" />
+    <ClInclude Include="src\manager\CProtocolManager.h" />
+    <ClInclude Include="src\manager\CSessionManager.h" />
+    <ClInclude Include="src\manager\manager.h" />
     <ClInclude Include="src\network\CEntity.h" />
-    <ClInclude Include="src\network\CEntityManager.h" />
     <ClInclude Include="src\network\CInStream.h" />
     <ClInclude Include="src\network\CNetBridge.h" />
     <ClInclude Include="src\network\CNetProtocolGenerator.h" />
     <ClInclude Include="src\network\COutStream.h" />
-    <ClInclude Include="src\network\CProtocolManager.h" />
-    <ClInclude Include="src\network\CSessionManager.h" />
     <ClInclude Include="src\network\CTcpListener.h" />
     <ClInclude Include="src\network\CTcpSession.h" />
     <ClInclude Include="src\network\CNetProtocol.h" />
+    <ClInclude Include="src\network\network.h" />
     <ClInclude Include="src\protocol\ClientProtocols.h" />
     <ClInclude Include="src\protocol\client\ClientEcho.h" />
     <ClInclude Include="src\protocol\ServerProtocols.h" />

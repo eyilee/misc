@@ -42,7 +42,7 @@ void CNetBridge::compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol)
 
 std::shared_ptr<INetProtocol> CNetBridge::generate_protocol (unsigned short _nProtocol_id, std::shared_ptr<CNetBridge>& _pNetBridge)
 {
-	std::shared_ptr<CProtocolManager> pProtocol_manager = CServer::instance ()->get_potocol_manager ();
+	std::shared_ptr<CProtocolManager> pProtocol_manager = CServer::instance ()->get_protocol_manager ();
 
 	return pProtocol_manager->generate_protocol (_nProtocol_id, _pNetBridge);
 }

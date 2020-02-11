@@ -16,13 +16,13 @@
     <Filter Include="src\protocol\server">
       <UniqueIdentifier>{22ff93e9-80ed-4131-9a84-dcaedb3ec40e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\manager">
+      <UniqueIdentifier>{2183a441-bbff-40b2-bf75-5998e939a769}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CEntityManager.cpp">
-      <Filter>src\network</Filter>
     </ClCompile>
     <ClCompile Include="src\network\CInStream.cpp">
       <Filter>src\network</Filter>
@@ -31,9 +31,6 @@
       <Filter>src\network</Filter>
     </ClCompile>
     <ClCompile Include="src\network\COutStream.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CSessionManager.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
     <ClCompile Include="src\network\CTcpListener.cpp">
@@ -51,9 +48,6 @@
     <ClCompile Include="src\network\CNetProtocolGenerator.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\network\CProtocolManager.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
     <ClCompile Include="src\network\CNetProtocol.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
@@ -63,13 +57,22 @@
     <ClCompile Include="src\protocol\server\ServerEcho.cpp">
       <Filter>src\protocol\server</Filter>
     </ClCompile>
+    <ClCompile Include="src\manager\CEntityManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\manager\CProtocolManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\manager\CSessionManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\manager\CBaseManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CEntityManager.h">
-      <Filter>src\network</Filter>
     </ClInclude>
     <ClInclude Include="src\network\CInStream.h">
       <Filter>src\network</Filter>
@@ -78,9 +81,6 @@
       <Filter>src\network</Filter>
     </ClInclude>
     <ClInclude Include="src\network\COutStream.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CSessionManager.h">
       <Filter>src\network</Filter>
     </ClInclude>
     <ClInclude Include="src\network\CTcpListener.h">
@@ -98,9 +98,6 @@
     <ClInclude Include="src\network\CNetProtocolGenerator.h">
       <Filter>src\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\network\CProtocolManager.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
     <ClInclude Include="src\protocol\ClientProtocols.h">
       <Filter>src\protocol</Filter>
     </ClInclude>
@@ -113,11 +110,26 @@
     <ClInclude Include="src\protocol\client\ClientEcho.h">
       <Filter>src\protocol\client</Filter>
     </ClInclude>
-    <ClInclude Include="src\network.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\protocol\server\ServerEcho.h">
       <Filter>src\protocol\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\CEntityManager.h">
+      <Filter>src\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\CProtocolManager.h">
+      <Filter>src\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\CSessionManager.h">
+      <Filter>src\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\network.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\manager.h">
+      <Filter>src\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\CBaseManager.h">
+      <Filter>src\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

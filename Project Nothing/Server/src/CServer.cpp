@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-#include "network/CSessionManager.h"
-#include "network/CEntityManager.h"
-#include "network/CProtocolManager.h"
 #include "CServer.h"
 
 std::shared_ptr<CServer> CServer::m_Instance = nullptr;
@@ -21,21 +18,9 @@ void CServer::init (const int _nPort)
 		m_Instance = shared_from_this ();
 	}
 
-	if (m_pSession_manager == nullptr)
-	{
-		m_pSession_manager = std::make_shared<CSessionManager> ();
-		m_pSession_manager->init (m_kIo_context, _nPort);
-	}
-
-	if (m_pEntity_manager == nullptr) {
-		m_pEntity_manager = std::make_shared<CEntityManager> ();
-	}
-
-	if (m_pProtocl_manager == nullptr)
-	{
-		m_pProtocl_manager = std::make_shared<CProtocolManager> ();
-		m_pProtocl_manager->init ();
-	}
+	setup_manager<CEntityManager> (m_pEntity_manager, &CEntityManager::init);
+	setup_manager<CProtocolManager> (m_pProtocol_manager, &CProtocolManager::init);
+	setup_manager<CSessionManager> (m_pSession_manager, &CSessionManager::init, m_kIo_context, _nPort);
 }
 
 void CServer::run ()

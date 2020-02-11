@@ -4,7 +4,7 @@ class CNetBridge;
 class INetProtocol;
 class INetProtocolGenerator;
 
-class CProtocolManager
+class CProtocolManager : public CBaseManager<CProtocolManager>
 {
 public:
 	CProtocolManager ();
@@ -22,7 +22,7 @@ private:
 	std::map<int, std::shared_ptr<INetProtocolGenerator>> m_kProtocol_map;
 };
 
-template<typename T>
+template <typename T>
 inline void CProtocolManager::register_protocol (const unsigned short _nProtocol_id)
 {
 	std::shared_ptr<INetProtocolGenerator> pProtocol_generator = std::make_shared<CNetProtocolGenerator<T>> ();

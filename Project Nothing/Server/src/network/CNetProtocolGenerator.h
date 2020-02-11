@@ -21,17 +21,17 @@ public:
 	virtual std::shared_ptr<INetProtocol> generate ();
 };
 
-template<typename T>
+template <typename T>
 inline CNetProtocolGenerator<T>::CNetProtocolGenerator ()
 {
 }
 
-template<typename T>
+template <typename T>
 inline CNetProtocolGenerator<T>::~CNetProtocolGenerator ()
 {
 }
 
-template<typename T>
+template <typename T>
 inline std::shared_ptr<INetProtocol> CNetProtocolGenerator<T>::generate ()
 {
 	return std::make_shared<T> ();

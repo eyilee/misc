@@ -40,17 +40,17 @@ private:
 	static unsigned short m_nProtocol_id;
 };
 
-template<typename T>
+template <typename T>
 inline CNetProtocol<T>::CNetProtocol ()
 {
 }
 
-template<typename T>
+template <typename T>
 inline CNetProtocol<T>::~CNetProtocol ()
 {
 }
 
-template<typename T>
+template <typename T>
 inline void CNetProtocol<T>::on_serialize (COutStream& _kOut_Stream)
 {
 	_kOut_Stream << m_nProtocol_id;

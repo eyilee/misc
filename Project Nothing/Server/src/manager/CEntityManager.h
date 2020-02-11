@@ -2,11 +2,13 @@
 
 class CEntity;
 
-class CEntityManager : public std::enable_shared_from_this<CEntityManager>
+class CEntityManager : public CBaseManager<CEntityManager>
 {
 public:
 	CEntityManager ();
 	virtual ~CEntityManager ();
+	
+	void init ();
 
 	std::shared_ptr<CEntity> create_entity ();
 

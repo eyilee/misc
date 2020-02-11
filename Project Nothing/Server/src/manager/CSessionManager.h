@@ -1,11 +1,9 @@
 #pragma once
 
-using asio::ip::tcp;
-
 class CTcpListener;
 class CTcpSession;
 
-class CSessionManager : public std::enable_shared_from_this<CSessionManager>
+class CSessionManager : public CBaseManager<CSessionManager>
 {
 public:
 	CSessionManager ();
