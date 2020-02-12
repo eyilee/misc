@@ -19,6 +19,9 @@
     <Filter Include="src\manager">
       <UniqueIdentifier>{2183a441-bbff-40b2-bf75-5998e939a769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dll">
+      <UniqueIdentifier>{83e3f24f-5846-4675-a523-0b665399d75a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -67,6 +70,9 @@
       <Filter>src\manager</Filter>
     </ClCompile>
     <ClCompile Include="src\manager\CBaseManager.cpp">
+      <Filter>src\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\manager\CDataBaseManager.cpp">
       <Filter>src\manager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,5 +137,13 @@
     <ClInclude Include="src\manager\CBaseManager.h">
       <Filter>src\manager</Filter>
     </ClInclude>
+    <ClInclude Include="src\manager\CDataBaseManager.h">
+      <Filter>src\manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="lib\libpq.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\CServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\manager\CDataBaseManager.cpp" />
     <ClCompile Include="src\manager\CEntityManager.cpp" />
     <ClCompile Include="src\manager\CBaseManager.cpp" />
     <ClCompile Include="src\manager\CProtocolManager.cpp" />
@@ -38,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CServer.h" />
+    <ClInclude Include="src\manager\CDataBaseManager.h" />
     <ClInclude Include="src\manager\CEntityManager.h" />
     <ClInclude Include="src\manager\CBaseManager.h" />
     <ClInclude Include="src\manager\CProtocolManager.h" />
@@ -57,6 +59,11 @@
     <ClInclude Include="src\protocol\ServerProtocols.h" />
     <ClInclude Include="src\protocol\server\ServerEcho.h" />
     <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="lib\libpq.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -116,7 +123,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\lib\asio-1.12.2\include;src;$(IncludePath)</IncludePath>
+    <IncludePath>include\asio-1.12.2;include\postgresql-10.11;src;$(IncludePath)</IncludePath>
+    <LibraryPath>lib;$(LibraryPath)</LibraryPath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -153,6 +162,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libpq.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

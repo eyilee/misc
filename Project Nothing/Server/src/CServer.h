@@ -1,5 +1,6 @@
 #pragma once
 
+class CDataBaseManager;
 class CEntityManager;
 class CProtocolManager;
 class CSessionManager;
@@ -28,6 +29,7 @@ private:
 
 	asio::io_context m_kIo_context;
 
+	std::shared_ptr<CDataBaseManager> m_pData_base_manager;
 	std::shared_ptr<CEntityManager> m_pEntity_manager;
 	std::shared_ptr<CProtocolManager> m_pProtocol_manager;
 	std::shared_ptr<CSessionManager> m_pSession_manager;
