@@ -72,8 +72,11 @@
     <ClCompile Include="src\manager\CBaseManager.cpp">
       <Filter>src\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\manager\CDataBaseManager.cpp">
+    <ClCompile Include="src\manager\CDBManager.cpp">
       <Filter>src\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CConfigLoader.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,16 +140,22 @@
     <ClInclude Include="src\manager\CBaseManager.h">
       <Filter>src\manager</Filter>
     </ClInclude>
-    <ClInclude Include="src\manager\CDataBaseManager.h">
+    <ClInclude Include="src\manager\CDBManager.h">
       <Filter>src\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CConfigLoader.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="lib\libpq.dll">
-      <Filter>dll</Filter>
-    </CopyFileToFolders>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <CopyFileToFolders Include="3rdparty\postgresql-10.11\lib\libpq.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="src\config.ini.example">
+      <Filter>src</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

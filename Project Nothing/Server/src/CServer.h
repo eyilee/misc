@@ -1,6 +1,6 @@
 #pragma once
 
-class CDataBaseManager;
+class CDBManager;
 class CEntityManager;
 class CProtocolManager;
 class CSessionManager;
@@ -14,11 +14,12 @@ public:
 	void init (const int _nPort);
 	void run ();
 
-	static const std::shared_ptr<CServer>& instance () { return m_Instance; }
+	static std::shared_ptr<CServer>& instance () { return m_Instance; }
 
-	std::shared_ptr<CEntityManager>& get_entity_manager () { return m_pEntity_manager; }
-	std::shared_ptr<CProtocolManager>& get_protocol_manager () { return m_pProtocol_manager; }
-	std::shared_ptr<CSessionManager>& get_session_manager () { return m_pSession_manager; }
+	static std::shared_ptr<CDBManager>& get_db_manager () { return m_Instance->m_pDB_manager; }
+	static std::shared_ptr<CEntityManager>& get_entity_manager () { return m_Instance->m_pEntity_manager; }
+	static std::shared_ptr<CProtocolManager>& get_protocol_manager () { return m_Instance->m_pProtocol_manager; }
+	static std::shared_ptr<CSessionManager>& get_session_manager () { return m_Instance->m_pSession_manager; }
 
 private:
 	template<typename T, typename ... FARGS, typename ... ARGS>
@@ -29,7 +30,7 @@ private:
 
 	boost::asio::io_context m_kIo_context;
 
-	std::shared_ptr<CDataBaseManager> m_pData_base_manager;
+	std::shared_ptr<CDBManager> m_pDB_manager;
 	std::shared_ptr<CEntityManager> m_pEntity_manager;
 	std::shared_ptr<CProtocolManager> m_pProtocol_manager;
 	std::shared_ptr<CSessionManager> m_pSession_manager;

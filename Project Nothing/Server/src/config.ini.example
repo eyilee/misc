@@ -1,0 +1,8 @@
+[server]
+port = 8484
+
+[db]
+user = postgres
+password = xxx
+dbname = postgres
+hostaddr = 127.0.0.1

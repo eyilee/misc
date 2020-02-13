@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CConfigLoader.cpp" />
     <ClCompile Include="src\CServer.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\manager\CDataBaseManager.cpp" />
+    <ClCompile Include="src\manager\CDBManager.cpp" />
     <ClCompile Include="src\manager\CEntityManager.cpp" />
     <ClCompile Include="src\manager\CBaseManager.cpp" />
     <ClCompile Include="src\manager\CProtocolManager.cpp" />
@@ -38,8 +39,9 @@
     <ClCompile Include="src\protocol\server\ServerEcho.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CConfigLoader.h" />
     <ClInclude Include="src\CServer.h" />
-    <ClInclude Include="src\manager\CDataBaseManager.h" />
+    <ClInclude Include="src\manager\CDBManager.h" />
     <ClInclude Include="src\manager\CEntityManager.h" />
     <ClInclude Include="src\manager\CBaseManager.h" />
     <ClInclude Include="src\manager\CProtocolManager.h" />
@@ -61,12 +63,13 @@
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="lib\libpq.dll">
+    <CopyFileToFolders Include="3rdparty\postgresql-10.11\lib\libpq.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
+    <CopyFileToFolders Include="src\config.ini.example">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -126,15 +129,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)packages\boost.1.71.0.0\lib\native\include;include\postgresql-10.11;src;$(IncludePath)</IncludePath>
-    <LibraryPath>lib;$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <IncludePath>$(SolutionDir)packages\boost.1.71.0.0\lib\native\include;3rdparty\postgresql-10.11\include;src;$(IncludePath)</IncludePath>
+    <LibraryPath>3rdparty\postgresql-10.11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)packages\boost.1.71.0.0\lib\native\include;3rdparty\postgresql-10.11\include;src;$(IncludePath)</IncludePath>
+    <LibraryPath>3rdparty\postgresql-10.11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -161,6 +165,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -200,12 +205,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libpq.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

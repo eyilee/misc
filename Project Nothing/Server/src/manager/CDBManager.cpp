@@ -2,17 +2,17 @@
 
 #include "libpq-fe.h"
 
-#include "CDataBaseManager.h"
+#include "CDBManager.h"
 
-CDataBaseManager::CDataBaseManager ()
+CDBManager::CDBManager ()
 {
 }
 
-CDataBaseManager::~CDataBaseManager ()
+CDBManager::~CDBManager ()
 {
 }
 
-void CDataBaseManager::init ()
+void CDBManager::init ()
 {
 	PGconn* conn = PQconnectdb ("user=x password=x dbname=x hostaddr=x");
 
