@@ -2,7 +2,7 @@
 
 #include "CTcpListener.h"
 
-CTcpListener::CTcpListener (asio::io_context& _kio_context, const short _nPort)
+CTcpListener::CTcpListener (boost::asio::io_context& _kio_context, const short _nPort)
 	: m_kAcceptor (_kio_context, tcp::endpoint (tcp::v4 (), _nPort))
 {
 }

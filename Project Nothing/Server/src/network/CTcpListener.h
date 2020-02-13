@@ -1,13 +1,13 @@
 #pragma once
 
-using asio::ip::tcp;
+using boost::asio::ip::tcp;
 
 class CSessionManager;
 
 class CTcpListener
 {
 public:
-	CTcpListener (asio::io_context& _kIo_context, const short _nPort);
+	CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort);
 	virtual ~CTcpListener ();
 
 	void init (std::shared_ptr<CSessionManager>& _pSession_manager);

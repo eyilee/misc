@@ -7,7 +7,7 @@ class CEntityManager : public CBaseManager<CEntityManager>
 public:
 	CEntityManager ();
 	virtual ~CEntityManager ();
-	
+
 	void init ();
 
 	std::shared_ptr<CEntity> create_entity ();

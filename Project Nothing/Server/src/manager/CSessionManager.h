@@ -9,7 +9,7 @@ public:
 	CSessionManager ();
 	virtual ~CSessionManager ();
 
-	void init (asio::io_context& _kIo_context, const short _nPort);
+	void init (boost::asio::io_context& _kIo_context, const short _nPort);
 
 	void add_session (std::shared_ptr<CTcpSession>& _pSession);
 

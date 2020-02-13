@@ -27,7 +27,7 @@ private:
 private:
 	static std::shared_ptr<CServer> m_Instance;
 
-	asio::io_context m_kIo_context;
+	boost::asio::io_context m_kIo_context;
 
 	std::shared_ptr<CDataBaseManager> m_pData_base_manager;
 	std::shared_ptr<CEntityManager> m_pEntity_manager;

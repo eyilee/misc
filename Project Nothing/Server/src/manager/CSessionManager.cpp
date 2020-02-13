@@ -11,7 +11,7 @@ CSessionManager::~CSessionManager ()
 {
 }
 
-void CSessionManager::init (asio::io_context& _kIo_context, const short _nPort)
+void CSessionManager::init (boost::asio::io_context& _kIo_context, const short _nPort)
 {
 	auto self (shared_from_this ());
 	m_pListener = std::make_shared<CTcpListener> (_kIo_context, _nPort);

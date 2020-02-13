@@ -1,6 +1,6 @@
 #pragma once
 
-using asio::ip::tcp;
+using boost::asio::ip::tcp;
 
 class CNetBridge;
 class COutStream;
@@ -19,7 +19,7 @@ private:
 	void async_read ();
 	void async_write (std::size_t _nLength);
 
-	void on_read (const asio::const_buffer& _kBuffer);
+	void on_read (const boost::asio::const_buffer& _kBuffer);
 	void on_write (const COutStream& _kOut_stream);
 
 private:

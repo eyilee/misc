@@ -25,7 +25,7 @@ void CTcpSession::init ()
 void CTcpSession::async_read ()
 {
 	auto self (shared_from_this ());
-	m_kSocket.async_read_some (asio::buffer (m_kReceive_buffer, 1024),
+	m_kSocket.async_read_some (boost::asio::buffer (m_kReceive_buffer, 1024),
 		[this, self](std::error_code error, std::size_t length)
 		{
 			if (error) {
@@ -33,7 +33,7 @@ void CTcpSession::async_read ()
 			}
 			else
 			{
-				on_read (asio::buffer (m_kReceive_buffer, length));
+				on_read (boost::asio::buffer (m_kReceive_buffer, length));
 				async_read ();
 			}
 		});
@@ -42,7 +42,7 @@ void CTcpSession::async_read ()
 void CTcpSession::async_write (std::size_t _nLength)
 {
 	auto self (shared_from_this ());
-	asio::async_write (m_kSocket, asio::buffer (m_kSend_buffer, _nLength),
+	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kSend_buffer, _nLength),
 		[this, self](std::error_code error, std::size_t /*length*/)
 		{
 			if (error) {
@@ -51,9 +51,9 @@ void CTcpSession::async_write (std::size_t _nLength)
 		});
 }
 
-void CTcpSession::on_read (const asio::const_buffer& _kBuffer)
+void CTcpSession::on_read (const boost::asio::const_buffer& _kBuffer)
 {
-	const char* pBuffer = asio::buffer_cast<const char*>(_kBuffer);
+	const char* pBuffer = boost::asio::buffer_cast<const char*>(_kBuffer);
 	CInStream kIn_stream (pBuffer, _kBuffer.size ());
 
 	m_pNet_bridge->resolve_input (kIn_stream);
