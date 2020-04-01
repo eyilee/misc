@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
 
@@ -16,10 +14,10 @@ public class XScrollRectEditor : ScrollRectEditor
     {
         base.OnEnable ();
 
-        layoutTypeProp = serializedObject.FindProperty ("layoutType");
-        columnProp = serializedObject.FindProperty ("column");
-        rowProp = serializedObject.FindProperty ("row");
-        defaultItemProp = serializedObject.FindProperty ("defaultItem");
+        layoutTypeProp = serializedObject.FindProperty ("m_LayoutType");
+        columnProp = serializedObject.FindProperty ("m_Columns");
+        rowProp = serializedObject.FindProperty ("m_Rows");
+        defaultItemProp = serializedObject.FindProperty ("m_DefaultItem");
     }
 
     public override void OnInspectorGUI ()

@@ -24,7 +24,7 @@ void CConfigLoader::load ()
 		;
 
 	po::variables_map vm;
-	po::store (po::parse_config_file ("config.ini.example", kDB_desc), vm);
+	po::store (po::parse_config_file ("config.ini", kDB_desc), vm);
 	po::notify (vm);
 
 	if (vm.count ("server.port")) {
