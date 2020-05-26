@@ -1,10 +1,10 @@
 ﻿namespace ProjectNothing.Network
 {
-    abstract class INetProtocol
+    public abstract class INetProtocol
     {
-        protected NetBridge netBridge;
+        protected NetBridge m_NetBridge;
 
-        public void SetNetBridge (NetBridge value) { netBridge = value; }
+        public void SetNetBridge (NetBridge value) { m_NetBridge = value; }
 
         public abstract void OnSerialize (OutStream outStream);
         public abstract void Serialize (OutStream outStream);
@@ -12,13 +12,13 @@
         public abstract void Excute ();
     }
 
-    abstract class NetProtocol<T> : INetProtocol where T : NetProtocol<T>
+    public abstract class NetProtocol<T> : INetProtocol where T : NetProtocol<T>
     {
-        public static ushort protocolID;
+        public static ushort m_ProtocolID;
 
         public override void OnSerialize (OutStream outStream)
         {
-            outStream.WriteUnsignedShort (protocolID);
+            outStream.WriteUnsignedShort (m_ProtocolID);
             Serialize (outStream);
         }
 

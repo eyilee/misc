@@ -4,42 +4,42 @@ using System.Net;
 
 namespace ProjectNothing.Network
 {
-    sealed class OutStream
+    public sealed class OutStream
     {
-        private readonly List<byte> data;
+        private readonly List<byte> m_Data;
 
         public OutStream ()
         {
-            data = new List<byte> ();
+            m_Data = new List<byte> ();
         }
 
         public byte[] Data ()
         {
-            return data.ToArray ();
+            return m_Data.ToArray ();
         }
 
         public OutStream WriteBool (bool b)
         {
-            data.AddRange (BitConverter.GetBytes (b));
+            m_Data.AddRange (BitConverter.GetBytes (b));
             return this;
         }
 
         public OutStream WriteChar (char c)
         {
-            data.Add (Convert.ToByte (c));
+            m_Data.Add (Convert.ToByte (c));
             return this;
         }
 
         public OutStream WriteUnsignedChar (byte b)
         {
-            data.AddRange (BitConverter.GetBytes (b));
+            m_Data.AddRange (BitConverter.GetBytes (b));
             return this;
         }
 
         public OutStream WriteShort (short s)
         {
             s = IPAddress.NetworkToHostOrder (s);
-            data.AddRange (BitConverter.GetBytes (s));
+            m_Data.AddRange (BitConverter.GetBytes (s));
             return this;
         }
 
@@ -48,14 +48,14 @@ namespace ProjectNothing.Network
             short s = BitConverter.ToInt16 (BitConverter.GetBytes (us), 0);
             s = IPAddress.NetworkToHostOrder (s);
             us = BitConverter.ToUInt16 (BitConverter.GetBytes (s), 0);
-            data.AddRange (BitConverter.GetBytes (us));
+            m_Data.AddRange (BitConverter.GetBytes (us));
             return this;
         }
 
         public OutStream WriteInt (int i)
         {
             i = IPAddress.NetworkToHostOrder (i);
-            data.AddRange (BitConverter.GetBytes (i));
+            m_Data.AddRange (BitConverter.GetBytes (i));
             return this;
         }
 
@@ -64,14 +64,14 @@ namespace ProjectNothing.Network
             int i = BitConverter.ToInt32 (BitConverter.GetBytes (ui), 0);
             i = IPAddress.NetworkToHostOrder (i);
             ui = BitConverter.ToUInt32 (BitConverter.GetBytes (i), 0);
-            data.AddRange (BitConverter.GetBytes (ui));
+            m_Data.AddRange (BitConverter.GetBytes (ui));
             return this;
         }
 
         public OutStream WriteLong (long l)
         {
             l = IPAddress.NetworkToHostOrder (l);
-            data.AddRange (BitConverter.GetBytes (l));
+            m_Data.AddRange (BitConverter.GetBytes (l));
             return this;
         }
 
@@ -80,7 +80,7 @@ namespace ProjectNothing.Network
             long l = BitConverter.ToInt64 (BitConverter.GetBytes (ul), 0);
             l = IPAddress.NetworkToHostOrder (l);
             ul = BitConverter.ToUInt64 (BitConverter.GetBytes (l), 0);
-            data.AddRange (BitConverter.GetBytes (ul));
+            m_Data.AddRange (BitConverter.GetBytes (ul));
             return this;
         }
 
@@ -89,7 +89,7 @@ namespace ProjectNothing.Network
             int i = BitConverter.ToInt32 (BitConverter.GetBytes (f), 0);
             i = IPAddress.HostToNetworkOrder (i);
             f = BitConverter.ToSingle (BitConverter.GetBytes (i), 0);
-            data.AddRange (BitConverter.GetBytes (f));
+            m_Data.AddRange (BitConverter.GetBytes (f));
             return this;
         }
 
@@ -98,7 +98,7 @@ namespace ProjectNothing.Network
             long l = BitConverter.ToInt64 (BitConverter.GetBytes (d), 0);
             l = IPAddress.HostToNetworkOrder (l);
             d = BitConverter.ToDouble (BitConverter.GetBytes (l), 0);
-            data.AddRange (BitConverter.GetBytes (d));
+            m_Data.AddRange (BitConverter.GetBytes (d));
             return this;
         }
 

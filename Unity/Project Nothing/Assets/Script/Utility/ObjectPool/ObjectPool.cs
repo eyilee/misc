@@ -7,27 +7,27 @@ namespace ProjectNothing.Utility
        where TPool : ObjectPool<TPool, TObject>
        where TObject : PoolObject<TPool, TObject>, new()
     {
-        GameObject prefab;
-        readonly List<TObject> objectPool = new List<TObject> ();
+        private GameObject m_Prefab;
+        private readonly List<TObject> m_ObjectPool = new List<TObject> ();
 
         public virtual void Init (GameObject gameObject)
         {
             if (gameObject != null)
             {
-                prefab = gameObject;
+                m_Prefab = gameObject;
             }
 
             for (int i = 0; i < 10; i++)
             {
                 TObject poolObject = Create ();
-                objectPool.Add (poolObject);
+                m_ObjectPool.Add (poolObject);
             }
         }
 
         protected virtual TObject Create ()
         {
             TObject poolObject = new TObject ();
-            poolObject.SetGameObject (Instantiate (prefab, transform));
+            poolObject.SetGameObject (Instantiate (m_Prefab, transform));
             poolObject.SetPool (this as TPool);
             poolObject.InPool = true;
             poolObject.Sleep ();
@@ -36,18 +36,18 @@ namespace ProjectNothing.Utility
 
         public virtual TObject Pop ()
         {
-            for (int i = 0; i < objectPool.Count; i++)
+            for (int i = 0; i < m_ObjectPool.Count; i++)
             {
-                if (objectPool[i].InPool)
+                if (m_ObjectPool[i].InPool)
                 {
-                    objectPool[i].InPool = false;
-                    objectPool[i].WakeUp ();
-                    return objectPool[i];
+                    m_ObjectPool[i].InPool = false;
+                    m_ObjectPool[i].WakeUp ();
+                    return m_ObjectPool[i];
                 }
             }
 
             TObject poolObject = Create ();
-            objectPool.Add (poolObject);
+            m_ObjectPool.Add (poolObject);
             poolObject.InPool = false;
             poolObject.WakeUp ();
             return poolObject;
@@ -70,34 +70,34 @@ namespace ProjectNothing.Utility
         where TPool : ObjectPool<TPool, TObject>
         where TObject : PoolObject<TPool, TObject>, new()
     {
-        GameObject poolObject;
-        TPool objectPool;
+        private GameObject m_PoolObject;
+        private TPool m_ObjectPool;
 
         public bool InPool { get; set; }
 
         public virtual void SetGameObject (GameObject gameObject)
         {
-            poolObject = gameObject;
+            m_PoolObject = gameObject;
         }
 
         public virtual void SetPool (TPool pool)
         {
-            objectPool = pool;
+            m_ObjectPool = pool;
         }
 
         public virtual void WakeUp ()
         {
-            poolObject.SetActive (true);
+            m_PoolObject.SetActive (true);
         }
 
         public virtual void Sleep ()
         {
-            poolObject.SetActive (false);
+            m_PoolObject.SetActive (false);
         }
 
         public virtual void PushToPool ()
         {
-            objectPool.Push (this as TObject);
+            m_ObjectPool.Push (this as TObject);
         }
     }
 

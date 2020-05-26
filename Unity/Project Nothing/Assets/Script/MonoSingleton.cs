@@ -5,11 +5,11 @@ namespace ProjectNothing
 {
     public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
-        private static T m_instance = null;
+        private static T m_Instance = null;
 
         public static T Instance {
             get {
-                return m_instance;
+                return m_Instance;
             }
         }
 
@@ -22,7 +22,7 @@ namespace ProjectNothing
                 instance = gameObject.AddComponent<T> ();
             }
 
-            m_instance = instance;
+            m_Instance = instance;
 
             yield return null;
         }

@@ -2,9 +2,9 @@
 
 namespace ProjectNothing.Protocol
 {
-    sealed class ServerEcho : NetProtocol<ServerEcho>
+    public sealed class ServerEcho : NetProtocol<ServerEcho>
     {
-        public string kString;
+        private string m_String;
 
         public override void Deserialize (InStream inStream)
         {
@@ -16,7 +16,7 @@ namespace ProjectNothing.Protocol
 
         public override void Serialize (OutStream outStream)
         {
-            outStream.WriteString (kString);
+            outStream.WriteString (m_String);
         }
     }
 }

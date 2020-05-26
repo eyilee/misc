@@ -3,9 +3,9 @@ using ProjectNothing.Protocol;
 
 namespace ProjectNothing.Network
 {
-    sealed class ProtocolManager : MonoSingleton<ProtocolManager>
+    public sealed class ProtocolManager : MonoSingleton<ProtocolManager>
     {
-        private readonly Dictionary<ushort, INetProtocolGenerator> protocolMap = new Dictionary<ushort, INetProtocolGenerator> ();
+        private readonly Dictionary<ushort, INetProtocolGenerator> m_ProtocolMap = new Dictionary<ushort, INetProtocolGenerator> ();
 
         public void Init ()
         {
@@ -15,7 +15,7 @@ namespace ProjectNothing.Network
 
         public INetProtocol GenerateProtocol (ushort protocolID, NetBridge netBridge)
         {
-            INetProtocol netProtocol = protocolMap[protocolID].Generate ();
+            INetProtocol netProtocol = m_ProtocolMap[protocolID].Generate ();
             netProtocol.SetNetBridge (netBridge);
             return netProtocol;
         }
@@ -24,10 +24,10 @@ namespace ProjectNothing.Network
         {
             INetProtocolGenerator netProtocolGenerator = new NetProtocolGenerator<T> ();
 
-            if (!protocolMap.ContainsKey (protocolID))
+            if (!m_ProtocolMap.ContainsKey (protocolID))
             {
-                NetProtocol<T>.protocolID = protocolID;
-                protocolMap.Add (protocolID, netProtocolGenerator);
+                NetProtocol<T>.m_ProtocolID = protocolID;
+                m_ProtocolMap.Add (protocolID, netProtocolGenerator);
             }
         }
     }

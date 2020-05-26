@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace ProjectNothing.Protocol
 {
-    sealed class ClientEcho : NetProtocol<ClientEcho>
+    public sealed class ClientEcho : NetProtocol<ClientEcho>
     {
-        private string kString;
+        private string m_String;
 
         public override void Deserialize (InStream inStream)
         {
-            inStream.ReadString (out kString);
+            inStream.ReadString (out m_String);
         }
 
         public override void Excute ()
         {
-            Debug.Log (kString);
+            Debug.Log (m_String);
         }
 
         public override void Serialize (OutStream outStream)

@@ -7,7 +7,7 @@ namespace ProjectNothing
 {
     public class PlayerController : MonoBehaviour, IPointerClickHandler
     {
-        public TileMapController tileMapController;
+        public TileMapController m_TileMapController;
         private Vector3Int m_Position;
         private PointerEventHandler m_OnPointerDownHandler;
 
@@ -18,12 +18,12 @@ namespace ProjectNothing
 
         private void Start ()
         {
-            m_Position = tileMapController.Tilemap.WorldToCell (transform.position);
+            m_Position = m_TileMapController.Tilemap.WorldToCell (transform.position);
         }
 
         private void MoveToPosition (Vector3Int target)
         {
-            Tilemap tilemap = tileMapController.Tilemap;
+            Tilemap tilemap = m_TileMapController.Tilemap;
 
             var targetPosition = tilemap.CellToWorld (target);
 
@@ -49,14 +49,14 @@ namespace ProjectNothing
 
         public void OnPointerClick (PointerEventData eventData)
         {
-            Vector3Int cell = tileMapController.Tilemap.WorldToCell (eventData.position);
+            Vector3Int cell = m_TileMapController.Tilemap.WorldToCell (eventData.position);
 
             SelectionManager.Instance.AddPointDown (OnTargetClick);
         }
 
         public void OnTargetClick (Vector2 point)
         {
-            Vector3Int cell = tileMapController.Tilemap.WorldToCell (Camera.main.ScreenToWorldPoint (point));
+            Vector3Int cell = m_TileMapController.Tilemap.WorldToCell (Camera.main.ScreenToWorldPoint (point));
 
             MoveToPosition (cell);
 

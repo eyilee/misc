@@ -1,6 +1,6 @@
 ﻿namespace ProjectNothing.Network
 {
-    sealed class NetBridge
+    public sealed class NetBridge
     {
         public void ResolveInput (InStream inStream)
         {

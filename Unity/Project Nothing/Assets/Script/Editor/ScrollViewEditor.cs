@@ -5,14 +5,14 @@ using UnityEngine;
 [CustomEditor (typeof (ScrollView))]
 public class ScrollViewEditor : ScrollRectEditor
 {
-    SerializedProperty layoutTypeProp;
-    SerializedProperty columnProp;
-    SerializedProperty rowProp;
-    SerializedProperty spaceXProp;
-    SerializedProperty spaceYProp;
-    SerializedProperty leftProp;
-    SerializedProperty topProp;
-    SerializedProperty defaultItemProp;
+    private SerializedProperty layoutTypeProp;
+    private SerializedProperty columnProp;
+    private SerializedProperty rowProp;
+    private SerializedProperty spaceXProp;
+    private SerializedProperty spaceYProp;
+    private SerializedProperty leftProp;
+    private SerializedProperty topProp;
+    private SerializedProperty defaultItemProp;
 
     protected override void OnEnable ()
     {

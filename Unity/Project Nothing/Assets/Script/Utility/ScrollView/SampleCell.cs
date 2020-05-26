@@ -3,9 +3,8 @@ using UnityEngine.UI;
 
 public sealed class SampleCell : ScrollViewCell
 {
-    string m_Name;
-
-    Text m_NameText;
+    private string m_Name;
+    private Text m_NameText;
 
     public override void Init (GameObject gameObject)
     {
@@ -19,12 +18,5 @@ public sealed class SampleCell : ScrollViewCell
         base.SetView ();
 
         m_NameText.text = m_Name;
-    }
-
-    public void SetData (string text)
-    {
-        m_Name = text;
-
-        SetView ();
     }
 }

@@ -4,28 +4,28 @@ using UnityEngine;
 
 namespace ProjectNothing.Network
 {
-    sealed class NetworkManager : MonoSingleton<NetworkManager>
+    public sealed class NetworkManager : MonoSingleton<NetworkManager>
     {
-        private readonly TcpClient tcpClient = new TcpClient ();
-        private NetworkStream networkStream;
+        private readonly TcpClient m_TcpClient = new TcpClient ();
+        private NetworkStream m_NetworkStream;
 
-        public readonly NetBridge netBridge = new NetBridge ();
+        public readonly NetBridge m_NetBridge = new NetBridge ();
 
-        private readonly byte[] sendBuffer = new byte[1024];
-        private readonly byte[] receiveBuffer = new byte[1024];
+        private readonly byte[] m_SendBuffer = new byte[1024];
+        private readonly byte[] m_ReceiveBuffer = new byte[1024];
 
         public void Init (string host, int port)
         {
-            tcpClient.BeginConnect (host, port, OnConnect, null);
+            m_TcpClient.BeginConnect (host, port, OnConnect, null);
         }
 
         private void OnConnect (IAsyncResult asyncResult)
         {
-            tcpClient.EndConnect (asyncResult);
+            m_TcpClient.EndConnect (asyncResult);
 
-            if (tcpClient.Connected)
+            if (m_TcpClient.Connected)
             {
-                networkStream = tcpClient.GetStream ();
+                m_NetworkStream = m_TcpClient.GetStream ();
 
                 AsyncRead ();
 
@@ -35,11 +35,11 @@ namespace ProjectNothing.Network
 
         private void AsyncRead ()
         {
-            if (networkStream.CanRead)
+            if (m_NetworkStream.CanRead)
             {
-                networkStream.BeginRead (receiveBuffer, 0, receiveBuffer.Length, (IAsyncResult asyncResult) =>
+                m_NetworkStream.BeginRead (m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, (IAsyncResult asyncResult) =>
                 {
-                    int length = networkStream.EndRead (asyncResult);
+                    int length = m_NetworkStream.EndRead (asyncResult);
                     OnRead (length);
                     AsyncRead ();
                 }, null);
@@ -48,17 +48,17 @@ namespace ProjectNothing.Network
 
         private void OnRead (int length)
         {
-            InStream inStream = new InStream (receiveBuffer, length);
-            netBridge.ResolveInput (inStream);
+            InStream inStream = new InStream (m_ReceiveBuffer, length);
+            m_NetBridge.ResolveInput (inStream);
         }
 
         private void AsyncWrite (int length)
         {
-            if (networkStream.CanWrite)
+            if (m_NetworkStream.CanWrite)
             {
-                networkStream.BeginWrite (sendBuffer, 0, length, (IAsyncResult asyncResult) =>
+                m_NetworkStream.BeginWrite (m_SendBuffer, 0, length, (IAsyncResult asyncResult) =>
                 {
-                    networkStream.EndWrite (asyncResult);
+                    m_NetworkStream.EndWrite (asyncResult);
                 }, null);
             }
         }
@@ -66,7 +66,7 @@ namespace ProjectNothing.Network
         public void OnWrite (OutStream outStream)
         {
             byte[] data = outStream.Data ();
-            Array.Copy (data, sendBuffer, data.Length);
+            Array.Copy (data, m_SendBuffer, data.Length);
             AsyncWrite (data.Length);
         }
     }

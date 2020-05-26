@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class TheCube : Selectable
 {
-    private bool isSelected = false;
-    private Coroutine move = null;
+    private bool m_IsSelected = false;
+    private Coroutine m_MoveCoroutine = null;
 
     protected override void Start ()
     {
@@ -27,7 +27,7 @@ public class TheCube : Selectable
     {
         if (Input.GetMouseButton (1))
         {
-            if (isSelected)
+            if (m_IsSelected)
             {
                 OnMove (Input.mousePosition);
             }
@@ -36,12 +36,12 @@ public class TheCube : Selectable
 
     private void OnMove (Vector3 mousePosition)
     {
-        if (move != null)
+        if (m_MoveCoroutine != null)
         {
-            StopCoroutine (move);
+            StopCoroutine (m_MoveCoroutine);
         }
 
-        move = StartCoroutine (Move (mousePosition));
+        m_MoveCoroutine = StartCoroutine (Move (mousePosition));
     }
 
     public IEnumerator Move (Vector3 target)
@@ -64,7 +64,7 @@ public class TheCube : Selectable
 
     public override void OnSelect (BaseEventData eventData)
     {
-        isSelected = true;
+        m_IsSelected = true;
     }
 
     public override void OnDeselect (BaseEventData eventData)
