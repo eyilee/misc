@@ -18,8 +18,8 @@ public class TheCube : Selectable
     {
         while (true)
         {
-        Debug.Log ("LOG");
-        yield return new WaitForSeconds (1.0f);
+            Debug.Log ("LOG");
+            yield return new WaitForSeconds (1.0f);
         }
     }
 
@@ -36,7 +36,7 @@ public class TheCube : Selectable
 
     private void OnMove (Vector3 mousePosition)
     {
-        if(move != null)
+        if (move != null)
         {
             StopCoroutine (move);
         }
@@ -57,7 +57,7 @@ public class TheCube : Selectable
         while (deltaTime < time)
         {
             deltaTime += Time.deltaTime;
-            transform.Translate(step * Time.deltaTime);
+            transform.Translate (step * Time.deltaTime);
             yield return null;
         }
     }

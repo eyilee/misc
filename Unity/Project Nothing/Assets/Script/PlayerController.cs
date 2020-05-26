@@ -27,7 +27,7 @@ namespace ProjectNothing
 
             var targetPosition = tilemap.CellToWorld (target);
 
-            var fromPosition = new Vector3 (transform.position.x, transform.position.y , transform.position.z);
+            var fromPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 
             StartCoroutine (MoveToTarget (fromPosition, targetPosition));
         }
