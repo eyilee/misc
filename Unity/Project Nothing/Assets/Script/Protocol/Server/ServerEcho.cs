@@ -4,7 +4,7 @@ namespace ProjectNothing.Protocol
 {
     public sealed class ServerEcho : NetProtocol<ServerEcho>
     {
-        private string m_String;
+        public string m_String;
 
         public override void Deserialize (InStream inStream)
         {
