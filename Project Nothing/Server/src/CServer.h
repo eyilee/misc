@@ -1,5 +1,6 @@
 #pragma once
 
+class CConfigLoader;
 class CDBManager;
 class CEntityManager;
 class CProtocolManager;
@@ -11,7 +12,7 @@ public:
 	CServer ();
 	virtual ~CServer ();
 
-	void init (const int _nPort);
+	void init ();
 	void run ();
 
 	static std::shared_ptr<CServer>& instance () { return m_Instance; }
@@ -23,7 +24,7 @@ public:
 
 private:
 	template<typename T, typename ... FARGS, typename ... ARGS>
-	void setup_manager (std::shared_ptr<T>& instance, void (T::* function)(FARGS ...), ARGS&& ... args);
+	void setup_manager (std::shared_ptr<T>& _pInstance, void (T::* _pFunction)(FARGS ...), ARGS&& ... _kArgs);
 
 private:
 	static std::shared_ptr<CServer> m_Instance;
@@ -37,11 +38,11 @@ private:
 };
 
 template<typename T, typename ...FARGS, typename ...ARGS>
-inline void CServer::setup_manager (std::shared_ptr<T>& instance, void(T::* function)(FARGS...), ARGS&& ...args)
+inline void CServer::setup_manager (std::shared_ptr<T>& _pInstance, void(T::* _pFunction)(FARGS ...), ARGS&& ... _kArgs)
 {
-	if (instance == nullptr) {
-		instance = std::make_shared<T> ();
+	if (_pInstance == nullptr) {
+		_pInstance = std::make_shared<T> ();
 	}
 
-	(*instance.*function)(std::forward<ARGS> (args) ...);
+	(*_pInstance.*_pFunction)(std::forward<ARGS> (_kArgs) ...);
 }

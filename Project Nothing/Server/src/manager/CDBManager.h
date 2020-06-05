@@ -6,5 +6,5 @@ public:
 	CDBManager ();
 	virtual ~CDBManager ();
 
-	void init ();
+	void init (const std::string& _kUser, const std::string& _kPassword, const std::string& _kDBname, const std::string& _kHostaddr);
 };
