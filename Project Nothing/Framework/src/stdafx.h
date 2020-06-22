@@ -23,5 +23,6 @@
 #include "boost/asio.hpp"
 #include "boost/program_options.hpp"
 
-// framework
-#include "framework.h"
+// custom
+#include "manager/manager.h"
+#include "network/network.h"

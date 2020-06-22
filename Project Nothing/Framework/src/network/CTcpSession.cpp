@@ -26,7 +26,7 @@ void CTcpSession::async_read ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_read_some (boost::asio::buffer (m_kReceive_buffer, 1024),
-		[this, self](std::error_code error, std::size_t length)
+		[this, self](boost::system::error_code error, std::size_t length)
 		{
 			if (error) {
 				std::cout << error.message () << std::endl;
@@ -43,7 +43,7 @@ void CTcpSession::async_write (std::size_t _nLength)
 {
 	auto self (shared_from_this ());
 	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kSend_buffer, _nLength),
-		[this, self](std::error_code error, std::size_t /*length*/)
+		[this, self](boost::system::error_code error, std::size_t /*length*/)
 		{
 			if (error) {
 				std::cout << error.message () << std::endl;

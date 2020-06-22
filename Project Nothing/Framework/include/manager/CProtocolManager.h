@@ -4,6 +4,9 @@ class CNetBridge;
 class INetProtocol;
 class INetProtocolGenerator;
 
+template <typename T>
+class CNetProtocolGenerator;
+
 class CProtocolManager : public CBaseManager<CProtocolManager>
 {
 public:

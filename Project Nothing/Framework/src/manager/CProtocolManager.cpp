@@ -14,6 +14,11 @@ CProtocolManager::~CProtocolManager ()
 
 void CProtocolManager::init ()
 {
+	if (Instance == nullptr) {
+		Instance = shared_from_this ();
+	}
+
+	// TODO: ²¾°£¬Û¨Ì©Ê
 	register_protocol<ServerEcho> (100);
 	register_protocol<ClientEcho> (200);
 }

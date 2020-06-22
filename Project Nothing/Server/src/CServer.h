@@ -1,6 +1,5 @@
 #pragma once
 
-class CConfigLoader;
 class CDBManager;
 class CEntityManager;
 class CProtocolManager;

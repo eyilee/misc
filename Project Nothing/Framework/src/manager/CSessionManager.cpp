@@ -13,9 +13,12 @@ CSessionManager::~CSessionManager ()
 
 void CSessionManager::init (boost::asio::io_context& _kIo_context, const short _nPort)
 {
-	auto self (shared_from_this ());
+	if (Instance == nullptr) {
+		Instance = shared_from_this ();
+	}
+
 	m_pListener = std::make_shared<CTcpListener> (_kIo_context, _nPort);
-	m_pListener->init (self);
+	m_pListener->init ();
 }
 
 void CSessionManager::add_session (std::shared_ptr<CTcpSession>& _kSession)

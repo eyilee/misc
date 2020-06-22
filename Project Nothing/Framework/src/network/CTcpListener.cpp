@@ -2,8 +2,8 @@
 
 #include "CTcpListener.h"
 
-CTcpListener::CTcpListener (boost::asio::io_context& _kio_context, const short _nPort)
-	: m_kAcceptor (_kio_context, tcp::endpoint (tcp::v4 (), _nPort))
+CTcpListener::CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort)
+	: m_kAcceptor (_kIo_context, tcp::endpoint (tcp::v4 (), _nPort))
 {
 }
 
@@ -11,16 +11,16 @@ CTcpListener::~CTcpListener ()
 {
 }
 
-void CTcpListener::init (std::shared_ptr<CSessionManager>& _pSession_manager)
+void CTcpListener::init ()
 {
-	m_pSession_manager = _pSession_manager;
+	m_pSession_manager = CSessionManager::Instance;
 
 	async_accept ();
 }
 
 void CTcpListener::async_accept ()
 {
-	m_kAcceptor.async_accept ([&](std::error_code error, tcp::socket socket)
+	m_kAcceptor.async_accept ([&](boost::system::error_code error, tcp::socket socket)
 		{
 			if (error) {
 				std::cerr << error.message () << std::endl;

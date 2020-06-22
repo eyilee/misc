@@ -10,7 +10,7 @@ public:
 	CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort);
 	virtual ~CTcpListener ();
 
-	void init (std::shared_ptr<CSessionManager>& _pSession_manager);
+	void init ();
 
 private:
 	void async_accept ();

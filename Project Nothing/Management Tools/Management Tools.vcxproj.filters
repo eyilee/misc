@@ -2,14 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{3fb3084c-b43d-4433-8fcc-412c43b9d228}</UniqueIdentifier>
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CServer.cpp">
+    <ClCompile Include="src\CManagementTools.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\CConfigLoader.cpp">
@@ -20,7 +21,7 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CServer.h">
+    <ClInclude Include="src\CManagementTools.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\CConfigLoader.h">
@@ -28,11 +29,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="src\config.ini.example">
+    <None Include="src\config.ini.example">
       <Filter>src</Filter>
-    </CopyFileToFolders>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
