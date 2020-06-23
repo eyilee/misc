@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "CDBManager.h"
+#include "manager/CDBManager.h"
 
 CDBManager::CDBManager ()
 	: m_pPGconn (nullptr)

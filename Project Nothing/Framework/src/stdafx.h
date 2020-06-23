@@ -20,9 +20,5 @@
 #include <utility>
 
 // 3rd party
-#include "boost/asio.hpp"
-#include "boost/program_options.hpp"
-
-// custom
-#include "manager/manager.h"
-#include "network/network.h"
+#include <boost/asio.hpp>
+#include <boost/program_options.hpp>

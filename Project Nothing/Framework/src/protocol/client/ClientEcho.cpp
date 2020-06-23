@@ -1,6 +1,9 @@
 #include "stdafx.h"
 
-#include "ClientEcho.h"
+#include "network/CInStream.h"
+#include "network/COutStream.h"
+
+#include "protocol/client/ClientEcho.h"
 
 ClientEcho::ClientEcho ()
 {

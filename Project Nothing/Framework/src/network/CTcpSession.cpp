@@ -1,6 +1,9 @@
 #include "stdafx.h"
 
-#include "CTcpSession.h"
+#include "network/CInStream.h"
+#include "network/CNetBridge.h"
+#include "network/COutStream.h"
+#include "network/CTcpSession.h"
 
 CTcpSession::CTcpSession (tcp::socket& _socket)
 	: m_kSocket (std::move (_socket))

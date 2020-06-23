@@ -1,8 +1,12 @@
 #include "stdafx.h"
 
+#include "network/CNetBridge.h"
+#include "network/CNetProtocol.h"
+
 #include "protocol/ServerProtocols.h"
 #include "protocol/ClientProtocols.h"
-#include "CProtocolManager.h"
+
+#include "manager/CProtocolManager.h"
 
 CProtocolManager::CProtocolManager ()
 {

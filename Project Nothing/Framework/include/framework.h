@@ -1,5 +1,22 @@
 #pragma once
 
-#include "manager.h"
-#include "network.h"
-#include "protocol.h"
+// network
+#include "network/CEntity.h"
+#include "network/CInStream.h"
+#include "network/CNetBridge.h"
+#include "network/CNetProtocol.h"
+#include "network/CNetProtocolGenerator.h"
+#include "network/COutStream.h"
+#include "network/CTcpClient.h"
+#include "network/CTcpListener.h"
+#include "network/CTcpSession.h"
+
+// protocol
+#include "protocol/ClientProtocols.h"
+#include "protocol/ServerProtocols.h"
+
+// manager
+#include "manager/CDBManager.h"
+#include "manager/CEntityManager.h"
+#include "manager/CProtocolManager.h"
+#include "manager/CSessionManager.h"

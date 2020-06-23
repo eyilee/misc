@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
-#include "CEntityManager.h"
+#include "network/CEntity.h"
+
+#include "manager/CEntityManager.h"
 
 CEntityManager::CEntityManager ()
 {

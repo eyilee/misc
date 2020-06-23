@@ -1,6 +1,10 @@
 #include "stdafx.h"
 
-#include "CTcpListener.h"
+#include "network/CTcpSession.h"
+
+#include "manager/CSessionManager.h"
+
+#include "network/CTcpListener.h"
 
 CTcpListener::CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort)
 	: m_kAcceptor (_kIo_context, tcp::endpoint (tcp::v4 (), _nPort))

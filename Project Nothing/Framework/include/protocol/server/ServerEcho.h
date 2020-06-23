@@ -1,5 +1,7 @@
 #pragma once
 
+#include "network/CNetProtocol.h"
+
 class ServerEcho : public CNetProtocol<ServerEcho>
 {
 public:

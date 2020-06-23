@@ -2,6 +2,8 @@
 
 #include "libpq-fe.h"
 
+#include "manager/CBaseManager.h"
+
 class CDBManager : public CBaseManager<CDBManager>
 {
 public:

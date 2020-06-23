@@ -92,139 +92,36 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\manager\CBaseManager.h">
-      <Filter>src\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\manager\CDBManager.h">
-      <Filter>src\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\manager\CEntityManager.h">
-      <Filter>src\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\manager\CProtocolManager.h">
-      <Filter>src\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\manager\CSessionManager.h">
-      <Filter>src\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\manager\manager.h">
-      <Filter>src\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CEntity.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CInStream.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CNetBridge.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CNetProtocol.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CNetProtocolGenerator.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\COutStream.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CTcpClient.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CTcpListener.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\CTcpSession.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\network\network.h">
-      <Filter>src\network</Filter>
-    </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\ClientProtocols.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\ServerProtocols.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\client\ClientEcho.h">
-      <Filter>src\protocol\client</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\server\ServerEcho.h">
-      <Filter>src\protocol\server</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\manager.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network.h">
-      <Filter>include</Filter>
-    </ClInclude>
+    <ClInclude Include="include\manager\CBaseManager.h" />
+    <ClInclude Include="include\manager\CDBManager.h" />
+    <ClInclude Include="include\manager\CEntityManager.h" />
+    <ClInclude Include="include\manager\CProtocolManager.h" />
+    <ClInclude Include="include\manager\CSessionManager.h" />
+    <ClInclude Include="include\network\CEntity.h" />
+    <ClInclude Include="include\network\CInStream.h" />
+    <ClInclude Include="include\network\CNetBridge.h" />
+    <ClInclude Include="include\network\CNetProtocol.h" />
+    <ClInclude Include="include\network\CNetProtocolGenerator.h" />
+    <ClInclude Include="include\network\COutStream.h" />
+    <ClInclude Include="include\network\CTcpClient.h" />
+    <ClInclude Include="include\network\CTcpListener.h" />
+    <ClInclude Include="include\protocol\client\ClientEcho.h" />
+    <ClInclude Include="include\protocol\server\ServerEcho.h" />
+    <ClInclude Include="include\protocol\ClientProtocols.h" />
+    <ClInclude Include="include\protocol\ServerProtocols.h" />
+    <ClInclude Include="include\framework.h" />
+    <ClInclude Include="include\manager.h" />
+    <ClInclude Include="include\network.h" />
+    <ClInclude Include="include\protocol.h" />
+    <ClInclude Include="include\network\CTcpSession.h" />
     <ClInclude Include="include\manager\CBaseManager.h">
       <Filter>include\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\manager\CDBManager.h">
-      <Filter>include\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\manager\CEntityManager.h">
-      <Filter>include\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\manager\CProtocolManager.h">
-      <Filter>include\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\manager\CSessionManager.h">
-      <Filter>include\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CEntity.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CInStream.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CNetBridge.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CNetProtocol.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CNetProtocolGenerator.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\COutStream.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CTcpClient.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CTcpListener.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\network\CTcpSession.h">
-      <Filter>include\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\protocol\ClientProtocols.h">
-      <Filter>include\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="include\protocol\ServerProtocols.h">
-      <Filter>include\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="include\protocol\client\ClientEcho.h">
-      <Filter>include\protocol\client</Filter>
-    </ClInclude>
-    <ClInclude Include="include\protocol\server\ServerEcho.h">
-      <Filter>include\protocol\server</Filter>
-    </ClInclude>
-    <ClInclude Include="include\protocol.h">
-      <Filter>include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
-      <Filter>dll</Filter>
-    </None>
+    <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll" />
   </ItemGroup>
 </Project>

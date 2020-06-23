@@ -1,8 +1,11 @@
 #include "stdafx.h"
 
-#include "protocol/client/ClientEcho.h"
+#include "network/CInStream.h"
+#include "network/CNetBridge.h"
+#include "network/COutStream.h"
 
-#include "ServerEcho.h"
+#include "protocol/client/ClientEcho.h"
+#include "protocol/server/ServerEcho.h"
 
 ServerEcho::ServerEcho ()
 {

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "CEntity.h"
+#include "network/CEntity.h"
 
 CEntity::CEntity ()
 {

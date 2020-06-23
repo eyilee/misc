@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "CBaseManager.h"
+#include "manager/CBaseManager.h"
 
 IBaseManager::IBaseManager ()
 {

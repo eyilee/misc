@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
-#include "CNetProtocol.h"
+#include "network/CInStream.h"
+#include "network/CNetBridge.h"
+#include "network/CNetProtocol.h"
 
 INetProtocol::INetProtocol ()
 	: m_pNet_Bridge (nullptr)

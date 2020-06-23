@@ -1,5 +1,7 @@
 #pragma once
 
+#include "manager/CBaseManager.h"
+
 class CTcpListener;
 class CTcpSession;
 

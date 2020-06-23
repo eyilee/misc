@@ -1,11 +1,11 @@
 #pragma once
 
+#include "network/CNetProtocolGenerator.h"
+
+#include "manager/CBaseManager.h"
+
 class CNetBridge;
 class INetProtocol;
-class INetProtocolGenerator;
-
-template <typename T>
-class CNetProtocolGenerator;
 
 class CProtocolManager : public CBaseManager<CProtocolManager>
 {
