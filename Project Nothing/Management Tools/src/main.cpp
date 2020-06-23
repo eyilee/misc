@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 
+#include "CConfigLoader.h"
 #include "CManagementTools.h"
 
 int main (int argc, char* argv[])

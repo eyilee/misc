@@ -19,8 +19,7 @@ CTcpSession::~CTcpSession ()
 
 void CTcpSession::init ()
 {
-	auto self (shared_from_this ());
-	m_pNet_bridge = std::make_shared<CNetBridge> (self);
+	m_pNet_bridge = std::make_shared<CNetBridge> (shared_from_this ());
 
 	async_read ();
 }

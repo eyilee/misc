@@ -10,7 +10,7 @@ public:
 	INetProtocol ();
 	virtual ~INetProtocol ();
 
-	void set_net_bridge (std::shared_ptr<CNetBridge>& _pNet_Bridge) { m_pNet_Bridge = _pNet_Bridge; };
+	void set_net_bridge (std::shared_ptr<CNetBridge>&& _pNet_Bridge) { m_pNet_Bridge = _pNet_Bridge; };
 
 	virtual void on_serialize (COutStream& _kOut_Stream) = 0;
 	virtual void serialize (COutStream& _kOut_Stream) = 0;

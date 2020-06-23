@@ -1,6 +1,7 @@
 #pragma once
 
-class CProtocolManager;
+class CConfigLoader;
+
 class CTcpClient;
 
 class CManagementTools : public std::enable_shared_from_this<CManagementTools>
@@ -10,13 +11,20 @@ public:
 	virtual ~CManagementTools ();
 
 	void init ();
+
+	void init_protocol_manager ();
+	void init_tcp_client ();
+
 	void run ();
 
+public:
+	static std::shared_ptr<CManagementTools> Instance;
+
 private:
-	static std::shared_ptr<CManagementTools> m_Instance;
 
 	boost::asio::io_context m_kIo_context;
 
-	std::shared_ptr<CProtocolManager> m_pProtocol_manager;
+	CConfigLoader m_kConfig_loader;
+
 	std::shared_ptr<CTcpClient> m_pTcp_client;
 };
