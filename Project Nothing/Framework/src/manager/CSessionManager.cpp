@@ -1,9 +1,10 @@
 #include "stdafx.h"
 
-#include "network/CTcpListener.h"
-#include "network/CTcpSession.h"
+#include "framework/network/CTcpListener.h"
+#include "framework/network/CTcpSession.h"
 
-#include "manager/CSessionManager.h"
+#include "framework/manager/CBaseManager.h"
+#include "framework/manager/CSessionManager.h"
 
 CSessionManager::CSessionManager ()
 	: m_pListener (nullptr)

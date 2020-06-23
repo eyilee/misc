@@ -1,12 +1,11 @@
 #include "stdafx.h"
 
-#include "network/CNetBridge.h"
-#include "network/CNetProtocol.h"
+#include "framework/network/CNetBridge.h"
+#include "framework/network/CNetProtocol.h"
+#include "framework/network/CNetProtocolGenerator.h"
 
-#include "protocol/ServerProtocols.h"
-#include "protocol/ClientProtocols.h"
-
-#include "manager/CProtocolManager.h"
+#include "framework/manager/CBaseManager.h"
+#include "framework/manager/CProtocolManager.h"
 
 CProtocolManager::CProtocolManager ()
 {
@@ -21,10 +20,6 @@ void CProtocolManager::init ()
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
 	}
-
-	// TODO: ²¾°£¬Û¨Ì©Ê
-	register_protocol<ServerEcho> (100);
-	register_protocol<ClientEcho> (200);
 }
 
 std::shared_ptr<INetProtocol> CProtocolManager::generate_protocol (const unsigned short _nProtocol_id, std::shared_ptr<CNetBridge>& _pNetBridge)

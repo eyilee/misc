@@ -1,13 +1,10 @@
 #pragma once
 
-#include "network/CNetProtocol.h"
-
-class ClientEcho : public CNetProtocol<ClientEcho>
+class ServerEcho : public CNetProtocol<ServerEcho>
 {
 public:
-	ClientEcho ();
-	ClientEcho (const std::string& _kString);
-	virtual ~ClientEcho ();
+	ServerEcho ();
+	virtual ~ServerEcho ();
 
 	virtual void serialize (COutStream& _kOut_Stream) override;
 	virtual void deserialize (CInStream& _kIn_Stream) override;

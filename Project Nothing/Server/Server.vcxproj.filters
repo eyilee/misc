@@ -4,6 +4,15 @@
     <Filter Include="src">
       <UniqueIdentifier>{3fb3084c-b43d-4433-8fcc-412c43b9d228}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\protocol">
+      <UniqueIdentifier>{5ffcdb89-3b77-46a5-93df-91d168f57179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\protocol\client">
+      <UniqueIdentifier>{ebc83ef0-d344-49a6-877c-2598ab5d82b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\protocol\server">
+      <UniqueIdentifier>{fca341d7-eada-4d50-ad75-531ddc28249f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -15,6 +24,12 @@
     <ClCompile Include="src\CConfigLoader.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\client\ClientEcho.cpp">
+      <Filter>src\protocol\client</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\server\ServerEcho.cpp">
+      <Filter>src\protocol\server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -25,6 +40,18 @@
     </ClInclude>
     <ClInclude Include="src\CConfigLoader.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\ClientProtocols.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\ServerProtocols.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\client\ClientEcho.h">
+      <Filter>src\protocol\client</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerEcho.h">
+      <Filter>src\protocol\server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

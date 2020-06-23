@@ -1,7 +1,5 @@
 #pragma once
 
-#include "manager/CBaseManager.h"
-
 class CEntity;
 
 class CEntityManager : public CBaseManager<CEntityManager>

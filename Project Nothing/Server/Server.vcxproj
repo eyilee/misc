@@ -22,10 +22,16 @@
     <ClCompile Include="src\CConfigLoader.cpp" />
     <ClCompile Include="src\CServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\protocol\client\ClientEcho.cpp" />
+    <ClCompile Include="src\protocol\server\ServerEcho.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CConfigLoader.h" />
     <ClInclude Include="src\CServer.h" />
+    <ClInclude Include="src\protocol\ClientProtocols.h" />
+    <ClInclude Include="src\protocol\client\ClientEcho.h" />
+    <ClInclude Include="src\protocol\ServerProtocols.h" />
+    <ClInclude Include="src\protocol\server\ServerEcho.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

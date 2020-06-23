@@ -11,11 +11,8 @@
 #include "network/CTcpListener.h"
 #include "network/CTcpSession.h"
 
-// protocol
-#include "protocol/ClientProtocols.h"
-#include "protocol/ServerProtocols.h"
-
 // manager
+#include "manager/CBaseManager.h"
 #include "manager/CDBManager.h"
 #include "manager/CEntityManager.h"
 #include "manager/CProtocolManager.h"

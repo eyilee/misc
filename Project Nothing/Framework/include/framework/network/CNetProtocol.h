@@ -2,8 +2,7 @@
 
 class CInStream;
 class CNetBridge;
-
-#include "network/COutStream.h"
+class COutStream;
 
 class INetProtocol
 {

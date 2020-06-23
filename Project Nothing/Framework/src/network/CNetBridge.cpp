@@ -1,14 +1,15 @@
 #include "stdafx.h"
 
-#include "network/CEntity.h"
-#include "network/CInStream.h"
-#include "network/CNetProtocol.h"
-#include "network/COutStream.h"
-#include "network/CTcpSession.h"
+#include "framework/network/CEntity.h"
+#include "framework/network/CInStream.h"
+#include "framework/network/CNetProtocol.h"
+#include "framework/network/COutStream.h"
+#include "framework/network/CTcpSession.h"
 
-#include "manager/CProtocolManager.h"
+#include "framework/manager/CBaseManager.h"
+#include "framework/manager/CProtocolManager.h"
 
-#include "network/CNetBridge.h"
+#include "framework/network/CNetBridge.h"
 
 CNetBridge::CNetBridge (std::shared_ptr<CTcpSession>& _pSession)
 	: m_pSession (_pSession)

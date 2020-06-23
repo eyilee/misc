@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "network/CInStream.h"
+#include "framework/network/CInStream.h"
 
 CInStream::CInStream (const std::vector<char>& _kData)
 	: m_kData (_kData)

@@ -33,54 +33,52 @@
     <ClCompile Include="src\network\CTcpClient.cpp" />
     <ClCompile Include="src\network\CTcpListener.cpp" />
     <ClCompile Include="src\network\CTcpSession.cpp" />
-    <ClCompile Include="src\protocol\client\ClientEcho.cpp" />
-    <ClCompile Include="src\protocol\server\ServerEcho.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <ClInclude Include="include\framework.h">
+    <ClInclude Include="include\framework\framework.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\manager\CBaseManager.h" />
-    <ClInclude Include="include\manager\CDBManager.h">
+    <ClInclude Include="include\framework\manager\CBaseManager.h" />
+    <ClInclude Include="include\framework\manager\CDBManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\manager\CEntityManager.h">
+    <ClInclude Include="include\framework\manager\CEntityManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\manager\CProtocolManager.h">
+    <ClInclude Include="include\framework\manager\CProtocolManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\manager\CSessionManager.h">
+    <ClInclude Include="include\framework\manager\CSessionManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CEntity.h">
+    <ClInclude Include="include\framework\network\CEntity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CInStream.h">
+    <ClInclude Include="include\framework\network\CInStream.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CNetBridge.h">
+    <ClInclude Include="include\framework\network\CNetBridge.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CNetProtocol.h">
+    <ClInclude Include="include\framework\network\CNetProtocol.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CNetProtocolGenerator.h">
+    <ClInclude Include="include\framework\network\CNetProtocolGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\COutStream.h">
+    <ClInclude Include="include\framework\network\COutStream.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CTcpClient.h">
+    <ClInclude Include="include\framework\network\CTcpClient.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CTcpListener.h">
+    <ClInclude Include="include\framework\network\CTcpListener.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\network\CTcpSession.h">
+    <ClInclude Include="include\framework\network\CTcpSession.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="include\protocol\ClientProtocols.h">
