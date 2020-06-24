@@ -74,17 +74,6 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="include\protocol\client\ClientEcho.h" />
-    <ClInclude Include="include\protocol\server\ServerEcho.h" />
-    <ClInclude Include="include\protocol\ClientProtocols.h" />
-    <ClInclude Include="include\protocol\ServerProtocols.h" />
-    <ClInclude Include="include\manager.h" />
-    <ClInclude Include="include\network.h" />
-    <ClInclude Include="include\protocol.h" />
-    <ClInclude Include="include\manager\CBaseManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\manager\CBaseManager.h" />
     <ClInclude Include="include\framework\framework.h">
       <Filter>include\framework</Filter>
     </ClInclude>
@@ -127,8 +116,13 @@
     <ClInclude Include="include\framework\network\CTcpSession.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\manager\CBaseManager.h">
+      <Filter>include\framework\manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll" />
+    <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

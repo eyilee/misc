@@ -1,6 +1,6 @@
 #pragma once
 
-class CEntity;
+class IEntity;
 class CInStream;
 class INetProtocol;
 class CTcpSession;
@@ -11,13 +11,13 @@ public:
 	CNetBridge (std::shared_ptr<CTcpSession>&& _pSession);
 	virtual ~CNetBridge ();
 
-	void set_entity (std::shared_ptr<CEntity>& _pEntity);
-	std::shared_ptr<CEntity>& get_entity ();
+	void set_entity (std::shared_ptr<IEntity>&& _pEntity);
+	std::shared_ptr<IEntity> get_entity ();
 
 	void resolve_input (CInStream& _kIn_Stream);
 	void compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol);
 
 private:
 	std::shared_ptr<CTcpSession> m_pSession;
-	std::shared_ptr<CEntity> m_pEntity;
+	std::shared_ptr<IEntity> m_pEntity;
 };

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "CPlayerEntity.h"
+
 #include "protocol/client/ClientEcho.h"
 #include "protocol/server/ServerEcho.h"
 
@@ -25,7 +27,7 @@ void ServerEcho::excute ()
 	std::shared_ptr<INetProtocol> pProtocol = std::make_shared<ClientEcho> (m_kString);
 	m_pNet_Bridge->compose_output (pProtocol);
 
-	std::shared_ptr<CEntity> pEntity = m_pNet_Bridge->get_entity ();
+	std::shared_ptr<CPlayerEntity> pEntity = std::static_pointer_cast<CPlayerEntity> (m_pNet_Bridge->get_entity ());
 
 	if (pEntity == nullptr) {
 		std::cout << "Player entity not found." << std::endl;

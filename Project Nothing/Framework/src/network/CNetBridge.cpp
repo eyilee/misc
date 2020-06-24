@@ -21,12 +21,12 @@ CNetBridge::~CNetBridge ()
 {
 }
 
-void CNetBridge::set_entity (std::shared_ptr<CEntity>& _pEntity)
+void CNetBridge::set_entity (std::shared_ptr<IEntity>&& _pEntity)
 {
 	m_pEntity = _pEntity;
 }
 
-std::shared_ptr<CEntity>& CNetBridge::get_entity ()
+std::shared_ptr<IEntity> CNetBridge::get_entity ()
 {
 	return m_pEntity;
 }
