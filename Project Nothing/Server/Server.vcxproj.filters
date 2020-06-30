@@ -36,6 +36,9 @@
     <ClCompile Include="src\CPlayerEntity.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\server\ServerShutdown.cpp">
+      <Filter>src\protocol\server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="src\CPlayerEntity.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerShutdown.h">
+      <Filter>src\protocol\server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

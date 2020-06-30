@@ -5,6 +5,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="src\protocol">
+      <UniqueIdentifier>{e711353d-fa57-4356-bb35-db13bd89bd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\protocol\server">
+      <UniqueIdentifier>{11cf42ef-922c-4ab5-ada7-4a8d47f309fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -16,6 +22,12 @@
     <ClCompile Include="src\CConfigLoader.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\server\ServerLogin.cpp">
+      <Filter>src\protocol\server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\server\ServerShutdown.cpp">
+      <Filter>src\protocol\server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -26,6 +38,15 @@
     </ClInclude>
     <ClInclude Include="src\CConfigLoader.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerLogin.h">
+      <Filter>src\protocol\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\ServerProtocols.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerShutdown.h">
+      <Filter>src\protocol\server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

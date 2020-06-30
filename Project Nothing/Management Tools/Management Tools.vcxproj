@@ -22,10 +22,15 @@
     <ClCompile Include="src\CManagementTools.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\CConfigLoader.cpp" />
+    <ClCompile Include="src\protocol\server\ServerLogin.cpp" />
+    <ClCompile Include="src\protocol\server\ServerShutdown.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CConfigLoader.h" />
     <ClInclude Include="src\CManagementTools.h" />
+    <ClInclude Include="src\protocol\ServerProtocols.h" />
+    <ClInclude Include="src\protocol\server\ServerLogin.h" />
+    <ClInclude Include="src\protocol\server\ServerShutdown.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

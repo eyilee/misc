@@ -26,6 +26,8 @@ void ServerLogin::excute ()
 {
 	std::shared_ptr<CPlayerEntity> pPlayer_entity = CEntityManager::Instance->create_entity<CPlayerEntity> (m_nId);
 
+	pPlayer_entity->set_id (m_nId);
+
 	if (m_pNet_Bridge->get_entity () == nullptr) {
 		m_pNet_Bridge->set_entity (pPlayer_entity);
 	}

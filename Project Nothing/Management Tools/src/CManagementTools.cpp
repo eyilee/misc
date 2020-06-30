@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "protocol/ServerProtocols.h"
+
 #include "CConfigLoader.h"
 #include "CManagementTools.h"
 
@@ -23,6 +25,12 @@ void CManagementTools::init ()
 
 	init_protocol_manager ();
 	init_tcp_client ();
+
+	std::shared_ptr<INetProtocol> pServer_login_protocol = std::make_shared<ServerLogin> (0);
+	m_pTcp_client->compose_output (pServer_login_protocol);
+
+	std::shared_ptr<INetProtocol> pServer_shutdown_protocol = std::make_shared<ServerShutdown> ();
+	m_pTcp_client->compose_output (pServer_shutdown_protocol);
 }
 
 void CManagementTools::init_tcp_client ()
@@ -44,6 +52,9 @@ void CManagementTools::init_protocol_manager ()
 	}
 
 	CProtocolManager::Instance->init ();
+
+	CProtocolManager::Instance->register_protocol<ServerLogin> (1);
+	CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
 }
 
 void CManagementTools::run ()

@@ -48,7 +48,10 @@ void CServer::init_protocol_manager ()
 {
 	setup_manager<CProtocolManager> (CProtocolManager::Instance, &CProtocolManager::init);
 
+	CProtocolManager::Instance->register_protocol<ServerLogin> (1);
+	CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
 	CProtocolManager::Instance->register_protocol<ServerEcho> (100);
+
 	CProtocolManager::Instance->register_protocol<ClientEcho> (200);
 }
 
