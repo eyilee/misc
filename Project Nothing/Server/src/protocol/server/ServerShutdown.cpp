@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
 #include "CPlayerEntity.h"
+#include "CConfigLoader.h"
+#include "CServer.h"
 
 #include "protocol/server/ServerShutdown.h"
 
@@ -33,4 +35,6 @@ void ServerShutdown::excute ()
 	}
 
 	std::cout << "Call shutdown!" << std::endl;
+
+	CServer::Instance->shutdown ();
 }

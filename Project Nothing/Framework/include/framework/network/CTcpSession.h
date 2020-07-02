@@ -14,6 +14,7 @@ public:
 	virtual ~CTcpSession ();
 
 	void init ();
+	void shutdown ();
 
 private:
 	void async_read ();

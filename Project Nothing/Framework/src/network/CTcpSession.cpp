@@ -24,6 +24,22 @@ void CTcpSession::init ()
 	async_read ();
 }
 
+void CTcpSession::shutdown ()
+{
+	auto self (shared_from_this ());
+	m_kSocket.async_wait (tcp::socket::wait_read, [this, self](boost::system::error_code error)
+		{
+			if (error) {
+				std::cout << error.message () << std::endl;
+			}
+			else
+			{
+				m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
+				m_kSocket.close ();
+			}
+		});
+}
+
 void CTcpSession::async_read ()
 {
 	auto self (shared_from_this ());

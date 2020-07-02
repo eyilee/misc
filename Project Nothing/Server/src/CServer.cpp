@@ -9,6 +9,7 @@
 std::shared_ptr<CServer> CServer::Instance = nullptr;
 
 CServer::CServer ()
+	: m_kWork (m_kIo_context)
 {
 }
 
@@ -28,6 +29,18 @@ void CServer::init ()
 	init_entity_manager ();
 	init_protocol_manager ();
 	init_session_manager ();
+}
+
+void CServer::run ()
+{
+	m_kIo_context.run ();
+}
+
+void CServer::shutdown ()
+{
+	CSessionManager::Instance->shutdown ();
+
+	m_kIo_context.stop ();
 }
 
 void CServer::init_db_manager ()
@@ -59,9 +72,4 @@ void CServer::init_session_manager ()
 {
 	int nPort = m_kConfig_loader.get_config<int> ("server.port");
 	setup_manager<CSessionManager> (CSessionManager::Instance, &CSessionManager::init, m_kIo_context, nPort);
-}
-
-void CServer::run ()
-{
-	m_kIo_context.run ();
 }

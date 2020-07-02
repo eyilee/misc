@@ -9,6 +9,7 @@
 
 CTcpListener::CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort)
 	: m_kAcceptor (_kIo_context, tcp::endpoint (tcp::v4 (), _nPort))
+	, m_bIs_running (false)
 {
 }
 
@@ -18,9 +19,17 @@ CTcpListener::~CTcpListener ()
 
 void CTcpListener::init ()
 {
-	m_pSession_manager = CSessionManager::Instance;
+	m_bIs_running = true;
 
 	async_accept ();
+}
+
+void CTcpListener::shutdown ()
+{
+	m_bIs_running = false;
+
+	m_kAcceptor.cancel ();
+	m_kAcceptor.close ();
 }
 
 void CTcpListener::async_accept ()
@@ -36,9 +45,11 @@ void CTcpListener::async_accept ()
 
 				pSession->init ();
 
-				m_pSession_manager->add_session (pSession);
+				CSessionManager::Instance->add_session (pSession);
 			}
 
-			async_accept ();
+			if (m_bIs_running) {
+				async_accept ();
+			}
 		});
 }
