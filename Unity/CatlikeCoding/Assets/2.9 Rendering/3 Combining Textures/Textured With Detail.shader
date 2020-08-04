@@ -1,4 +1,4 @@
-﻿Shader "Custom/Textured With Detail"
+﻿Shader "Rendering/Combining Textures/Textured With Detail"
 {
 	Properties
 	{

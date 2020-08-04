@@ -1,4 +1,4 @@
-﻿Shader "Custom/My First Lighting Shader"
+﻿Shader "Rendering/The First Light/My First Lighting Shader"
 {
 	Properties
 	{

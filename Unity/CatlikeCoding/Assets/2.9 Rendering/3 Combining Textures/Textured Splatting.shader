@@ -1,4 +1,4 @@
-﻿Shader "Custom/Textured Splatting"
+﻿Shader "Rendering/Combining Textures/Textured Splatting"
 {
 	Properties
 	{

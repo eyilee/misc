@@ -1,4 +1,4 @@
-﻿Shader "Custom/My First Shader"
+﻿Shader "Rendering/Shader Fundamentals/My First Shader"
 {
 	Properties
 	{
