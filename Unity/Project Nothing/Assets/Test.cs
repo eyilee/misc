@@ -1,38 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class Test : MonoBehaviour
 {
-    private Image m_Image;
+    public GameObject m_MyGameObject;
+    public AssetReference assetReference;
 
-    private float m_Rx = 0f;
-    private readonly float m_Ry = 0f;
-
-    private readonly float m_Gx = 0f;
-    private float m_Gy = 0f;
-
-    private float m_Bx = 0f;
-    private float m_By = 0f;
-
-    void Awake ()
+    void Start ()
     {
-        m_Image = GetComponent<Image> ();
+        Addressables.LoadAssetAsync<GameObject> ("Assets/Prefab/Cube.prefab").Completed += OnLoadDone;
     }
 
-    void Update ()
+    private void OnLoadDone (AsyncOperationHandle<GameObject> obj)
     {
-        float delta = Time.deltaTime / 10f;
-
-        byte r = (byte)(255 * Mathf.PerlinNoise (m_Rx, m_Ry));
-        m_Rx += delta;
-
-        byte g = (byte)(255 * Mathf.PerlinNoise (m_Gx, m_Gy));
-        m_Gy += delta;
-
-        byte b = (byte)(255 * Mathf.PerlinNoise (m_Bx, m_By));
-        m_Bx += delta;
-        m_By += delta;
-
-        m_Image.color = new Color32 (r, g, b, 255);
+        m_MyGameObject = obj.Result;
+        Instantiate (m_MyGameObject);
     }
 }
