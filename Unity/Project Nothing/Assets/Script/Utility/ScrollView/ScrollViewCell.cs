@@ -1,46 +1,49 @@
 ﻿using UnityEngine;
 
-public class ScrollViewCell
+namespace ProjectNothing.Utility
 {
-    protected GameObject m_GameObject;
-    protected RectTransform m_RectTransform;
-
-    public bool IsValid {
-        get { return m_GameObject.activeSelf; }
-    }
-
-    public virtual void Init (GameObject gameObject)
+    public class ScrollViewCell
     {
-        m_GameObject = gameObject;
-        m_RectTransform = m_GameObject.GetComponent<RectTransform> ();
-    }
+        protected GameObject m_GameObject;
+        protected RectTransform m_RectTransform;
 
-    public virtual void SetView ()
-    {
-    }
+        public bool IsValid {
+            get { return m_GameObject.activeSelf; }
+        }
 
-    public virtual void Sleep ()
-    {
-        m_GameObject.SetActive (false);
-    }
+        public virtual void Init (GameObject gameObject)
+        {
+            m_GameObject = gameObject;
+            m_RectTransform = m_GameObject.GetComponent<RectTransform> ();
+        }
 
-    public virtual void Wakeup ()
-    {
-        m_GameObject.SetActive (true);
-    }
+        public virtual void SetView ()
+        {
+        }
 
-    public void SetAnchoredPositionX (float x)
-    {
-        m_RectTransform.anchoredPosition = new Vector2 (x, m_RectTransform.anchoredPosition.y);
-    }
+        public virtual void Sleep ()
+        {
+            m_GameObject.SetActive (false);
+        }
 
-    public void SetAnchoredPositionY (float y)
-    {
-        m_RectTransform.anchoredPosition = new Vector2 (m_RectTransform.anchoredPosition.x, y);
-    }
+        public virtual void Wakeup ()
+        {
+            m_GameObject.SetActive (true);
+        }
 
-    public void SetAnchoredPosition (Vector2 position)
-    {
-        m_RectTransform.anchoredPosition = position;
+        public void SetAnchoredPositionX (float x)
+        {
+            m_RectTransform.anchoredPosition = new Vector2 (x, m_RectTransform.anchoredPosition.y);
+        }
+
+        public void SetAnchoredPositionY (float y)
+        {
+            m_RectTransform.anchoredPosition = new Vector2 (m_RectTransform.anchoredPosition.x, y);
+        }
+
+        public void SetAnchoredPosition (Vector2 position)
+        {
+            m_RectTransform.anchoredPosition = position;
+        }
     }
 }
