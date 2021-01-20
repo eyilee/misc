@@ -1,37 +1,43 @@
 ﻿using System.IO;
 using UnityEngine;
 
-public class GameDataWriter
+namespace ObjectManagement
 {
-    BinaryWriter writer;
-
-    public GameDataWriter (BinaryWriter writer)
+    namespace PersistingObjects
     {
-        this.writer = writer;
-    }
+        public class GameDataWriter
+        {
+            BinaryWriter writer;
 
-    public void Write (float value)
-    {
-        writer.Write (value);
-    }
+            public GameDataWriter (BinaryWriter writer)
+            {
+                this.writer = writer;
+            }
 
-    public void Write (int value)
-    {
-        writer.Write (value);
-    }
+            public void Write (float value)
+            {
+                writer.Write (value);
+            }
 
-    public void Write (Quaternion value)
-    {
-        writer.Write (value.x);
-        writer.Write (value.y);
-        writer.Write (value.z);
-        writer.Write (value.w);
-    }
+            public void Write (int value)
+            {
+                writer.Write (value);
+            }
 
-    public void Write (Vector3 value)
-    {
-        writer.Write (value.x);
-        writer.Write (value.y);
-        writer.Write (value.z);
+            public void Write (Quaternion value)
+            {
+                writer.Write (value.x);
+                writer.Write (value.y);
+                writer.Write (value.z);
+                writer.Write (value.w);
+            }
+
+            public void Write (Vector3 value)
+            {
+                writer.Write (value.x);
+                writer.Write (value.y);
+                writer.Write (value.z);
+            }
+        }
     }
 }

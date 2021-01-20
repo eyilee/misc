@@ -1,91 +1,97 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformationGrid : MonoBehaviour
+namespace Rendering
 {
-    public Transform prefab;
-
-    public int gridResolution = 10;
-
-    Transform[] grid;
-
-    List<Transformation> transformations;
-
-    Matrix4x4 transformation;
-
-    void Awake ()
+    namespace Matrices
     {
-        grid = new Transform[gridResolution * gridResolution * gridResolution];
-
-        for (int i = 0, z = 0; z < gridResolution; z++)
+        public class TransformationGrid : MonoBehaviour
         {
-            for (int y = 0; y < gridResolution; y++)
+            public Transform prefab;
+
+            public int gridResolution = 10;
+
+            Transform[] grid;
+
+            List<Transformation> transformations;
+
+            Matrix4x4 transformation;
+
+            void Awake ()
             {
-                for (int x = 0; x < gridResolution; i++, x++)
+                grid = new Transform[gridResolution * gridResolution * gridResolution];
+
+                for (int i = 0, z = 0; z < gridResolution; z++)
                 {
-                    grid[i] = CreateGridPoint (x, y, z);
+                    for (int y = 0; y < gridResolution; y++)
+                    {
+                        for (int x = 0; x < gridResolution; i++, x++)
+                        {
+                            grid[i] = CreateGridPoint (x, y, z);
+                        }
+                    }
+                }
+
+                transformations = new List<Transformation> ();
+            }
+
+            Transform CreateGridPoint (int x, int y, int z)
+            {
+                Transform point = Instantiate (prefab);
+                point.localPosition = GetCoordinates (x, y, z);
+                point.GetComponent<MeshRenderer> ().material.color = new Color (
+                    (float)x / gridResolution,
+                    (float)y / gridResolution,
+                    (float)z / gridResolution
+                );
+
+                return point;
+            }
+
+            Vector3 GetCoordinates (int x, int y, int z)
+            {
+                return new Vector3 (
+                    x - (gridResolution - 1) * 0.5f,
+                    y - (gridResolution - 1) * 0.5f,
+                    z - (gridResolution - 1) * 0.5f
+                );
+            }
+
+            void Update ()
+            {
+                UpdateTransformation ();
+
+                for (int i = 0, z = 0; z < gridResolution; z++)
+                {
+                    for (int y = 0; y < gridResolution; y++)
+                    {
+                        for (int x = 0; x < gridResolution; i++, x++)
+                        {
+                            grid[i].localPosition = TransformPoint (x, y, z);
+                        }
+                    }
                 }
             }
-        }
 
-        transformations = new List<Transformation> ();
-    }
-
-    Transform CreateGridPoint (int x, int y, int z)
-    {
-        Transform point = Instantiate (prefab);
-        point.localPosition = GetCoordinates (x, y, z);
-        point.GetComponent<MeshRenderer> ().material.color = new Color (
-            (float)x / gridResolution,
-            (float)y / gridResolution,
-            (float)z / gridResolution
-        );
-
-        return point;
-    }
-
-    Vector3 GetCoordinates (int x, int y, int z)
-    {
-        return new Vector3 (
-            x - (gridResolution - 1) * 0.5f,
-            y - (gridResolution - 1) * 0.5f,
-            z - (gridResolution - 1) * 0.5f
-        );
-    }
-
-    void Update ()
-    {
-        UpdateTransformation ();
-
-        for (int i = 0, z = 0; z < gridResolution; z++)
-        {
-            for (int y = 0; y < gridResolution; y++)
+            void UpdateTransformation ()
             {
-                for (int x = 0; x < gridResolution; i++, x++)
+                GetComponents (transformations);
+
+                if (transformations.Count > 0)
                 {
-                    grid[i].localPosition = TransformPoint (x, y, z);
+                    transformation = transformations[0].Matrix;
+                    for (int i = 1; i < transformations.Count; i++)
+                    {
+                        transformation = transformations[i].Matrix * transformation;
+                    }
                 }
             }
-        }
-    }
 
-    void UpdateTransformation ()
-    {
-        GetComponents (transformations);
-
-        if (transformations.Count > 0)
-        {
-            transformation = transformations[0].Matrix;
-            for (int i = 1; i < transformations.Count; i++)
+            Vector3 TransformPoint (int x, int y, int z)
             {
-                transformation = transformations[i].Matrix * transformation;
+                Vector3 coordinates = GetCoordinates (x, y, z);
+                return transformation.MultiplyPoint (coordinates);
             }
         }
-    }
-
-    Vector3 TransformPoint (int x, int y, int z)
-    {
-        Vector3 coordinates = GetCoordinates (x, y, z);
-        return transformation.MultiplyPoint (coordinates);
     }
 }

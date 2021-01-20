@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 
-public abstract class Transformation : MonoBehaviour
+namespace Rendering
 {
-    public abstract Matrix4x4 Matrix { get; }
+    namespace Matrices
+    {
+        public abstract class Transformation : MonoBehaviour
+        {
+            public abstract Matrix4x4 Matrix { get; }
+        }
+    }
 }
