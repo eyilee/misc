@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-
 namespace ProjectNothing.Utility
 {
-    public class ScrollViewCell
+    public class ScrollViewObstacle
     {
         protected GameObject m_GameObject;
         protected RectTransform m_RectTransform;
@@ -27,10 +26,6 @@ namespace ProjectNothing.Utility
             }
         }
 
-        public bool IsValid {
-            get { return m_GameObject != null; }
-        }
-
         public virtual void Init (GameObject gameObject)
         {
             m_GameObject = gameObject;
@@ -49,14 +44,6 @@ namespace ProjectNothing.Utility
         public virtual void Wakeup ()
         {
             m_GameObject.SetActive (true);
-        }
-
-        public void Destory ()
-        {
-            if (m_GameObject != null)
-            {
-                Object.Destroy (m_GameObject);
-            }
         }
 
         public void SetAnchorAndPivot ()
