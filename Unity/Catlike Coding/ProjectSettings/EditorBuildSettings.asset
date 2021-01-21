@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/2.4 Object Management/4 Multiple Scenes/Multiple Scenes.unity
+    guid: 4921bade933fb5941aa78bfb1afc0b5a
+  - enabled: 1
+    path: Assets/2.4 Object Management/4 Multiple Scenes/Level 1.unity
+    guid: e7fdccaac6fdd764280471802cbe9a8a
+  - enabled: 1
+    path: Assets/2.4 Object Management/4 Multiple Scenes/Level 2.unity
+    guid: f96403aa3a31f4e47a4cd0b7ac2fcf56
   m_configObjects: {}
