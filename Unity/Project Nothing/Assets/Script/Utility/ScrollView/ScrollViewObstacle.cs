@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 namespace ProjectNothing.Utility
 {
     public class ScrollViewObstacle

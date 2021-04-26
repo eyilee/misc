@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ProjectNothing.Utility
@@ -36,10 +38,16 @@ namespace ProjectNothing.Utility
         private float m_Top = 0f;
 
         [SerializeField]
+        private bool m_Paginate = false;
+
+        [SerializeField]
         private int m_PreviewSize = 0;
 
         [SerializeField]
         private RectTransform m_DefaultItem = null;
+
+        [SerializeField]
+        private RectTransform m_DefaultPagination = null;
 
         private Type m_CellType;
         private readonly List<ScrollViewCell> m_Cells = new List<ScrollViewCell> ();
@@ -47,6 +55,10 @@ namespace ProjectNothing.Utility
 
         private readonly Dictionary<int, ScrollViewObstacle> m_Obstacles = new Dictionary<int, ScrollViewObstacle> ();
         private readonly SortedDictionary<int, float> m_ObstacleGapMap = new SortedDictionary<int, float> (new ReverseComparer<int> ());
+
+        private Type m_PaginationType;
+        private readonly List<ScrollViewPagination> m_Paginations = new List<ScrollViewPagination> ();
+        private readonly List<ScrollViewPagination> m_PaginationPool = new List<ScrollViewPagination> ();
 
         // set data event.
         public delegate void ScrollViewCellDataHandler (int index, ScrollViewCell scrollViewCell);
@@ -58,6 +70,10 @@ namespace ProjectNothing.Utility
         private int m_Capacity = 0;
         // obstacle gap, only use for counting index.
         private float m_ObstacleGap = 0f;
+        // paginate index.
+        private int m_PaginateIndex = 0;
+        // scroll animate coroutine.
+        private Coroutine m_ScrollAnimateCoroutine = null;
 
         // right.
         private const int m_DirectionX = 1;
@@ -92,7 +108,23 @@ namespace ProjectNothing.Utility
 
             ResizeContent (capacity);
 
-            ScrollToTop ();
+            ScrollToIndex (0);
+        }
+
+        public void InitPagination<T> () where T : ScrollViewPagination, new()
+        {
+            if (m_DefaultPagination == null)
+            {
+                return;
+            }
+
+            m_DefaultPagination.gameObject.SetActive (false);
+
+            m_PaginationType = typeof (T);
+
+            SetPaginations ();
+
+            EnablePagination ();
         }
 
         public void ResizeContent (int capacity)
@@ -100,6 +132,24 @@ namespace ProjectNothing.Utility
             if (capacity < 0)
             {
                 capacity = 0;
+            }
+
+            if (m_Paginate)
+            {
+                switch (m_LayoutType)
+                {
+                    case LayoutType.Horizontal:
+                        capacity += capacity % m_Columns == 0 ? 0 : m_Columns - capacity % m_Columns;
+                        break;
+                    case LayoutType.Vertical:
+                        capacity += capacity % m_Rows == 0 ? 0 : m_Rows - capacity % m_Rows;
+                        break;
+                    case LayoutType.Grid:
+                        capacity += capacity % (m_Columns * m_Rows) == 0 ? 0 : (m_Columns * m_Rows) - capacity % (m_Columns * m_Rows);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (m_Capacity == capacity)
@@ -111,6 +161,7 @@ namespace ProjectNothing.Utility
             m_Capacity = capacity;
 
             SetCells ();
+            SetPaginations ();
 
             int rows = 1;
             int columns = 1;
@@ -172,6 +223,7 @@ namespace ProjectNothing.Utility
             SetCellsAnchoredPosition ();
         }
 
+        #region Cells
         private void SetCells ()
         {
             int count = 0;
@@ -202,6 +254,85 @@ namespace ProjectNothing.Utility
             else if (count > m_Cells.Count)
             {
                 PopCellFromPool (count - m_Cells.Count);
+            }
+        }
+
+        private void PushCellToPool (int count)
+        {
+            if (count > m_Cells.Count)
+            {
+                count = m_Cells.Count;
+            }
+
+            List<ScrollViewCell> cells = m_Cells.GetRange (0, count);
+            m_CellPool.AddRange (cells);
+            m_Cells.RemoveRange (0, count);
+
+            foreach (ScrollViewCell cell in cells)
+            {
+                cell.Sleep ();
+            }
+        }
+
+        private void PopCellFromPool (int count)
+        {
+            while (count - m_CellPool.Count > 0)
+            {
+                GameObject gameObject = Instantiate (m_DefaultItem.gameObject, m_DefaultItem.transform.position, Quaternion.identity, m_DefaultItem.transform.parent);
+                ScrollViewCell cell = m_CellType == null ? new ScrollViewCell () : Activator.CreateInstance (m_CellType) as ScrollViewCell;
+                cell.Init (gameObject);
+                m_CellPool.Add (cell);
+            }
+
+            List<ScrollViewCell> cells = m_CellPool.GetRange (0, count);
+            m_Cells.AddRange (cells);
+            m_CellPool.RemoveRange (0, count);
+
+            foreach (ScrollViewCell cell in cells)
+            {
+                cell.Wakeup ();
+            }
+        }
+
+        private void MoveCellsToBack (int count)
+        {
+            if (count > m_Cells.Count)
+            {
+                count = m_Cells.Count;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                ScrollViewCell cell = m_Cells[0];
+                m_Cells.RemoveAt (0);
+                m_Cells.Insert (m_Cells.Count, cell);
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                SetCellAnchoredPosition (m_Cells.Count - i - 1);
+                SetData (m_Cells.Count - i - 1);
+            }
+        }
+
+        private void MoveCellsToFront (int count)
+        {
+            if (count > m_Cells.Count)
+            {
+                count = m_Cells.Count;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                ScrollViewCell cell = m_Cells[m_Cells.Count - 1];
+                m_Cells.RemoveAt (m_Cells.Count - 1);
+                m_Cells.Insert (0, cell);
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                SetCellAnchoredPosition (i);
+                SetData (i);
             }
         }
 
@@ -259,6 +390,64 @@ namespace ProjectNothing.Utility
             }
         }
 
+        public void SetData ()
+        {
+            for (int i = 0; i < m_Cells.Count; i++)
+            {
+                OnSetData (m_Index + i, m_Cells[i]);
+                m_Cells[i].SetView ();
+            }
+
+            EnablePagination ();
+        }
+
+        private void SetData (int index)
+        {
+            if (index >= 0 && index <= m_Cells.Count - 1)
+            {
+                OnSetData (m_Index + index, m_Cells[index]);
+                m_Cells[index].SetView ();
+            }
+        }
+
+        public void RegisterDataSetter (ScrollViewCellDataHandler scrollViewCellDataHandler)
+        {
+            OnSetData = scrollViewCellDataHandler;
+        }
+        #endregion
+
+        #region Obstacles
+        /// <summary>
+        /// The obstacle will be placed in front of the cell with the same index. Grid layout is not currently supported.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="gameObject"></param>
+        public void RegisterObstacle (int index, GameObject gameObject)
+        {
+            ScrollViewObstacle scrollViewObstacle;
+            if (m_Obstacles.TryGetValue (index, out scrollViewObstacle))
+            {
+                scrollViewObstacle.Init (gameObject);
+                scrollViewObstacle.SetAnchorAndPivot ();
+            }
+            else
+            {
+                scrollViewObstacle = new ScrollViewObstacle ();
+                scrollViewObstacle.Init (gameObject);
+                scrollViewObstacle.SetAnchorAndPivot ();
+                m_Obstacles.Add (index, scrollViewObstacle);
+            }
+        }
+
+        public void ClearObstacles ()
+        {
+            foreach (KeyValuePair<int, ScrollViewObstacle> item in m_Obstacles)
+            {
+                item.Value.Sleep ();
+            }
+            m_Obstacles.Clear ();
+        }
+
         private void SetObstaclesAnchoredPosition ()
         {
             m_ObstacleGapMap.Clear ();
@@ -311,6 +500,137 @@ namespace ProjectNothing.Utility
             }
         }
 
+        private float GetObstacleGap (int index)
+        {
+            foreach (KeyValuePair<int, float> item in m_ObstacleGapMap)
+            {
+                if (index >= item.Key)
+                {
+                    return item.Value;
+                }
+            }
+            return 0f;
+        }
+        #endregion
+
+        #region Paginations
+        private void SetPaginations ()
+        {
+            if (m_DefaultPagination == null)
+            {
+                return;
+            }
+
+            int count = 0;
+            switch (m_LayoutType)
+            {
+                case LayoutType.Horizontal:
+                    count = m_Capacity / m_Columns;
+                    count += m_Capacity % m_Columns == 0 ? 0 : 1;
+                    break;
+                case LayoutType.Vertical:
+                    count = m_Capacity / m_Rows;
+                    count += m_Capacity % m_Rows == 0 ? 0 : 1;
+                    break;
+                case LayoutType.Grid:
+                    count = m_Capacity / (m_Columns * m_Rows);
+                    count += m_Capacity % (m_Columns * m_Rows) == 0 ? 0 : 1;
+                    break;
+                default:
+                    break;
+            }
+
+            if (count < m_Paginations.Count)
+            {
+                PushPaginationToPool (m_Paginations.Count - count);
+            }
+            else if (count > m_Paginations.Count)
+            {
+                PopPaginationFromPool (count - m_Paginations.Count);
+            }
+        }
+
+        private void PushPaginationToPool (int count)
+        {
+            if (count > m_Paginations.Count)
+            {
+                count = m_Paginations.Count;
+            }
+
+            List<ScrollViewPagination> paginations = m_Paginations.GetRange (0, count);
+            m_PaginationPool.AddRange (paginations);
+            m_Paginations.RemoveRange (0, count);
+
+            foreach (ScrollViewPagination pagination in paginations)
+            {
+                pagination.Sleep ();
+            }
+        }
+
+        private void PopPaginationFromPool (int count)
+        {
+            while (count - m_PaginationPool.Count > 0)
+            {
+                GameObject gameObject = Instantiate (m_DefaultPagination.gameObject, m_DefaultPagination.transform.position, Quaternion.identity, m_DefaultPagination.transform.parent);
+                ScrollViewPagination pagination = m_PaginationType == null ? new ScrollViewPagination () : Activator.CreateInstance (m_PaginationType) as ScrollViewPagination;
+                pagination.Init (gameObject);
+                m_PaginationPool.Add (pagination);
+            }
+
+            List<ScrollViewPagination> paginations = m_PaginationPool.GetRange (0, count);
+            m_Paginations.AddRange (paginations);
+            m_PaginationPool.RemoveRange (0, count);
+
+            foreach (ScrollViewPagination pagination in paginations)
+            {
+                pagination.Wakeup ();
+            }
+        }
+
+        private void EnablePagination ()
+        {
+            int direction = m_Index > m_PaginateIndex ? 1 : 0;
+
+            int page = 0;
+            switch (m_LayoutType)
+            {
+                case LayoutType.Horizontal:
+                    page = (m_Index + (m_Columns + direction) / 2) / m_Columns;
+                    break;
+                case LayoutType.Vertical:
+                    page = (m_Index + (m_Rows + direction) / 2) / m_Rows;
+                    break;
+                case LayoutType.Grid:
+                    page = (m_Index + (m_Columns * m_Rows + direction) / 2) / (m_Columns * m_Rows);
+                    break;
+                default:
+                    break;
+            }
+
+            if (page >= m_Paginations.Count)
+            {
+                page = m_Paginations.Count - 1;
+            }
+
+            if (page < 0)
+            {
+                page = 0;
+            }
+
+            for (int i = 0; i < m_Paginations.Count; i++)
+            {
+                if (i == page)
+                {
+                    m_Paginations[i].Enable ();
+                }
+                else
+                {
+                    m_Paginations[i].Disable ();
+                }
+            }
+        }
+        #endregion
+
         private void OnScroll (Vector2 position)
         {
             int row = 0;
@@ -318,14 +638,13 @@ namespace ProjectNothing.Utility
             switch (m_LayoutType)
             {
                 case LayoutType.Horizontal:
-                    column = Mathf.FloorToInt ((-content.anchoredPosition.x + m_Left + m_ObstacleGap) * m_DirectionX / (m_DefaultItem.rect.width + m_SpaceX));
+                    column = Mathf.Max (0, Mathf.FloorToInt (((content.anchoredPosition.x * -m_DirectionX) - m_Left - m_ObstacleGap) / (m_DefaultItem.rect.width + m_SpaceX)));
                     break;
                 case LayoutType.Vertical:
-                    row = Mathf.FloorToInt ((-content.anchoredPosition.y + m_Top + m_ObstacleGap) * m_DirectionY / (m_DefaultItem.rect.height + m_SpaceY));
+                    row = Mathf.Max (0, Mathf.FloorToInt (((content.anchoredPosition.y * -m_DirectionY) - m_Top - m_ObstacleGap) / (m_DefaultItem.rect.height + m_SpaceY)));
                     break;
                 case LayoutType.Grid:
-                    row = Mathf.FloorToInt (((-content.anchoredPosition.y + m_Top) * m_DirectionY + m_SpaceY) / (m_DefaultItem.rect.height + m_SpaceY));
-                    column = Mathf.FloorToInt (((-content.anchoredPosition.x + m_Left) * m_DirectionX + m_SpaceX) / (m_DefaultItem.rect.width + m_SpaceX));
+                    row = Mathf.Max (0, Mathf.FloorToInt (((content.anchoredPosition.y * -m_DirectionY) - m_Top + m_SpaceY) / (m_DefaultItem.rect.height + m_SpaceY)));
                     break;
                 default:
                     break;
@@ -341,7 +660,7 @@ namespace ProjectNothing.Utility
                     index = row;
                     break;
                 case LayoutType.Grid:
-                    index = row * m_Columns + column;
+                    index = row * m_Columns;
                     break;
                 default:
                     break;
@@ -354,23 +673,19 @@ namespace ProjectNothing.Utility
 
             if (m_Index != index)
             {
+                int count = index - m_Index;
+
+                m_Index = index;
+
                 if (m_Cells.Count > 0)
                 {
-                    int count = Math.Abs (m_Index - index);
-                    if (count > m_Cells.Count)
+                    if (count > 0)
                     {
-                        count = m_Cells.Count;
-                    }
-
-                    if (index > m_Index)
-                    {
-                        m_Index = index;
                         MoveCellsToBack (count);
                     }
                     else
                     {
-                        m_Index = index;
-                        MoveCellsToFront (count);
+                        MoveCellsToFront (-count);
                     }
                 }
 
@@ -378,166 +693,102 @@ namespace ProjectNothing.Utility
                 {
                     m_ObstacleGap = GetObstacleGap (index);
                 }
-            }
-        }
 
-        private float GetObstacleGap (int index)
-        {
-            foreach (KeyValuePair<int, float> item in m_ObstacleGapMap)
-            {
-                if (index >= item.Key)
+                if (m_Paginations.Count > 0)
                 {
-                    return item.Value;
+                    EnablePagination ();
                 }
             }
-            return 0f;
         }
 
-        private void MoveCellsToBack (int count)
+        public override void OnBeginDrag (PointerEventData eventData)
         {
-            for (int i = 0; i < count; i++)
-            {
-                ScrollViewCell cell = m_Cells[0];
-                m_Cells.RemoveAt (0);
-                m_Cells.Insert (m_Cells.Count, cell);
-            }
+            base.OnBeginDrag (eventData);
 
-            for (int i = 0; i < count; i++)
+            if (m_Paginate)
             {
-                SetCellAnchoredPosition (m_Cells.Count - i - 1);
-                SetData (m_Cells.Count - i - 1);
+                m_PaginateIndex = m_Index;
             }
         }
 
-        private void MoveCellsToFront (int count)
+        public override void OnEndDrag (PointerEventData eventData)
         {
-            for (int i = 0; i < count; i++)
+            base.OnEndDrag (eventData);
+
+            if (m_Paginate)
             {
-                ScrollViewCell cell = m_Cells[m_Cells.Count - 1];
-                m_Cells.RemoveAt (m_Cells.Count - 1);
-                m_Cells.Insert (0, cell);
+                int direction = m_Index > m_PaginateIndex ? 1 : 0;
+
+                int page = 0;
+                switch (m_LayoutType)
+                {
+                    case LayoutType.Horizontal:
+                        page = (m_Index + (m_Columns + direction) / 2) / m_Columns;
+                        break;
+                    case LayoutType.Vertical:
+                        page = (m_Index + (m_Rows + direction) / 2) / m_Rows;
+                        break;
+                    case LayoutType.Grid:
+                        page = (m_Index + (m_Columns * m_Rows + direction) / 2) / (m_Columns * m_Rows);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (page >= m_Paginations.Count)
+                {
+                    page = m_Paginations.Count - 1;
+                }
+
+                if (page < 0)
+                {
+                    page = 0;
+                }
+
+                int index = 0;
+                switch (m_LayoutType)
+                {
+                    case LayoutType.Horizontal:
+                        index = page * m_Columns;
+                        break;
+                    case LayoutType.Vertical:
+                        index = page * m_Rows;
+                        break;
+                    case LayoutType.Grid:
+                        index = page * (m_Columns * m_Rows);
+                        break;
+                    default:
+                        break;
+                }
+
+                ScrollToIndexAnimate (index, 0.12f);
             }
-
-            for (int i = 0; i < count; i++)
-            {
-                SetCellAnchoredPosition (i);
-                SetData (i);
-            }
-        }
-
-        private void PushCellToPool (int count)
-        {
-            if (count > m_Cells.Count)
-            {
-                count = m_Cells.Count;
-            }
-
-            List<ScrollViewCell> cells = m_Cells.GetRange (0, count);
-            m_CellPool.AddRange (cells);
-            m_Cells.RemoveRange (0, count);
-
-            foreach (ScrollViewCell cell in cells)
-            {
-                cell.Sleep ();
-            }
-        }
-
-        private void PopCellFromPool (int count)
-        {
-            while (count - m_CellPool.Count > 0)
-            {
-                GameObject gameObject = Instantiate (m_DefaultItem.gameObject, m_DefaultItem.transform.position, Quaternion.identity, m_DefaultItem.transform.parent);
-                ScrollViewCell cell = m_CellType == null ? new ScrollViewCell () : Activator.CreateInstance (m_CellType) as ScrollViewCell;
-                cell.Init (gameObject);
-                m_CellPool.Add (cell);
-            }
-
-            List<ScrollViewCell> cells = m_CellPool.GetRange (0, count);
-            m_Cells.AddRange (cells);
-            m_CellPool.RemoveRange (0, count);
-
-            foreach (ScrollViewCell cell in cells)
-            {
-                cell.Wakeup ();
-            }
-        }
-
-        public void SetData ()
-        {
-            for (int i = 0; i < m_Cells.Count; i++)
-            {
-                OnSetData (m_Index + i, m_Cells[i]);
-                m_Cells[i].SetView ();
-            }
-        }
-
-        public void SetData (int index)
-        {
-            if (index >= 0 && index <= m_Cells.Count - 1)
-            {
-                OnSetData (m_Index + index, m_Cells[index]);
-                m_Cells[index].SetView ();
-            }
-        }
-
-        public void RegisterDataSetter (ScrollViewCellDataHandler scrollViewCellDataHandler)
-        {
-            OnSetData = scrollViewCellDataHandler;
-        }
-
-        /// <summary>
-        /// The obstacle will be placed in front of the cell with the same index. Grid layout is not currently supported.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="gameObject"></param>
-        public void RegisterObstacle (int index, GameObject gameObject)
-        {
-            ScrollViewObstacle scrollViewObstacle;
-            if (m_Obstacles.TryGetValue (index, out scrollViewObstacle))
-            {
-                scrollViewObstacle.Init (gameObject);
-                scrollViewObstacle.SetAnchorAndPivot ();
-            }
-            else
-            {
-                scrollViewObstacle = new ScrollViewObstacle ();
-                scrollViewObstacle.Init (gameObject);
-                scrollViewObstacle.SetAnchorAndPivot ();
-                m_Obstacles.Add (index, scrollViewObstacle);
-            }
-        }
-
-        public void ClearObstacles ()
-        {
-            foreach (KeyValuePair<int, ScrollViewObstacle> item in m_Obstacles)
-            {
-                item.Value.Sleep ();
-            }
-            m_Obstacles.Clear ();
-        }
-
-        public void ScrollToTop ()
-        {
-            switch (m_LayoutType)
-            {
-                case LayoutType.Horizontal:
-                    content.anchoredPosition = new Vector2 (0, content.anchoredPosition.y);
-                    break;
-                case LayoutType.Vertical:
-                    content.anchoredPosition = new Vector2 (content.anchoredPosition.x, 0);
-                    break;
-                case LayoutType.Grid:
-                    content.anchoredPosition = new Vector2 (0, 0);
-                    break;
-                default:
-                    break;
-            }
-
-            OnScroll (content.anchoredPosition);
         }
 
         public void ScrollToIndex (int index, bool alignCenter = false)
         {
+            SetContentAnchoredPosition (GetContentPosition (index, alignCenter));
+
+            OnScroll (content.anchoredPosition);
+        }
+
+        public void ScrollToIndexAnimate (int index, float length, bool alignCenter = false)
+        {
+            Vector2 endPosition = GetContentPosition (index, alignCenter);
+
+            if (m_ScrollAnimateCoroutine == null)
+            {
+                m_ScrollAnimateCoroutine = StartCoroutine (ScrollAnimate (index, endPosition, length));
+            }
+        }
+
+        private Vector2 GetContentPosition (int index, bool alignCenter)
+        {
+            if (index == 0)
+            {
+                return Vector2.zero;
+            }
+
             switch (m_LayoutType)
             {
                 case LayoutType.Horizontal:
@@ -546,22 +797,20 @@ namespace ProjectNothing.Utility
                         float width = index * m_DefaultItem.rect.width;
                         float gap = index * m_SpaceX;
                         float obstacleGap = GetObstacleGap (index);
-                        float translateX = alignCenter ? (m_DefaultItem.rect.width - viewport.rect.width) * 0.5f : m_DefaultItem.rect.width * 0.5f;
+                        float translateX = alignCenter ? (m_DefaultItem.rect.width - viewport.rect.width) * 0.5f : 0f;
                         float offsetX = Mathf.Clamp (paddingLeft + width + gap + obstacleGap + translateX, 0, content.rect.width - viewport.rect.width);
-                        content.anchoredPosition = new Vector2 (offsetX * -m_DirectionX, content.anchoredPosition.y);
+                        return new Vector2 (offsetX * -m_DirectionX, content.anchoredPosition.y);
                     }
-                    break;
                 case LayoutType.Vertical:
                     {
                         float paddingTop = m_Top;
                         float height = index * m_DefaultItem.rect.height;
                         float gap = index * m_SpaceY;
                         float obstacleGap = GetObstacleGap (index);
-                        float translateY = alignCenter ? (m_DefaultItem.rect.height - viewport.rect.height) * 0.5f : m_DefaultItem.rect.height * 0.5f;
+                        float translateY = alignCenter ? (m_DefaultItem.rect.height - viewport.rect.height) * 0.5f : 0f;
                         float offsetY = Mathf.Clamp (paddingTop + height + gap + obstacleGap + translateY, 0, content.rect.height - viewport.rect.height);
-                        content.anchoredPosition = new Vector2 (content.anchoredPosition.x, offsetY * -m_DirectionY);
+                        return new Vector2 (content.anchoredPosition.x, offsetY * -m_DirectionY);
                     }
-                    break;
                 case LayoutType.Grid:
                     {
                         int row = index / m_Columns;
@@ -570,21 +819,52 @@ namespace ProjectNothing.Utility
                         float paddingLeft = m_Left;
                         float width = column * m_DefaultItem.rect.width;
                         float gapX = column * m_SpaceX;
-                        float translateX = (m_DefaultItem.rect.width - viewport.rect.width) * 0.5f;
+                        float translateX = alignCenter ? (m_DefaultItem.rect.width - viewport.rect.width) * 0.5f : 0f;
                         float paddingTop = m_Top;
                         float height = row * m_DefaultItem.rect.height;
                         float gapY = row * m_SpaceY;
-                        float translateY = (m_DefaultItem.rect.height - viewport.rect.height) * 0.5f;
+                        float translateY = alignCenter ? (m_DefaultItem.rect.height - viewport.rect.height) * 0.5f : 0f;
                         float offsetX = Mathf.Clamp (paddingLeft + width + gapX + translateX, 0, content.rect.width - viewport.rect.width);
                         float offsetY = Mathf.Clamp (paddingTop + height + gapY + translateY, 0, content.rect.height - viewport.rect.height);
-                        content.anchoredPosition = new Vector2 (offsetX * -m_DirectionX, offsetY * -m_DirectionY);
+                        return new Vector2 (offsetX * -m_DirectionX, offsetY * -m_DirectionY);
                     }
-                    break;
                 default:
-                    break;
+                    return Vector2.zero;
+            }
+        }
+
+        private IEnumerator ScrollAnimate (int index, Vector2 endPosition, float length)
+        {
+            float sensitivity = scrollSensitivity;
+
+            Vector2 startPosition = content.anchoredPosition;
+            float totalLength = (Math.Abs (m_Index - index) + 1) * length;
+
+            for (float time = 0f; time < totalLength; time += Time.deltaTime)
+            {
+                SetContentAnchoredPosition (Ease (startPosition, endPosition, time / totalLength));
+
+                yield return null;
             }
 
-            OnScroll (content.anchoredPosition);
+            scrollSensitivity = sensitivity;
+            m_ScrollAnimateCoroutine = null;
+        }
+
+        private Vector2 Ease (Vector2 startPosition, Vector2 endPosition, float normalizeTime)
+        {
+            // currently only support one method.
+            return Hermite (startPosition, endPosition, normalizeTime);
+        }
+
+        private float Hermite (float startPosition, float endPosition, float normalizeTime)
+        {
+            return Mathf.Lerp (startPosition, endPosition, normalizeTime * normalizeTime * (3.0f - 2.0f * normalizeTime));
+        }
+
+        private Vector2 Hermite (Vector2 startPosition, Vector2 endPosition, float normalizeTime)
+        {
+            return new Vector2 (Hermite (startPosition.x, endPosition.x, normalizeTime), Hermite (startPosition.y, endPosition.y, normalizeTime));
         }
 
         public T Find<T> (Predicate<T> predicate) where T : ScrollViewCell
