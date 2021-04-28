@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectNothing
 {
@@ -13,18 +12,26 @@ namespace ProjectNothing
             }
         }
 
-        public static IEnumerator Initialize (GameObject gameObject)
+        public static void Initialize (GameObject gameObject)
         {
             T instance = FindObjectOfType<T> ();
 
             if (instance == null)
             {
-                instance = gameObject.AddComponent<T> ();
+                m_Instance = gameObject.AddComponent<T> ();
             }
-
-            m_Instance = instance;
-
-            yield return null;
+            else
+            {
+                if (ReferenceEquals (instance.gameObject, gameObject))
+                {
+                    m_Instance = instance;
+                }
+                else
+                {
+                    Destroy (instance);
+                    m_Instance = gameObject.AddComponent<T> ();
+                }
+            }
         }
     }
 }

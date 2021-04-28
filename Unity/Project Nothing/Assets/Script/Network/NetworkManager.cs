@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Net.Sockets;
 using UnityEngine;
 
@@ -14,22 +15,35 @@ namespace ProjectNothing.Network
         private readonly byte[] m_SendBuffer = new byte[1024];
         private readonly byte[] m_ReceiveBuffer = new byte[1024];
 
-        public void Init (string host, int port)
+        private string m_Host = "127.0.0.1";
+        private int m_Port = 8484;
+        private bool m_IsInit = false;
+
+        public IEnumerator Init (string host, int port)
         {
-            m_TcpClient.BeginConnect (host, port, OnConnect, null);
+            m_Host = host;
+            m_Port = port;
+            m_TcpClient.BeginConnect (m_Host, m_Port, OnConnect, null);
+
+            yield return new WaitUntil (() => m_IsInit);
         }
 
         private void OnConnect (IAsyncResult asyncResult)
         {
-            m_TcpClient.EndConnect (asyncResult);
-
             if (m_TcpClient.Connected)
             {
+                m_TcpClient.EndConnect (asyncResult);
                 m_NetworkStream = m_TcpClient.GetStream ();
 
                 AsyncRead ();
 
+                m_IsInit = true;
+
                 Debug.Log ("Server connected.");
+            }
+            else
+            {
+                Debug.Log ("Server connect failed.");
             }
         }
 

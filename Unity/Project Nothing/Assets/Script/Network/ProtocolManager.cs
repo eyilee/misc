@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using ProjectNothing.Protocol;
+﻿using ProjectNothing.Protocol;
+using System.Collections.Generic;
 
 namespace ProjectNothing.Network
 {
