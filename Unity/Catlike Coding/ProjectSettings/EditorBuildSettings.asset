@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/2.4 Object Management/5 Spawn Zones/Multiple Scenes.unity
-    guid: becf96595e579614588322d577e1cd8b
+    path: Assets/2.4 Object Management/6 More Game State/Multiple Scenes.unity
+    guid: 8ce422ff6b14d944c828dd0621d85522
   - enabled: 1
-    path: Assets/2.4 Object Management/5 Spawn Zones/Level 1.unity
-    guid: 580124bd4ed604241ae6022d6fe13fcd
+    path: Assets/2.4 Object Management/6 More Game State/Level 1.unity
+    guid: 569189efab33ea9458f5725c8ffb7d52
   - enabled: 1
-    path: Assets/2.4 Object Management/5 Spawn Zones/Level 2.unity
-    guid: 237f790109d7418459c28d5bfaf260a8
+    path: Assets/2.4 Object Management/6 More Game State/Level 2.unity
+    guid: d946fcbdd09811f4a949a11c247ef388
   - enabled: 1
-    path: Assets/2.4 Object Management/5 Spawn Zones/Level 3.unity
-    guid: 8d148970d077f124c87d4bae5e836393
+    path: Assets/2.4 Object Management/6 More Game State/Level 3.unity
+    guid: 29e850557d84e8e49a2fa33900330b2a
+  - enabled: 1
+    path: Assets/2.4 Object Management/6 More Game State/Level 4.unity
+    guid: 63b14bf7eca9a2848b7a9be802bf8d9a
   m_configObjects: {}

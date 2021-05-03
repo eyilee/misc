@@ -7,7 +7,7 @@ namespace ObjectManagement
         public class CompositeSpawnZone : SpawnZone
         {
             [SerializeField]
-            SpawnZone[] spawnZones;
+            SpawnZone[] spawnZones = null;
 
             public override Vector3 SpawnPoint {
                 get {

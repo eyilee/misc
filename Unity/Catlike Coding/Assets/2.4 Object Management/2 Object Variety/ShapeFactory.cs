@@ -4,7 +4,7 @@ namespace ObjectManagement
 {
     namespace ObjectVariety
     {
-        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Object Variety/ShapeFactory")]
+        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Object Management/Object Variety/ShapeFactory")]
         public class ShapeFactory : ScriptableObject
         {
             [SerializeField]

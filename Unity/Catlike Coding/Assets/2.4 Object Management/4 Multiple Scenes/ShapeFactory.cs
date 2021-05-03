@@ -6,7 +6,7 @@ namespace ObjectManagement
 {
     namespace MultipleScenes
     {
-        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Multiple Scenes/ShapeFactory")]
+        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Object Management/Multiple Scenes/ShapeFactory")]
         public class ShapeFactory : ScriptableObject
         {
             [SerializeField]

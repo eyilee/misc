@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 
 namespace ObjectManagement
 {
-    namespace SpawnZones
+    namespace MoreGameState
     {
-        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Object Management/Spawn Zones/ShapeFactory")]
+        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Object Management/More Game State/ShapeFactory")]
         public class ShapeFactory : ScriptableObject
         {
             [SerializeField]

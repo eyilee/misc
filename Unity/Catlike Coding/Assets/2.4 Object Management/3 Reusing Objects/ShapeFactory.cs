@@ -5,7 +5,7 @@ namespace ObjectManagement
 {
     namespace ReusingObjects
     {
-        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Reusing Objects/ShapeFactory")]
+        [CreateAssetMenu (fileName = "ShapeFactory", menuName = "Object Management/Reusing Objects/ShapeFactory")]
         public class ShapeFactory : ScriptableObject
         {
             [SerializeField]
