@@ -27,22 +27,22 @@ void CConfigLoader::load ()
 	po::notify (m_kVM);
 
 	if (m_kVM.count ("server.port")) {
-		std::cout << "server.port: " << m_kVM["server.port"].as<int> () << std::endl;
+		LOG_EVENT ("server.port: %d", m_kVM["server.port"].as<int> ());
 	}
 
 	if (m_kVM.count ("db.user")) {
-		std::cout << "db.user: " << m_kVM["db.user"].as<std::string> () << std::endl;
+		LOG_EVENT ("db.user: %s", m_kVM["db.user"].as<std::string> ().c_str ());
 	}
 
 	if (m_kVM.count ("db.password")) {
-		std::cout << "db.password: " << m_kVM["db.password"].as<std::string> () << std::endl;
+		LOG_EVENT ("db.password: %s", m_kVM["db.password"].as<std::string> ().c_str ());
 	}
 
 	if (m_kVM.count ("db.dbname")) {
-		std::cout << "db.dbname: " << m_kVM["db.dbname"].as<std::string> () << std::endl;
+		LOG_EVENT ("db.dbname: %s", m_kVM["db.dbname"].as<std::string> ().c_str ());
 	}
 
 	if (m_kVM.count ("db.hostaddr")) {
-		std::cout << "db.hostaddr: " << m_kVM["db.hostaddr"].as<std::string> () << std::endl;
+		LOG_EVENT ("db.hostaddr: %s", m_kVM["db.hostaddr"].as<std::string> ().c_str ());
 	}
 }

@@ -30,6 +30,6 @@ void ServerEcho::excute ()
 	std::shared_ptr<CPlayerEntity> pEntity = std::static_pointer_cast<CPlayerEntity> (m_pNet_Bridge->get_entity ());
 
 	if (pEntity == nullptr) {
-		std::cout << "Player entity not found." << std::endl;
+		LOG_ERROR ("Player entity not found.");
 	}
 }

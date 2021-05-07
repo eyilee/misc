@@ -24,10 +24,10 @@ void CConfigLoader::load ()
 	po::notify (m_kVM);
 
 	if (m_kVM.count ("server.host")) {
-		std::cout << "server.host: " << m_kVM["server.host"].as<std::string> () << std::endl;
+		LOG_EVENT ("server.host: %s", m_kVM["server.host"].as<std::string> ().c_str ());
 	}
 
 	if (m_kVM.count ("server.port")) {
-		std::cout << "server.port: " << m_kVM["server.port"].as<std::string> () << std::endl;
+		LOG_EVENT ("server.port: %s", m_kVM["server.port"].as<std::string> ().c_str ());
 	}
 }

@@ -1,17 +1,18 @@
 #include "stdafx.h"
 
-#include "framework/manager/CBaseManager.h"
-#include "framework/manager/CLogManager.h"
+#include "logger/CLogger.h"
 
-CLogManager::CLogManager ()
+CLogger::CLogger ()
 {
 }
 
-CLogManager::~CLogManager ()
+CLogger::~CLogger ()
 {
 }
 
-void CLogManager::init ()
+std::shared_ptr<CLogger> CLogger::Instance = nullptr;
+
+void CLogger::init ()
 {
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
@@ -22,8 +23,8 @@ void CLogManager::init ()
 		SYSTEMTIME kSystem_time;
 		GetLocalTime (&kSystem_time);
 
-		char fileName[1024] {};
-		std::snprintf (&fileName[0], 1024, "%04d%02d%02d%02d%02d%02d.log",
+		char fileName[BUFSIZ] {};
+		std::snprintf (&fileName[0], BUFSIZ, "%04d%02d%02d%02d%02d%02d.log",
 			kSystem_time.wYear,
 			kSystem_time.wMonth,
 			kSystem_time.wDay,
@@ -35,7 +36,7 @@ void CLogManager::init ()
 	}
 }
 
-void CLogManager::shutdown ()
+void CLogger::shutdown ()
 {
 	if (m_kFileStream.is_open ()) {
 		m_kFileStream.close ();
@@ -44,7 +45,7 @@ void CLogManager::shutdown ()
 	Instance = nullptr;
 }
 
-void CLogManager::log (const char* _pString)
+void CLogger::write (const char* _pString)
 {
 	if (m_kFileStream.is_open ()) {
 		m_kFileStream << _pString << std::endl;

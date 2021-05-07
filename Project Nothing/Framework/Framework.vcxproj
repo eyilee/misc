@@ -19,23 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\manager\CBaseManager.cpp" />
-    <ClCompile Include="src\manager\CDBManager.cpp" />
-    <ClCompile Include="src\manager\CEntityManager.cpp" />
-    <ClCompile Include="src\manager\CLogManager.cpp" />
-    <ClCompile Include="src\manager\CProtocolManager.cpp" />
-    <ClCompile Include="src\manager\CSessionManager.cpp" />
-    <ClCompile Include="src\network\CEntity.cpp" />
-    <ClCompile Include="src\network\CInStream.cpp" />
-    <ClCompile Include="src\network\CNetBridge.cpp" />
-    <ClCompile Include="src\network\CNetProtocol.cpp" />
-    <ClCompile Include="src\network\CNetProtocolGenerator.cpp" />
-    <ClCompile Include="src\network\COutStream.cpp" />
-    <ClCompile Include="src\network\CTcpClient.cpp" />
-    <ClCompile Include="src\network\CTcpListener.cpp" />
-    <ClCompile Include="src\network\CTcpSession.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
@@ -49,7 +32,6 @@
     <ClInclude Include="include\framework\manager\CEntityManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CLogManager.h" />
     <ClInclude Include="include\framework\manager\CProtocolManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -83,7 +65,25 @@
     <ClInclude Include="include\framework\network\CTcpSession.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="include\logger\CLogger.h" />
     <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\framework\manager\CBaseManager.cpp" />
+    <ClCompile Include="src\framework\manager\CDBManager.cpp" />
+    <ClCompile Include="src\framework\manager\CEntityManager.cpp" />
+    <ClCompile Include="src\framework\manager\CProtocolManager.cpp" />
+    <ClCompile Include="src\framework\manager\CSessionManager.cpp" />
+    <ClCompile Include="src\framework\network\CEntity.cpp" />
+    <ClCompile Include="src\framework\network\CInStream.cpp" />
+    <ClCompile Include="src\framework\network\CNetBridge.cpp" />
+    <ClCompile Include="src\framework\network\CNetProtocol.cpp" />
+    <ClCompile Include="src\framework\network\CNetProtocolGenerator.cpp" />
+    <ClCompile Include="src\framework\network\COutStream.cpp" />
+    <ClCompile Include="src\framework\network\CTcpClient.cpp" />
+    <ClCompile Include="src\framework\network\CTcpListener.cpp" />
+    <ClCompile Include="src\framework\network\CTcpSession.cpp" />
+    <ClCompile Include="src\logger\CLogger.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

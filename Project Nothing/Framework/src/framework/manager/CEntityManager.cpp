@@ -22,5 +22,5 @@ void CEntityManager::init ()
 
 void CEntityManager::shutdown ()
 {
-	Instance == nullptr;
+	Instance = nullptr;
 }

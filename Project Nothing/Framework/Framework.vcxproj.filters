@@ -4,12 +4,6 @@
     <Filter Include="src">
       <UniqueIdentifier>{2a2dff26-0589-4e28-9774-21e553b495f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\manager">
-      <UniqueIdentifier>{9c09f752-66db-4be1-8d9b-817e88a1e660}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\network">
-      <UniqueIdentifier>{5284e109-da91-4f2b-9a0c-0a6be57a165f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{f38f5a74-28f0-4e96-aa32-96ec47eff6db}</UniqueIdentifier>
     </Filter>
@@ -25,53 +19,21 @@
     <Filter Include="include\framework\manager">
       <UniqueIdentifier>{286f1569-37ce-428a-99f5-2d7c612612ae}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\manager\CBaseManager.cpp">
-      <Filter>src\manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\manager\CDBManager.cpp">
-      <Filter>src\manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\manager\CEntityManager.cpp">
-      <Filter>src\manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\manager\CProtocolManager.cpp">
-      <Filter>src\manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\manager\CSessionManager.cpp">
-      <Filter>src\manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CEntity.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CInStream.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CNetBridge.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CNetProtocol.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CNetProtocolGenerator.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\COutStream.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CTcpClient.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CTcpListener.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\CTcpSession.cpp">
-      <Filter>src\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\manager\CLogManager.cpp">
-      <Filter>src\manager</Filter>
-    </ClCompile>
+    <Filter Include="src\logger">
+      <UniqueIdentifier>{2db5660b-8cd7-43d0-b422-55fa408f2c1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\logger">
+      <UniqueIdentifier>{8c971f23-3687-4c3d-ab1b-c51d0e68d761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework">
+      <UniqueIdentifier>{59fbb02d-fa7d-4f10-aad8-d2323b53fc04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\manager">
+      <UniqueIdentifier>{9c09f752-66db-4be1-8d9b-817e88a1e660}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network">
+      <UniqueIdentifier>{5284e109-da91-4f2b-9a0c-0a6be57a165f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -122,13 +84,60 @@
     <ClInclude Include="include\framework\manager\CBaseManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CLogManager.h">
-      <Filter>include\framework\manager</Filter>
+    <ClInclude Include="include\logger\CLogger.h">
+      <Filter>include\logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
       <Filter>dll</Filter>
     </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\framework\manager\CBaseManager.cpp">
+      <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\manager\CDBManager.cpp">
+      <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\manager\CEntityManager.cpp">
+      <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\manager\CProtocolManager.cpp">
+      <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\manager\CSessionManager.cpp">
+      <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CEntity.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CInStream.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CNetBridge.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CNetProtocol.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CNetProtocolGenerator.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\COutStream.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CTcpClient.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CTcpListener.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\CTcpSession.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger\CLogger.cpp">
+      <Filter>src\logger</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

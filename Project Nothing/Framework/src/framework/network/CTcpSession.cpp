@@ -28,7 +28,7 @@ void CTcpSession::shutdown ()
 	m_kSocket.async_wait (tcp::socket::wait_read, [this, self](boost::system::error_code error)
 		{
 			if (error) {
-				std::cout << error.message () << std::endl;
+				LOG_ERROR (error.message ());
 			}
 			else
 			{
@@ -45,7 +45,7 @@ void CTcpSession::async_read ()
 		[this, self](boost::system::error_code error, std::size_t length)
 		{
 			if (error) {
-				std::cout << error.message () << std::endl;
+				LOG_ERROR (error.message ());
 			}
 			else
 			{
@@ -62,7 +62,7 @@ void CTcpSession::async_write (std::size_t _nLength)
 		[this, self](boost::system::error_code error, std::size_t /*length*/)
 		{
 			if (error) {
-				std::cout << error.message () << std::endl;
+				LOG_ERROR (error.message ());
 			}
 		});
 }

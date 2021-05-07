@@ -23,7 +23,7 @@ void CTcpClient::init ()
 		[this](boost::system::error_code error, tcp::endpoint)
 		{
 			if (error) {
-				std::cout << error.message () << std::endl;
+				LOG_ERROR (error.message ());
 			}
 		});
 }
@@ -42,7 +42,7 @@ void CTcpClient::async_write (std::size_t _nLength)
 		[this, self](boost::system::error_code error, std::size_t /*length*/)
 		{
 			if (error) {
-				std::cout << error.message () << std::endl;
+				LOG_ERROR (error.message ());
 			}
 		});
 }

@@ -22,8 +22,10 @@ int main (int argc, char* argv[])
 	const HMENU hMenu = GetSystemMenu (GetConsoleWindow (), FALSE);
 	EnableMenuItem (hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED);
 
-	std::shared_ptr<CServer> pServer = std::make_shared<CServer> ();
+	std::shared_ptr<CLogger> pLogger = std::make_shared<CLogger> ();
+	pLogger->init ();
 
+	std::shared_ptr<CServer> pServer = std::make_shared<CServer> ();
 	pServer->init ();
 
 	if (SetConsoleCtrlHandler (CtrlHandler, TRUE)) {
@@ -32,6 +34,12 @@ int main (int argc, char* argv[])
 
 	if (pServer != nullptr) {
 		pServer = nullptr;
+	}
+
+	if (pLogger != nullptr)
+	{
+		pLogger->shutdown ();
+		pLogger = nullptr;
 	}
 
 	EnableMenuItem (hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);

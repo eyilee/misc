@@ -18,8 +18,8 @@ void CDBManager::init (const std::string& _kUser, const std::string& _kPassword,
 		Instance = shared_from_this ();
 	}
 
-	char kConnect_db[256];
-	std::memset (kConnect_db, 0, 256);
+	char kConnect_db[BUFSIZ];
+	ZeroMemory (kConnect_db, BUFSIZ);
 	sprintf_s (kConnect_db, "user=%s password=%s dbname=%s hostaddr=%s", _kUser.c_str (), _kPassword.c_str (), _kDBname.c_str (), _kHostaddr.c_str ());
 
 	m_pPGconn = PQconnectdb (kConnect_db);
@@ -28,10 +28,10 @@ void CDBManager::init (const std::string& _kUser, const std::string& _kPassword,
 	{
 		PQsetnonblocking (m_pPGconn, 1);
 		test ();
-		std::cout << "DB init succeeded." << std::endl;
+		LOG_EVENT ("DB init succeeded.");
 	}
 	else {
-		std::cout << "DB init failed." << std::endl;
+		LOG_ERROR ("DB init failed.");
 	}
 }
 
@@ -48,7 +48,7 @@ void CDBManager::test ()
 	PGresult* pPGresult = PQexec (m_pPGconn, kQuery);
 
 	if (pPGresult == nullptr) {
-		std::cout << PQerrorMessage (m_pPGconn) << std::endl;
+		LOG_ERROR (PQerrorMessage (m_pPGconn));
 	}
 
 	ExecStatusType nExec_status_type = PQresultStatus (pPGresult);
@@ -56,7 +56,7 @@ void CDBManager::test ()
 		|| nExec_status_type == ExecStatusType::PGRES_NONFATAL_ERROR
 		|| nExec_status_type == ExecStatusType::PGRES_FATAL_ERROR)
 	{
-		std::cout << PQresultErrorMessage (pPGresult) << std::endl;
+		LOG_ERROR (PQresultErrorMessage (pPGresult));
 	}
 
 	PQclear (pPGresult);

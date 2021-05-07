@@ -27,14 +27,14 @@ void ServerShutdown::excute ()
 	std::shared_ptr<CPlayerEntity> pPlayer_entity = std::static_pointer_cast<CPlayerEntity> (m_pNet_Bridge->get_entity ());
 
 	if (pPlayer_entity == nullptr) {
-		std::cout << "Player entity not found." << std::endl;
+		LOG_ERROR ("Player entity not found.");
 	}
 
 	if (pPlayer_entity->get_id () != 0) {
-		std::cout << "Permission denied." << std::endl;
+		LOG_ERROR ("Permission denied.");
 	}
 
-	std::cout << "Call shutdown!" << std::endl;
+	LOG_EVENT ("Call shutdown!");
 
 	CServer::Instance->shutdown ();
 }

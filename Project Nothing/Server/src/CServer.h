@@ -15,7 +15,6 @@ public:
 
 	void init_db_manager ();
 	void init_entity_manager ();
-	void init_log_manager ();
 	void init_protocol_manager ();
 	void init_session_manager ();
 
