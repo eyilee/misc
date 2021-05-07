@@ -10,7 +10,7 @@ public:
 	void shutdown ();
 
 	template<typename ... ARGS>
-	void log (const char* _pString, ARGS&& ... _kArgs);
+	static void log (const char* _pString, ARGS&& ... _kArgs);
 
 private:
 	void write (const char* _pString);
@@ -22,14 +22,17 @@ public:
 };
 
 template<typename ...ARGS>
-inline void CLogger::log (const char* _pString, ARGS && ..._kArgs)
+inline static void CLogger::log (const char* _pString, ARGS && ..._kArgs)
 {
-	char buffer[BUFSIZ] {};
-	std::snprintf (&buffer[0], BUFSIZ, _pString, std::forward<ARGS> (_kArgs) ...);
-	write (&buffer[0]);
+	if (Instance != nullptr)
+	{
+		char buffer[BUFSIZ] {};
+		std::snprintf (&buffer[0], BUFSIZ, _pString, std::forward<ARGS> (_kArgs) ...);
+		Instance->write (&buffer[0]);
+	}
 }
 
-#define LOG(content, ...) CLogger::Instance->log (("[LOG][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
-#define LOG_EVENT(content, ...) CLogger::Instance->log (("[EVENT][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
-#define LOG_ERROR(content, ...) CLogger::Instance->log (("[ERROR][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
-#define LOG_DEBUG(content, ...) CLogger::Instance->log (("[DEBUG][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
+#define LOG(content, ...) CLogger::log (("[LOG][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
+#define LOG_EVENT(content, ...) CLogger::log (("[EVENT][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
+#define LOG_ERROR(content, ...) CLogger::log (("[ERROR][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
+#define LOG_DEBUG(content, ...) CLogger::log (("[DEBUG][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
