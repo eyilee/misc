@@ -27,6 +27,7 @@ void CServer::init ()
 
 	init_db_manager ();
 	init_entity_manager ();
+	init_log_manager ();
 	init_protocol_manager ();
 	init_session_manager ();
 }
@@ -38,9 +39,15 @@ void CServer::run ()
 
 void CServer::shutdown ()
 {
-	CSessionManager::Instance->shutdown ();
+	shutdown_manager (CDBManager::Instance, &CDBManager::shutdown);
+	shutdown_manager (CEntityManager::Instance, &CEntityManager::shutdown);
+	shutdown_manager (CLogManager::Instance, &CLogManager::shutdown);
+	shutdown_manager (CProtocolManager::Instance, &CProtocolManager::shutdown);
+	shutdown_manager (CSessionManager::Instance, &CSessionManager::shutdown);
 
 	m_kIo_context.stop ();
+
+	Instance = nullptr;
 }
 
 void CServer::init_db_manager ()
@@ -49,17 +56,22 @@ void CServer::init_db_manager ()
 	std::string kPassword = m_kConfig_loader.get_config<std::string> ("db.password");
 	std::string kDBname = m_kConfig_loader.get_config<std::string> ("db.dbname");
 	std::string kHostaddr = m_kConfig_loader.get_config<std::string> ("db.hostaddr");
-	setup_manager<CDBManager> (CDBManager::Instance, &CDBManager::init, kUser, kPassword, kDBname, kHostaddr);
+	setup_manager (CDBManager::Instance, &CDBManager::init, kUser, kPassword, kDBname, kHostaddr);
 }
 
 void CServer::init_entity_manager ()
 {
-	setup_manager<CEntityManager> (CEntityManager::Instance, &CEntityManager::init);
+	setup_manager (CEntityManager::Instance, &CEntityManager::init);
+}
+
+void CServer::init_log_manager ()
+{
+	setup_manager (CLogManager::Instance, &CLogManager::init);
 }
 
 void CServer::init_protocol_manager ()
 {
-	setup_manager<CProtocolManager> (CProtocolManager::Instance, &CProtocolManager::init);
+	setup_manager (CProtocolManager::Instance, &CProtocolManager::init);
 
 	CProtocolManager::Instance->register_protocol<ServerLogin> (1);
 	CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
@@ -71,5 +83,5 @@ void CServer::init_protocol_manager ()
 void CServer::init_session_manager ()
 {
 	int nPort = m_kConfig_loader.get_config<int> ("server.port");
-	setup_manager<CSessionManager> (CSessionManager::Instance, &CSessionManager::init, m_kIo_context, nPort);
+	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kIo_context, nPort);
 }

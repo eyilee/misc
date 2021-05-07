@@ -19,3 +19,8 @@ void CEntityManager::init ()
 		Instance = shared_from_this ();
 	}
 }
+
+void CEntityManager::shutdown ()
+{
+	Instance == nullptr;
+}

@@ -7,8 +7,6 @@
 
 CTcpSession::CTcpSession (tcp::socket& _socket)
 	: m_kSocket (std::move (_socket))
-	, m_kSend_buffer ()
-	, m_kReceive_buffer ()
 	, m_pNet_bridge (nullptr)
 {
 }

@@ -21,6 +21,11 @@ void CProtocolManager::init ()
 	}
 }
 
+void CProtocolManager::shutdown ()
+{
+	Instance = nullptr;
+}
+
 std::shared_ptr<INetProtocol> CProtocolManager::generate_protocol (const unsigned short _nProtocol_id)
 {
 	return m_kProtocol_map[_nProtocol_id]->generate ();

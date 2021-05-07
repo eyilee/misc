@@ -35,13 +35,19 @@ void CDBManager::init (const std::string& _kUser, const std::string& _kPassword,
 	}
 }
 
+void CDBManager::shutdown ()
+{
+	PQfinish (m_pPGconn);
+
+	Instance = nullptr;
+}
+
 void CDBManager::test ()
 {
 	const char* kQuery = "CREATE TABLE character (id integer NOT NULL, passward text NOT NULL);";
 	PGresult* pPGresult = PQexec (m_pPGconn, kQuery);
 
-	if (pPGresult == nullptr)
-	{
+	if (pPGresult == nullptr) {
 		std::cout << PQerrorMessage (m_pPGconn) << std::endl;
 	}
 

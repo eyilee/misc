@@ -12,6 +12,7 @@ public:
 	virtual ~CProtocolManager ();
 
 	void init ();
+	void shutdown ();
 
 	template <typename T>
 	void register_protocol (const unsigned short _nProtocol_id);

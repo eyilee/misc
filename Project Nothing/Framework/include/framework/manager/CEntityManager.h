@@ -11,6 +11,7 @@ public:
 	virtual ~CEntityManager ();
 
 	void init ();
+	void shutdown ();
 
 	template <typename T>
 	std::shared_ptr<T> create_entity (int _nId);
