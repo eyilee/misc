@@ -27,6 +27,7 @@ void CServer::init ()
 
 	init_db_manager ();
 	init_entity_manager ();
+	init_event_manager ();
 	init_protocol_manager ();
 	init_session_manager ();
 }
@@ -40,6 +41,7 @@ void CServer::shutdown ()
 {
 	shutdown_manager (CDBManager::Instance, &CDBManager::shutdown);
 	shutdown_manager (CEntityManager::Instance, &CEntityManager::shutdown);
+	shutdown_manager (CEventManager::Instance, &CEventManager::shutdown);
 	shutdown_manager (CProtocolManager::Instance, &CProtocolManager::shutdown);
 	shutdown_manager (CSessionManager::Instance, &CSessionManager::shutdown);
 
@@ -60,6 +62,11 @@ void CServer::init_db_manager ()
 void CServer::init_entity_manager ()
 {
 	setup_manager (CEntityManager::Instance, &CEntityManager::init);
+}
+
+void CServer::init_event_manager ()
+{
+	setup_manager (CEventManager::Instance, &CEventManager::init, m_kIo_context);
 }
 
 void CServer::init_protocol_manager ()

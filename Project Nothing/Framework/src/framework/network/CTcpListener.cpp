@@ -34,21 +34,21 @@ void CTcpListener::shutdown ()
 
 void CTcpListener::async_accept ()
 {
-	m_kAcceptor.async_accept ([&](boost::system::error_code error, tcp::socket socket)
+	m_kAcceptor.async_accept ([&](const boost::system::error_code& _kError_code, tcp::socket _kSocket)
 		{
-			if (error) {
-				std::cerr << error.message () << std::endl;
+			if (_kError_code && _kError_code != boost::asio::error::operation_aborted) {
+				LOG_ERROR (_kError_code.message ());
 			}
 			else
 			{
-				std::shared_ptr<CTcpSession> pSession = std::make_shared<CTcpSession> (socket);
+				std::shared_ptr<CTcpSession> pSession = std::make_shared<CTcpSession> (_kSocket);
 
 				pSession->init ();
 
 				CSessionManager::Instance->add_session (pSession);
 			}
 
-			if (m_bIs_running) {
+			if (m_bIs_running && _kError_code != boost::asio::error::operation_aborted) {
 				async_accept ();
 			}
 		});

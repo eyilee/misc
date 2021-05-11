@@ -20,10 +20,10 @@ CTcpClient::~CTcpClient ()
 void CTcpClient::init ()
 {
 	boost::asio::async_connect (m_kSocket, m_kResolver.resolve (m_kHost, m_kPort),
-		[this](boost::system::error_code error, tcp::endpoint)
+		[this](const boost::system::error_code& _kError_code, tcp::endpoint)
 		{
-			if (error) {
-				LOG_ERROR (error.message ());
+			if (_kError_code) {
+				LOG_ERROR (_kError_code.message ());
 			}
 		});
 }
@@ -39,10 +39,10 @@ void CTcpClient::async_write (std::size_t _nLength)
 {
 	auto self (shared_from_this ());
 	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kSend_buffer, _nLength),
-		[this, self](boost::system::error_code error, std::size_t /*length*/)
+		[this, self](const boost::system::error_code& _kError_code, std::size_t /*length*/)
 		{
-			if (error) {
-				LOG_ERROR (error.message ());
+			if (_kError_code) {
+				LOG_ERROR (_kError_code.message ());
 			}
 		});
 }

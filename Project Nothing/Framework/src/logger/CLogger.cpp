@@ -24,7 +24,7 @@ void CLogger::init ()
 		GetLocalTime (&kSystem_time);
 
 		char fileName[BUFSIZ] {};
-		std::snprintf (&fileName[0], BUFSIZ, "%04d%02d%02d%02d%02d%02d.log",
+		std::snprintf (&fileName[0], BUFSIZ, "%04hu%02hu%02hu%02hu%02hu%02hu.log",
 			kSystem_time.wYear,
 			kSystem_time.wMonth,
 			kSystem_time.wDay,

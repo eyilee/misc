@@ -26,13 +26,16 @@ inline static void CLogger::log (const char* _pString, ARGS && ..._kArgs)
 {
 	if (Instance != nullptr)
 	{
+		SYSTEMTIME kSystem_time;
+		GetLocalTime (&kSystem_time);
+
 		char buffer[BUFSIZ] {};
-		std::snprintf (&buffer[0], BUFSIZ, _pString, std::forward<ARGS> (_kArgs) ...);
+		std::snprintf (&buffer[0], BUFSIZ, _pString, kSystem_time.wHour, kSystem_time.wMinute, kSystem_time.wSecond, std::forward<ARGS> (_kArgs) ...);
 		Instance->write (&buffer[0]);
 	}
 }
 
-#define LOG(content, ...) CLogger::log (("[LOG][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
-#define LOG_EVENT(content, ...) CLogger::log (("[EVENT][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
-#define LOG_ERROR(content, ...) CLogger::log (("[ERROR][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
-#define LOG_DEBUG(content, ...) CLogger::log (("[DEBUG][" + std::string (__TIME__) + "][" + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
+#define LOG(content, ...) CLogger::log ((std::string ("[LOG][%02hu:%02hu:%02hu] ") + content).c_str (), __VA_ARGS__);
+#define LOG_EVENT(content, ...) CLogger::log ((std::string ("[EVENT][%02hu:%02hu:%02hu][") + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
+#define LOG_ERROR(content, ...) CLogger::log ((std::string ("[ERROR][%02hu:%02hu:%02hu][") + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
+#define LOG_DEBUG(content, ...) CLogger::log ((std::string ("[DEBUG][%02hu:%02hu:%02hu][") + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);

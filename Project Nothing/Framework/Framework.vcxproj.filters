@@ -87,6 +87,9 @@
     <ClInclude Include="include\logger\CLogger.h">
       <Filter>include\logger</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\manager\CEventManager.h">
+      <Filter>include\framework\manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -138,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="src\logger\CLogger.cpp">
       <Filter>src\logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\manager\CEventManager.cpp">
+      <Filter>src\framework\manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

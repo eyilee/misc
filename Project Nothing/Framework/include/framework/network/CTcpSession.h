@@ -10,7 +10,7 @@ class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 	friend CNetBridge;
 
 public:
-	CTcpSession (tcp::socket& _socket);
+	CTcpSession (tcp::socket& _kSocket);
 	virtual ~CTcpSession ();
 
 	void init ();
