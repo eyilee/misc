@@ -22,6 +22,7 @@
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
+    <ClInclude Include="include\framework\event\CEvent.h" />
     <ClInclude Include="include\framework\framework.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -70,6 +71,7 @@
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\event\CEvent.cpp" />
     <ClCompile Include="src\framework\manager\CBaseManager.cpp" />
     <ClCompile Include="src\framework\manager\CDBManager.cpp" />
     <ClCompile Include="src\framework\manager\CEntityManager.cpp" />

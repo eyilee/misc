@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "framework/event/CEvent.h"
+
 #include "framework/manager/CBaseManager.h"
 #include "framework/manager/CEventManager.h"
 
@@ -24,17 +26,18 @@ void CEventManager::init (boost::asio::io_context& _kIo_context)
 	auto self (shared_from_this ());
 	m_fnTick = [this, self](const boost::system::error_code& _kError_code)
 	{
-		if (_kError_code && _kError_code != boost::asio::error::operation_aborted) {
+		if (_kError_code) {
 			LOG_ERROR (_kError_code.message ());
 		}
-
-		auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now ().time_since_epoch ());
-		LOG ("Tick: current time %lld.", time.count ());
-
-		if (m_pTimer != nullptr)
+		else
 		{
-			m_pTimer->expires_at (m_pTimer->expires_at () + m_kInterval);
-			m_pTimer->async_wait (m_fnTick);
+			tick ();
+
+			if (m_pTimer != nullptr)
+			{
+				m_pTimer->expires_at (m_pTimer->expires_at () + m_kInterval);
+				m_pTimer->async_wait (m_fnTick);
+			}
 		}
 	};
 
@@ -51,4 +54,45 @@ void CEventManager::shutdown ()
 	}
 
 	Instance = nullptr;
+}
+
+void CEventManager::add_event (const std::shared_ptr<CEvent>& _pEvent)
+{
+	unsigned long long time = _pEvent->get_time ();
+
+	auto pos = m_kEvent_list.cbefore_begin ();
+	for (auto it = m_kEvent_list.cbegin (); it != m_kEvent_list.cend (); it++)
+	{
+		pos = it;
+
+		if (time > (*it)->get_time ())
+		{
+			break;
+		}
+	}
+
+	m_kEvent_list.emplace_after (pos, _pEvent);
+}
+
+void CEventManager::tick ()
+{
+	auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now ().time_since_epoch ()).count ();
+	while (!m_kEvent_list.empty ())
+	{
+		auto& pEvent = m_kEvent_list.front ();
+		if (pEvent->is_valid ())
+		{
+			if (time >= pEvent->get_time ())
+			{
+				pEvent->excute ();
+				m_kEvent_list.pop_front ();
+			}
+			else {
+				break;
+			}
+		}
+		else {
+			m_kEvent_list.pop_front ();
+		}
+	}
 }

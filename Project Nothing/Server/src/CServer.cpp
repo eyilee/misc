@@ -3,6 +3,8 @@
 #include "protocol/ClientProtocols.h"
 #include "protocol/ServerProtocols.h"
 
+#include "event/EventHeartbeat.h"
+
 #include "CConfigLoader.h"
 #include "CServer.h"
 
@@ -67,6 +69,8 @@ void CServer::init_entity_manager ()
 void CServer::init_event_manager ()
 {
 	setup_manager (CEventManager::Instance, &CEventManager::init, m_kIo_context);
+
+	CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
 }
 
 void CServer::init_protocol_manager ()

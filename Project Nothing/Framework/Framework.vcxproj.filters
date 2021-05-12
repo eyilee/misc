@@ -34,6 +34,12 @@
     <Filter Include="src\framework\network">
       <UniqueIdentifier>{5284e109-da91-4f2b-9a0c-0a6be57a165f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\framework\event">
+      <UniqueIdentifier>{95521d6e-d5fb-43fd-ba40-0397c2bd2426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\framework\event">
+      <UniqueIdentifier>{097d1fa5-25f7-4b26-a7ec-96712faf2c42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -90,6 +96,9 @@
     <ClInclude Include="include\framework\manager\CEventManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\event\CEvent.h">
+      <Filter>include\framework\event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -144,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="src\framework\manager\CEventManager.cpp">
       <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\event\CEvent.cpp">
+      <Filter>src\framework\event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

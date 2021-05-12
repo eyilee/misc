@@ -22,6 +22,7 @@
     <ClCompile Include="src\CConfigLoader.cpp" />
     <ClCompile Include="src\CPlayerEntity.cpp" />
     <ClCompile Include="src\CServer.cpp" />
+    <ClCompile Include="src\event\EventHeartbeat.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\protocol\client\ClientEcho.cpp" />
     <ClCompile Include="src\protocol\server\ServerEcho.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="src\CConfigLoader.h" />
     <ClInclude Include="src\CPlayerEntity.h" />
     <ClInclude Include="src\CServer.h" />
+    <ClInclude Include="src\event\EventHeartbeat.h" />
     <ClInclude Include="src\protocol\ClientProtocols.h" />
     <ClInclude Include="src\protocol\client\ClientEcho.h" />
     <ClInclude Include="src\protocol\ServerProtocols.h" />

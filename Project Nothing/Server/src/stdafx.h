@@ -6,6 +6,7 @@
 // Containers
 #include <map>
 #include <vector>
+#include <forward_list>
 
 // Input/Output
 #include <filesystem>

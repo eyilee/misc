@@ -13,6 +13,9 @@
     <Filter Include="src\protocol\server">
       <UniqueIdentifier>{fca341d7-eada-4d50-ad75-531ddc28249f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\event">
+      <UniqueIdentifier>{0d2882ec-190d-4755-8047-605e3642b0bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="src\protocol\server\ServerShutdown.cpp">
       <Filter>src\protocol\server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\event\EventHeartbeat.cpp">
+      <Filter>src\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="src\protocol\server\ServerShutdown.h">
       <Filter>src\protocol\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\event\EventHeartbeat.h">
+      <Filter>src\event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

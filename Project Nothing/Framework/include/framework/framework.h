@@ -1,5 +1,8 @@
 #pragma once
 
+// event
+#include "event/CEvent.h"
+
 // network
 #include "network/CEntity.h"
 #include "network/CInStream.h"

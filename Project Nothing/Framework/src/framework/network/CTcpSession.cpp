@@ -61,7 +61,7 @@ void CTcpSession::async_write (std::size_t _nLength)
 {
 	auto self (shared_from_this ());
 	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kSend_buffer, _nLength),
-		[this, self](const boost::system::error_code& _kError_code, std::size_t /*_nLength*/)
+		[this, self](const boost::system::error_code& _kError_code, std::size_t)
 		{
 			if (_kError_code) {
 				LOG_ERROR (_kError_code.message ());
