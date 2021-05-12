@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "framework/event/CEvent.h"
+#include "framework/event/Event.h"
 
-#include "framework/manager/CBaseManager.h"
-#include "framework/manager/CEventManager.h"
+#include "framework/manager/BaseManager.h"
+#include "framework/manager/EventManager.h"
 
 CEventManager::CEventManager ()
 	: m_pTimer (nullptr)
@@ -58,7 +58,7 @@ void CEventManager::shutdown ()
 
 void CEventManager::add_event (const std::shared_ptr<CEvent>& _pEvent)
 {
-	unsigned long long time = _pEvent->get_time ();
+	long long time = _pEvent->get_time ();
 
 	auto pos = m_kEvent_list.cbefore_begin ();
 	for (auto it = m_kEvent_list.cbegin (); it != m_kEvent_list.cend (); it++)

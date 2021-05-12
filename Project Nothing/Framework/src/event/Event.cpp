@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "framework/event/CEvent.h"
+#include "framework/event/Event.h"
 
 IEvent::IEvent ()
 {

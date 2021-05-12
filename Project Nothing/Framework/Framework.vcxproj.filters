@@ -48,55 +48,55 @@
     <ClInclude Include="include\framework\framework.h">
       <Filter>include\framework</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CDBManager.h">
+    <ClInclude Include="include\framework\manager\DBManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CEntityManager.h">
+    <ClInclude Include="include\framework\manager\EntityManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CProtocolManager.h">
+    <ClInclude Include="include\framework\manager\ProtocolManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CSessionManager.h">
+    <ClInclude Include="include\framework\manager\SessionManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CEntity.h">
+    <ClInclude Include="include\framework\network\Entity.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CInStream.h">
+    <ClInclude Include="include\framework\network\InStream.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CNetBridge.h">
+    <ClInclude Include="include\framework\network\NetBridge.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CNetProtocol.h">
+    <ClInclude Include="include\framework\network\NetProtocol.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CNetProtocolGenerator.h">
+    <ClInclude Include="include\framework\network\NetProtocolGenerator.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\COutStream.h">
+    <ClInclude Include="include\framework\network\OutStream.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CTcpClient.h">
+    <ClInclude Include="include\framework\network\TcpClient.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CTcpListener.h">
+    <ClInclude Include="include\framework\network\TcpListener.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CTcpSession.h">
+    <ClInclude Include="include\framework\network\TcpSession.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CBaseManager.h">
+    <ClInclude Include="include\framework\manager\BaseManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\logger\CLogger.h">
+    <ClInclude Include="include\logger\Logger.h">
       <Filter>include\logger</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CEventManager.h">
+    <ClInclude Include="include\framework\manager\EventManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\event\CEvent.h">
+    <ClInclude Include="include\framework\event\Event.h">
       <Filter>include\framework\event</Filter>
     </ClInclude>
   </ItemGroup>
@@ -106,55 +106,55 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\framework\manager\CBaseManager.cpp">
+    <ClCompile Include="src\framework\manager\BaseManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\CDBManager.cpp">
+    <ClCompile Include="src\framework\manager\DBManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\CEntityManager.cpp">
+    <ClCompile Include="src\framework\manager\EntityManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\CProtocolManager.cpp">
+    <ClCompile Include="src\framework\manager\ProtocolManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\CSessionManager.cpp">
+    <ClCompile Include="src\framework\manager\SessionManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CEntity.cpp">
+    <ClCompile Include="src\framework\network\Entity.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CInStream.cpp">
+    <ClCompile Include="src\framework\network\InStream.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CNetBridge.cpp">
+    <ClCompile Include="src\framework\network\NetBridge.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CNetProtocol.cpp">
+    <ClCompile Include="src\framework\network\NetProtocol.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CNetProtocolGenerator.cpp">
+    <ClCompile Include="src\framework\network\NetProtocolGenerator.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\COutStream.cpp">
+    <ClCompile Include="src\framework\network\OutStream.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CTcpClient.cpp">
+    <ClCompile Include="src\framework\network\TcpClient.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CTcpListener.cpp">
+    <ClCompile Include="src\framework\network\TcpListener.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\CTcpSession.cpp">
+    <ClCompile Include="src\framework\network\TcpSession.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\logger\CLogger.cpp">
+    <ClCompile Include="src\logger\Logger.cpp">
       <Filter>src\logger</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\CEventManager.cpp">
+    <ClCompile Include="src\framework\manager\EventManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\event\CEvent.cpp">
+    <ClCompile Include="src\event\Event.cpp">
       <Filter>src\framework\event</Filter>
     </ClCompile>
   </ItemGroup>

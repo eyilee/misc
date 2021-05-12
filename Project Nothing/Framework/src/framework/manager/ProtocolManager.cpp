@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "framework/network/CNetProtocol.h"
-#include "framework/network/CNetProtocolGenerator.h"
+#include "framework/network/NetProtocol.h"
+#include "framework/network/NetProtocolGenerator.h"
 
-#include "framework/manager/CBaseManager.h"
-#include "framework/manager/CProtocolManager.h"
+#include "framework/manager/BaseManager.h"
+#include "framework/manager/ProtocolManager.h"
 
 CProtocolManager::CProtocolManager ()
 {

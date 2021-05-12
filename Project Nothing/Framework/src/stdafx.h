@@ -25,4 +25,4 @@
 #include "boost/program_options.hpp"
 
 // logger
-#include "logger/CLogger.h"
+#include "logger/Logger.h"

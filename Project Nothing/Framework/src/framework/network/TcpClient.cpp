@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "framework/network/CNetProtocol.h"
-#include "framework/network/COutStream.h"
-#include "framework/network/CTcpClient.h"
+#include "framework/network/NetProtocol.h"
+#include "framework/network/OutStream.h"
+#include "framework/network/TcpClient.h"
 
 CTcpClient::CTcpClient (boost::asio::io_context& _kIo_context, std::string _kHost, std::string _kPort)
 	: m_kResolver (_kIo_context)

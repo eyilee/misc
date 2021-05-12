@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "CPlayerEntity.h"
+#include "PlayerEntity.h"
 
 #include "protocol/server/ServerLogin.h"
 

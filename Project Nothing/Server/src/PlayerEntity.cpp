@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "CPlayerEntity.h"
+#include "PlayerEntity.h"
 
 CPlayerEntity::CPlayerEntity ()
 {

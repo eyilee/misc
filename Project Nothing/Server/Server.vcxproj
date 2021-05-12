@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CConfigLoader.cpp" />
-    <ClCompile Include="src\CPlayerEntity.cpp" />
-    <ClCompile Include="src\CServer.cpp" />
+    <ClCompile Include="src\ConfigLoader.cpp" />
+    <ClCompile Include="src\PlayerEntity.cpp" />
+    <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\event\EventHeartbeat.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\protocol\client\ClientEcho.cpp" />
@@ -30,9 +30,9 @@
     <ClCompile Include="src\protocol\server\ServerShutdown.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CConfigLoader.h" />
-    <ClInclude Include="src\CPlayerEntity.h" />
-    <ClInclude Include="src\CServer.h" />
+    <ClInclude Include="src\ConfigLoader.h" />
+    <ClInclude Include="src\PlayerEntity.h" />
+    <ClInclude Include="src\Server.h" />
     <ClInclude Include="src\event\EventHeartbeat.h" />
     <ClInclude Include="src\protocol\ClientProtocols.h" />
     <ClInclude Include="src\protocol\client\ClientEcho.h" />

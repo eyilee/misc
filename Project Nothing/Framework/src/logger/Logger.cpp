@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "logger/CLogger.h"
+#include "logger/Logger.h"
 
 CLogger::CLogger ()
 {

@@ -15,7 +15,7 @@ CEventHeartbeat::~CEventHeartbeat ()
 
 void CEventHeartbeat::excute ()
 {
-	LOG ("Heartbeat");
+	LOG_INFO ("heart beat.");
 
 	CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
 

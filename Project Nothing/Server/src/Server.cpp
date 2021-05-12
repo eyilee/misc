@@ -5,8 +5,8 @@
 
 #include "event/EventHeartbeat.h"
 
-#include "CConfigLoader.h"
-#include "CServer.h"
+#include "ConfigLoader.h"
+#include "Server.h"
 
 std::shared_ptr<CServer> CServer::Instance = nullptr;
 

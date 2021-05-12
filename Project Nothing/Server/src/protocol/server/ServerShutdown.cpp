@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "CPlayerEntity.h"
-#include "CConfigLoader.h"
-#include "CServer.h"
+#include "PlayerEntity.h"
+#include "ConfigLoader.h"
+#include "Server.h"
 
 #include "protocol/server/ServerShutdown.h"
 
@@ -34,7 +34,7 @@ void ServerShutdown::excute ()
 		LOG_ERROR ("Permission denied.");
 	}
 
-	LOG_EVENT ("Call shutdown!");
+	LOG_INFO ("Call shutdown!");
 
 	CServer::Instance->shutdown ();
 }

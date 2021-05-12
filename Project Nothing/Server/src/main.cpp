@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "CConfigLoader.h"
-#include "CServer.h"
+#include "ConfigLoader.h"
+#include "Server.h"
 
 BOOL WINAPI CtrlHandler (DWORD fdwCtrlType)
 {

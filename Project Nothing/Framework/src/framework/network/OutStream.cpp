@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "framework/network/COutStream.h"
+#include "framework/network/OutStream.h"
 
 COutStream::COutStream ()
 {

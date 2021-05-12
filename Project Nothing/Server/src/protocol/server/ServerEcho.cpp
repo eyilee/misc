@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "CPlayerEntity.h"
+#include "PlayerEntity.h"
 
 #include "protocol/client/ClientEcho.h"
 #include "protocol/server/ServerEcho.h"

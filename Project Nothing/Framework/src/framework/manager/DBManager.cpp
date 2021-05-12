@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "framework/manager/CBaseManager.h"
-#include "framework/manager/CDBManager.h"
+#include "framework/manager/BaseManager.h"
+#include "framework/manager/DBManager.h"
 
 CDBManager::CDBManager ()
 	: m_pPGconn (nullptr)
@@ -28,7 +28,7 @@ void CDBManager::init (const std::string& _kUser, const std::string& _kPassword,
 	{
 		PQsetnonblocking (m_pPGconn, 1);
 		test ();
-		LOG_EVENT ("DB init succeeded.");
+		LOG_INFO ("DB init succeeded.");
 	}
 	else {
 		LOG_ERROR ("DB init failed.");

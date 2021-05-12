@@ -1,26 +1,26 @@
 #pragma once
 
 // event
-#include "event/CEvent.h"
+#include "event/Event.h"
 
 // network
-#include "network/CEntity.h"
-#include "network/CInStream.h"
-#include "network/CNetBridge.h"
-#include "network/CNetProtocol.h"
-#include "network/CNetProtocolGenerator.h"
-#include "network/COutStream.h"
-#include "network/CTcpClient.h"
-#include "network/CTcpListener.h"
-#include "network/CTcpSession.h"
+#include "network/Entity.h"
+#include "network/InStream.h"
+#include "network/NetBridge.h"
+#include "network/NetProtocol.h"
+#include "network/NetProtocolGenerator.h"
+#include "network/OutStream.h"
+#include "network/TcpClient.h"
+#include "network/TcpListener.h"
+#include "network/TcpSession.h"
 
 // manager
-#include "manager/CBaseManager.h"
-#include "manager/CDBManager.h"
-#include "manager/CEntityManager.h"
-#include "manager/CEventManager.h"
-#include "manager/CProtocolManager.h"
-#include "manager/CSessionManager.h"
+#include "manager/BaseManager.h"
+#include "manager/DBManager.h"
+#include "manager/EntityManager.h"
+#include "manager/EventManager.h"
+#include "manager/ProtocolManager.h"
+#include "manager/SessionManager.h"
 
 // logger
-#include "logger/CLogger.h"
+#include "logger/Logger.h"

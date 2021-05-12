@@ -21,10 +21,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CServer.cpp">
+    <ClCompile Include="src\Server.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CConfigLoader.cpp">
+    <ClCompile Include="src\ConfigLoader.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\protocol\client\ClientEcho.cpp">
@@ -36,7 +36,7 @@
     <ClCompile Include="src\protocol\server\ServerLogin.cpp">
       <Filter>src\protocol\server</Filter>
     </ClCompile>
-    <ClCompile Include="src\CPlayerEntity.cpp">
+    <ClCompile Include="src\PlayerEntity.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\protocol\server\ServerShutdown.cpp">
@@ -50,10 +50,10 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CServer.h">
+    <ClInclude Include="src\Server.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CConfigLoader.h">
+    <ClInclude Include="src\ConfigLoader.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\ClientProtocols.h">
@@ -71,7 +71,7 @@
     <ClInclude Include="src\protocol\server\ServerLogin.h">
       <Filter>src\protocol\server</Filter>
     </ClInclude>
-    <ClInclude Include="src\CPlayerEntity.h">
+    <ClInclude Include="src\PlayerEntity.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\server\ServerShutdown.h">

@@ -22,72 +22,72 @@
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <ClInclude Include="include\framework\event\CEvent.h" />
+    <ClInclude Include="include\framework\event\Event.h" />
     <ClInclude Include="include\framework\framework.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CBaseManager.h" />
-    <ClInclude Include="include\framework\manager\CDBManager.h">
+    <ClInclude Include="include\framework\manager\BaseManager.h" />
+    <ClInclude Include="include\framework\manager\DBManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CEntityManager.h">
+    <ClInclude Include="include\framework\manager\EntityManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CEventManager.h" />
-    <ClInclude Include="include\framework\manager\CProtocolManager.h">
+    <ClInclude Include="include\framework\manager\EventManager.h" />
+    <ClInclude Include="include\framework\manager\ProtocolManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\CSessionManager.h">
+    <ClInclude Include="include\framework\manager\SessionManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CEntity.h">
+    <ClInclude Include="include\framework\network\Entity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CInStream.h">
+    <ClInclude Include="include\framework\network\InStream.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CNetBridge.h">
+    <ClInclude Include="include\framework\network\NetBridge.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CNetProtocol.h">
+    <ClInclude Include="include\framework\network\NetProtocol.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CNetProtocolGenerator.h">
+    <ClInclude Include="include\framework\network\NetProtocolGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\COutStream.h">
+    <ClInclude Include="include\framework\network\OutStream.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CTcpClient.h">
+    <ClInclude Include="include\framework\network\TcpClient.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CTcpListener.h">
+    <ClInclude Include="include\framework\network\TcpListener.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\CTcpSession.h">
+    <ClInclude Include="include\framework\network\TcpSession.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\logger\CLogger.h" />
+    <ClInclude Include="include\logger\Logger.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\event\CEvent.cpp" />
-    <ClCompile Include="src\framework\manager\CBaseManager.cpp" />
-    <ClCompile Include="src\framework\manager\CDBManager.cpp" />
-    <ClCompile Include="src\framework\manager\CEntityManager.cpp" />
-    <ClCompile Include="src\framework\manager\CEventManager.cpp" />
-    <ClCompile Include="src\framework\manager\CProtocolManager.cpp" />
-    <ClCompile Include="src\framework\manager\CSessionManager.cpp" />
-    <ClCompile Include="src\framework\network\CEntity.cpp" />
-    <ClCompile Include="src\framework\network\CInStream.cpp" />
-    <ClCompile Include="src\framework\network\CNetBridge.cpp" />
-    <ClCompile Include="src\framework\network\CNetProtocol.cpp" />
-    <ClCompile Include="src\framework\network\CNetProtocolGenerator.cpp" />
-    <ClCompile Include="src\framework\network\COutStream.cpp" />
-    <ClCompile Include="src\framework\network\CTcpClient.cpp" />
-    <ClCompile Include="src\framework\network\CTcpListener.cpp" />
-    <ClCompile Include="src\framework\network\CTcpSession.cpp" />
-    <ClCompile Include="src\logger\CLogger.cpp" />
+    <ClCompile Include="src\event\Event.cpp" />
+    <ClCompile Include="src\framework\manager\BaseManager.cpp" />
+    <ClCompile Include="src\framework\manager\DBManager.cpp" />
+    <ClCompile Include="src\framework\manager\EntityManager.cpp" />
+    <ClCompile Include="src\framework\manager\EventManager.cpp" />
+    <ClCompile Include="src\framework\manager\ProtocolManager.cpp" />
+    <ClCompile Include="src\framework\manager\SessionManager.cpp" />
+    <ClCompile Include="src\framework\network\Entity.cpp" />
+    <ClCompile Include="src\framework\network\InStream.cpp" />
+    <ClCompile Include="src\framework\network\NetBridge.cpp" />
+    <ClCompile Include="src\framework\network\NetProtocol.cpp" />
+    <ClCompile Include="src\framework\network\NetProtocolGenerator.cpp" />
+    <ClCompile Include="src\framework\network\OutStream.cpp" />
+    <ClCompile Include="src\framework\network\TcpClient.cpp" />
+    <ClCompile Include="src\framework\network\TcpListener.cpp" />
+    <ClCompile Include="src\framework\network\TcpSession.cpp" />
+    <ClCompile Include="src\logger\Logger.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

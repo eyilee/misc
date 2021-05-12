@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "framework/network/CTcpSession.h"
+#include "framework/network/TcpSession.h"
 
-#include "framework/manager/CBaseManager.h"
-#include "framework/manager/CSessionManager.h"
+#include "framework/manager/BaseManager.h"
+#include "framework/manager/SessionManager.h"
 
-#include "framework/network/CTcpListener.h"
+#include "framework/network/TcpListener.h"
 
 CTcpListener::CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort)
 	: m_kAcceptor (_kIo_context, tcp::endpoint (tcp::v4 (), _nPort))

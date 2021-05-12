@@ -15,13 +15,13 @@ public:
 
 	virtual void excute () {};
 
-	unsigned long long get_time () const { return m_nTime; }
-	void set_time (const unsigned long long& _nTime) { m_nTime = _nTime; }
+	long long get_time () const { return m_nTime; }
+	void set_time (long long& _nTime) { m_nTime = _nTime; }
 
 	void cancel () { m_bIs_valid = false; }
 	bool is_valid () { return m_bIs_valid; }
 
 protected:
-	unsigned long long m_nTime;
+	long long m_nTime;
 	bool m_bIs_valid;
 };

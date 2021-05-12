@@ -35,7 +35,6 @@ inline static void CLogger::log (const char* _pString, ARGS && ..._kArgs)
 	}
 }
 
-#define LOG(content, ...) CLogger::log ((std::string ("[LOG][%02hu:%02hu:%02hu] ") + content).c_str (), __VA_ARGS__);
-#define LOG_EVENT(content, ...) CLogger::log ((std::string ("[EVENT][%02hu:%02hu:%02hu][") + std::string (__FUNCTION__) + "] " + content).c_str (), __VA_ARGS__);
-#define LOG_ERROR(content, ...) CLogger::log ((std::string ("[ERROR][%02hu:%02hu:%02hu][") + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
-#define LOG_DEBUG(content, ...) CLogger::log ((std::string ("[DEBUG][%02hu:%02hu:%02hu][") + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
+#define LOG_INFO(content, ...) CLogger::log ((std::string ("%02hu:%02hu:%02hu [INFO] ") + content).c_str (), __VA_ARGS__);
+#define LOG_ERROR(content, ...) CLogger::log ((std::string ("%02hu:%02hu:%02hu [ERROR][") + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
+#define LOG_DEBUG(content, ...) CLogger::log ((std::string ("%02hu:%02hu:%02hu [DEBUG][") + std::string (__FUNCTION__) + ":%d] " + content).c_str (), __LINE__, __VA_ARGS__);
