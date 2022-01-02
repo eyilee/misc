@@ -149,7 +149,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)packages\boost.1.71.0.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)packages\boost.1.78.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdparty\postgresql-10.11\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\lib\</OutDir>
   </PropertyGroup>
