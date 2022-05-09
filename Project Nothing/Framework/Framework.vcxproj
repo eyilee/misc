@@ -23,9 +23,6 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
     <ClInclude Include="include\framework\event\Event.h" />
-    <ClInclude Include="include\framework\framework.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="include\framework\manager\BaseManager.h" />
     <ClInclude Include="include\framework\manager\DBManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

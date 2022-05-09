@@ -45,9 +45,6 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\framework.h">
-      <Filter>include\framework</Filter>
-    </ClInclude>
     <ClInclude Include="include\framework\manager\DBManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>

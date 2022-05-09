@@ -25,4 +25,22 @@
 #include "boost/program_options.hpp"
 
 // framework
-#include "framework/framework.h"
+#include "framework/event/Event.h"
+#include "framework/network/Entity.h"
+#include "framework/network/InStream.h"
+#include "framework/network/NetBridge.h"
+#include "framework/network/NetProtocol.h"
+#include "framework/network/NetProtocolGenerator.h"
+#include "framework/network/OutStream.h"
+#include "framework/network/TcpClient.h"
+#include "framework/network/TcpListener.h"
+#include "framework/network/TcpSession.h"
+#include "framework/manager/BaseManager.h"
+#include "framework/manager/DBManager.h"
+#include "framework/manager/EntityManager.h"
+#include "framework/manager/EventManager.h"
+#include "framework/manager/ProtocolManager.h"
+#include "framework/manager/SessionManager.h"
+
+// logger
+#include "logger/Logger.h"
