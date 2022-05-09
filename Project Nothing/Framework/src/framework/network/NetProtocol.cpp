@@ -6,7 +6,7 @@
 #include "framework/network/NetProtocol.h"
 
 INetProtocol::INetProtocol ()
-	: m_pNet_Bridge (nullptr)
+	: m_pNet_bridge (nullptr)
 {
 }
 

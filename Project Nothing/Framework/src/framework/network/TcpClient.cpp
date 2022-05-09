@@ -31,9 +31,9 @@ void CTcpClient::init ()
 
 void CTcpClient::compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol)
 {
-	COutStream kOut_Stream;
-	_pNet_protocol->on_serialize (kOut_Stream);
-	on_write (kOut_Stream);
+	COutStream kOut_stream;
+	_pNet_protocol->on_serialize (kOut_stream);
+	on_write (kOut_stream);
 }
 
 void CTcpClient::async_write (std::size_t _nLength)

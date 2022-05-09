@@ -44,7 +44,7 @@ void CNetBridge::resolve_input (CInStream& _kIn_Stream)
 
 void CNetBridge::compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol)
 {
-	COutStream kOut_Stream;
-	_pNet_protocol->on_serialize (kOut_Stream);
-	m_pSession->on_write (kOut_Stream);
+	COutStream kOut_stream;
+	_pNet_protocol->on_serialize (kOut_stream);
+	m_pSession->on_write (kOut_stream);
 }

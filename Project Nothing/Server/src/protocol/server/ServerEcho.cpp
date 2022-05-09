@@ -13,21 +13,21 @@ ServerEcho::~ServerEcho ()
 {
 }
 
-void ServerEcho::serialize (COutStream& _kOut_Stream)
+void ServerEcho::serialize (COutStream& _kOut_stream)
 {
 }
 
-void ServerEcho::deserialize (CInStream& _kIn_Stream)
+void ServerEcho::deserialize (CInStream& _kIn_stream)
 {
-	_kIn_Stream >> m_kString;
+	_kIn_stream >> m_kString;
 }
 
 void ServerEcho::excute ()
 {
 	std::shared_ptr<INetProtocol> pProtocol = std::make_shared<ClientEcho> (m_kString);
-	m_pNet_Bridge->compose_output (pProtocol);
+	m_pNet_bridge->compose_output (pProtocol);
 
-	std::shared_ptr<CPlayerEntity> pEntity = std::static_pointer_cast<CPlayerEntity> (m_pNet_Bridge->get_entity ());
+	std::shared_ptr<CPlayerEntity> pEntity = std::static_pointer_cast<CPlayerEntity> (m_pNet_bridge->get_entity ());
 
 	if (pEntity == nullptr) {
 		LOG_ERROR ("Player entity not found.");

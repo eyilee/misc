@@ -13,13 +13,13 @@ ServerLogin::~ServerLogin ()
 {
 }
 
-void ServerLogin::serialize (COutStream& _kOut_Stream)
+void ServerLogin::serialize (COutStream& _kOut_stream)
 {
 }
 
-void ServerLogin::deserialize (CInStream& _kIn_Stream)
+void ServerLogin::deserialize (CInStream& _kIn_stream)
 {
-	_kIn_Stream >> m_nId;
+	_kIn_stream >> m_nId;
 }
 
 void ServerLogin::excute ()
@@ -28,7 +28,7 @@ void ServerLogin::excute ()
 
 	pPlayer_entity->set_id (m_nId);
 
-	if (m_pNet_Bridge->get_entity () == nullptr) {
-		m_pNet_Bridge->set_entity (pPlayer_entity);
+	if (m_pNet_bridge->get_entity () == nullptr) {
+		m_pNet_bridge->set_entity (pPlayer_entity);
 	}
 }

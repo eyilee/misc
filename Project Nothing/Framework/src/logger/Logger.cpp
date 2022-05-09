@@ -18,7 +18,7 @@ void CLogger::init ()
 		Instance = shared_from_this ();
 	}
 
-	if (!m_kFileStream.is_open ())
+	if (!m_kFile_stream.is_open ())
 	{
 		SYSTEMTIME kSystem_time;
 		GetLocalTime (&kSystem_time);
@@ -32,14 +32,14 @@ void CLogger::init ()
 			kSystem_time.wMinute,
 			kSystem_time.wSecond);
 
-		m_kFileStream.open (fileName, std::ofstream::out | std::ofstream::app);
+		m_kFile_stream.open (fileName, std::ofstream::out | std::ofstream::app);
 	}
 }
 
 void CLogger::shutdown ()
 {
-	if (m_kFileStream.is_open ()) {
-		m_kFileStream.close ();
+	if (m_kFile_stream.is_open ()) {
+		m_kFile_stream.close ();
 	}
 
 	Instance = nullptr;
@@ -47,7 +47,7 @@ void CLogger::shutdown ()
 
 void CLogger::write (const char* _pString)
 {
-	if (m_kFileStream.is_open ()) {
-		m_kFileStream << _pString << std::endl;
+	if (m_kFile_stream.is_open ()) {
+		m_kFile_stream << _pString << std::endl;
 	}
 }

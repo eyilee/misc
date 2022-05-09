@@ -108,7 +108,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)packages\boost.1.71.0.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;$(SolutionDir)Framework\include;src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)packages\boost.1.79.0.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;$(SolutionDir)Framework\include;src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)x64\Debug\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Server\</OutDir>
   </PropertyGroup>
@@ -197,18 +197,18 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\boost.1.78.0\build\boost.targets" Condition="Exists('..\packages\boost.1.78.0\build\boost.targets')" />
-    <Import Project="..\packages\boost_date_time-vc142.1.78.0\build\boost_date_time-vc142.targets" Condition="Exists('..\packages\boost_date_time-vc142.1.78.0\build\boost_date_time-vc142.targets')" />
-    <Import Project="..\packages\boost_program_options-vc142.1.78.0\build\boost_program_options-vc142.targets" Condition="Exists('..\packages\boost_program_options-vc142.1.78.0\build\boost_program_options-vc142.targets')" />
-    <Import Project="..\packages\boost_regex-vc142.1.78.0\build\boost_regex-vc142.targets" Condition="Exists('..\packages\boost_regex-vc142.1.78.0\build\boost_regex-vc142.targets')" />
+    <Import Project="..\packages\boost.1.79.0\build\boost.targets" Condition="Exists('..\packages\boost.1.79.0\build\boost.targets')" />
+    <Import Project="..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets" Condition="Exists('..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets')" />
+    <Import Project="..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets" Condition="Exists('..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets')" />
+    <Import Project="..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets" Condition="Exists('..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\boost.1.78.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.78.0\build\boost.targets'))" />
-    <Error Condition="!Exists('..\packages\boost_date_time-vc142.1.78.0\build\boost_date_time-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_date_time-vc142.1.78.0\build\boost_date_time-vc142.targets'))" />
-    <Error Condition="!Exists('..\packages\boost_program_options-vc142.1.78.0\build\boost_program_options-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_program_options-vc142.1.78.0\build\boost_program_options-vc142.targets'))" />
-    <Error Condition="!Exists('..\packages\boost_regex-vc142.1.78.0\build\boost_regex-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_regex-vc142.1.78.0\build\boost_regex-vc142.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.79.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.79.0\build\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets'))" />
   </Target>
 </Project>

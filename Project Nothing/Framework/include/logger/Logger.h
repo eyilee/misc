@@ -16,7 +16,7 @@ private:
 	void write (const char* _pString);
 
 private:
-	std::ofstream m_kFileStream;
+	std::ofstream m_kFile_stream;
 public:
 	static std::shared_ptr<CLogger> Instance;
 };

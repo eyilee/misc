@@ -14,7 +14,7 @@ public:
 	void set_entity (std::shared_ptr<IEntity>&& _pEntity);
 	std::shared_ptr<IEntity> get_entity ();
 
-	void resolve_input (CInStream& _kIn_Stream);
+	void resolve_input (CInStream& _kIn_stream);
 	void compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol);
 
 private:

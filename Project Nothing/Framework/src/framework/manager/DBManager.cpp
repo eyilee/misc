@@ -24,7 +24,7 @@ void CDBManager::init (const std::string& _kUser, const std::string& _kPassword,
 
 	m_pPGconn = PQconnectdb (kConnect_db);
 
-	if (PQstatus (m_pPGconn) == CONNECTION_OK)
+	if (PQstatus (m_pPGconn) == ConnStatusType::CONNECTION_OK)
 	{
 		PQsetnonblocking (m_pPGconn, 1);
 		test ();

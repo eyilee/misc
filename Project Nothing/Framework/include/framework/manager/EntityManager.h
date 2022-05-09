@@ -25,8 +25,8 @@ private:
 template <typename T>
 std::shared_ptr<T> CEntityManager::create_entity (int _nId)
 {
-	auto itEntity = m_kEntity_map.find (_nId);
-	if (itEntity == m_kEntity_map.end ())
+	auto it = m_kEntity_map.find (_nId);
+	if (it == m_kEntity_map.end ())
 	{
 		std::shared_ptr<T> pEntity = std::make_shared<T> ();
 		m_kEntity_map.emplace (_nId, pEntity);
@@ -38,10 +38,10 @@ std::shared_ptr<T> CEntityManager::create_entity (int _nId)
 template <typename T>
 std::shared_ptr<T> CEntityManager::get_entity (int _nId)
 {
-	auto itEntity = m_kEntity_map.find (_nId);
-	if (itEntity == m_kEntity_map.end ()) {
+	auto it = m_kEntity_map.find (_nId);
+	if (it == m_kEntity_map.end ()) {
 		return nullptr;
 	}
 
-	return std::static_pointer_cast<T> (*itEntity);
+	return std::static_pointer_cast<T> (*it);
 }

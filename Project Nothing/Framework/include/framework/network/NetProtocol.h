@@ -10,15 +10,15 @@ public:
 	INetProtocol ();
 	virtual ~INetProtocol ();
 
-	void set_net_bridge (std::shared_ptr<CNetBridge>&& _pNet_Bridge) { m_pNet_Bridge = _pNet_Bridge; };
+	void set_net_bridge (std::shared_ptr<CNetBridge>&& _pNet_bridge) { m_pNet_bridge = _pNet_bridge; };
 
-	virtual void on_serialize (COutStream& _kOut_Stream) = 0;
-	virtual void serialize (COutStream& _kOut_Stream) = 0;
-	virtual void deserialize (CInStream& _kIn_Stream) = 0;
+	virtual void on_serialize (COutStream& _kOut_stream) = 0;
+	virtual void serialize (COutStream& _kOut_stream) = 0;
+	virtual void deserialize (CInStream& _kIn_stream) = 0;
 	virtual void excute () = 0;
 
 protected:
-	std::shared_ptr<CNetBridge> m_pNet_Bridge;
+	std::shared_ptr<CNetBridge> m_pNet_bridge;
 };
 
 template <typename T>
@@ -31,9 +31,9 @@ public:
 	static const unsigned short get_protocol_id () { return m_nProtocol_id; };
 	static void set_protocol_id (const unsigned short _nProtocol_id) { m_nProtocol_id = _nProtocol_id; }
 
-	virtual void on_serialize (COutStream& _kOut_Stream);
-	virtual void serialize (COutStream& _kOut_Stream) = 0;
-	virtual void deserialize (CInStream& _kIn_Stream) = 0;
+	virtual void on_serialize (COutStream& _kOut_stream);
+	virtual void serialize (COutStream& _kOut_stream) = 0;
+	virtual void deserialize (CInStream& _kIn_stream) = 0;
 	virtual void excute () = 0;
 
 private:
@@ -51,10 +51,10 @@ inline CNetProtocol<T>::~CNetProtocol ()
 }
 
 template <typename T>
-inline void CNetProtocol<T>::on_serialize (COutStream& _kOut_Stream)
+inline void CNetProtocol<T>::on_serialize (COutStream& _kOut_stream)
 {
-	_kOut_Stream << m_nProtocol_id;
-	serialize (_kOut_Stream);
+	_kOut_stream << m_nProtocol_id;
+	serialize (_kOut_stream);
 }
 
 template <typename T>

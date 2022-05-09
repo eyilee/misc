@@ -14,17 +14,17 @@ ServerShutdown::~ServerShutdown ()
 {
 }
 
-void ServerShutdown::serialize (COutStream& _kOut_Stream)
+void ServerShutdown::serialize (COutStream& _kOut_stream)
 {
 }
 
-void ServerShutdown::deserialize (CInStream& _kIn_Stream)
+void ServerShutdown::deserialize (CInStream& _kIn_stream)
 {
 }
 
 void ServerShutdown::excute ()
 {
-	std::shared_ptr<CPlayerEntity> pPlayer_entity = std::static_pointer_cast<CPlayerEntity> (m_pNet_Bridge->get_entity ());
+	std::shared_ptr<CPlayerEntity> pPlayer_entity = std::static_pointer_cast<CPlayerEntity> (m_pNet_bridge->get_entity ());
 
 	if (pPlayer_entity == nullptr) {
 		LOG_ERROR ("Player entity not found.");

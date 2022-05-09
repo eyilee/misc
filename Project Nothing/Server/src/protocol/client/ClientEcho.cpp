@@ -15,12 +15,12 @@ ClientEcho::~ClientEcho ()
 {
 }
 
-void ClientEcho::serialize (COutStream& _kOut_Stream)
+void ClientEcho::serialize (COutStream& _kOut_stream)
 {
-	_kOut_Stream << m_kString;
+	_kOut_stream << m_kString;
 }
 
-void ClientEcho::deserialize (CInStream& _kIn_Stream)
+void ClientEcho::deserialize (CInStream& _kIn_stream)
 {
 }
 

@@ -6,8 +6,8 @@ public:
 	ServerLogin ();
 	virtual ~ServerLogin ();
 
-	virtual void serialize (COutStream& _kOut_Stream) override;
-	virtual void deserialize (CInStream& _kIn_Stream) override;
+	virtual void serialize (COutStream& _kOut_stream) override;
+	virtual void deserialize (CInStream& _kIn_stream) override;
 	virtual void excute () override;
 
 private:
