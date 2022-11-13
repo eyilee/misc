@@ -149,12 +149,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)packages\boost.1.79.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)packages\boost.1.80.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdparty\postgresql-10.11\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\lib\</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)packages\boost.1.80.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)3rdparty\postgresql-10.11\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -199,6 +202,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -215,10 +219,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -230,18 +236,18 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\boost.1.79.0\build\boost.targets" Condition="Exists('..\packages\boost.1.79.0\build\boost.targets')" />
-    <Import Project="..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets" Condition="Exists('..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets')" />
-    <Import Project="..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets" Condition="Exists('..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets')" />
-    <Import Project="..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets" Condition="Exists('..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets')" />
+    <Import Project="..\packages\boost.1.80.0\build\boost.targets" Condition="Exists('..\packages\boost.1.80.0\build\boost.targets')" />
+    <Import Project="..\packages\boost_date_time-vc142.1.80.0\build\boost_date_time-vc142.targets" Condition="Exists('..\packages\boost_date_time-vc142.1.80.0\build\boost_date_time-vc142.targets')" />
+    <Import Project="..\packages\boost_program_options-vc142.1.80.0\build\boost_program_options-vc142.targets" Condition="Exists('..\packages\boost_program_options-vc142.1.80.0\build\boost_program_options-vc142.targets')" />
+    <Import Project="..\packages\boost_regex-vc142.1.80.0\build\boost_regex-vc142.targets" Condition="Exists('..\packages\boost_regex-vc142.1.80.0\build\boost_regex-vc142.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\boost.1.79.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.79.0\build\boost.targets'))" />
-    <Error Condition="!Exists('..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_date_time-vc142.1.79.0\build\boost_date_time-vc142.targets'))" />
-    <Error Condition="!Exists('..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_program_options-vc142.1.79.0\build\boost_program_options-vc142.targets'))" />
-    <Error Condition="!Exists('..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_regex-vc142.1.79.0\build\boost_regex-vc142.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.80.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.80.0\build\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_date_time-vc142.1.80.0\build\boost_date_time-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_date_time-vc142.1.80.0\build\boost_date_time-vc142.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_program_options-vc142.1.80.0\build\boost_program_options-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_program_options-vc142.1.80.0\build\boost_program_options-vc142.targets'))" />
+    <Error Condition="!Exists('..\packages\boost_regex-vc142.1.80.0\build\boost_regex-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_regex-vc142.1.80.0\build\boost_regex-vc142.targets'))" />
   </Target>
 </Project>
