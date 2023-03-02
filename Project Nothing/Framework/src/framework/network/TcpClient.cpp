@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include "logger/Logger.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/OutStream.h"
 #include "framework/network/TcpClient.h"

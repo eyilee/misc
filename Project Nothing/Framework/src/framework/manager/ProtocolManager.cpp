@@ -1,8 +1,6 @@
 #include "stdafx.h"
-
 #include "framework/network/NetProtocol.h"
 #include "framework/network/NetProtocolGenerator.h"
-
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/ProtocolManager.h"
 

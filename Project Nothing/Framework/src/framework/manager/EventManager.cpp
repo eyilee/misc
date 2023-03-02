@@ -1,7 +1,6 @@
 #include "stdafx.h"
-
+#include "logger/Logger.h"
 #include "framework/event/Event.h"
-
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/EventManager.h"
 

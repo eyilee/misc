@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "framework/network/OutStream.h"
 
 COutStream::COutStream ()

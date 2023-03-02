@@ -1,7 +1,5 @@
 #include "stdafx.h"
-
 #include "framework/network/Entity.h"
-
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/EntityManager.h"
 

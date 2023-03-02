@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "framework/network/InStream.h"
 
 CInStream::CInStream (const std::vector<char>& _kData)

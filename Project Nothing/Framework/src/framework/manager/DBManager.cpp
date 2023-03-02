@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include "logger/Logger.h"
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/DBManager.h"
 
@@ -19,7 +19,7 @@ void CDBManager::init (const std::string& _kUser, const std::string& _kPassword,
 	}
 
 	char kConnect_db[BUFSIZ];
-	ZeroMemory (kConnect_db, BUFSIZ);
+	memset (kConnect_db, 0, BUFSIZ);
 	sprintf_s (kConnect_db, "user=%s password=%s dbname=%s hostaddr=%s", _kUser.c_str (), _kPassword.c_str (), _kDBname.c_str (), _kHostaddr.c_str ());
 
 	m_pPGconn = PQconnectdb (kConnect_db);

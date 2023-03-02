@@ -1,8 +1,6 @@
 #include "stdafx.h"
-
 #include "framework/network/TcpListener.h"
 #include "framework/network/TcpSession.h"
-
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/SessionManager.h"
 

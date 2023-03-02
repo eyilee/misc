@@ -1,10 +1,8 @@
 #include "stdafx.h"
-
+#include "logger/Logger.h"
 #include "framework/network/TcpSession.h"
-
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/SessionManager.h"
-
 #include "framework/network/TcpListener.h"
 
 CTcpListener::CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort)
