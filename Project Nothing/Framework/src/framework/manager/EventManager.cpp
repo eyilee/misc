@@ -52,6 +52,8 @@ void CEventManager::shutdown ()
 		m_pTimer = nullptr;
 	}
 
+	m_kEvent_list.clear ();
+
 	Instance = nullptr;
 }
 
@@ -75,7 +77,7 @@ void CEventManager::add_event (const std::shared_ptr<CEvent>& _pEvent)
 
 void CEventManager::tick ()
 {
-	auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now ().time_since_epoch ()).count ();
+	auto time = std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::system_clock::now ().time_since_epoch ()).count ();
 	while (!m_kEvent_list.empty ())
 	{
 		auto& pEvent = m_kEvent_list.front ();

@@ -96,6 +96,12 @@
     <ClInclude Include="include\framework\event\Event.h">
       <Filter>include\framework\event</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\network\BitStream.h">
+      <Filter>include\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework\network\Serializable.h">
+      <Filter>include\framework\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -153,6 +159,12 @@
     </ClCompile>
     <ClCompile Include="src\event\Event.cpp">
       <Filter>src\framework\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\BitStream.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\Serializable.cpp">
+      <Filter>src\framework\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

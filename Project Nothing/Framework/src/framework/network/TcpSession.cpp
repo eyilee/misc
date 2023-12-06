@@ -71,7 +71,7 @@ void CTcpSession::async_write (std::size_t _nLength)
 
 void CTcpSession::on_read (const boost::asio::const_buffer& _kBuffer)
 {
-	const char* pBuffer = boost::asio::buffer_cast<const char*>(_kBuffer);
+	const char* pBuffer = boost::asio::buffer_cast<const char*> (_kBuffer);
 	CInStream kIn_stream (pBuffer, _kBuffer.size ());
 
 	m_pNet_bridge->resolve_input (kIn_stream);
