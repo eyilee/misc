@@ -86,6 +86,7 @@ void CServer::init_protocol_manager ()
 
 void CServer::init_session_manager ()
 {
+	std::string kHostAddr = m_kConfig_loader.get_config<std::string> ("server.hostaddr");
 	int nPort = m_kConfig_loader.get_config<int> ("server.port");
-	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kIo_context, nPort);
+	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kIo_context, kHostAddr, nPort);
 }

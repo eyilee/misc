@@ -25,9 +25,9 @@ void ServerEcho::deserialize (CInStream& _kIn_stream)
 void ServerEcho::excute ()
 {
 	std::shared_ptr<INetProtocol> pProtocol = std::make_shared<ClientEcho> (m_kString);
-	m_pNet_bridge->compose_output (pProtocol);
+	m_pkNetBridge->compose_output (pProtocol);
 
-	std::shared_ptr<CPlayerEntity> pEntity = std::static_pointer_cast<CPlayerEntity> (m_pNet_bridge->get_entity ());
+	std::shared_ptr<CPlayerEntity> pEntity = std::static_pointer_cast<CPlayerEntity> (m_pkNetBridge->get_entity ());
 
 	if (pEntity == nullptr) {
 		LOG_ERROR ("Player entity not found.");

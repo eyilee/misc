@@ -4,8 +4,8 @@
 #include "framework/network/BitStream.h"
 
 CBitInStream::CBitInStream (const std::vector<uint8_t>& _rkBytes)
-	: m_nBitOffset {0}
-	, m_kBytes {_rkBytes}
+	: m_nBitOffset (0)
+	, m_kBytes (_rkBytes)
 {
 }
 

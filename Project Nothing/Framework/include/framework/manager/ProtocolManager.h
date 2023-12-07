@@ -1,4 +1,5 @@
 #pragma once
+#include "framework/manager/BaseManager.h"
 
 class INetProtocol;
 class INetProtocolGenerator;
@@ -15,22 +16,22 @@ public:
 	void shutdown ();
 
 	template <typename T>
-	void register_protocol (const unsigned short _nProtocol_id);
+	void register_protocol (unsigned short _nProtocolID);
 
-	std::shared_ptr<INetProtocol> generate_protocol (const unsigned short _nProtocol_id);
+	std::shared_ptr<INetProtocol> generate_protocol (unsigned short _nProtocolID);
 
 private:
-	std::map<int, std::shared_ptr<INetProtocolGenerator>> m_kProtocol_map;
+	std::map<int, std::shared_ptr<INetProtocolGenerator>> m_kProtocolMap;
 };
 
 template <typename T>
-inline void CProtocolManager::register_protocol (const unsigned short _nProtocol_id)
+inline void CProtocolManager::register_protocol (unsigned short _nProtocolID)
 {
-	std::shared_ptr<INetProtocolGenerator> pProtocol_generator = std::make_shared<CNetProtocolGenerator<T>> ();
+	std::shared_ptr<INetProtocolGenerator> generator = std::make_shared<CNetProtocolGenerator<T>> ();
 
-	if (m_kProtocol_map.find (_nProtocol_id) == m_kProtocol_map.end ())
+	if (m_kProtocolMap.find (_nProtocolID) == m_kProtocolMap.end ())
 	{
-		T::set_protocol_id (_nProtocol_id);
-		m_kProtocol_map.emplace (_nProtocol_id, pProtocol_generator);
+		T::set_protocol_id (_nProtocolID);
+		m_kProtocolMap.emplace (_nProtocolID, generator);
 	}
 }

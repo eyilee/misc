@@ -1,6 +1,7 @@
 #pragma once
 
 // C library
+#include <cstddef>
 #include <cstdlib>
 
 // Containers

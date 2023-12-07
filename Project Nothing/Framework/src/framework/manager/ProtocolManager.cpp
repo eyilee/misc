@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/NetProtocolGenerator.h"
-#include "framework/manager/BaseManager.h"
 #include "framework/manager/ProtocolManager.h"
 
 CProtocolManager::CProtocolManager ()
@@ -24,7 +23,7 @@ void CProtocolManager::shutdown ()
 	Instance = nullptr;
 }
 
-std::shared_ptr<INetProtocol> CProtocolManager::generate_protocol (const unsigned short _nProtocol_id)
+std::shared_ptr<INetProtocol> CProtocolManager::generate_protocol (unsigned short _nProtocolID)
 {
-	return m_kProtocol_map[_nProtocol_id]->generate ();
+	return m_kProtocolMap[_nProtocolID]->generate ();
 }

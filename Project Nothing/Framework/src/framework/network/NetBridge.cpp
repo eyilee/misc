@@ -4,13 +4,12 @@
 #include "framework/network/NetProtocol.h"
 #include "framework/network/OutStream.h"
 #include "framework/network/TcpSession.h"
-#include "framework/manager/BaseManager.h"
 #include "framework/manager/ProtocolManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge (std::shared_ptr<CTcpSession>&& _pSession)
-	: m_pSession (_pSession)
-	, m_pEntity (nullptr)
+CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkSession)
+	: m_pkSession (_pkSession)
+	, m_pkEntity (nullptr)
 {
 }
 
@@ -18,30 +17,30 @@ CNetBridge::~CNetBridge ()
 {
 }
 
-void CNetBridge::set_entity (std::shared_ptr<IEntity>&& _pEntity)
+void CNetBridge::set_entity (std::shared_ptr<IEntity> _pkEntity)
 {
-	m_pEntity = _pEntity;
+	m_pkEntity = _pkEntity;
 }
 
 std::shared_ptr<IEntity> CNetBridge::get_entity ()
 {
-	return m_pEntity;
+	return m_pkEntity;
 }
 
-void CNetBridge::resolve_input (CInStream& _kIn_Stream)
+void CNetBridge::resolve_input (CInStream& _rkInStream)
 {
-	unsigned short nProtocol_id;
-	_kIn_Stream >> nProtocol_id;
+	unsigned short protocolID;
+	_rkInStream >> protocolID;
 
-	std::shared_ptr<INetProtocol> pNet_protocol = CProtocolManager::Instance->generate_protocol (nProtocol_id);
-	pNet_protocol->set_net_bridge (shared_from_this ());
-	pNet_protocol->deserialize (_kIn_Stream);
-	pNet_protocol->excute ();
+	std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->generate_protocol (protocolID);
+	protocol->set_net_bridge (shared_from_this ());
+	protocol->deserialize (_rkInStream);
+	protocol->excute ();
 }
 
-void CNetBridge::compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol)
+void CNetBridge::compose_output (std::shared_ptr<INetProtocol> _pkProtocol)
 {
-	COutStream kOut_stream;
-	_pNet_protocol->on_serialize (kOut_stream);
-	m_pSession->on_write (kOut_stream);
+	COutStream outStream;
+	_pkProtocol->on_serialize (outStream);
+	m_pkSession->on_write (outStream);
 }

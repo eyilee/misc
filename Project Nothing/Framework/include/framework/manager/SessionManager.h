@@ -1,4 +1,5 @@
 #pragma once
+#include "framework/manager/BaseManager.h"
 
 class CTcpListener;
 class CTcpSession;
@@ -9,14 +10,14 @@ public:
 	CSessionManager ();
 	virtual ~CSessionManager ();
 
-	void init (boost::asio::io_context& _kIo_context, const short _nPort);
+	void init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nPort);
 	void shutdown ();
 
-	void add_session (std::shared_ptr<CTcpSession>& _pSession);
+	void add_session (std::shared_ptr<CTcpSession> _pkSession);
 
 private:
-	std::shared_ptr<CTcpListener> m_pListener;
+	std::shared_ptr<CTcpListener> m_pkListener;
 
-	std::list<std::shared_ptr<CTcpSession>> m_kSession_list;
+	std::list<std::shared_ptr<CTcpSession>> m_pkSessionList;
 };
 

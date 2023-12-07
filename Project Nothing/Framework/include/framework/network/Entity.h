@@ -8,10 +8,10 @@ public:
 	IEntity ();
 	virtual ~IEntity ();
 
-	void set_net_bridge (std::shared_ptr<CNetBridge>&& _pNet_bridge) { m_pNet_bridge = _pNet_bridge; };
+	void set_net_bridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; };
 
 protected:
-	std::shared_ptr<CNetBridge> m_pNet_bridge;
+	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };
 
 template <typename T>

@@ -5,11 +5,11 @@
 #include "framework/network/OutStream.h"
 #include "framework/network/TcpSession.h"
 
-CTcpSession::CTcpSession (tcp::socket& _kSocket)
-	: m_kSocket (std::move (_kSocket))
-	, m_kSend_buffer ()
-	, m_kReceive_buffer ()
-	, m_pNet_bridge (nullptr)
+CTcpSession::CTcpSession (tcp::socket& _rkSocket)
+	: m_kSocket (std::move (_rkSocket))
+	, m_kWriteBuffer {}
+	, m_kReadBuffer {}
+	, m_pkNetBridge (nullptr)
 {
 }
 
@@ -19,7 +19,7 @@ CTcpSession::~CTcpSession ()
 
 void CTcpSession::init ()
 {
-	m_pNet_bridge = std::make_shared<CNetBridge> (shared_from_this ());
+	m_pkNetBridge = std::make_shared<CNetBridge> (shared_from_this ());
 
 	async_read ();
 }
@@ -27,60 +27,58 @@ void CTcpSession::init ()
 void CTcpSession::shutdown ()
 {
 	auto self (shared_from_this ());
-	m_kSocket.async_wait (tcp::socket::wait_read, [this, self](const boost::system::error_code& _kError_code)
+	m_kSocket.async_wait (tcp::socket::wait_read, [this, self](const boost::system::error_code& _rkErrorCode)
 		{
-			if (_kError_code) {
-				LOG_ERROR (_kError_code.message ());
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
 			}
-			else
-			{
-				m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
-				m_kSocket.close ();
-			}
+
+			m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
+			m_kSocket.close ();
 		});
 }
 
 void CTcpSession::async_read ()
 {
 	auto self (shared_from_this ());
-	m_kSocket.async_read_some (boost::asio::buffer (m_kReceive_buffer, 1024),
-		[this, self](const boost::system::error_code& _kError_code, std::size_t _nLength)
+	m_kSocket.async_read_some (boost::asio::buffer (m_kReadBuffer, TCP_SESSION_BUFFER_SIZE),
+		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
-			if (_kError_code) {
-				LOG_ERROR (_kError_code.message ());
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
 			}
-			else
-			{
-				on_read (boost::asio::buffer (m_kReceive_buffer, _nLength));
-				async_read ();
+			else {
+				on_read (boost::asio::buffer (m_kReadBuffer, _nLength));
 			}
+
+			async_read ();
 		});
 }
 
-void CTcpSession::async_write (std::size_t _nLength)
+void CTcpSession::async_write (std::size_t _nBytes)
 {
 	auto self (shared_from_this ());
-	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kSend_buffer, _nLength),
-		[this, self](const boost::system::error_code& _kError_code, std::size_t)
+	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kWriteBuffer, _nBytes),
+		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
-			if (_kError_code) {
-				LOG_ERROR (_kError_code.message ());
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
 			}
 		});
 }
 
-void CTcpSession::on_read (const boost::asio::const_buffer& _kBuffer)
+void CTcpSession::on_read (const boost::asio::const_buffer& _rkBuffer)
 {
-	const char* pBuffer = boost::asio::buffer_cast<const char*> (_kBuffer);
-	CInStream kIn_stream (pBuffer, _kBuffer.size ());
+	const char* buffer = boost::asio::buffer_cast<const char*> (_rkBuffer);
+	CInStream inStream (buffer, _rkBuffer.size ());
 
-	m_pNet_bridge->resolve_input (kIn_stream);
+	m_pkNetBridge->resolve_input (inStream);
 }
 
-void CTcpSession::on_write (const COutStream& _kOut_stream)
+void CTcpSession::on_write (const COutStream& _rkOutStream)
 {
-	const std::vector<char>& kData = _kOut_stream.data ();
-	std::copy (kData.begin (), kData.end (), m_kSend_buffer.begin ());
+	const std::vector<char>& data = _rkOutStream.data ();
+	std::copy (data.begin (), data.end (), m_kWriteBuffer.begin ());
 
-	async_write (kData.size ());
+	async_write (data.size ());
 }

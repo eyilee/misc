@@ -16,6 +16,7 @@ void CConfigLoader::load ()
 {
 	po::options_description kDB_desc ("config");
 	kDB_desc.add_options ()
+		("server.hostaddr", po::value<std::string> ())
 		("server.port", po::value<int> ())
 		("db.user", po::value<std::string> ())
 		("db.password", po::value<std::string> ())
@@ -25,6 +26,10 @@ void CConfigLoader::load ()
 
 	po::store (po::parse_config_file ("config.ini", kDB_desc), m_kVM);
 	po::notify (m_kVM);
+
+	if (m_kVM.count ("server.hostaddr")) {
+		LOG_INFO ("server.hostaddr: %s", m_kVM["server.hostaddr"].as<std::string> ().c_str ());
+	}
 
 	if (m_kVM.count ("server.port")) {
 		LOG_INFO ("server.port: %d", m_kVM["server.port"].as<int> ());

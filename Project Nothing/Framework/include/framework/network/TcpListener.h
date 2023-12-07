@@ -5,7 +5,7 @@ using boost::asio::ip::tcp;
 class CTcpListener : public std::enable_shared_from_this<CTcpListener>
 {
 public:
-	CTcpListener (boost::asio::io_context& _kIo_context, const short _nPort);
+	CTcpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nPort);
 	virtual ~CTcpListener ();
 
 	void init ();
@@ -17,5 +17,5 @@ private:
 private:
 	tcp::acceptor m_kAcceptor;
 
-	bool m_bIs_running;
+	bool m_bIsRunning;
 };

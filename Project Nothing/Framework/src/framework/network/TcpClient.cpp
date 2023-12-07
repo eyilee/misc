@@ -7,9 +7,9 @@
 CTcpClient::CTcpClient (boost::asio::io_context& _kIo_context, std::string _kHost, std::string _kPort)
 	: m_kResolver (_kIo_context)
 	, m_kSocket (_kIo_context)
-	, m_kHost (_kHost)
+	, m_kHostAddr (_kHost)
 	, m_kPort (_kPort)
-	, m_kSend_buffer ()
+	, m_kWriteBuffer ()
 {
 }
 
@@ -20,38 +20,38 @@ CTcpClient::~CTcpClient ()
 void CTcpClient::init ()
 {
 	auto self (shared_from_this ());
-	boost::asio::async_connect (m_kSocket, m_kResolver.resolve (m_kHost, m_kPort),
-		[this, self](const boost::system::error_code& _kError_code, tcp::endpoint)
+	boost::asio::async_connect (m_kSocket, m_kResolver.resolve (m_kHostAddr, m_kPort),
+		[this, self](const boost::system::error_code& _rkErrorCode, tcp::endpoint _kEndPoint)
 		{
-			if (_kError_code) {
-				LOG_ERROR (_kError_code.message ());
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
 			}
 		});
 }
 
-void CTcpClient::compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol)
+void CTcpClient::compose_output (std::shared_ptr<INetProtocol> _pkNetProtocol)
 {
-	COutStream kOut_stream;
-	_pNet_protocol->on_serialize (kOut_stream);
-	on_write (kOut_stream);
+	COutStream outStream;
+	_pkNetProtocol->on_serialize (outStream);
+	on_write (outStream);
 }
 
-void CTcpClient::async_write (std::size_t _nLength)
+void CTcpClient::async_write (std::size_t _nBytes)
 {
 	auto self (shared_from_this ());
-	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kSend_buffer, _nLength),
-		[this, self](const boost::system::error_code& _kError_code, std::size_t)
+	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kWriteBuffer, _nBytes),
+		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
-			if (_kError_code) {
-				LOG_ERROR (_kError_code.message ());
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
 			}
 		});
 }
 
-void CTcpClient::on_write (const COutStream& _kOut_stream)
+void CTcpClient::on_write (const COutStream& _rkOutStream)
 {
-	const std::vector<char>& kData = _kOut_stream.data ();
-	std::copy (kData.begin (), kData.end (), m_kSend_buffer.begin ());
+	const std::vector<char>& data = _rkOutStream.data ();
+	std::copy (data.begin (), data.end (), m_kWriteBuffer.begin ());
 
-	async_write (kData.size ());
+	async_write (data.size ());
 }

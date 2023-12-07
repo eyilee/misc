@@ -28,7 +28,7 @@ void ServerLogin::excute ()
 
 	pPlayer_entity->set_id (m_nId);
 
-	if (m_pNet_bridge->get_entity () == nullptr) {
-		m_pNet_bridge->set_entity (pPlayer_entity);
+	if (m_pkNetBridge->get_entity () == nullptr) {
+		m_pkNetBridge->set_entity (pPlayer_entity);
 	}
 }

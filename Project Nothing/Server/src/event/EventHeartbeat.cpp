@@ -19,5 +19,5 @@ void CEventHeartbeat::excute ()
 
 	CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
 
-	m_bIs_valid = false;
+	m_bIsValid = false;
 }

@@ -18,10 +18,10 @@ public:
 	long long get_time () const { return m_nTime; }
 	void set_time (long long& _nTime) { m_nTime = _nTime; }
 
-	void cancel () { m_bIs_valid = false; }
-	bool is_valid () { return m_bIs_valid; }
+	void cancel () { m_bIsValid = false; }
+	bool is_valid () { return m_bIsValid; }
 
 protected:
 	long long m_nTime;
-	bool m_bIs_valid;
+	bool m_bIsValid;
 };

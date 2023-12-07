@@ -8,16 +8,16 @@ class CTcpSession;
 class CNetBridge : public std::enable_shared_from_this<CNetBridge>
 {
 public:
-	CNetBridge (std::shared_ptr<CTcpSession>&& _pSession);
+	CNetBridge (std::shared_ptr<CTcpSession> _pkSession);
 	virtual ~CNetBridge ();
 
-	void set_entity (std::shared_ptr<IEntity>&& _pEntity);
+	void set_entity (std::shared_ptr<IEntity> _pkEntity);
 	std::shared_ptr<IEntity> get_entity ();
 
-	void resolve_input (CInStream& _kIn_stream);
-	void compose_output (std::shared_ptr<INetProtocol>& _pNet_protocol);
+	void resolve_input (CInStream& _rkInStream);
+	void compose_output (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:
-	std::shared_ptr<CTcpSession> m_pSession;
-	std::shared_ptr<IEntity> m_pEntity;
+	std::shared_ptr<CTcpSession> m_pkSession;
+	std::shared_ptr<IEntity> m_pkEntity;
 };

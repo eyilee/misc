@@ -24,7 +24,7 @@ void ServerShutdown::deserialize (CInStream& _kIn_stream)
 
 void ServerShutdown::excute ()
 {
-	std::shared_ptr<CPlayerEntity> pPlayer_entity = std::static_pointer_cast<CPlayerEntity> (m_pNet_bridge->get_entity ());
+	std::shared_ptr<CPlayerEntity> pPlayer_entity = std::static_pointer_cast<CPlayerEntity> (m_pkNetBridge->get_entity ());
 
 	if (pPlayer_entity == nullptr) {
 		LOG_ERROR ("Player entity not found.");

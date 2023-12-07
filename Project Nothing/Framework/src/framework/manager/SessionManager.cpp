@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "framework/network/TcpListener.h"
 #include "framework/network/TcpSession.h"
-#include "framework/manager/BaseManager.h"
 #include "framework/manager/SessionManager.h"
 
 CSessionManager::CSessionManager ()
-	: m_pListener (nullptr)
+	: m_pkListener (nullptr)
 {
 }
 
@@ -13,27 +12,27 @@ CSessionManager::~CSessionManager ()
 {
 }
 
-void CSessionManager::init (boost::asio::io_context& _kIo_context, const short _nPort)
+void CSessionManager::init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nPort)
 {
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
 	}
 
-	m_pListener = std::make_shared<CTcpListener> (_kIo_context, _nPort);
-	m_pListener->init ();
+	m_pkListener = std::make_shared<CTcpListener> (_rkContext, _rkHostAddr, _nPort);
+	m_pkListener->init ();
 }
 
 void CSessionManager::shutdown ()
 {
-	for (auto& pSession : m_kSession_list) {
-		pSession->shutdown ();
+	for (auto& session : m_pkSessionList) {
+		session->shutdown ();
 	}
-	m_kSession_list.clear ();
+	m_pkSessionList.clear ();
 
-	m_pListener->shutdown ();
+	m_pkListener->shutdown ();
 }
 
-void CSessionManager::add_session (std::shared_ptr<CTcpSession>& _kSession)
+void CSessionManager::add_session (std::shared_ptr<CTcpSession> _pkSession)
 {
-	m_kSession_list.emplace_back (_kSession);
+	m_pkSessionList.emplace_back (_pkSession);
 }
