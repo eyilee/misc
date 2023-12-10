@@ -29,10 +29,9 @@ void CEventManager::init (boost::asio::io_context& _rkContext)
 			}
 			else
 			{
-				tick ();
-
 				if (m_pkTimer != nullptr)
 				{
+					tick ();
 					m_pkTimer->expires_at (m_pkTimer->expires_at () + m_kInterval);
 					m_pkTimer->async_wait (m_fnTick);
 				}

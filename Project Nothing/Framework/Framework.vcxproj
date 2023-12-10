@@ -66,6 +66,7 @@
     <ClInclude Include="include\framework\network\TcpSession.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="include\framework\network\UdpSession.h" />
     <ClInclude Include="include\logger\Logger.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
@@ -88,6 +89,7 @@
     <ClCompile Include="src\framework\network\TcpClient.cpp" />
     <ClCompile Include="src\framework\network\TcpListener.cpp" />
     <ClCompile Include="src\framework\network\TcpSession.cpp" />
+    <ClCompile Include="src\framework\network\UdpSession.cpp" />
     <ClCompile Include="src\logger\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>

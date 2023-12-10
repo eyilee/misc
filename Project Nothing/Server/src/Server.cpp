@@ -66,18 +66,23 @@ void CServer::init_event_manager ()
 {
 	setup_manager (CEventManager::Instance, &CEventManager::init, m_kContext);
 
-	CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
+	if (CEventManager::Instance != nullptr) {
+		CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
+	}
 }
 
 void CServer::init_protocol_manager ()
 {
 	setup_manager (CProtocolManager::Instance, &CProtocolManager::init);
 
-	CProtocolManager::Instance->register_protocol<ServerLogin> (1);
-	CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
-	CProtocolManager::Instance->register_protocol<ServerEcho> (100);
+	if (CProtocolManager::Instance != nullptr)
+	{
+		CProtocolManager::Instance->register_protocol<ServerLogin> (1);
+		CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
+		CProtocolManager::Instance->register_protocol<ServerEcho> (100);
 
-	CProtocolManager::Instance->register_protocol<ClientEcho> (200);
+		CProtocolManager::Instance->register_protocol<ClientEcho> (200);
+	}
 }
 
 void CServer::init_session_manager ()

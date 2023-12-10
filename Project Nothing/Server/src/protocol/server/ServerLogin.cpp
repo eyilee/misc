@@ -22,11 +22,17 @@ void ServerLogin::deserialize (CInStream& _rkInStream)
 
 void ServerLogin::excute ()
 {
-	std::shared_ptr<CPlayerEntity> entity = CEntityManager::Instance->create_entity<CPlayerEntity> (m_nID);
+	if (CEntityManager::Instance != nullptr)
+	{
+		std::shared_ptr<CPlayerEntity> entity = CEntityManager::Instance->create_entity<CPlayerEntity> (m_nID);
 
-	entity->set_id (m_nID);
+		entity->set_id (m_nID);
 
-	if (m_pkNetBridge->get_entity () == nullptr) {
-		m_pkNetBridge->set_entity (entity);
+		if (m_pkNetBridge != nullptr)
+		{
+			if (m_pkNetBridge->get_entity () == nullptr) {
+				m_pkNetBridge->set_entity (entity);
+			}
+		}
 	}
 }

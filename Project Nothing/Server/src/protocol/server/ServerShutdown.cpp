@@ -33,5 +33,7 @@ void ServerShutdown::excute ()
 
 	LOG_INFO ("Call shutdown!");
 
-	CServer::Instance->shutdown ();
+	if (CServer::Instance != nullptr) {
+		CServer::Instance->shutdown ();
+	}
 }

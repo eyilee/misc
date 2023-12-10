@@ -32,10 +32,13 @@ void CNetBridge::resolve_input (CInStream& _rkInStream)
 	unsigned short protocolID;
 	_rkInStream >> protocolID;
 
-	std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->generate_protocol (protocolID);
-	protocol->set_net_bridge (shared_from_this ());
-	protocol->deserialize (_rkInStream);
-	protocol->excute ();
+	if (CProtocolManager::Instance != nullptr)
+	{
+		std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->generate_protocol (protocolID);
+		protocol->set_net_bridge (shared_from_this ());
+		protocol->deserialize (_rkInStream);
+		protocol->excute ();
+	}
 }
 
 void CNetBridge::compose_output (std::shared_ptr<INetProtocol> _pkProtocol)
