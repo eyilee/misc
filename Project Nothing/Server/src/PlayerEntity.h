@@ -6,9 +6,9 @@ public:
 	CPlayerEntity ();
 	virtual ~CPlayerEntity ();
 
-	void set_id (const int& _nId) { m_nId = _nId; }
-	int get_id () { return m_nId; }
+	void set_id (int _nID) { m_nID = _nID; }
+	int get_id () { return m_nID; }
 
 private:
-	int m_nId;
+	int m_nID;
 };

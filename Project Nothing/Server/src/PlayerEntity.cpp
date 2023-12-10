@@ -1,9 +1,8 @@
 #include "stdafx.h"
-
 #include "PlayerEntity.h"
 
 CPlayerEntity::CPlayerEntity ()
-    : m_nId (0)
+    : m_nID (0)
 {
 }
 

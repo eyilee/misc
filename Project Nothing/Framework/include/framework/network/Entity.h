@@ -14,7 +14,7 @@ protected:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };
 
-template <typename T>
+template<typename T>
 class CEntity : public IEntity
 {
 public:
@@ -22,12 +22,12 @@ public:
 	virtual ~CEntity ();
 };
 
-template <typename T>
+template<typename T>
 inline CEntity<T>::CEntity ()
 {
 }
 
-template <typename T>
+template<typename T>
 inline CEntity<T>::~CEntity ()
 {
 }

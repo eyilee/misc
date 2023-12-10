@@ -1,13 +1,12 @@
 #include "stdafx.h"
-
 #include "protocol/client/ClientEcho.h"
 
 ClientEcho::ClientEcho ()
 {
 }
 
-ClientEcho::ClientEcho (const std::string& _kString)
-	: m_kString (_kString)
+ClientEcho::ClientEcho (const std::string& _rkString)
+	: m_kString (_rkString)
 {
 }
 
@@ -15,12 +14,12 @@ ClientEcho::~ClientEcho ()
 {
 }
 
-void ClientEcho::serialize (COutStream& _kOut_stream)
+void ClientEcho::serialize (COutStream& _rkOutStream)
 {
-	_kOut_stream << m_kString;
+	_rkOutStream << m_kString;
 }
 
-void ClientEcho::deserialize (CInStream& _kIn_stream)
+void ClientEcho::deserialize (CInStream& _rkInStream)
 {
 }
 

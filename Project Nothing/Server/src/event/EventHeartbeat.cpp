@@ -1,12 +1,11 @@
 #include "stdafx.h"
-
 #include "EventHeartbeat.h"
 
 CEventHeartbeat::CEventHeartbeat ()
 {
-	auto time = std::chrono::system_clock::now ();
-	time += std::chrono::seconds (5);
-	m_nTime = std::chrono::duration_cast<std::chrono::milliseconds> (time.time_since_epoch ()).count ();
+	auto now = std::chrono::system_clock::now ();
+	now += std::chrono::seconds (5);
+	m_nTime = std::chrono::duration_cast<std::chrono::milliseconds> (now.time_since_epoch ()).count ();
 }
 
 CEventHeartbeat::~CEventHeartbeat ()

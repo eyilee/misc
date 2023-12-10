@@ -1,17 +1,13 @@
 #include "stdafx.h"
-
 #include "protocol/ClientProtocols.h"
 #include "protocol/ServerProtocols.h"
-
 #include "event/EventHeartbeat.h"
-
-#include "ConfigLoader.h"
 #include "Server.h"
 
 std::shared_ptr<CServer> CServer::Instance = nullptr;
 
 CServer::CServer ()
-	: m_kWork (m_kIo_context)
+	: m_kWork (m_kContext)
 {
 }
 
@@ -25,7 +21,7 @@ void CServer::init ()
 		Instance = shared_from_this ();
 	}
 
-	m_kConfig_loader.load ();
+	m_kConfigLoader.load ();
 
 	init_db_manager ();
 	init_entity_manager ();
@@ -36,7 +32,7 @@ void CServer::init ()
 
 void CServer::run ()
 {
-	m_kIo_context.run ();
+	m_kContext.run ();
 }
 
 void CServer::shutdown ()
@@ -47,18 +43,18 @@ void CServer::shutdown ()
 	shutdown_manager (CProtocolManager::Instance, &CProtocolManager::shutdown);
 	shutdown_manager (CSessionManager::Instance, &CSessionManager::shutdown);
 
-	m_kIo_context.stop ();
+	m_kContext.stop ();
 
 	Instance = nullptr;
 }
 
 void CServer::init_db_manager ()
 {
-	std::string kUser = m_kConfig_loader.get_config<std::string> ("db.user");
-	std::string kPassword = m_kConfig_loader.get_config<std::string> ("db.password");
-	std::string kDBname = m_kConfig_loader.get_config<std::string> ("db.dbname");
-	std::string kHostaddr = m_kConfig_loader.get_config<std::string> ("db.hostaddr");
-	setup_manager (CDBManager::Instance, &CDBManager::init, kUser, kPassword, kDBname, kHostaddr);
+	std::string user = m_kConfigLoader.get_config<std::string> ("db.user");
+	std::string password = m_kConfigLoader.get_config<std::string> ("db.password");
+	std::string dbname = m_kConfigLoader.get_config<std::string> ("db.dbname");
+	std::string hostaddr = m_kConfigLoader.get_config<std::string> ("db.hostaddr");
+	setup_manager (CDBManager::Instance, &CDBManager::init, user, password, dbname, hostaddr);
 }
 
 void CServer::init_entity_manager ()
@@ -68,7 +64,7 @@ void CServer::init_entity_manager ()
 
 void CServer::init_event_manager ()
 {
-	setup_manager (CEventManager::Instance, &CEventManager::init, m_kIo_context);
+	setup_manager (CEventManager::Instance, &CEventManager::init, m_kContext);
 
 	CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
 }
@@ -86,7 +82,7 @@ void CServer::init_protocol_manager ()
 
 void CServer::init_session_manager ()
 {
-	std::string kHostAddr = m_kConfig_loader.get_config<std::string> ("server.hostaddr");
-	int nPort = m_kConfig_loader.get_config<int> ("server.port");
-	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kIo_context, kHostAddr, nPort);
+	std::string hostaddr = m_kConfigLoader.get_config<std::string> ("server.hostaddr");
+	short port = m_kConfigLoader.get_config<short> ("server.port");
+	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kContext, hostaddr, port);
 }

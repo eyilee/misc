@@ -1,6 +1,5 @@
 #pragma once
-
-class CConfigLoader;
+#include "ConfigLoader.h"
 
 class CServer : public std::enable_shared_from_this<CServer>
 {
@@ -24,32 +23,32 @@ public:
 
 private:
 	template<typename T, typename ... FARGS, typename ... ARGS>
-	void setup_manager (std::shared_ptr<T>& _pInstance, void (T::* _pFunction)(FARGS ...), ARGS&& ... _kArgs);
+	void setup_manager (std::shared_ptr<T> _pkInstance, void (T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args);
 
 	template<typename T, typename ... FARGS, typename ... ARGS>
-	void shutdown_manager (std::shared_ptr<T>& _pInstance, void (T::* _pFunction)(FARGS ...), ARGS&& ... _kArgs);
+	void shutdown_manager (std::shared_ptr<T> _pkInstance, void (T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args);
 
 private:
-	boost::asio::io_context m_kIo_context;
+	boost::asio::io_context m_kContext;
 	boost::asio::io_context::work m_kWork;
 
-	CConfigLoader m_kConfig_loader;
+	CConfigLoader m_kConfigLoader;
 };
 
 template<typename T, typename ...FARGS, typename ...ARGS>
-inline void CServer::setup_manager (std::shared_ptr<T>& _pInstance, void(T::* _pFunction)(FARGS ...), ARGS&& ... _kArgs)
+inline void CServer::setup_manager (std::shared_ptr<T> _pkInstance, void(T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args)
 {
-	if (_pInstance == nullptr) {
-		_pInstance = std::make_shared<T> ();
+	if (_pkInstance == nullptr) {
+		_pkInstance = std::make_shared<T> ();
 	}
 
-	(*_pInstance.*_pFunction)(std::forward<ARGS> (_kArgs) ...);
+	(*_pkInstance.*_pfnFunction)(std::forward<ARGS> (_Args) ...);
 }
 
 template<typename T, typename ...FARGS, typename ...ARGS>
-inline void CServer::shutdown_manager (std::shared_ptr<T>& _pInstance, void(T::* _pFunction)(FARGS...), ARGS && ..._kArgs)
+inline void CServer::shutdown_manager (std::shared_ptr<T> _pkInstance, void(T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args)
 {
-	if (_pInstance != nullptr) {
-		(*_pInstance.*_pFunction)(std::forward<ARGS> (_kArgs) ...);
+	if (_pkInstance != nullptr) {
+		(*_pkInstance.*_pfnFunction)(std::forward<ARGS> (_Args) ...);
 	}
 }

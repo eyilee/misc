@@ -1,8 +1,5 @@
 ﻿#include "stdafx.h"
-
 #include "ConfigLoader.h"
-
-namespace po = boost::program_options;
 
 CConfigLoader::CConfigLoader ()
 {
@@ -14,17 +11,17 @@ CConfigLoader::~CConfigLoader ()
 
 void CConfigLoader::load ()
 {
-	po::options_description kDB_desc ("config");
-	kDB_desc.add_options ()
+	po::options_description description ("config");
+	description.add_options ()
 		("server.hostaddr", po::value<std::string> ())
-		("server.port", po::value<int> ())
+		("server.port", po::value<short> ())
 		("db.user", po::value<std::string> ())
 		("db.password", po::value<std::string> ())
 		("db.dbname", po::value<std::string> ())
 		("db.hostaddr", po::value<std::string> ())
 		;
 
-	po::store (po::parse_config_file ("config.ini", kDB_desc), m_kVM);
+	po::store (po::parse_config_file ("config.ini", description), m_kVM);
 	po::notify (m_kVM);
 
 	if (m_kVM.count ("server.hostaddr")) {
@@ -32,7 +29,7 @@ void CConfigLoader::load ()
 	}
 
 	if (m_kVM.count ("server.port")) {
-		LOG_INFO ("server.port: %d", m_kVM["server.port"].as<int> ());
+		LOG_INFO ("server.port: %hd", m_kVM["server.port"].as<short> ());
 	}
 
 	if (m_kVM.count ("db.user")) {

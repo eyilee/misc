@@ -2,7 +2,7 @@
 #include "framework/manager/BaseManager.h"
 
 class IEntity;
-template <typename T>
+template<typename T>
 class CEntity;
 
 class CEntityManager : public CBaseManager<CEntityManager>
@@ -14,16 +14,16 @@ public:
 	void init ();
 	void shutdown ();
 
-	template <typename T>
+	template<typename T>
 	std::shared_ptr<T> create_entity (int _nID);
-	template <typename T>
+	template<typename T>
 	std::shared_ptr<T> get_entity (int _nID);
 
 private:
 	std::map<int, std::shared_ptr<IEntity>> m_kEntityMap;
 };
 
-template <typename T>
+template<typename T>
 std::shared_ptr<T> CEntityManager::create_entity (int _nID)
 {
 	auto it = m_kEntityMap.find (_nID);
@@ -36,7 +36,7 @@ std::shared_ptr<T> CEntityManager::create_entity (int _nID)
 	return std::static_pointer_cast<T> (m_kEntityMap[_nID]);
 }
 
-template <typename T>
+template<typename T>
 std::shared_ptr<T> CEntityManager::get_entity (int _nID)
 {
 	auto it = m_kEntityMap.find (_nID);

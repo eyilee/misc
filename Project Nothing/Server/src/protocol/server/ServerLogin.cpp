@@ -1,11 +1,9 @@
 #include "stdafx.h"
-
 #include "PlayerEntity.h"
-
 #include "protocol/server/ServerLogin.h"
 
 ServerLogin::ServerLogin ()
-	: m_nId (0)
+	: m_nID (0)
 {
 }
 
@@ -13,22 +11,22 @@ ServerLogin::~ServerLogin ()
 {
 }
 
-void ServerLogin::serialize (COutStream& _kOut_stream)
+void ServerLogin::serialize (COutStream& _rkOutStream)
 {
 }
 
-void ServerLogin::deserialize (CInStream& _kIn_stream)
+void ServerLogin::deserialize (CInStream& _rkInStream)
 {
-	_kIn_stream >> m_nId;
+	_rkInStream >> m_nID;
 }
 
 void ServerLogin::excute ()
 {
-	std::shared_ptr<CPlayerEntity> pPlayer_entity = CEntityManager::Instance->create_entity<CPlayerEntity> (m_nId);
+	std::shared_ptr<CPlayerEntity> entity = CEntityManager::Instance->create_entity<CPlayerEntity> (m_nID);
 
-	pPlayer_entity->set_id (m_nId);
+	entity->set_id (m_nID);
 
 	if (m_pkNetBridge->get_entity () == nullptr) {
-		m_pkNetBridge->set_entity (pPlayer_entity);
+		m_pkNetBridge->set_entity (entity);
 	}
 }

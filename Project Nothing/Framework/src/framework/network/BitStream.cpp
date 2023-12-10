@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "framework/network/Serializable.h"
-
 #include "framework/network/BitStream.h"
 
 CBitInStream::CBitInStream (const std::vector<uint8_t>& _rkBytes)

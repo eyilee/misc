@@ -21,7 +21,7 @@ protected:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };
 
-template <typename T>
+template<typename T>
 class CNetProtocol : public INetProtocol
 {
 public:
@@ -40,22 +40,22 @@ private:
 	static unsigned short m_nProtocolID;
 };
 
-template <typename T>
+template<typename T>
 inline CNetProtocol<T>::CNetProtocol ()
 {
 }
 
-template <typename T>
+template<typename T>
 inline CNetProtocol<T>::~CNetProtocol ()
 {
 }
 
-template <typename T>
+template<typename T>
 inline void CNetProtocol<T>::on_serialize (COutStream& _rkOutStream)
 {
 	_rkOutStream << m_nProtocolID;
 	serialize (_rkOutStream);
 }
 
-template <typename T>
+template<typename T>
 unsigned short CNetProtocol<T>::m_nProtocolID;

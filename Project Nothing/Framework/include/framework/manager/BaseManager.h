@@ -7,7 +7,7 @@ public:
 	virtual ~IBaseManager ();
 };
 
-template <typename T>
+template<typename T>
 class CBaseManager : public IBaseManager, public std::enable_shared_from_this<T>
 {
 public:
@@ -28,5 +28,5 @@ inline CBaseManager<T>::~CBaseManager ()
 {
 }
 
-template <typename T>
+template<typename T>
 std::shared_ptr<T> CBaseManager<T>::Instance = nullptr;
