@@ -22,6 +22,8 @@ public:
 	COutStream& operator << (const float& _f);
 	COutStream& operator << (const double& _d);
 	COutStream& operator << (const std::string& _s);
+	COutStream& operator << (const wchar_t& _wc);
+	COutStream& operator << (const std::wstring& _s);
 
 private:
 	std::vector<char> m_kData;

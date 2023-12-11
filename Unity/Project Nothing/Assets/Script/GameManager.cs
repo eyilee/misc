@@ -1,6 +1,8 @@
 ﻿using ProjectNothing.Network;
 using ProjectNothing.Protocol;
+using System;
 using System.Collections;
+using System.Text;
 using UnityEngine;
 
 namespace ProjectNothing
@@ -21,9 +23,9 @@ namespace ProjectNothing
             {
                 m_Time += Time.deltaTime;
 
-                if (m_Time >= 0.025f)
+                if (m_Time >= 1f)
                 {
-                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "Hello World!" });
+                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "你好！" });
                     m_Time = 0.0f;
                 }
             }

@@ -5,7 +5,7 @@ ClientEcho::ClientEcho ()
 {
 }
 
-ClientEcho::ClientEcho (const std::string& _rkString)
+ClientEcho::ClientEcho (const std::wstring& _rkString)
 	: m_kString (_rkString)
 {
 }

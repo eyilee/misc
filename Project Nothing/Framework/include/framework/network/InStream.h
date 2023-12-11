@@ -23,6 +23,8 @@ public:
 	CInStream& operator >> (float& _f);
 	CInStream& operator >> (double& _d);
 	CInStream& operator >> (std::string& _s);
+	CInStream& operator >> (wchar_t& _wc);
+	CInStream& operator >> (std::wstring& _ws);
 
 private:
 	std::vector<char> m_kData;

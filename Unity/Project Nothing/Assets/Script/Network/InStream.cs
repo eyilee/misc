@@ -34,17 +34,25 @@ namespace ProjectNothing.Network
             return this;
         }
 
-        public InStream ReadChar (out char c)
+        public InStream ReadByte (out byte b)
         {
-            c = Convert.ToChar (m_Data[m_Index]);
+            b = m_Data[m_Index];
             m_Index += sizeof (byte);
             return this;
         }
 
-        public InStream ReadUnsignedChar (out byte b)
+        public InStream ReadSignedByte (out sbyte b)
         {
-            b = m_Data[m_Index];
+            b = Convert.ToSByte (m_Data[m_Index]);
             m_Index += sizeof (byte);
+            return this;
+        }
+
+        public InStream ReadChar (out char c)
+        {
+            short s = IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (m_Data, m_Index));
+            c = BitConverter.ToChar (BitConverter.GetBytes (s), 0);
+            m_Index += sizeof (char);
             return this;
         }
 

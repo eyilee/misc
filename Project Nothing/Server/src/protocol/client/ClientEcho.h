@@ -4,7 +4,7 @@ class ClientEcho : public CNetProtocol<ClientEcho>
 {
 public:
 	ClientEcho ();
-	ClientEcho (const std::string& _rkString);
+	ClientEcho (const std::wstring& _rkString);
 	virtual ~ClientEcho ();
 
 	virtual void serialize (COutStream& _rkOutStream) override;
@@ -12,5 +12,5 @@ public:
 	virtual void excute () override;
 
 private:
-	std::string m_kString;
+	std::wstring m_kString;
 };

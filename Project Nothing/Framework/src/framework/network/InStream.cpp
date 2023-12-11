@@ -135,3 +135,25 @@ CInStream& CInStream::operator >> (std::string& _s)
 	}
 	return *this;
 }
+
+CInStream& CInStream::operator>>(wchar_t& _wc)
+{
+	unsigned short* pTemp = (unsigned short*)(&*m_kData.begin ());
+	pTemp[0] = ntohs (pTemp[0]);
+	_wc = *(wchar_t*)(&*m_kData.begin ());
+	m_kData.erase (m_kData.begin (), m_kData.begin () + sizeof (_wc));
+	return *this;
+}
+
+CInStream& CInStream::operator>>(std::wstring& _ws)
+{
+	unsigned int nSize;
+	*this >> nSize;
+	for (size_t i = 0; i < nSize; i++)
+	{
+		wchar_t wc;
+		*this >> wc;
+		_ws.push_back (wc);
+	}
+	return *this;
+}

@@ -26,7 +26,10 @@ namespace ProjectNothing.Network
 
         public OutStream WriteChar (char c)
         {
-            m_Data.Add (Convert.ToByte (c));
+            short s = BitConverter.ToInt16 (BitConverter.GetBytes (c), 0);
+            s = IPAddress.NetworkToHostOrder (s);
+            c = BitConverter.ToChar (BitConverter.GetBytes (s), 0);
+            m_Data.AddRange (BitConverter.GetBytes (c));
             return this;
         }
 

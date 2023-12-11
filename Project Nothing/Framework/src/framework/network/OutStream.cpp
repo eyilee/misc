@@ -123,3 +123,22 @@ COutStream& COutStream::operator << (const std::string& _s)
 	}
 	return *this;
 }
+
+COutStream& COutStream::operator<<(const wchar_t& _wc)
+{
+	unsigned short* pTemp = (unsigned short*)(&_wc);
+	pTemp[0] = htons (pTemp[0]);
+	char* pPostion = (char*)pTemp;
+	m_kData.insert (m_kData.end (), pPostion, pPostion + sizeof (_wc));
+	return *this;
+}
+
+COutStream& COutStream::operator<<(const std::wstring& _s)
+{
+	size_t nSize = _s.size ();
+	*this << (unsigned int)nSize;
+	for (size_t i = 0; i < nSize; i++) {
+		*this << _s[i];
+	}
+	return *this;
+}

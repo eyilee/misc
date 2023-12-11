@@ -11,5 +11,5 @@ public:
 	virtual void excute () override;
 
 private:
-	std::string m_kString;
+	std::wstring m_kString;
 };
