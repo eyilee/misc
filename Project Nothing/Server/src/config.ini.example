@@ -1,6 +1,7 @@
 [server]
 hostaddr = 127.0.0.1
-port = 8484
+tcpport = 8484
+udpport = 8485
 
 [db]
 user = postgres

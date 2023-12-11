@@ -14,7 +14,8 @@ void CConfigLoader::load ()
 	po::options_description description ("config");
 	description.add_options ()
 		("server.hostaddr", po::value<std::string> ())
-		("server.port", po::value<short> ())
+		("server.tcpport", po::value<short> ())
+		("server.udpport", po::value<short> ())
 		("db.user", po::value<std::string> ())
 		("db.password", po::value<std::string> ())
 		("db.dbname", po::value<std::string> ())
@@ -28,8 +29,12 @@ void CConfigLoader::load ()
 		LOG_INFO ("server.hostaddr: %s", m_kVM["server.hostaddr"].as<std::string> ().c_str ());
 	}
 
-	if (m_kVM.count ("server.port")) {
-		LOG_INFO ("server.port: %hd", m_kVM["server.port"].as<short> ());
+	if (m_kVM.count ("server.tcpport")) {
+		LOG_INFO ("server.tcpport: %hd", m_kVM["server.tcpport"].as<short> ());
+	}
+
+	if (m_kVM.count ("server.udpport")) {
+		LOG_INFO ("server.udpport: %hd", m_kVM["server.udpport"].as<short> ());
 	}
 
 	if (m_kVM.count ("db.user")) {

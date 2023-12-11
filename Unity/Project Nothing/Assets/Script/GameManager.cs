@@ -34,7 +34,7 @@ namespace ProjectNothing
         public IEnumerator Start ()
         {
             NetworkManager.Initialize (gameObject);
-            yield return NetworkManager.Instance.Init ("127.0.0.1", 8484);
+            yield return NetworkManager.Instance.Init ("127.0.0.1", 8484, 8485);
 
             ProtocolManager.Initialize (gameObject);
             ProtocolManager.Instance.Init ();

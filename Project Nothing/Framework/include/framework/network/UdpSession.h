@@ -6,11 +6,11 @@ using boost::asio::ip::udp;
 
 constexpr size_t UDP_SESSION_BUFFER_SIZE = 8192;
 
-class CUdpListener : public std::enable_shared_from_this<CUdpListener>
+class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 {
 public:
-	CUdpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort);
-	virtual ~CUdpListener ();
+	CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort);
+	virtual ~CUdpSession ();
 
 	void init ();
 	void shutdown ();

@@ -1,25 +1,26 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
 #include "framework/network/BitStream.h"
+#include "framework/network/NetProtocol.h"
 #include "framework/network/UdpSession.h"
 
-CUdpListener::CUdpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
+CUdpSession::CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
 	: m_kSocket (_rkContext, udp::endpoint (boost::asio::ip::address::from_string (_rkHostAddr.c_str ()), _nPort))
 	, m_kSendBuffer {}
 	, m_kReceiveBuffer {}
 {
 }
 
-CUdpListener::~CUdpListener ()
+CUdpSession::~CUdpSession ()
 {
 }
 
-void CUdpListener::init ()
+void CUdpSession::init ()
 {
 	async_receive ();
 }
 
-void CUdpListener::shutdown ()
+void CUdpSession::shutdown ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_wait (udp::socket::wait_read, [this, self](const boost::system::error_code& _rkErrorCode)
@@ -33,7 +34,7 @@ void CUdpListener::shutdown ()
 		});
 }
 
-void CUdpListener::async_receive ()
+void CUdpSession::async_receive ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_receive_from (boost::asio::buffer (m_kReceiveBuffer, UDP_SESSION_BUFFER_SIZE), m_kEndpoint,
@@ -50,7 +51,7 @@ void CUdpListener::async_receive ()
 		});
 }
 
-void CUdpListener::async_send (std::size_t _nBytes)
+void CUdpSession::async_send (std::size_t _nBytes)
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_send_to (boost::asio::buffer (m_kSendBuffer, _nBytes), m_kEndpoint,
@@ -62,17 +63,17 @@ void CUdpListener::async_send (std::size_t _nBytes)
 		});
 }
 
-void CUdpListener::on_receive (const boost::asio::const_buffer& _rkBuffer)
+void CUdpSession::on_receive (const boost::asio::const_buffer& _rkBuffer)
 {
 	const uint8_t* buffer = boost::asio::buffer_cast<const uint8_t*> (_rkBuffer);
 	CBitInStream inStream (buffer, _rkBuffer.size ());
 
 	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
 
-	// m_pkNetBridge->resolve_input (inStream);
+	// TODO: resolve input
 }
 
-void CUdpListener::on_send (const CBitOutStream& _rkOutStream)
+void CUdpSession::on_send (const CBitOutStream& _rkOutStream)
 {
 	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
 	std::copy (bytes.begin (), bytes.end (), m_kSendBuffer.begin ());

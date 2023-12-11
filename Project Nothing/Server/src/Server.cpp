@@ -88,6 +88,7 @@ void CServer::init_protocol_manager ()
 void CServer::init_session_manager ()
 {
 	std::string hostaddr = m_kConfigLoader.get_config<std::string> ("server.hostaddr");
-	short port = m_kConfigLoader.get_config<short> ("server.port");
-	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kContext, hostaddr, port);
+	short tcpport = m_kConfigLoader.get_config<short> ("server.tcpport");
+	short udpport = m_kConfigLoader.get_config<short> ("server.udpport");
+	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kContext, hostaddr, tcpport, udpport);
 }
