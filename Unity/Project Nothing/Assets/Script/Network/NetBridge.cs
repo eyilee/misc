@@ -2,10 +2,10 @@
 {
     public sealed class NetBridge
     {
-        public void ResolveInput (InStream inStream)
+        public void ResolveInput (BitInStream inStream)
         {
             ushort protocolID;
-            inStream.ReadUnsignedShort (out protocolID);
+            inStream.Read (out protocolID);
 
             INetProtocol netProtocol = GenerateProtocol (protocolID, this);
             netProtocol.Deserialize (inStream);
@@ -14,7 +14,7 @@
 
         public void ComposeOutput (INetProtocol netProtocol)
         {
-            OutStream outStream = new OutStream ();
+            BitOutStream outStream = new BitOutStream ();
             netProtocol.OnSerialize (outStream);
             NetworkManager.Instance.OnWrite (outStream);
         }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
+#include "framework/network/BitStream.h"
 #include "framework/network/NetProtocol.h"
-#include "framework/network/OutStream.h"
 #include "framework/network/TcpClient.h"
 
 CTcpClient::CTcpClient (boost::asio::io_context& _kIo_context, std::string _kHost, std::string _kPort)
@@ -31,7 +31,7 @@ void CTcpClient::init ()
 
 void CTcpClient::compose_output (std::shared_ptr<INetProtocol> _pkNetProtocol)
 {
-	COutStream outStream;
+	CBitOutStream outStream;
 	_pkNetProtocol->on_serialize (outStream);
 	on_write (outStream);
 }
@@ -48,10 +48,10 @@ void CTcpClient::async_write (std::size_t _nBytes)
 		});
 }
 
-void CTcpClient::on_write (const COutStream& _rkOutStream)
+void CTcpClient::on_write (const CBitOutStream& _rkOutStream)
 {
-	const std::vector<char>& data = _rkOutStream.data ();
-	std::copy (data.begin (), data.end (), m_kWriteBuffer.begin ());
+	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
+	std::copy (bytes.begin (), bytes.end (), m_kWriteBuffer.begin ());
 
-	async_write (data.size ());
+	async_write (bytes.size ());
 }

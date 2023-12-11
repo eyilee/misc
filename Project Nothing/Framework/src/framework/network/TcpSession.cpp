@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
-#include "framework/network/InStream.h"
+#include "framework/network/BitStream.h"
 #include "framework/network/NetBridge.h"
-#include "framework/network/OutStream.h"
 #include "framework/network/TcpSession.h"
 
 CTcpSession::CTcpSession (tcp::socket& _rkSocket)
@@ -69,16 +68,16 @@ void CTcpSession::async_write (std::size_t _nBytes)
 
 void CTcpSession::on_read (const boost::asio::const_buffer& _rkBuffer)
 {
-	const char* buffer = boost::asio::buffer_cast<const char*> (_rkBuffer);
-	CInStream inStream (buffer, _rkBuffer.size ());
+	const uint8_t* buffer = boost::asio::buffer_cast<const uint8_t*> (_rkBuffer);
+	CBitInStream inStream (buffer, _rkBuffer.size ());
 
 	m_pkNetBridge->resolve_input (inStream);
 }
 
-void CTcpSession::on_write (const COutStream& _rkOutStream)
+void CTcpSession::on_write (const CBitOutStream& _rkOutStream)
 {
-	const std::vector<char>& data = _rkOutStream.data ();
-	std::copy (data.begin (), data.end (), m_kWriteBuffer.begin ());
+	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
+	std::copy (bytes.begin (), bytes.end (), m_kWriteBuffer.begin ());
 
-	async_write (data.size ());
+	async_write (bytes.size ());
 }

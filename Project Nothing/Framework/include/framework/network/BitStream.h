@@ -6,6 +6,7 @@ class CBitInStream
 {
 public:
 	CBitInStream (const std::vector<uint8_t>& _rkBytes);
+	CBitInStream (const uint8_t* _pnData, size_t _nSize);
 	virtual ~CBitInStream ();
 
 	void Read (bool& _rbValue);
@@ -14,7 +15,10 @@ public:
 	void Read (T& _rnValue) requires std::is_arithmetic<T>::value;
 
 	template<typename T>
-	void Read (T& _rnValue) requires std::is_base_of<ISerializable, T>::value;
+	void Read (T& _rkValue) requires std::is_base_of<ISerializable, T>::value;
+
+	void Read (std::string& _rkValue);
+	void Read (std::wstring& _rkValue);
 
 private:
 	void ReadValue (void* _pValue, size_t _nByteCount);
@@ -53,9 +57,9 @@ inline void CBitInStream::Read (T& _rnValue) requires std::is_arithmetic<T>::val
 }
 
 template<typename T>
-inline void CBitInStream::Read (T& _rnValue) requires std::is_base_of<ISerializable, T>::value
+inline void CBitInStream::Read (T& _rkValue) requires std::is_base_of<ISerializable, T>::value
 {
-	_rnValue.Deserialize (*this);
+	_rkValue.Deserialize (*this);
 }
 
 class CBitOutStream
@@ -64,13 +68,18 @@ public:
 	CBitOutStream ();
 	virtual ~CBitOutStream ();
 
+	const std::vector<uint8_t>& GetBytes () const { return m_kBytes; }
+
 	void Write (bool _bValue);
 
 	template<typename T>
 	void Write (T _nValue) requires std::is_arithmetic<T>::value;
 
 	template<typename T>
-	void Write (T& _rnValue) requires std::is_base_of<ISerializable, T>::value;
+	void Write (const T& _rkValue) requires std::is_base_of<ISerializable, T>::value;
+
+	void Write (const std::string& _rkValue);
+	void Write (const std::wstring& _rkValue);
 
 private:
 	void WriteValue (void* _pValue, size_t _nByteCount);
@@ -109,7 +118,7 @@ inline void CBitOutStream::Write (T _nValue) requires std::is_arithmetic<T>::val
 }
 
 template<typename T>
-inline void CBitOutStream::Write (T& _rnValue) requires std::is_base_of<ISerializable, T>::value
+inline void CBitOutStream::Write (const T& _rkValue) requires std::is_base_of<ISerializable, T>::value
 {
-	_rnValue.Serialize (*this);
+	_rkValue.Serialize (*this);
 }

@@ -11,11 +11,11 @@ ServerShutdown::~ServerShutdown ()
 {
 }
 
-void ServerShutdown::serialize (COutStream& _kOut_stream)
+void ServerShutdown::serialize (CBitOutStream& _rkOutStream)
 {
 }
 
-void ServerShutdown::deserialize (CInStream& _kIn_stream)
+void ServerShutdown::deserialize (CBitInStream& _rkInStream)
 {
 }
 

@@ -8,6 +8,12 @@ CBitInStream::CBitInStream (const std::vector<uint8_t>& _rkBytes)
 {
 }
 
+CBitInStream::CBitInStream (const uint8_t* _pnData, size_t _nSize)
+	: m_nBitOffset (0)
+	, m_kBytes (_pnData, _pnData + _nSize)
+{
+}
+
 CBitInStream::~CBitInStream ()
 {
 }
@@ -15,10 +21,45 @@ CBitInStream::~CBitInStream ()
 void CBitInStream::Read (bool& _rbValue)
 {
 	if (m_nBitOffset + 1 > m_kBytes.size () * 8) {
+		_rbValue = false;
 		return;
 	}
 
 	ReadBit (_rbValue);
+}
+
+void CBitInStream::Read (std::string& _rkValue)
+{
+	unsigned short size;
+	Read (size);
+
+	std::string value;
+	value.reserve (size);
+
+	for (unsigned short i = 0; i < size; i++) {
+		char c;
+		Read (c);
+		value.push_back (c);
+	}
+
+	_rkValue.swap (value);
+}
+
+void CBitInStream::Read (std::wstring& _rkValue)
+{
+	unsigned short size;
+	Read (size);
+
+	std::wstring value;
+	value.reserve (size);
+
+	for (unsigned short i = 0; i < size; i++) {
+		wchar_t c;
+		Read (c);
+		value.push_back (c);
+	}
+
+	_rkValue.swap (value);
 }
 
 void CBitInStream::ReadValue (void* _pValue, size_t _nByteCount)
@@ -69,6 +110,26 @@ CBitOutStream::~CBitOutStream ()
 void CBitOutStream::Write (bool _bValue)
 {
 	WriteBit (_bValue);
+}
+
+void CBitOutStream::Write (const std::string& _rkValue)
+{
+	unsigned short size = (unsigned short)_rkValue.size ();
+	Write (size);
+
+	for (unsigned short i = 0; i < size; i++) {
+		Write (_rkValue[i]);
+	}
+}
+
+void CBitOutStream::Write (const std::wstring& _rkValue)
+{
+	unsigned short size = (unsigned short)_rkValue.size ();
+	Write (size);
+
+	for (unsigned short i = 0; i < size; i++) {
+		Write (_rkValue[i]);
+	}
 }
 
 void CBitOutStream::WriteValue (void* _pValue, size_t _nByteCount)

@@ -1,6 +1,6 @@
 #pragma once
 
-class COutStream;
+class CBitOutStream;
 
 using boost::asio::ip::udp;
 
@@ -20,12 +20,12 @@ private:
 	void async_send (std::size_t _nBytes);
 
 	void on_receive (const boost::asio::const_buffer& _rkBuffer);
-	void on_send (const COutStream& _rkOutStream);
+	void on_send (const CBitOutStream& _rkOutStream);
 
 private:
 	udp::socket m_kSocket;
 	udp::endpoint m_kEndpoint;
 
-	std::array<char, UDP_SESSION_BUFFER_SIZE> m_kSendBuffer;
-	std::array<char, UDP_SESSION_BUFFER_SIZE> m_kReceiveBuffer;
+	std::array<uint8_t, UDP_SESSION_BUFFER_SIZE> m_kSendBuffer;
+	std::array<uint8_t, UDP_SESSION_BUFFER_SIZE> m_kReceiveBuffer;
 };

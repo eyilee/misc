@@ -29,12 +29,11 @@
 
 // framework
 #include "framework/event/Event.h"
+#include "framework/network/BitStream.h"
 #include "framework/network/Entity.h"
-#include "framework/network/InStream.h"
 #include "framework/network/NetBridge.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/NetProtocolGenerator.h"
-#include "framework/network/OutStream.h"
 #include "framework/network/TcpClient.h"
 #include "framework/network/TcpListener.h"
 #include "framework/network/TcpSession.h"

@@ -62,7 +62,7 @@ namespace ProjectNothing.Network
 
         private void OnRead (int length)
         {
-            InStream inStream = new InStream (m_ReceiveBuffer, length);
+            BitInStream inStream = new BitInStream (m_ReceiveBuffer, length);
             m_NetBridge.ResolveInput (inStream);
         }
 
@@ -77,9 +77,9 @@ namespace ProjectNothing.Network
             }
         }
 
-        public void OnWrite (OutStream outStream)
+        public void OnWrite (BitOutStream outStream)
         {
-            byte[] data = outStream.Data ();
+            byte[] data = outStream.GetBytes ();
             Array.Copy (data, m_SendBuffer, data.Length);
             AsyncWrite (data.Length);
         }

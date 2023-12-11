@@ -1,8 +1,7 @@
 #pragma once
+#include "framework/network/BitStream.h"
 
-class CInStream;
 class CNetBridge;
-class COutStream;
 
 class INetProtocol
 {
@@ -12,9 +11,9 @@ public:
 
 	void set_net_bridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; };
 
-	virtual void on_serialize (COutStream& _rkOutStream) = 0;
-	virtual void serialize (COutStream& _rkOutStream) = 0;
-	virtual void deserialize (CInStream& _rkInStream) = 0;
+	virtual void on_serialize (CBitOutStream& _rkOutStream) = 0;
+	virtual void serialize (CBitOutStream& _rkOutStream) = 0;
+	virtual void deserialize (CBitInStream& _rkInStream) = 0;
 	virtual void excute () = 0;
 
 protected:
@@ -31,9 +30,9 @@ public:
 	static const unsigned short get_protocol_id () { return m_nProtocolID; };
 	static void set_protocol_id (const unsigned short _nProtocolID) { m_nProtocolID = _nProtocolID; }
 
-	virtual void on_serialize (COutStream& _rkOutStream);
-	virtual void serialize (COutStream& _rkOutStream) = 0;
-	virtual void deserialize (CInStream& _rkInStream) = 0;
+	virtual void on_serialize (CBitOutStream& _rkOutStream);
+	virtual void serialize (CBitOutStream& _rkOutStream) = 0;
+	virtual void deserialize (CBitInStream& _rkInStream) = 0;
 	virtual void excute () = 0;
 
 private:
@@ -51,9 +50,9 @@ inline CNetProtocol<T>::~CNetProtocol ()
 }
 
 template<typename T>
-inline void CNetProtocol<T>::on_serialize (COutStream& _rkOutStream)
+inline void CNetProtocol<T>::on_serialize (CBitOutStream& _rkOutStream)
 {
-	_rkOutStream << m_nProtocolID;
+	_rkOutStream.Write (m_nProtocolID);
 	serialize (_rkOutStream);
 }
 

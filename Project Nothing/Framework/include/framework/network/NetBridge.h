@@ -1,7 +1,7 @@
 #pragma once
 
 class IEntity;
-class CInStream;
+class CBitInStream;
 class INetProtocol;
 class CTcpSession;
 
@@ -14,7 +14,7 @@ public:
 	void set_entity (std::shared_ptr<IEntity> _pkEntity);
 	std::shared_ptr<IEntity> get_entity ();
 
-	void resolve_input (CInStream& _rkInStream);
+	void resolve_input (CBitInStream& _rkInStream);
 	void compose_output (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:

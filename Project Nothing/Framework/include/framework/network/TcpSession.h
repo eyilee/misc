@@ -2,8 +2,8 @@
 
 using boost::asio::ip::tcp;
 
+class CBitOutStream;
 class CNetBridge;
-class COutStream;
 
 constexpr size_t TCP_SESSION_BUFFER_SIZE = 8192;
 
@@ -23,13 +23,13 @@ private:
 	void async_write (std::size_t _nBytes);
 
 	void on_read (const boost::asio::const_buffer& _rkBuffer);
-	void on_write (const COutStream& _rkOutStream);
+	void on_write (const CBitOutStream& _rkOutStream);
 
 private:
 	tcp::socket m_kSocket;
 
-	std::array<char, TCP_SESSION_BUFFER_SIZE> m_kWriteBuffer;
-	std::array<char, TCP_SESSION_BUFFER_SIZE> m_kReadBuffer;
+	std::array<uint8_t, TCP_SESSION_BUFFER_SIZE> m_kWriteBuffer;
+	std::array<uint8_t, TCP_SESSION_BUFFER_SIZE> m_kReadBuffer;
 
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };

@@ -11,13 +11,13 @@ ServerEcho::~ServerEcho ()
 {
 }
 
-void ServerEcho::serialize (COutStream& _rkOutStream)
+void ServerEcho::serialize (CBitOutStream& _rkOutStream)
 {
 }
 
-void ServerEcho::deserialize (CInStream& _rkInStream)
+void ServerEcho::deserialize (CBitInStream& _rkInStream)
 {
-	_rkInStream >> m_kString;
+	_rkInStream.Read (m_kString);
 }
 
 void ServerEcho::excute ()

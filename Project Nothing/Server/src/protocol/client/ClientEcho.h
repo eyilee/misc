@@ -7,8 +7,8 @@ public:
 	ClientEcho (const std::wstring& _rkString);
 	virtual ~ClientEcho ();
 
-	virtual void serialize (COutStream& _rkOutStream) override;
-	virtual void deserialize (CInStream& _rkInStream) override;
+	virtual void serialize (CBitOutStream& _rkOutStream) override;
+	virtual void deserialize (CBitInStream& _rkInStream) override;
 	virtual void excute () override;
 
 private:

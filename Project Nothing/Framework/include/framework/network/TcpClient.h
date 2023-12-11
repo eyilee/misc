@@ -2,8 +2,8 @@
 
 using boost::asio::ip::tcp;
 
+class CBitOutStream;
 class INetProtocol;
-class COutStream;
 
 constexpr size_t TCP_CLIENT_BUFFER_SIZE = 8192;
 
@@ -20,7 +20,7 @@ public:
 private:
 	void async_write (std::size_t _nLength);
 
-	void on_write (const COutStream& _rkOutStream);
+	void on_write (const CBitOutStream& _rkOutStream);
 
 private:
 	tcp::resolver m_kResolver;

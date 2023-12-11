@@ -1,8 +1,7 @@
 #include "stdafx.h"
+#include "framework/network/BitStream.h"
 #include "framework/network/Entity.h"
-#include "framework/network/InStream.h"
 #include "framework/network/NetProtocol.h"
-#include "framework/network/OutStream.h"
 #include "framework/network/TcpSession.h"
 #include "framework/manager/ProtocolManager.h"
 #include "framework/network/NetBridge.h"
@@ -27,10 +26,10 @@ std::shared_ptr<IEntity> CNetBridge::get_entity ()
 	return m_pkEntity;
 }
 
-void CNetBridge::resolve_input (CInStream& _rkInStream)
+void CNetBridge::resolve_input (CBitInStream& _rkInStream)
 {
 	unsigned short protocolID;
-	_rkInStream >> protocolID;
+	_rkInStream.Read (protocolID);
 
 	if (CProtocolManager::Instance != nullptr)
 	{
@@ -43,7 +42,7 @@ void CNetBridge::resolve_input (CInStream& _rkInStream)
 
 void CNetBridge::compose_output (std::shared_ptr<INetProtocol> _pkProtocol)
 {
-	COutStream outStream;
+	CBitOutStream outStream;
 	_pkProtocol->on_serialize (outStream);
 	m_pkSession->on_write (outStream);
 }

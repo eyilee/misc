@@ -7,9 +7,9 @@ namespace ProjectNothing.Protocol
     {
         private string m_String;
 
-        public override void Deserialize (InStream inStream)
+        public override void Deserialize (BitInStream inStream)
         {
-            inStream.ReadString (out m_String);
+            inStream.Read (out m_String);
         }
 
         public override void Excute ()
@@ -17,7 +17,7 @@ namespace ProjectNothing.Protocol
             Debug.Log (m_String);
         }
 
-        public override void Serialize (OutStream outStream)
+        public override void Serialize (BitOutStream outStream)
         {
         }
     }

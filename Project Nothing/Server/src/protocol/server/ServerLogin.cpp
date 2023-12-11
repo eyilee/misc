@@ -11,13 +11,13 @@ ServerLogin::~ServerLogin ()
 {
 }
 
-void ServerLogin::serialize (COutStream& _rkOutStream)
+void ServerLogin::serialize (CBitOutStream& _rkOutStream)
 {
 }
 
-void ServerLogin::deserialize (CInStream& _rkInStream)
+void ServerLogin::deserialize (CBitInStream& _rkInStream)
 {
-	_rkInStream >> m_nID;
+	_rkInStream.Read (m_nID);
 }
 
 void ServerLogin::excute ()
