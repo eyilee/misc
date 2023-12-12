@@ -6,9 +6,9 @@ public:
 	ServerLogin ();
 	virtual ~ServerLogin ();
 
-	virtual void serialize (CBitOutStream& _rkOutStream) override;
-	virtual void deserialize (CBitInStream& _rkInStream) override;
-	virtual void excute () override;
+	virtual void Serialize (CBitOutStream& _rkOutStream) override;
+	virtual void Deserialize (CBitInStream& _rkInStream) override;
+	virtual void Excute () override;
 
 private:
 	int m_nID;

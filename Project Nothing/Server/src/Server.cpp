@@ -15,79 +15,79 @@ CServer::~CServer ()
 {
 }
 
-void CServer::init ()
+void CServer::Init ()
 {
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
 	}
 
-	m_kConfigLoader.load ();
+	m_kConfigLoader.Load ();
 
-	init_db_manager ();
-	init_entity_manager ();
-	init_event_manager ();
-	init_protocol_manager ();
-	init_session_manager ();
+	InitDBManager ();
+	InitEntityManager ();
+	InitEventManager ();
+	InitProtocolManager ();
+	InitSessionManager ();
 }
 
-void CServer::run ()
+void CServer::Run ()
 {
 	m_kContext.run ();
 }
 
-void CServer::shutdown ()
+void CServer::Shutdown ()
 {
-	shutdown_manager (CDBManager::Instance, &CDBManager::shutdown);
-	shutdown_manager (CEntityManager::Instance, &CEntityManager::shutdown);
-	shutdown_manager (CEventManager::Instance, &CEventManager::shutdown);
-	shutdown_manager (CProtocolManager::Instance, &CProtocolManager::shutdown);
-	shutdown_manager (CSessionManager::Instance, &CSessionManager::shutdown);
+	ShutdownManager (CDBManager::Instance, &CDBManager::Shutdown);
+	ShutdownManager (CEntityManager::Instance, &CEntityManager::Shutdown);
+	ShutdownManager (CEventManager::Instance, &CEventManager::Shutdown);
+	ShutdownManager (CProtocolManager::Instance, &CProtocolManager::Shutdown);
+	ShutdownManager (CSessionManager::Instance, &CSessionManager::Shutdown);
 
 	m_kContext.stop ();
 }
 
-void CServer::init_db_manager ()
+void CServer::InitDBManager ()
 {
-	std::string user = m_kConfigLoader.get_config<std::string> ("db.user");
-	std::string password = m_kConfigLoader.get_config<std::string> ("db.password");
-	std::string dbname = m_kConfigLoader.get_config<std::string> ("db.dbname");
-	std::string hostaddr = m_kConfigLoader.get_config<std::string> ("db.hostaddr");
-	setup_manager (CDBManager::Instance, &CDBManager::init, user, password, dbname, hostaddr);
+	std::string user = m_kConfigLoader.GetConfig<std::string> ("db.user");
+	std::string password = m_kConfigLoader.GetConfig<std::string> ("db.password");
+	std::string dbname = m_kConfigLoader.GetConfig<std::string> ("db.dbname");
+	std::string hostaddr = m_kConfigLoader.GetConfig<std::string> ("db.hostaddr");
+	SetupManager (CDBManager::Instance, &CDBManager::Init, user, password, dbname, hostaddr);
 }
 
-void CServer::init_entity_manager ()
+void CServer::InitEntityManager ()
 {
-	setup_manager (CEntityManager::Instance, &CEntityManager::init);
+	SetupManager (CEntityManager::Instance, &CEntityManager::Init);
 }
 
-void CServer::init_event_manager ()
+void CServer::InitEventManager ()
 {
-	setup_manager (CEventManager::Instance, &CEventManager::init, m_kContext);
+	SetupManager (CEventManager::Instance, &CEventManager::Init, m_kContext);
 
 	if (CEventManager::Instance != nullptr) {
-		CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
+		CEventManager::Instance->AddEvent (std::make_shared<CEventHeartbeat> ());
 	}
 }
 
-void CServer::init_protocol_manager ()
+void CServer::InitProtocolManager ()
 {
-	setup_manager (CProtocolManager::Instance, &CProtocolManager::init);
+	SetupManager (CProtocolManager::Instance, &CProtocolManager::Init);
 
 	if (CProtocolManager::Instance != nullptr)
 	{
-		CProtocolManager::Instance->register_protocol<ServerLogin> (1);
-		CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
-		CProtocolManager::Instance->register_protocol<ClientLoginResult> (50);
+		CProtocolManager::Instance->RegisterProtocol<ServerLogin> (1);
+		CProtocolManager::Instance->RegisterProtocol<ServerShutdown> (2);
+		CProtocolManager::Instance->RegisterProtocol<ClientLoginResult> (50);
 
-		CProtocolManager::Instance->register_protocol<ServerEcho> (100);
-		CProtocolManager::Instance->register_protocol<ClientEcho> (200);
+		CProtocolManager::Instance->RegisterProtocol<ServerEcho> (100);
+		CProtocolManager::Instance->RegisterProtocol<ClientEcho> (200);
 	}
 }
 
-void CServer::init_session_manager ()
+void CServer::InitSessionManager ()
 {
-	std::string hostaddr = m_kConfigLoader.get_config<std::string> ("server.hostaddr");
-	short tcpport = m_kConfigLoader.get_config<short> ("server.tcpport");
-	short udpport = m_kConfigLoader.get_config<short> ("server.udpport");
-	setup_manager (CSessionManager::Instance, &CSessionManager::init, m_kContext, hostaddr, tcpport, udpport);
+	std::string hostaddr = m_kConfigLoader.GetConfig<std::string> ("server.hostaddr");
+	short tcpport = m_kConfigLoader.GetConfig<short> ("server.tcpport");
+	short udpport = m_kConfigLoader.GetConfig<short> ("server.udpport");
+	SetupManager (CSessionManager::Instance, &CSessionManager::Init, m_kContext, hostaddr, tcpport, udpport);
 }

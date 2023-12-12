@@ -48,6 +48,9 @@
     <ClCompile Include="src\protocol\client\ClientLoginResult.cpp">
       <Filter>src\protocol\client</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">

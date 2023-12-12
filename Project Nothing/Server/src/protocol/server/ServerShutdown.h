@@ -6,7 +6,7 @@ public:
 	ServerShutdown ();
 	virtual ~ServerShutdown ();
 
-	virtual void serialize (CBitOutStream& _rkOutStream) override;
-	virtual void deserialize (CBitInStream& _rkInStream) override;
-	virtual void excute () override;
+	virtual void Serialize (CBitOutStream& _rkOutStream) override;
+	virtual void Deserialize (CBitInStream& _rkInStream) override;
+	virtual void Excute () override;
 };

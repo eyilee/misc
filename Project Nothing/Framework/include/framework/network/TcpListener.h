@@ -8,11 +8,11 @@ public:
 	CTcpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort);
 	virtual ~CTcpListener ();
 
-	void init ();
-	void shutdown ();
+	void Init ();
+	void Shutdown ();
 
 private:
-	void async_accept ();
+	void AsyncAccept ();
 
 private:
 	tcp::acceptor m_kAcceptor;

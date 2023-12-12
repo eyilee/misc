@@ -12,26 +12,30 @@ public:
 	CProtocolManager ();
 	virtual ~CProtocolManager ();
 
-	void init ();
-	void shutdown ();
+	void Init ();
+	void Shutdown ();
 
 	template<typename T>
-	void register_protocol (unsigned short _nProtocolID);
+	void RegisterProtocol (unsigned short _nID);
 
-	std::shared_ptr<INetProtocol> generate_protocol (unsigned short _nProtocolID);
+	std::shared_ptr<INetProtocol> GenerateProtocol (unsigned short _nID);
 
 private:
 	std::map<int, std::shared_ptr<INetProtocolGenerator>> m_kProtocolMap;
 };
 
 template<typename T>
-inline void CProtocolManager::register_protocol (unsigned short _nProtocolID)
+inline void CProtocolManager::RegisterProtocol (unsigned short _nID)
 {
-	std::shared_ptr<INetProtocolGenerator> generator = std::make_shared<CNetProtocolGenerator<T>> ();
+	T::SetID (_nID);
 
-	if (m_kProtocolMap.find (_nProtocolID) == m_kProtocolMap.end ())
-	{
-		T::set_protocol_id (_nProtocolID);
-		m_kProtocolMap.emplace (_nProtocolID, generator);
+	std::shared_ptr<CNetProtocolGenerator<T>> generator = std::make_shared<CNetProtocolGenerator<T>> ();
+
+	auto it = m_kProtocolMap.find (_nID);
+	if (it == m_kProtocolMap.end ()) {
+		m_kProtocolMap.emplace (_nID, generator);
+	}
+	else {
+		it->second = generator;
 	}
 }

@@ -2,8 +2,8 @@
 
 using boost::asio::ip::tcp;
 
-class CBitOutStream;
 class INetProtocol;
+class CBitOutStream;
 
 constexpr size_t TCP_CLIENT_BUFFER_SIZE = 8192;
 
@@ -13,14 +13,14 @@ public:
 	CTcpClient (boost::asio::io_context& _rkContext, std::string _rkHostAddr, std::string _rkPort);
 	virtual ~CTcpClient ();
 
-	void init ();
+	void Init ();
 
-	void compose_output (std::shared_ptr<INetProtocol> _pkNetProtocol);
+	void ComposeOutput (std::shared_ptr<INetProtocol> _pkNetProtocol);
 
 private:
-	void async_write (std::size_t _nLength);
+	void AsyncWrite (std::size_t _nLength);
 
-	void on_write (const CBitOutStream& _rkOutStream);
+	void OnWrite (const CBitOutStream& _rkOutStream);
 
 private:
 	tcp::resolver m_kResolver;

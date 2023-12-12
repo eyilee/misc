@@ -15,15 +15,15 @@ public:
 	CTcpSession (tcp::socket& _rkSocket);
 	virtual ~CTcpSession ();
 
-	void init ();
-	void shutdown ();
+	void Init ();
+	void Shutdown ();
 
 private:
-	void async_read ();
-	void async_write (std::size_t _nBytes);
+	void AsyncRead ();
+	void AsyncWrite (std::size_t _nBytes);
 
-	void on_read (const boost::asio::const_buffer& _rkBuffer);
-	void on_write (const CBitOutStream& _rkOutStream);
+	void OnRead (const boost::asio::const_buffer& _rkBuffer);
+	void OnWrite (const CBitOutStream& _rkOutStream);
 
 private:
 	tcp::socket m_kSocket;

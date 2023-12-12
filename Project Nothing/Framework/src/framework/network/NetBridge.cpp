@@ -18,26 +18,26 @@ CNetBridge::~CNetBridge ()
 {
 }
 
-void CNetBridge::resolve_input (CBitInStream& _rkInStream)
+void CNetBridge::ResolveInput (CBitInStream& _rkInStream)
 {
 	unsigned short protocolID;
 	_rkInStream.Read (protocolID);
 
 	if (CProtocolManager::Instance != nullptr)
 	{
-		std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->generate_protocol (protocolID);
+		std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->GenerateProtocol (protocolID);
 		if (protocol != nullptr)
 		{
-			protocol->set_net_bridge (shared_from_this ());
-			protocol->deserialize (_rkInStream);
-			protocol->excute ();
+			protocol->SetNetBridge (shared_from_this ());
+			protocol->Deserialize (_rkInStream);
+			protocol->Excute ();
 		}
 	}
 }
 
-void CNetBridge::compose_output (std::shared_ptr<INetProtocol> _pkProtocol)
+void CNetBridge::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 {
 	CBitOutStream outStream;
-	_pkProtocol->on_serialize (outStream);
-	m_pkSession->on_write (outStream);
+	_pkProtocol->OnSerialize (outStream);
+	m_pkSession->OnWrite (outStream);
 }

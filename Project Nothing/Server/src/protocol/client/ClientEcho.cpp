@@ -14,15 +14,15 @@ ClientEcho::~ClientEcho ()
 {
 }
 
-void ClientEcho::serialize (CBitOutStream& _rkOutStream)
+void ClientEcho::Serialize (CBitOutStream& _rkOutStream)
 {
 	_rkOutStream.Write (m_kString);
 }
 
-void ClientEcho::deserialize (CBitInStream& _rkInStream)
+void ClientEcho::Deserialize (CBitInStream& _rkInStream)
 {
 }
 
-void ClientEcho::excute ()
+void ClientEcho::Excute ()
 {
 }

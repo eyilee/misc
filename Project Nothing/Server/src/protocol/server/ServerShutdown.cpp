@@ -11,29 +11,29 @@ ServerShutdown::~ServerShutdown ()
 {
 }
 
-void ServerShutdown::serialize (CBitOutStream& _rkOutStream)
+void ServerShutdown::Serialize (CBitOutStream& _rkOutStream)
 {
 }
 
-void ServerShutdown::deserialize (CBitInStream& _rkInStream)
+void ServerShutdown::Deserialize (CBitInStream& _rkInStream)
 {
 }
 
-void ServerShutdown::excute ()
+void ServerShutdown::Excute ()
 {
-	std::shared_ptr<CPlayerEntity> entity = std::static_pointer_cast<CPlayerEntity> (m_pkNetBridge->get_entity ());
+	std::shared_ptr<CPlayerEntity> entity = std::static_pointer_cast<CPlayerEntity> (m_pkNetBridge->GetEntity ());
 
 	if (entity == nullptr) {
 		LOG_ERROR ("Player entity not found.");
 	}
 
-	if (entity->get_id () != 0) {
+	if (entity->GetID () != 0) {
 		LOG_ERROR ("Permission denied.");
 	}
 
 	LOG_INFO ("Call shutdown!");
 
 	if (CServer::Instance != nullptr) {
-		CServer::Instance->shutdown ();
+		CServer::Instance->Shutdown ();
 	}
 }

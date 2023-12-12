@@ -12,12 +12,12 @@ CEventHeartbeat::~CEventHeartbeat ()
 {
 }
 
-void CEventHeartbeat::excute ()
+void CEventHeartbeat::Excute ()
 {
 	LOG_INFO ("heart beat.");
 
 	if (CEventManager::Instance != nullptr) {
-		CEventManager::Instance->add_event (std::make_shared<CEventHeartbeat> ());
+		CEventManager::Instance->AddEvent (std::make_shared<CEventHeartbeat> ());
 	}
 
 	m_bIsValid = false;

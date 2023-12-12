@@ -8,17 +8,17 @@ public:
 	CConfigLoader ();
 	virtual ~CConfigLoader ();
 
-	void load ();
+	void Load ();
 
 	template<typename T>
-	T get_config (const std::string& _rkKey);
+	T GetConfig (const std::string& _rkKey);
 
 private:
 	po::variables_map m_kVM;
 };
 
 template<typename T>
-inline T CConfigLoader::get_config (const std::string& _rkKey)
+inline T CConfigLoader::GetConfig (const std::string& _rkKey)
 {
 	if (m_kVM.count (_rkKey)) {
 		return m_kVM[_rkKey].as<T> ();

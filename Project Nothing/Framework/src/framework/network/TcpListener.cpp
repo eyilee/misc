@@ -14,14 +14,14 @@ CTcpListener::~CTcpListener ()
 {
 }
 
-void CTcpListener::init ()
+void CTcpListener::Init ()
 {
 	m_bIsRunning = true;
 
-	async_accept ();
+	AsyncAccept ();
 }
 
-void CTcpListener::shutdown ()
+void CTcpListener::Shutdown ()
 {
 	m_bIsRunning = false;
 
@@ -29,7 +29,7 @@ void CTcpListener::shutdown ()
 	m_kAcceptor.close ();
 }
 
-void CTcpListener::async_accept ()
+void CTcpListener::AsyncAccept ()
 {
 	auto self (shared_from_this ());
 	m_kAcceptor.async_accept ([&, self](const boost::system::error_code& _rkErrorCode, tcp::socket _rkSocket)
@@ -44,13 +44,13 @@ void CTcpListener::async_accept ()
 			else
 			{
 				std::shared_ptr<CTcpSession> session = std::make_shared<CTcpSession> (_rkSocket);
-				session->init ();
+				session->Init ();
 
 				if (CSessionManager::Instance != nullptr) {
-					CSessionManager::Instance->add_session (session);
+					CSessionManager::Instance->AddSession (session);
 				}
 
-				async_accept ();
+				AsyncAccept ();
 			}
 		});
 }

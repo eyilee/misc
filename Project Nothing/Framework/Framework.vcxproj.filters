@@ -42,9 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\stdafx.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="include\framework\manager\DBManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
@@ -60,9 +57,6 @@
     <ClInclude Include="include\framework\network\Entity.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\InStream.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
     <ClInclude Include="include\framework\network\NetBridge.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
@@ -70,9 +64,6 @@
       <Filter>include\framework\network</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\network\NetProtocolGenerator.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\OutStream.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\network\TcpClient.h">
@@ -105,6 +96,9 @@
     <ClInclude Include="include\framework\network\UdpSession.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
+    <ClInclude Include="include\stdafx.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -130,9 +124,6 @@
     <ClCompile Include="src\framework\network\Entity.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\InStream.cpp">
-      <Filter>src\framework\network</Filter>
-    </ClCompile>
     <ClCompile Include="src\framework\network\NetBridge.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
@@ -140,9 +131,6 @@
       <Filter>src\framework\network</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\NetProtocolGenerator.cpp">
-      <Filter>src\framework\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\network\OutStream.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\TcpClient.cpp">
@@ -171,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="src\framework\network\UdpSession.cpp">
       <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

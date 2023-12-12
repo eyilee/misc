@@ -9,7 +9,7 @@ CConfigLoader::~CConfigLoader ()
 {
 }
 
-void CConfigLoader::load ()
+void CConfigLoader::Load ()
 {
 	po::options_description description ("config");
 	description.add_options ()

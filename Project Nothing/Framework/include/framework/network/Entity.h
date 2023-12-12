@@ -8,11 +8,11 @@ public:
 	IEntity ();
 	virtual ~IEntity ();
 
-	int get_id () { return m_nID; }
-	void set_id (const int& _nID) { m_nID = _nID; }
+	int GetID () { return m_nID; }
+	void SetID (const int& _rnID) { m_nID = _rnID; }
 
-	std::shared_ptr<CNetBridge> get_net_bridge () { return m_pkNetBridge; }
-	void set_net_bridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; };
+	std::shared_ptr<CNetBridge> GetNetBridge () { return m_pkNetBridge; }
+	void SetNetBridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; };
 
 protected:
 	int m_nID;

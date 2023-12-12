@@ -1,25 +1,18 @@
 #pragma once
 
-class IEvent
-{
-public:
-	IEvent ();
-	virtual ~IEvent ();
-};
-
-class CEvent : public IEvent, public std::enable_shared_from_this<CEvent>
+class CEvent : public std::enable_shared_from_this<CEvent>
 {
 public:
 	CEvent ();
 	virtual ~CEvent ();
 
-	virtual void excute () {};
+	virtual void Excute () = 0;
 
-	long long get_time () const { return m_nTime; }
-	void set_time (long long& _nTime) { m_nTime = _nTime; }
+	long long GetTime () const { return m_nTime; }
+	void SetTime (long long& _rnTime) { m_nTime = _rnTime; }
 
-	void cancel () { m_bIsValid = false; }
-	bool is_valid () { return m_bIsValid; }
+	void Cancel () { m_bIsValid = false; }
+	bool IsValid () { return m_bIsValid; }
 
 protected:
 	long long m_nTime;

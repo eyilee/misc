@@ -4,9 +4,9 @@
 #include "framework/network/NetProtocol.h"
 #include "framework/network/TcpClient.h"
 
-CTcpClient::CTcpClient (boost::asio::io_context& _kIo_context, std::string _kHost, std::string _kPort)
-	: m_kResolver (_kIo_context)
-	, m_kSocket (_kIo_context)
+CTcpClient::CTcpClient (boost::asio::io_context& _rkContext, std::string _kHost, std::string _kPort)
+	: m_kResolver (_rkContext)
+	, m_kSocket (_rkContext)
 	, m_kHostAddr (_kHost)
 	, m_kPort (_kPort)
 	, m_kWriteBuffer ()
@@ -17,7 +17,7 @@ CTcpClient::~CTcpClient ()
 {
 }
 
-void CTcpClient::init ()
+void CTcpClient::Init ()
 {
 	auto self (shared_from_this ());
 	boost::asio::async_connect (m_kSocket, m_kResolver.resolve (m_kHostAddr, m_kPort),
@@ -29,14 +29,14 @@ void CTcpClient::init ()
 		});
 }
 
-void CTcpClient::compose_output (std::shared_ptr<INetProtocol> _pkNetProtocol)
+void CTcpClient::ComposeOutput (std::shared_ptr<INetProtocol> _pkNetProtocol)
 {
 	CBitOutStream outStream;
-	_pkNetProtocol->on_serialize (outStream);
-	on_write (outStream);
+	_pkNetProtocol->OnSerialize (outStream);
+	OnWrite (outStream);
 }
 
-void CTcpClient::async_write (std::size_t _nBytes)
+void CTcpClient::AsyncWrite (std::size_t _nBytes)
 {
 	auto self (shared_from_this ());
 	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kWriteBuffer, _nBytes),
@@ -48,10 +48,10 @@ void CTcpClient::async_write (std::size_t _nBytes)
 		});
 }
 
-void CTcpClient::on_write (const CBitOutStream& _rkOutStream)
+void CTcpClient::OnWrite (const CBitOutStream& _rkOutStream)
 {
 	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
 	std::copy (bytes.begin (), bytes.end (), m_kWriteBuffer.begin ());
 
-	async_write (bytes.size ());
+	AsyncWrite (bytes.size ());
 }

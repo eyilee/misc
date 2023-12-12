@@ -11,7 +11,7 @@ CLogger::~CLogger ()
 {
 }
 
-void CLogger::init ()
+void CLogger::Init ()
 {
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
@@ -38,7 +38,7 @@ void CLogger::init ()
 	}
 }
 
-void CLogger::shutdown ()
+void CLogger::Shutdown ()
 {
 	if (m_kFileStream.is_open ()) {
 		m_kFileStream.close ();
@@ -47,7 +47,7 @@ void CLogger::shutdown ()
 	Instance = nullptr;
 }
 
-void CLogger::write (const char* _szMessage)
+void CLogger::Write (const char* _szMessage)
 {
 	if (!m_kFileStream.is_open ()) {
 		return;

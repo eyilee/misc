@@ -12,31 +12,31 @@ ServerLogin::~ServerLogin ()
 {
 }
 
-void ServerLogin::serialize (CBitOutStream& _rkOutStream)
+void ServerLogin::Serialize (CBitOutStream& _rkOutStream)
 {
 }
 
-void ServerLogin::deserialize (CBitInStream& _rkInStream)
+void ServerLogin::Deserialize (CBitInStream& _rkInStream)
 {
 	_rkInStream.Read (m_nID);
 }
 
-void ServerLogin::excute ()
+void ServerLogin::Excute ()
 {
 	if (m_pkNetBridge != nullptr)
 	{
 		if (CEntityManager::Instance != nullptr)
 		{
-			std::shared_ptr<IEntity> entity = CEntityManager::Instance->get_or_create_entity<CPlayerEntity> (m_nID);
+			std::shared_ptr<IEntity> entity = CEntityManager::Instance->GetOrCreateEntity<CPlayerEntity> (m_nID);
 			if (entity != nullptr) {
-				entity->set_net_bridge (m_pkNetBridge);
+				entity->SetNetBridge (m_pkNetBridge);
 			}
 
-			m_pkNetBridge->set_key (0);
-			m_pkNetBridge->set_entity (entity);
+			m_pkNetBridge->SetKey (0);
+			m_pkNetBridge->SetEntity (entity);
 
 			std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> ();
-			m_pkNetBridge->compose_output (protocol);
+			m_pkNetBridge->ComposeOutput (protocol);
 		}
 	}
 }

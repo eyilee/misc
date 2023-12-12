@@ -7,26 +7,26 @@ public:
 	CServer ();
 	virtual ~CServer ();
 
-	void init ();
+	void Init ();
 
-	void run ();
-	void shutdown ();
+	void Run ();
+	void Shutdown ();
 
-	void init_db_manager ();
-	void init_entity_manager ();
-	void init_event_manager ();
-	void init_protocol_manager ();
-	void init_session_manager ();
+	void InitDBManager ();
+	void InitEntityManager ();
+	void InitEventManager ();
+	void InitProtocolManager ();
+	void InitSessionManager ();
 
 public:
 	static std::shared_ptr<CServer> Instance;
 
 private:
 	template<typename T, typename ... FARGS, typename ... ARGS>
-	void setup_manager (std::shared_ptr<T> _pkInstance, void (T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args);
+	void SetupManager (std::shared_ptr<T> _pkInstance, void (T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args);
 
 	template<typename T, typename ... FARGS, typename ... ARGS>
-	void shutdown_manager (std::shared_ptr<T> _pkInstance, void (T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args);
+	void ShutdownManager (std::shared_ptr<T> _pkInstance, void (T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args);
 
 private:
 	boost::asio::io_context m_kContext;
@@ -36,7 +36,7 @@ private:
 };
 
 template<typename T, typename ...FARGS, typename ...ARGS>
-inline void CServer::setup_manager (std::shared_ptr<T> _pkInstance, void(T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args)
+inline void CServer::SetupManager (std::shared_ptr<T> _pkInstance, void(T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args)
 {
 	if (_pkInstance == nullptr) {
 		_pkInstance = std::make_shared<T> ();
@@ -46,7 +46,7 @@ inline void CServer::setup_manager (std::shared_ptr<T> _pkInstance, void(T::* _p
 }
 
 template<typename T, typename ...FARGS, typename ...ARGS>
-inline void CServer::shutdown_manager (std::shared_ptr<T> _pkInstance, void(T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args)
+inline void CServer::ShutdownManager (std::shared_ptr<T> _pkInstance, void(T::* _pfnFunction)(FARGS ...), ARGS&& ... _Args)
 {
 	if (_pkInstance != nullptr) {
 		(*_pkInstance.*_pfnFunction)(std::forward<ARGS> (_Args) ...);

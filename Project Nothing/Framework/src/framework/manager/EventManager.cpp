@@ -13,7 +13,7 @@ CEventManager::~CEventManager ()
 {
 }
 
-void CEventManager::init (boost::asio::io_context& _rkContext)
+void CEventManager::Init (boost::asio::io_context& _rkContext)
 {
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
@@ -29,7 +29,7 @@ void CEventManager::init (boost::asio::io_context& _rkContext)
 			}
 			else
 			{
-				tick ();
+				Tick ();
 
 				if (m_pkTimer != nullptr)
 				{
@@ -43,7 +43,7 @@ void CEventManager::init (boost::asio::io_context& _rkContext)
 	m_pkTimer->async_wait (m_fnTick);
 }
 
-void CEventManager::shutdown ()
+void CEventManager::Shutdown ()
 {
 	m_kEventList.clear ();
 
@@ -56,16 +56,16 @@ void CEventManager::shutdown ()
 	Instance = nullptr;
 }
 
-void CEventManager::add_event (std::shared_ptr<CEvent> _pkEvent)
+void CEventManager::AddEvent (std::shared_ptr<CEvent> _pkEvent)
 {
-	long long time = _pkEvent->get_time ();
+	long long time = _pkEvent->GetTime ();
 
 	auto pos = m_kEventList.before_begin ();
 	for (auto it = m_kEventList.begin (); it != m_kEventList.end (); it++)
 	{
 		pos = it;
 
-		if (time > (*it)->get_time ()) {
+		if (time > (*it)->GetTime ()) {
 			break;
 		}
 	}
@@ -73,18 +73,18 @@ void CEventManager::add_event (std::shared_ptr<CEvent> _pkEvent)
 	m_kEventList.emplace_after (pos, _pkEvent);
 }
 
-void CEventManager::tick ()
+void CEventManager::Tick ()
 {
 	auto time = std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::system_clock::now ().time_since_epoch ()).count ();
 	while (!m_kEventList.empty ())
 	{
 		std::shared_ptr<CEvent> latest = m_kEventList.front ();
-		if (latest->is_valid ())
+		if (latest->IsValid ())
 		{
-			if (time >= latest->get_time ())
+			if (time >= latest->GetTime ())
 			{
 				m_kEventList.pop_front ();
-				latest->excute ();
+				latest->Excute ();
 			}
 			else {
 				break;

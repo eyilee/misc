@@ -9,14 +9,14 @@ ClientLoginResult::~ClientLoginResult ()
 {
 }
 
-void ClientLoginResult::serialize (CBitOutStream& _rkOutStream)
+void ClientLoginResult::Serialize (CBitOutStream& _rkOutStream)
 {
 }
 
-void ClientLoginResult::deserialize (CBitInStream& _rkInStream)
+void ClientLoginResult::Deserialize (CBitInStream& _rkInStream)
 {
 }
 
-void ClientLoginResult::excute ()
+void ClientLoginResult::Excute ()
 {
 }

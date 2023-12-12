@@ -9,15 +9,15 @@ public:
 	CEventManager ();
 	virtual ~CEventManager ();
 
-	void init (boost::asio::io_context& _rkContext);
-	void shutdown ();
+	void Init (boost::asio::io_context& _rkContext);
+	void Shutdown ();
 
-	void add_event (std::shared_ptr<CEvent> _pkEvent);
+	void AddEvent (std::shared_ptr<CEvent> _pkEvent);
 
 private:
 	std::function<void (const boost::system::error_code& _rkErrorCode)> m_fnTick;
 
-	void tick ();
+	void Tick ();
 
 private:
 	std::shared_ptr<boost::asio::deadline_timer> m_pkTimer;

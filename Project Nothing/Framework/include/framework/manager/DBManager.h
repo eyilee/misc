@@ -8,11 +8,11 @@ public:
 	CDBManager ();
 	virtual ~CDBManager ();
 
-	void init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr);
-	void shutdown ();
+	void Init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr);
+	void Shutdown ();
 
 	// TODO: remove
-	void test ();
+	void Test ();
 
 private:
 	PGconn* m_pkPGconn;

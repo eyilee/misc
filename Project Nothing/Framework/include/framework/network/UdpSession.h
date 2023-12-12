@@ -12,15 +12,15 @@ public:
 	CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort);
 	virtual ~CUdpSession ();
 
-	void init ();
-	void shutdown ();
+	void Init ();
+	void Shutdown ();
 
 private:
-	void async_receive ();
-	void async_send (std::size_t _nBytes);
+	void AsyncReceive ();
+	void AsyncSend (std::size_t _nBytes);
 
-	void on_receive (const boost::asio::const_buffer& _rkBuffer);
-	void on_send (const CBitOutStream& _rkOutStream);
+	void OnReceive (const boost::asio::const_buffer& _rkBuffer);
+	void OnSend (const CBitOutStream& _rkOutStream);
 
 private:
 	udp::socket m_kSocket;

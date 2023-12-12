@@ -6,5 +6,5 @@ public:
 	CEventHeartbeat ();
 	virtual ~CEventHeartbeat ();
 
-	void excute () override;
+	void Excute () override;
 };

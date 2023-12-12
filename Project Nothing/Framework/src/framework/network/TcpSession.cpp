@@ -18,7 +18,7 @@ CTcpSession::~CTcpSession ()
 {
 }
 
-void CTcpSession::init ()
+void CTcpSession::Init ()
 {
 	if (!m_kSocket.is_open ()) {
 		return;
@@ -30,10 +30,10 @@ void CTcpSession::init ()
 
 	m_pkNetBridge = std::make_shared<CNetBridge> (shared_from_this (), m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint ());
 
-	async_read ();
+	AsyncRead ();
 }
 
-void CTcpSession::shutdown ()
+void CTcpSession::Shutdown ()
 {
 	if (m_kSocket.is_open ())
 	{
@@ -51,16 +51,16 @@ void CTcpSession::shutdown ()
 
 	if (m_pkNetBridge != nullptr)
 	{
-		std::shared_ptr<IEntity> entity = m_pkNetBridge->get_entity ();
+		std::shared_ptr<IEntity> entity = m_pkNetBridge->GetEntity ();
 		if (entity != nullptr) {
-			entity->set_net_bridge (nullptr);
+			entity->SetNetBridge (nullptr);
 		}
 
-		m_pkNetBridge->set_entity (nullptr);
+		m_pkNetBridge->SetEntity (nullptr);
 	}
 }
 
-void CTcpSession::async_read ()
+void CTcpSession::AsyncRead ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_read_some (boost::asio::buffer (m_kReadBuffer, TCP_SESSION_BUFFER_SIZE),
@@ -72,16 +72,17 @@ void CTcpSession::async_read ()
 					LOG_ERROR (_rkErrorCode.message ());
 				}
 
-				shutdown ();
+				Shutdown ();
 			}
-			else {
-				on_read (boost::asio::buffer (m_kReadBuffer, _nLength));
-				async_read ();
+			else
+			{
+				OnRead (boost::asio::buffer (m_kReadBuffer, _nLength));
+				AsyncRead ();
 			}
 		});
 }
 
-void CTcpSession::async_write (std::size_t _nBytes)
+void CTcpSession::AsyncWrite (std::size_t _nBytes)
 {
 	auto self (shared_from_this ());
 	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kWriteBuffer, _nBytes),
@@ -93,18 +94,18 @@ void CTcpSession::async_write (std::size_t _nBytes)
 		});
 }
 
-void CTcpSession::on_read (const boost::asio::const_buffer& _rkBuffer)
+void CTcpSession::OnRead (const boost::asio::const_buffer& _rkBuffer)
 {
 	const uint8_t* buffer = boost::asio::buffer_cast<const uint8_t*> (_rkBuffer);
 	CBitInStream inStream (buffer, _rkBuffer.size ());
 
-	m_pkNetBridge->resolve_input (inStream);
+	m_pkNetBridge->ResolveInput (inStream);
 }
 
-void CTcpSession::on_write (const CBitOutStream& _rkOutStream)
+void CTcpSession::OnWrite (const CBitOutStream& _rkOutStream)
 {
 	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
 	std::copy (bytes.begin (), bytes.end (), m_kWriteBuffer.begin ());
 
-	async_write (bytes.size ());
+	AsyncWrite (bytes.size ());
 }

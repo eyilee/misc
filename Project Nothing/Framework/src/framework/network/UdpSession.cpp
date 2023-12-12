@@ -18,12 +18,12 @@ CUdpSession::~CUdpSession ()
 {
 }
 
-void CUdpSession::init ()
+void CUdpSession::Init ()
 {
-	async_receive ();
+	AsyncReceive ();
 }
 
-void CUdpSession::shutdown ()
+void CUdpSession::Shutdown ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_wait (udp::socket::wait_read, [this, self](const boost::system::error_code& _rkErrorCode)
@@ -37,24 +37,27 @@ void CUdpSession::shutdown ()
 		});
 }
 
-void CUdpSession::async_receive ()
+void CUdpSession::AsyncReceive ()
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_receive_from (boost::asio::buffer (m_kReceiveBuffer, UDP_SESSION_BUFFER_SIZE), m_kEndpoint,
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
-			if (_rkErrorCode) {
+			if (_rkErrorCode)
+			{
 				LOG_ERROR (_rkErrorCode.message ());
-			}
-			else {
-				on_receive (boost::asio::buffer (m_kReceiveBuffer, _nLength));
-			}
 
-			async_receive ();
+				Shutdown ();
+			}
+			else
+			{
+				OnReceive (boost::asio::buffer (m_kReceiveBuffer, _nLength));
+				AsyncReceive ();
+			}
 		});
 }
 
-void CUdpSession::async_send (std::size_t _nBytes)
+void CUdpSession::AsyncSend (std::size_t _nBytes)
 {
 	auto self (shared_from_this ());
 	m_kSocket.async_send_to (boost::asio::buffer (m_kSendBuffer, _nBytes), m_kEndpoint,
@@ -66,7 +69,7 @@ void CUdpSession::async_send (std::size_t _nBytes)
 		});
 }
 
-void CUdpSession::on_receive (const boost::asio::const_buffer& _rkBuffer)
+void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 {
 	const uint8_t* buffer = boost::asio::buffer_cast<const uint8_t*> (_rkBuffer);
 	CBitInStream inStream (buffer, _rkBuffer.size ());
@@ -79,22 +82,22 @@ void CUdpSession::on_receive (const boost::asio::const_buffer& _rkBuffer)
 	inStream.Read (key);
 
 	if (CEntityManager::Instance != nullptr) {
-		std::shared_ptr<IEntity> entity = CEntityManager::Instance->get_entity (entityID);
+		std::shared_ptr<IEntity> entity = CEntityManager::Instance->GetEntity (entityID);
 		if (entity != nullptr) {
-			std::shared_ptr<CNetBridge> netBridge = entity->get_net_bridge ();
+			std::shared_ptr<CNetBridge> netBridge = entity->GetNetBridge ();
 			if (netBridge != nullptr) {
-				if (netBridge->get_ip () == ip && netBridge->get_key () == key) {
-					netBridge->resolve_input (inStream);
+				if (netBridge->GetIP () == ip && netBridge->GetKey () == key) {
+					netBridge->ResolveInput (inStream);
 				}
 			}
 		}
 	}
 }
 
-void CUdpSession::on_send (const CBitOutStream& _rkOutStream)
+void CUdpSession::OnSend (const CBitOutStream& _rkOutStream)
 {
 	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
 	std::copy (bytes.begin (), bytes.end (), m_kSendBuffer.begin ());
 
-	async_send (bytes.size ());
+	AsyncSend (bytes.size ());
 }

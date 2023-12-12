@@ -11,7 +11,7 @@ CDBManager::~CDBManager ()
 {
 }
 
-void CDBManager::init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr)
+void CDBManager::Init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr)
 {
 	if (Instance == nullptr) {
 		Instance = shared_from_this ();
@@ -26,7 +26,7 @@ void CDBManager::init (const std::string& _rkUser, const std::string& _rkPasswor
 	if (PQstatus (m_pkPGconn) == ConnStatusType::CONNECTION_OK)
 	{
 		PQsetnonblocking (m_pkPGconn, 1);
-		test ();
+		Test ();
 		LOG_INFO ("DB init succeeded.");
 	}
 	else {
@@ -34,14 +34,14 @@ void CDBManager::init (const std::string& _rkUser, const std::string& _rkPasswor
 	}
 }
 
-void CDBManager::shutdown ()
+void CDBManager::Shutdown ()
 {
 	PQfinish (m_pkPGconn);
 
 	Instance = nullptr;
 }
 
-void CDBManager::test ()
+void CDBManager::Test ()
 {
 	const char* query = "CREATE TABLE character (id integer NOT NULL, passward text NOT NULL);";
 	PGresult* result = PQexec (m_pkPGconn, query);
