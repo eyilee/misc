@@ -18,10 +18,11 @@
             NetworkManager.Instance.OnWrite (outStream);
         }
 
-        public void ComposeOutput (INetProtocol protocol, int id)
+        public void ComposeOutput (INetProtocol protocol, int id, int key)
         {
             BitOutStream outStream = new ();
             outStream.Write (id);
+            outStream.Write (key);
             protocol.OnSerialize (outStream);
             NetworkManager.Instance.OnSend (outStream);
         }

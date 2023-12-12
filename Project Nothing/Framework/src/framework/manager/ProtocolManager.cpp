@@ -25,5 +25,10 @@ void CProtocolManager::shutdown ()
 
 std::shared_ptr<INetProtocol> CProtocolManager::generate_protocol (unsigned short _nProtocolID)
 {
+	auto it = m_kProtocolMap.find (_nProtocolID);
+	if (it == m_kProtocolMap.end ()) {
+		return nullptr;
+	}
+
 	return m_kProtocolMap[_nProtocolID]->generate ();
 }

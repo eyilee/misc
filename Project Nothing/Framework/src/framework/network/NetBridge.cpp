@@ -6,25 +6,16 @@
 #include "framework/manager/ProtocolManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkSession, const uint32_t& _nIP)
+CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkSession, const uint32_t& _rnIP)
 	: m_pkSession (_pkSession)
-	, m_nIP (_nIP)
+	, m_nIP (_rnIP)
+	, m_nKey (0)
 	, m_pkEntity (nullptr)
 {
 }
 
 CNetBridge::~CNetBridge ()
 {
-}
-
-void CNetBridge::set_entity (std::shared_ptr<IEntity> _pkEntity)
-{
-	m_pkEntity = _pkEntity;
-}
-
-std::shared_ptr<IEntity> CNetBridge::get_entity ()
-{
-	return m_pkEntity;
 }
 
 void CNetBridge::resolve_input (CBitInStream& _rkInStream)
@@ -35,9 +26,12 @@ void CNetBridge::resolve_input (CBitInStream& _rkInStream)
 	if (CProtocolManager::Instance != nullptr)
 	{
 		std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->generate_protocol (protocolID);
-		protocol->set_net_bridge (shared_from_this ());
-		protocol->deserialize (_rkInStream);
-		protocol->excute ();
+		if (protocol != nullptr)
+		{
+			protocol->set_net_bridge (shared_from_this ());
+			protocol->deserialize (_rkInStream);
+			protocol->excute ();
+		}
 	}
 }
 

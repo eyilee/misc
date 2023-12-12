@@ -20,27 +20,6 @@ namespace ProjectNothing
             DontDestroyOnLoad (gameObject);
         }
 
-        public void Update ()
-        {
-            if (m_IsInit)
-            {
-                m_Time += Time.deltaTime;
-
-                if (!m_Login)
-                {
-                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID });
-                }
-                else
-                {
-                    if (m_Time >= 1f)
-                    {
-                        NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "你好！" }, m_ID);
-                        m_Time = 0.0f;
-                    }
-                }
-            }
-        }
-
         public IEnumerator Start ()
         {
             Initialize (gameObject);
@@ -52,6 +31,27 @@ namespace ProjectNothing
             ProtocolManager.Instance.Init ();
 
             m_IsInit = true;
+        }
+
+        public void Update ()
+        {
+            if (m_IsInit)
+            {
+                m_Time += Time.deltaTime;
+
+                if (!m_Login)
+                {
+                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID, m_Key = 0 });
+                }
+                else
+                {
+                    if (m_Time >= 1f)
+                    {
+                        NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "你好！" }, m_ID, 0);
+                        m_Time = 0.0f;
+                    }
+                }
+            }
         }
     }
 }
