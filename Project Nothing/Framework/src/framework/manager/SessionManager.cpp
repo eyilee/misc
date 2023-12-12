@@ -28,13 +28,16 @@ void CSessionManager::Init (boost::asio::io_context& _rkContext, const std::stri
 
 void CSessionManager::Shutdown ()
 {
+	m_pkUdpSession->Shutdown ();
+
 	for (auto& session : m_pkSessionList) {
 		session->Shutdown ();
 	}
 	m_pkSessionList.clear ();
 
 	m_pkListener->Shutdown ();
-	m_pkUdpSession->Shutdown ();
+
+	Instance = nullptr;
 }
 
 void CSessionManager::AddSession (std::shared_ptr<CTcpSession> _pkSession)

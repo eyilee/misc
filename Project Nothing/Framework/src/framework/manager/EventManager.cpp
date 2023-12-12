@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
+#include "framework/time/Time.h"
 #include "framework/event/Event.h"
 #include "framework/manager/EventManager.h"
 
 CEventManager::CEventManager ()
-	: m_pkTimer (nullptr)
+	: m_bIsRunning (false)
+	, m_pkTimer (nullptr)
 	, m_kInterval (boost::posix_time::milliseconds (100))
 {
 }
@@ -29,6 +31,13 @@ void CEventManager::Init (boost::asio::io_context& _rkContext)
 			}
 			else
 			{
+				if (!m_bIsRunning)
+				{
+					m_pkTimer->cancel ();
+					m_pkTimer = nullptr;
+					return;
+				}
+
 				Tick ();
 
 				if (m_pkTimer != nullptr)
@@ -41,24 +50,20 @@ void CEventManager::Init (boost::asio::io_context& _rkContext)
 
 	m_pkTimer->expires_from_now (m_kInterval);
 	m_pkTimer->async_wait (m_fnTick);
+	m_bIsRunning = true;
 }
 
 void CEventManager::Shutdown ()
 {
+	m_bIsRunning = false;
 	m_kEventList.clear ();
-
-	if (m_pkTimer != nullptr)
-	{
-		m_pkTimer->cancel ();
-		m_pkTimer = nullptr;
-	}
 
 	Instance = nullptr;
 }
 
 void CEventManager::AddEvent (std::shared_ptr<CEvent> _pkEvent)
 {
-	long long time = _pkEvent->GetTime ();
+	uint64_t time = _pkEvent->GetTime ();
 
 	auto pos = m_kEventList.before_begin ();
 	for (auto it = m_kEventList.begin (); it != m_kEventList.end (); it++)
@@ -75,7 +80,7 @@ void CEventManager::AddEvent (std::shared_ptr<CEvent> _pkEvent)
 
 void CEventManager::Tick ()
 {
-	auto time = std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::system_clock::now ().time_since_epoch ()).count ();
+	uint64_t time = CTime::GetMiliSecond ();
 	while (!m_kEventList.empty ())
 	{
 		std::shared_ptr<CEvent> latest = m_kEventList.front ();

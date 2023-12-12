@@ -18,6 +18,8 @@ void CEntityManager::Init ()
 
 void CEntityManager::Shutdown ()
 {
+	m_kEntityMap.clear ();
+
 	Instance = nullptr;
 }
 

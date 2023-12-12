@@ -20,6 +20,7 @@ private:
 	void Tick ();
 
 private:
+	bool m_bIsRunning;
 	std::shared_ptr<boost::asio::deadline_timer> m_pkTimer;
 	boost::posix_time::milliseconds m_kInterval;
 

@@ -28,6 +28,7 @@
 #include "boost/program_options.hpp"
 
 // framework
+#include "framework/time/Time.h"
 #include "framework/event/Event.h"
 #include "framework/network/BitStream.h"
 #include "framework/network/Entity.h"

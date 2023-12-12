@@ -20,6 +20,8 @@ void CProtocolManager::Init ()
 									   
 void CProtocolManager::Shutdown ()
 {
+	m_kProtocolMap.clear ();
+
 	Instance = nullptr;
 }
 

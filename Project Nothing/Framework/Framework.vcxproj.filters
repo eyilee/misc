@@ -40,6 +40,12 @@
     <Filter Include="include\framework\event">
       <UniqueIdentifier>{097d1fa5-25f7-4b26-a7ec-96712faf2c42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\framework\time">
+      <UniqueIdentifier>{1100a340-d830-490b-aeaf-47778c1ecec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\time">
+      <UniqueIdentifier>{bada6e76-7400-4069-b1a5-06c5da3ce8cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\framework\manager\DBManager.h">
@@ -96,8 +102,11 @@
     <ClInclude Include="include\framework\network\UdpSession.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\stdafx.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\framework\time\Time.h">
+      <Filter>include\framework\time</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\time\Time.cpp">
+      <Filter>src\framework\time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
