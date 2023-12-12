@@ -4,19 +4,26 @@
     {
         public void ResolveInput (BitInStream inStream)
         {
-            ushort protocolID;
-            inStream.Read (out protocolID);
+            inStream.Read (out ushort protocolID);
 
-            INetProtocol netProtocol = GenerateProtocol (protocolID, this);
-            netProtocol.Deserialize (inStream);
-            netProtocol.Excute ();
+            INetProtocol protocol = GenerateProtocol (protocolID, this);
+            protocol.Deserialize (inStream);
+            protocol.Excute ();
         }
 
-        public void ComposeOutput (INetProtocol netProtocol)
+        public void ComposeOutput (INetProtocol protocol)
         {
-            BitOutStream outStream = new BitOutStream ();
-            netProtocol.OnSerialize (outStream);
+            BitOutStream outStream = new ();
+            protocol.OnSerialize (outStream);
             NetworkManager.Instance.OnWrite (outStream);
+        }
+
+        public void ComposeOutput (INetProtocol protocol, int id)
+        {
+            BitOutStream outStream = new ();
+            outStream.Write (id);
+            protocol.OnSerialize (outStream);
+            NetworkManager.Instance.OnSend (outStream);
         }
 
         private INetProtocol GenerateProtocol (ushort protocolID, NetBridge netBridge)

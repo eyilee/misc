@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
+#include "protocol/client/ClientLoginResult.h"
 #include "protocol/server/ServerLogin.h"
 
 ServerLogin::ServerLogin ()
@@ -24,15 +25,21 @@ void ServerLogin::excute ()
 {
 	if (CEntityManager::Instance != nullptr)
 	{
-		std::shared_ptr<CPlayerEntity> entity = CEntityManager::Instance->create_entity<CPlayerEntity> (m_nID);
-
-		entity->set_id (m_nID);
+		std::shared_ptr<CPlayerEntity> entity = std::static_pointer_cast<CPlayerEntity> (CEntityManager::Instance->get_entity (m_nID));
+		if (entity == nullptr)
+		{
+			entity = std::make_shared<CPlayerEntity> ();
+			entity->set_id (m_nID);
+			CEntityManager::Instance->set_entity (m_nID, entity);
+		}
 
 		if (m_pkNetBridge != nullptr)
 		{
-			if (m_pkNetBridge->get_entity () == nullptr) {
-				m_pkNetBridge->set_entity (entity);
-			}
+			m_pkNetBridge->set_entity (entity);
+			entity->set_net_bridge (m_pkNetBridge);
+
+			std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> ();
+			m_pkNetBridge->compose_output (protocol);
 		}
 	}
 }

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\ConfigLoader.cpp" />
     <ClCompile Include="src\PlayerEntity.cpp" />
+    <ClCompile Include="src\protocol\client\ClientLoginResult.cpp" />
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\event\EventHeartbeat.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClInclude Include="src\ConfigLoader.h" />
     <ClInclude Include="src\PlayerEntity.h" />
+    <ClInclude Include="src\protocol\client\ClientLoginResult.h" />
     <ClInclude Include="src\Server.h" />
     <ClInclude Include="src\event\EventHeartbeat.h" />
     <ClInclude Include="src\protocol\ClientProtocols.h" />

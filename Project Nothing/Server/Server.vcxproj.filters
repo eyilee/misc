@@ -45,6 +45,9 @@
     <ClCompile Include="src\event\EventHeartbeat.cpp">
       <Filter>src\event</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\client\ClientLoginResult.cpp">
+      <Filter>src\protocol\client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="src\event\EventHeartbeat.h">
       <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\client\ClientLoginResult.h">
+      <Filter>src\protocol\client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

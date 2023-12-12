@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
 #include "framework/network/BitStream.h"
+#include "framework/network/Entity.h"
+#include "framework/network/NetBridge.h"
 #include "framework/network/NetProtocol.h"
+#include "framework/manager/EntityManager.h"
 #include "framework/network/UdpSession.h"
 
 CUdpSession::CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
@@ -70,7 +73,20 @@ void CUdpSession::on_receive (const boost::asio::const_buffer& _rkBuffer)
 
 	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
 
-	// TODO: resolve input
+	int entityID;
+	inStream.Read (entityID);
+
+	if (CEntityManager::Instance != nullptr) {
+		std::shared_ptr<IEntity> entity = CEntityManager::Instance->get_entity (entityID);
+		if (entity != nullptr) {
+			std::shared_ptr<CNetBridge> netBridge = entity->get_net_bridge ();
+			if (netBridge != nullptr) {
+				if (netBridge->get_ip () == ip) {
+					netBridge->resolve_input (inStream);
+				}
+			}
+		}
+	}
 }
 
 void CUdpSession::on_send (const CBitOutStream& _rkOutStream)

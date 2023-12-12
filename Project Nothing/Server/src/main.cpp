@@ -31,14 +31,9 @@ int main (int argc, char* argv[])
 		server->run ();
 	}
 
-	if (server != nullptr) {
-		server = nullptr;
-	}
-
 	if (logger != nullptr)
 	{
 		logger->shutdown ();
-		logger = nullptr;
 	}
 
 	EnableMenuItem (hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);

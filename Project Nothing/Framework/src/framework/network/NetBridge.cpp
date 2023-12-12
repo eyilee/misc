@@ -6,8 +6,9 @@
 #include "framework/manager/ProtocolManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkSession)
+CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkSession, const uint32_t& _nIP)
 	: m_pkSession (_pkSession)
+	, m_nIP (_nIP)
 	, m_pkEntity (nullptr)
 {
 }

@@ -9,6 +9,9 @@ namespace ProjectNothing.Network
 
         public void Init ()
         {
+            RegisterProtocol<ServerLogin> (1);
+            RegisterProtocol<ClientLoginResult> (50);
+
             RegisterProtocol<ServerEcho> (100);
             RegisterProtocol<ClientEcho> (200);
         }
@@ -22,12 +25,11 @@ namespace ProjectNothing.Network
 
         private void RegisterProtocol<T> (ushort protocolID) where T : NetProtocol<T>, new()
         {
-            INetProtocolGenerator netProtocolGenerator = new NetProtocolGenerator<T> ();
+            NetProtocol<T>.m_ProtocolID = protocolID;
 
             if (!m_ProtocolMap.ContainsKey (protocolID))
             {
-                NetProtocol<T>.m_ProtocolID = protocolID;
-                m_ProtocolMap.Add (protocolID, netProtocolGenerator);
+                m_ProtocolMap.Add (protocolID, new NetProtocolGenerator<T> ());
             }
         }
     }

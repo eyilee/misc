@@ -18,7 +18,7 @@ CTcpSession::~CTcpSession ()
 
 void CTcpSession::init ()
 {
-	m_pkNetBridge = std::make_shared<CNetBridge> (shared_from_this ());
+	m_pkNetBridge = std::make_shared<CNetBridge> (shared_from_this (), m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint ());
 
 	async_read ();
 }

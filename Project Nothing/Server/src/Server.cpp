@@ -44,8 +44,6 @@ void CServer::shutdown ()
 	shutdown_manager (CSessionManager::Instance, &CSessionManager::shutdown);
 
 	m_kContext.stop ();
-
-	Instance = nullptr;
 }
 
 void CServer::init_db_manager ()
@@ -79,8 +77,9 @@ void CServer::init_protocol_manager ()
 	{
 		CProtocolManager::Instance->register_protocol<ServerLogin> (1);
 		CProtocolManager::Instance->register_protocol<ServerShutdown> (2);
-		CProtocolManager::Instance->register_protocol<ServerEcho> (100);
+		CProtocolManager::Instance->register_protocol<ClientLoginResult> (50);
 
+		CProtocolManager::Instance->register_protocol<ServerEcho> (100);
 		CProtocolManager::Instance->register_protocol<ClientEcho> (200);
 	}
 }
