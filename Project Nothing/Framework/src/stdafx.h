@@ -6,6 +6,7 @@
 
 // Containers
 #include <array>
+#include <deque>
 #include <forward_list>
 #include <map>
 #include <vector>

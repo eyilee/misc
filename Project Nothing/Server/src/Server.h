@@ -1,5 +1,4 @@
 #pragma once
-#include "ConfigLoader.h"
 
 class CServer : public std::enable_shared_from_this<CServer>
 {
@@ -13,8 +12,6 @@ public:
 	static void Run ();
 
 private:
-	void LoadConfig ();
-
 	void InitDBManager ();
 	void InitEntityManager ();
 	void InitEventManager ();
@@ -27,6 +24,4 @@ public:
 private:
 	boost::asio::io_context m_kContext;
 	boost::asio::io_context::work m_kWork;
-
-	CConfigLoader m_kConfigLoader;
 };

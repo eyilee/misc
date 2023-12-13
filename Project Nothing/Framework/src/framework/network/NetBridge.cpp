@@ -1,21 +1,32 @@
 #include "stdafx.h"
+#include "framework/Random.h"
 #include "framework/network/BitStream.h"
 #include "framework/network/Entity.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/TcpSession.h"
+#include "framework/network/UdpSession.h"
 #include "framework/manager/ProtocolManager.h"
+#include "framework/manager/SessionManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkSession, const uint32_t& _rnIP)
-	: m_pkSession (_pkSession)
-	, m_nIP (_rnIP)
-	, m_nKey (0)
+CNetBridge::CNetBridge ()
+	: m_pkTcpSession (nullptr)
+	, m_nUdpIP (0)
+	, m_nUdpKey (0)
 	, m_pkEntity (nullptr)
 {
 }
 
 CNetBridge::~CNetBridge ()
 {
+}
+
+void CNetBridge::SetUdpEndPoint (const short& _nPort)
+{
+	const auto& address = m_pkTcpSession->m_kSocket.remote_endpoint ().address ();
+	m_kUdpEndPoint = udp::endpoint (address, _nPort);
+	m_nUdpIP = address.to_v4 ().to_uint ();
+	m_nUdpKey = CRandom::GetValue<uint32_t> ();
 }
 
 void CNetBridge::ResolveInput (CBitInStream& _rkInStream)
@@ -36,5 +47,13 @@ void CNetBridge::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 {
 	CBitOutStream outStream;
 	_pkProtocol->OnSerialize (outStream);
-	m_pkSession->OnWrite (outStream);
+	m_pkTcpSession->OnWrite (outStream);
+}
+
+void CNetBridge::UdpOutput (std::shared_ptr<INetProtocol> _pkProtocol)
+{
+	CBitOutStream outStream;
+	outStream.Write (m_nUdpKey);
+	_pkProtocol->OnSerialize (outStream);
+	CSessionManager::Send (outStream, m_kUdpEndPoint);
 }

@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "ConfigLoader.h"
 
+po::variables_map CConfigLoader::m_kVM;
+
 CConfigLoader::CConfigLoader ()
 {
 }

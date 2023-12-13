@@ -8,13 +8,13 @@ public:
 	CConfigLoader ();
 	virtual ~CConfigLoader ();
 
-	void Load ();
+	static void Load ();
 
 	template<typename T>
-	T GetConfig (const std::string& _rkKey);
+	static T GetConfig (const std::string& _rkKey);
 
 private:
-	po::variables_map m_kVM;
+	static po::variables_map m_kVM;
 };
 
 template<typename T>

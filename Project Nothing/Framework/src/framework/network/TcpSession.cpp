@@ -28,7 +28,8 @@ void CTcpSession::Init ()
 		return;
 	}
 
-	m_pkNetBridge = std::make_shared<CNetBridge> (shared_from_this (), m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint ());
+	m_pkNetBridge = std::make_shared<CNetBridge> ();
+	m_pkNetBridge->SetTcpSession (shared_from_this ());
 
 	AsyncRead ();
 }

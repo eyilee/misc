@@ -20,6 +20,7 @@ int main (int argc, char* argv[])
 	EnableMenuItem (hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED);
 
 	CLogger::Init ();
+	CConfigLoader::Load ();
 	CServer::Init ();
 
 	if (SetConsoleCtrlHandler (CtrlHandler, TRUE)) {

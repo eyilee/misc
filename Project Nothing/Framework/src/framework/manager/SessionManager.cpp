@@ -43,6 +43,15 @@ void CSessionManager::PushSession (std::shared_ptr<CTcpSession> _pkTcpSession)
 	Instance->Queue (_pkTcpSession);
 }
 
+void CSessionManager::Send (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->m_pkUdpSession->OnSend (_rkOutStream, _rkEndPoint);
+}
+
 void CSessionManager::Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort)
 {
 	m_pkListener = std::make_shared<CTcpListener> (_rkContext, _rkHostAddr, _nTcpPort);

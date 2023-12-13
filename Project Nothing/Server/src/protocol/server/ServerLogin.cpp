@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "ConfigLoader.h"
 #include "PlayerEntity.h"
 #include "protocol/client/ClientLoginResult.h"
 #include "protocol/server/ServerLogin.h"
@@ -30,11 +31,11 @@ void ServerLogin::Excute ()
 			entity->SetNetBridge (m_pkNetBridge);
 		}
 
-		uint32_t key = CRandom::GetValue<uint32_t> ();
-		m_pkNetBridge->SetKey (key);
-		m_pkNetBridge->SetEntity (entity);
+		// tofix: setup udp endpoint by udp session
+		short udpport = CConfigLoader::GetConfig<short> ("server.udpport");
+		m_pkNetBridge->SetUdpEndPoint (udpport);
 
-		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (key);
+		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (m_pkNetBridge->GetUdpKey ());
 		m_pkNetBridge->ComposeOutput (protocol);
 	}
 }

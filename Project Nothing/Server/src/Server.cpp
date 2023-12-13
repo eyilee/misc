@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "ConfigLoader.h"
 #include "protocol/ClientProtocols.h"
 #include "protocol/ServerProtocols.h"
 #include "event/EventHeartbeat.h"
@@ -22,7 +23,6 @@ void CServer::Init ()
 	}
 
 	Instance = std::make_shared<CServer> ();
-	Instance->LoadConfig ();
 	Instance->InitDBManager ();
 	Instance->InitEntityManager ();
 	Instance->InitEventManager ();
@@ -54,17 +54,12 @@ void CServer::Run ()
 	Instance->m_kContext.run ();
 }
 
-void CServer::LoadConfig ()
-{
-	m_kConfigLoader.Load ();
-}
-
 void CServer::InitDBManager ()
 {
-	std::string user = m_kConfigLoader.GetConfig<std::string> ("db.user");
-	std::string password = m_kConfigLoader.GetConfig<std::string> ("db.password");
-	std::string dbname = m_kConfigLoader.GetConfig<std::string> ("db.dbname");
-	std::string hostaddr = m_kConfigLoader.GetConfig<std::string> ("db.hostaddr");
+	std::string user = CConfigLoader::GetConfig<std::string> ("db.user");
+	std::string password = CConfigLoader::GetConfig<std::string> ("db.password");
+	std::string dbname = CConfigLoader::GetConfig<std::string> ("db.dbname");
+	std::string hostaddr = CConfigLoader::GetConfig<std::string> ("db.hostaddr");
 	CDBManager::Init (user, password, dbname, hostaddr);
 }
 
@@ -75,7 +70,7 @@ void CServer::InitEntityManager ()
 
 void CServer::InitEventManager ()
 {
-	unsigned short eventRate = m_kConfigLoader.GetConfig<unsigned short> ("event.eventrate");
+	unsigned short eventRate = CConfigLoader::GetConfig<unsigned short> ("event.eventrate");
 	CEventManager::Init (m_kContext, eventRate);
 	CEventManager::PushEvent (std::make_shared<CEventHeartbeat> ());
 }
@@ -94,8 +89,8 @@ void CServer::InitProtocolManager ()
 
 void CServer::InitSessionManager ()
 {
-	std::string hostaddr = m_kConfigLoader.GetConfig<std::string> ("server.hostaddr");
-	short tcpport = m_kConfigLoader.GetConfig<short> ("server.tcpport");
-	short udpport = m_kConfigLoader.GetConfig<short> ("server.udpport");
+	std::string hostaddr = CConfigLoader::GetConfig<std::string> ("server.hostaddr");
+	short tcpport = CConfigLoader::GetConfig<short> ("server.tcpport");
+	short udpport = CConfigLoader::GetConfig<short> ("server.udpport");
 	CSessionManager::Init (m_kContext, hostaddr, tcpport, udpport);
 }

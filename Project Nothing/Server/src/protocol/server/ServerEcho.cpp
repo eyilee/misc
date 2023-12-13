@@ -23,7 +23,11 @@ void ServerEcho::Deserialize (CBitInStream& _rkInStream)
 void ServerEcho::Excute ()
 {
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientEcho> (m_kString);
-	m_pkNetBridge->ComposeOutput (protocol);
+	m_pkNetBridge->UdpOutput (protocol);
+	m_pkNetBridge->UdpOutput (protocol);
+	m_pkNetBridge->UdpOutput (protocol);
+	m_pkNetBridge->UdpOutput (protocol);
+	m_pkNetBridge->UdpOutput (protocol);
 
 	std::shared_ptr<CPlayerEntity> entity = std::static_pointer_cast<CPlayerEntity> (m_pkNetBridge->GetEntity ());
 
