@@ -12,20 +12,36 @@ public:
 	CProtocolManager ();
 	virtual ~CProtocolManager ();
 
-	void Init ();
-	void Shutdown ();
+	static void Init ();
+	static void Shutdown ();
 
 	template<typename T>
-	void RegisterProtocol (unsigned short _nID);
+	static void RegisterProtocol (unsigned short _nID);
 
-	std::shared_ptr<INetProtocol> GenerateProtocol (unsigned short _nID);
+	static std::shared_ptr<INetProtocol> GenerateProtocol (unsigned short _nID);
+
+private:
+	template<typename T>
+	void Register (unsigned short _nID);
+
+	std::shared_ptr<INetProtocol> Generate (unsigned short _nID);
 
 private:
 	std::map<int, std::shared_ptr<INetProtocolGenerator>> m_kProtocolMap;
 };
 
 template<typename T>
-inline void CProtocolManager::RegisterProtocol (unsigned short _nID)
+inline static void CProtocolManager::RegisterProtocol (unsigned short _nID)
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->Register<T> (_nID);
+}
+
+template<typename T>
+inline void CProtocolManager::Register (unsigned short _nID)
 {
 	T::SetID (_nID);
 

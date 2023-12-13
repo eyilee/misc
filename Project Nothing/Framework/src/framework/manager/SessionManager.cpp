@@ -6,6 +6,7 @@
 
 CSessionManager::CSessionManager ()
 	: m_pkListener (nullptr)
+	, m_pkUdpSession (nullptr)
 {
 }
 
@@ -15,10 +16,35 @@ CSessionManager::~CSessionManager ()
 
 void CSessionManager::Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort)
 {
-	if (Instance == nullptr) {
-		Instance = shared_from_this ();
+	if (Instance != nullptr) {
+		return;
 	}
 
+	Instance = std::make_shared<CSessionManager> ();
+	Instance->Run (_rkContext, _rkHostAddr, _nTcpPort, _nUdpPort);
+}
+
+void CSessionManager::Shutdown ()
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->Stop ();
+	Instance = nullptr;
+}
+
+void CSessionManager::PushSession (std::shared_ptr<CTcpSession> _pkTcpSession)
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->Queue (_pkTcpSession);
+}
+
+void CSessionManager::Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort)
+{
 	m_pkListener = std::make_shared<CTcpListener> (_rkContext, _rkHostAddr, _nTcpPort);
 	m_pkListener->Init ();
 
@@ -26,21 +52,18 @@ void CSessionManager::Init (boost::asio::io_context& _rkContext, const std::stri
 	m_pkUdpSession->Init ();
 }
 
-void CSessionManager::Shutdown ()
+void CSessionManager::Stop ()
 {
 	m_pkUdpSession->Shutdown ();
 
 	for (auto& session : m_pkSessionList) {
 		session->Shutdown ();
 	}
-	m_pkSessionList.clear ();
 
 	m_pkListener->Shutdown ();
-
-	Instance = nullptr;
 }
 
-void CSessionManager::AddSession (std::shared_ptr<CTcpSession> _pkSession)
+void CSessionManager::Queue (std::shared_ptr<CTcpSession> _pkTcpSession)
 {
-	m_pkSessionList.emplace_back (_pkSession);
+	m_pkSessionList.emplace_back (_pkTcpSession);
 }

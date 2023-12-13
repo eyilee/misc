@@ -8,8 +8,12 @@ public:
 	CDBManager ();
 	virtual ~CDBManager ();
 
-	void Init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr);
-	void Shutdown ();
+	static void Init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr);
+	static void Shutdown ();
+
+private:
+	void Run (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr);
+	void Stop ();
 
 	// TODO: remove
 	void Test ();

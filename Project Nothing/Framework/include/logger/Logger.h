@@ -8,13 +8,16 @@ public:
 	CLogger ();
 	virtual ~CLogger ();
 
-	void Init ();
-	void Shutdown ();
+	static void Init ();
+	static void Shutdown ();
 
 	template<typename ... ARGS>
 	static void Log (const char* _szMessage, ARGS&& ... _Args);
 
 private:
+	void Open ();
+	void Close ();
+
 	void Write (const char* _szMessage);
 
 private:

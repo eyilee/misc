@@ -13,19 +13,32 @@ CProtocolManager::~CProtocolManager ()
 
 void CProtocolManager::Init ()
 {
-	if (Instance == nullptr) {
-		Instance = shared_from_this ();
+	if (Instance != nullptr) {
+		return;
 	}
+
+	Instance = std::make_shared<CProtocolManager> ();
 }
-									   
+
 void CProtocolManager::Shutdown ()
 {
-	m_kProtocolMap.clear ();
+	if (Instance == nullptr) {
+		return;
+	}
 
 	Instance = nullptr;
 }
 
 std::shared_ptr<INetProtocol> CProtocolManager::GenerateProtocol (unsigned short _nID)
+{
+	if (Instance == nullptr) {
+		return nullptr;
+	}
+
+	return Instance->Generate (_nID);
+}
+
+std::shared_ptr<INetProtocol> CProtocolManager::Generate (unsigned short _nID)
 {
 	auto it = m_kProtocolMap.find (_nID);
 	if (it == m_kProtocolMap.end ()) {

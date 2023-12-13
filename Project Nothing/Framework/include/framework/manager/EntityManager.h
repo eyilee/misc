@@ -10,20 +10,37 @@ public:
 	CEntityManager ();
 	virtual ~CEntityManager ();
 
-	void Init ();
-	void Shutdown ();
+	static void Init ();
+	static void Shutdown ();
 
-	std::shared_ptr<IEntity> GetEntity (int _nID);
+	static std::shared_ptr<IEntity> GetEntity (int _nID);
 
 	template<typename T>
-	std::shared_ptr<IEntity> GetOrCreateEntity (int _nID) requires std::is_base_of<IEntity, T>::value;
+	static std::shared_ptr<IEntity> GetOrCreateEntity (int _nID) requires std::is_base_of<IEntity, T>::value;
+
+private:
+	std::shared_ptr<IEntity> Get (int _nID);
+
+	template<typename T>
+	std::shared_ptr<IEntity> GetOrCreate (int _nID) requires std::is_base_of<IEntity, T>::value;
+
 
 private:
 	std::map<int, std::shared_ptr<IEntity>> m_kEntityMap;
 };
 
 template<typename T>
-inline std::shared_ptr<IEntity> CEntityManager::GetOrCreateEntity (int _nID)	requires std::is_base_of<IEntity, T>::value
+inline std::shared_ptr<IEntity> CEntityManager::GetOrCreateEntity (int _nID) requires std::is_base_of<IEntity, T>::value
+{
+	if (Instance == nullptr) {
+		return nullptr;
+	}
+
+	return Instance->GetOrCreate<T> (_nID);
+}
+
+template<typename T>
+inline std::shared_ptr<IEntity> CEntityManager::GetOrCreate (int _nID) requires std::is_base_of<IEntity, T>::value
 {
 	auto it = m_kEntityMap.find (_nID);
 	if (it == m_kEntityMap.end ())

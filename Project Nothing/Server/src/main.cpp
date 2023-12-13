@@ -7,9 +7,7 @@ BOOL WINAPI CtrlHandler (DWORD fdwCtrlType)
 	switch (fdwCtrlType)
 	{
 		case CTRL_C_EVENT:
-			if (CServer::Instance != nullptr) {
-				CServer::Instance->Shutdown ();
-			}
+			CServer::Shutdown ();
 			return TRUE;
 		default:
 			return FALSE;
@@ -21,20 +19,14 @@ int main (int argc, char* argv[])
 	const HMENU hMenu = GetSystemMenu (GetConsoleWindow (), FALSE);
 	EnableMenuItem (hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED);
 
-	std::shared_ptr<CLogger> logger = std::make_shared<CLogger> ();
-	logger->Init ();
-
-	std::shared_ptr<CServer> server = std::make_shared<CServer> ();
-	server->Init ();
+	CLogger::Init ();
+	CServer::Init ();
 
 	if (SetConsoleCtrlHandler (CtrlHandler, TRUE)) {
-		server->Run ();
+		CServer::Run ();
 	}
 
-	if (logger != nullptr)
-	{
-		logger->Shutdown ();
-	}
+	CLogger::Shutdown ();
 
 	EnableMenuItem (hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
 

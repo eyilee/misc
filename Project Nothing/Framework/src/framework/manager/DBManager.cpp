@@ -13,10 +13,26 @@ CDBManager::~CDBManager ()
 
 void CDBManager::Init (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr)
 {
-	if (Instance == nullptr) {
-		Instance = shared_from_this ();
+	if (Instance != nullptr) {
+		return;
 	}
 
+	Instance = std::make_shared<CDBManager> ();
+	Instance->Run (_rkUser, _rkPassword, _rkDBname, _rkHostaddr);
+}
+
+void CDBManager::Shutdown ()
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->Stop ();
+	Instance = nullptr;
+}
+
+void CDBManager::Run (const std::string& _rkUser, const std::string& _rkPassword, const std::string& _rkDBname, const std::string& _rkHostaddr)
+{
 	char connectDB[BUFSIZ];
 	memset (connectDB, 0, BUFSIZ);
 	sprintf_s (connectDB, "user=%s password=%s dbname=%s hostaddr=%s", _rkUser.c_str (), _rkPassword.c_str (), _rkDBname.c_str (), _rkHostaddr.c_str ());
@@ -34,11 +50,9 @@ void CDBManager::Init (const std::string& _rkUser, const std::string& _rkPasswor
 	}
 }
 
-void CDBManager::Shutdown ()
+void CDBManager::Stop ()
 {
 	PQfinish (m_pkPGconn);
-
-	Instance = nullptr;
 }
 
 void CDBManager::Test ()

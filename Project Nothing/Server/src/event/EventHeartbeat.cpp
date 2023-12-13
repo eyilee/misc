@@ -3,7 +3,7 @@
 
 CEventHeartbeat::CEventHeartbeat ()
 {
-	m_nTime = CTime::GetMiliSecond () + 1000;
+	SetNextTime ();
 }
 
 CEventHeartbeat::~CEventHeartbeat ()
@@ -12,11 +12,11 @@ CEventHeartbeat::~CEventHeartbeat ()
 
 void CEventHeartbeat::Excute ()
 {
-	LOG_INFO ("heart beat.");
+	LOG_INFO ("Heart Beat.");
+	SetNextTime ();
+}
 
-	if (CEventManager::Instance != nullptr) {
-		CEventManager::Instance->AddEvent (std::make_shared<CEventHeartbeat> ());
-	}
-
-	m_bIsValid = false;
+void CEventHeartbeat::SetNextTime ()
+{
+	m_nTime = CTime::GetMiliSecond () + 1000;
 }

@@ -3,6 +3,12 @@ hostaddr = 127.0.0.1
 tcpport = 8484
 udpport = 8485
 
+[event]
+eventrate = 10
+
+[tick]
+tickrate = 30
+
 [db]
 user = postgres
 password = xxx

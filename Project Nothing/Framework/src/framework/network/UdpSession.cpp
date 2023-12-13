@@ -81,14 +81,12 @@ void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 	inStream.Read (entityID);
 	inStream.Read (key);
 
-	if (CEntityManager::Instance != nullptr) {
-		std::shared_ptr<IEntity> entity = CEntityManager::Instance->GetEntity (entityID);
-		if (entity != nullptr) {
-			std::shared_ptr<CNetBridge> netBridge = entity->GetNetBridge ();
-			if (netBridge != nullptr) {
-				if (netBridge->GetIP () == ip && netBridge->GetKey () == key) {
-					netBridge->ResolveInput (inStream);
-				}
+	std::shared_ptr<IEntity> entity = CEntityManager::GetEntity (entityID);
+	if (entity != nullptr) {
+		std::shared_ptr<CNetBridge> netBridge = entity->GetNetBridge ();
+		if (netBridge != nullptr) {
+			if (netBridge->GetIP () == ip && netBridge->GetKey () == key) {
+				netBridge->ResolveInput (inStream);
 			}
 		}
 	}

@@ -23,15 +23,12 @@ void CNetBridge::ResolveInput (CBitInStream& _rkInStream)
 	unsigned short protocolID;
 	_rkInStream.Read (protocolID);
 
-	if (CProtocolManager::Instance != nullptr)
+	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
+	if (protocol != nullptr)
 	{
-		std::shared_ptr<INetProtocol> protocol = CProtocolManager::Instance->GenerateProtocol (protocolID);
-		if (protocol != nullptr)
-		{
-			protocol->SetNetBridge (shared_from_this ());
-			protocol->Deserialize (_rkInStream);
-			protocol->Excute ();
-		}
+		protocol->SetNetBridge (shared_from_this ());
+		protocol->Deserialize (_rkInStream);
+		protocol->Excute ();
 	}
 }
 

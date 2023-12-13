@@ -7,4 +7,7 @@ public:
 	virtual ~CEventHeartbeat ();
 
 	void Excute () override;
+
+private:
+	void SetNextTime ();
 };
