@@ -20,49 +20,35 @@ CTcpSession::~CTcpSession ()
 
 void CTcpSession::Init ()
 {
-	if (!m_kSocket.is_open ()) {
-		return;
-	}
-
-	if (m_pkNetBridge != nullptr) {
-		return;
-	}
-
-	m_pkNetBridge = std::make_shared<CNetBridge> ();
-	m_pkNetBridge->SetTcpSession (shared_from_this ());
+	m_pkNetBridge = std::make_shared<CNetBridge> (shared_from_this (), m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint ());
 
 	AsyncRead ();
 }
 
 void CTcpSession::Shutdown ()
 {
-	if (m_kSocket.is_open ())
-	{
-		auto self (shared_from_this ());
-		m_kSocket.async_wait (tcp::socket::wait_read, [this, self](const boost::system::error_code& _rkErrorCode)
-			{
-				if (_rkErrorCode) {
-					LOG_ERROR (_rkErrorCode.message ());
-				}
-
-				m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
-				m_kSocket.close ();
-			});
+	if (!m_kSocket.is_open ()) {
+		return;
 	}
 
-	if (m_pkNetBridge != nullptr)
-	{
-		std::shared_ptr<IEntity> entity = m_pkNetBridge->GetEntity ();
-		if (entity != nullptr) {
-			entity->SetNetBridge (nullptr);
-		}
+	auto self (shared_from_this ());
+	m_kSocket.async_wait (tcp::socket::wait_read, [this, self](const boost::system::error_code& _rkErrorCode)
+		{
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
+			}
 
-		m_pkNetBridge->SetEntity (nullptr);
-	}
+			m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
+			m_kSocket.close ();
+		});
 }
 
 void CTcpSession::AsyncRead ()
 {
+	if (!m_kSocket.is_open ()) {
+		return;
+	}
+
 	auto self (shared_from_this ());
 	m_kSocket.async_read_some (boost::asio::buffer (m_kReadBuffer, TCP_SESSION_BUFFER_SIZE),
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
@@ -85,6 +71,10 @@ void CTcpSession::AsyncRead ()
 
 void CTcpSession::AsyncWrite (std::size_t _nBytes)
 {
+	if (!m_kSocket.is_open ()) {
+		return;
+	}
+
 	auto self (shared_from_this ());
 	boost::asio::async_write (m_kSocket, boost::asio::buffer (m_kWriteBuffer, _nBytes),
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)

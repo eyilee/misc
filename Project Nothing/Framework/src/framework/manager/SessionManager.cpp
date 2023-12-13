@@ -34,22 +34,22 @@ void CSessionManager::Shutdown ()
 	Instance = nullptr;
 }
 
-void CSessionManager::PushSession (std::shared_ptr<CTcpSession> _pkTcpSession)
+void CSessionManager::CreateTcpSession (tcp::socket& _rkSocket)
 {
 	if (Instance == nullptr) {
 		return;
 	}
 
-	Instance->Queue (_pkTcpSession);
+	Instance->Create (_rkSocket);
 }
 
-void CSessionManager::Send (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
+std::shared_ptr<CUdpSession> CSessionManager::GetUdpSession ()
 {
 	if (Instance == nullptr) {
-		return;
+		return nullptr;
 	}
 
-	Instance->m_pkUdpSession->OnSend (_rkOutStream, _rkEndPoint);
+	return Instance->m_pkUdpSession;
 }
 
 void CSessionManager::Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort)
@@ -63,13 +63,20 @@ void CSessionManager::Run (boost::asio::io_context& _rkContext, const std::strin
 
 void CSessionManager::Stop ()
 {
-	m_pkUdpSession->Shutdown ();
+	m_pkListener->Shutdown ();
 
 	for (auto& session : m_pkSessionList) {
 		session->Shutdown ();
 	}
 
-	m_pkListener->Shutdown ();
+	m_pkUdpSession->Shutdown ();
+}
+
+void CSessionManager::Create (tcp::socket& _rkSocket)
+{
+	std::shared_ptr<CTcpSession> session = std::make_shared<CTcpSession> (_rkSocket);
+	session->Init ();
+	m_pkSessionList.emplace_back (session);
 }
 
 void CSessionManager::Queue (std::shared_ptr<CTcpSession> _pkTcpSession)

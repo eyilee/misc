@@ -25,6 +25,10 @@ void CUdpSession::Init ()
 
 void CUdpSession::Shutdown ()
 {
+	if (!m_kSocket.is_open ()) {
+		return;
+	}
+
 	auto self (shared_from_this ());
 	m_kSocket.async_wait (udp::socket::wait_read, [this, self](const boost::system::error_code& _rkErrorCode)
 		{
@@ -39,6 +43,10 @@ void CUdpSession::Shutdown ()
 
 void CUdpSession::AsyncReceive ()
 {
+	if (!m_kSocket.is_open ()) {
+		return;
+	}
+
 	auto self (shared_from_this ());
 	m_kSocket.async_receive_from (boost::asio::buffer (m_kReceiveBuffer, UDP_SESSION_BUFFER_SIZE), m_kEndpoint,
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
@@ -59,6 +67,10 @@ void CUdpSession::AsyncReceive ()
 
 void CUdpSession::AsyncSend ()
 {
+	if (!m_kSocket.is_open ()) {
+		return;
+	}
+
 	if (m_kSendQueue.empty ()) {
 		return;
 	}
@@ -91,13 +103,17 @@ void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 	inStream.Read (key);
 
 	std::shared_ptr<IEntity> entity = CEntityManager::GetEntity (entityID);
-	if (entity != nullptr) {
-		std::shared_ptr<CNetBridge> netBridge = entity->GetNetBridge ();
-		if (netBridge != nullptr) {
-			if (netBridge->GetUdpIP () == ip && netBridge->GetUdpKey () == key) {
-				netBridge->ResolveInput (inStream);
-			}
-		}
+	if (entity == nullptr) {
+		return;
+	}
+
+	std::shared_ptr<CNetBridge> netBridge = entity->GetNetBridge ();
+	if (netBridge == nullptr) {
+		return;
+	}
+
+	if (netBridge->GetIP () == ip && netBridge->GetUdpKey () == key) {
+		netBridge->ResolveInput (inStream);
 	}
 }
 

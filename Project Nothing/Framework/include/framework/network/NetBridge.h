@@ -11,28 +11,30 @@ class CUdpSession;
 class CNetBridge : public std::enable_shared_from_this<CNetBridge>
 {
 public:
-	CNetBridge ();
+	CNetBridge (std::shared_ptr<CTcpSession> _pkTcpSession, const uint32_t& _rnIP);
 	virtual ~CNetBridge ();
 
-	void SetTcpSession (std::shared_ptr<CTcpSession> _pkTcpSession) { m_pkTcpSession = _pkTcpSession; }
+	uint32_t GetIP () const { return m_nIP; }
 
-	void SetUdpEndPoint (const short& _nPort);
-	uint32_t GetUdpIP () const { return m_nUdpIP; }
+	void SetUdpKey (const uint32_t& _rnUdpKey) { m_nUdpKey = _rnUdpKey; }
 	uint32_t GetUdpKey () const { return m_nUdpKey; }
+
+	void SetUdpEndPoint ();
 
 	void SetEntity (std::shared_ptr<IEntity> _pkEntity) { m_pkEntity = _pkEntity; }
 	std::shared_ptr<IEntity> GetEntity () { return m_pkEntity; }
 
 	void ResolveInput (CBitInStream& _rkInStream);
 	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);
+
 	void UdpOutput (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:
 	std::shared_ptr<CTcpSession> m_pkTcpSession;
+	uint32_t m_nIP;
 
-	udp::endpoint m_kUdpEndPoint;
-	uint32_t m_nUdpIP;
 	uint32_t m_nUdpKey;
+	udp::endpoint m_kUdpEndPoint;
 
 	std::shared_ptr<IEntity> m_pkEntity;
 };

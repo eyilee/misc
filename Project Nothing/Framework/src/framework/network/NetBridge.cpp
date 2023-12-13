@@ -9,9 +9,9 @@
 #include "framework/manager/SessionManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge ()
-	: m_pkTcpSession (nullptr)
-	, m_nUdpIP (0)
+CNetBridge::CNetBridge (std::shared_ptr<CTcpSession> _pkTcpSession, const uint32_t& _rnIP)
+	: m_pkTcpSession (_pkTcpSession)
+	, m_nIP (_rnIP)
 	, m_nUdpKey (0)
 	, m_pkEntity (nullptr)
 {
@@ -21,12 +21,14 @@ CNetBridge::~CNetBridge ()
 {
 }
 
-void CNetBridge::SetUdpEndPoint (const short& _nPort)
+void CNetBridge::SetUdpEndPoint ()
 {
-	const auto& address = m_pkTcpSession->m_kSocket.remote_endpoint ().address ();
-	m_kUdpEndPoint = udp::endpoint (address, _nPort);
-	m_nUdpIP = address.to_v4 ().to_uint ();
-	m_nUdpKey = CRandom::GetValue<uint32_t> ();
+	std::shared_ptr<CUdpSession> udpSession = CSessionManager::GetUdpSession ();
+	if (udpSession == nullptr) {
+		return;
+	}
+
+	m_kUdpEndPoint = udpSession->m_kEndpoint;
 }
 
 void CNetBridge::ResolveInput (CBitInStream& _rkInStream)
@@ -55,5 +57,9 @@ void CNetBridge::UdpOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 	CBitOutStream outStream;
 	outStream.Write (m_nUdpKey);
 	_pkProtocol->OnSerialize (outStream);
-	CSessionManager::Send (outStream, m_kUdpEndPoint);
+
+	std::shared_ptr<CUdpSession> udpSession = CSessionManager::GetUdpSession ();
+	if (udpSession != nullptr) {
+		udpSession->OnSend (outStream, m_kUdpEndPoint);
+	}
 }

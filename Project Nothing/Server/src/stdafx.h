@@ -5,6 +5,7 @@
 
 // Containers
 #include <array>
+#include <deque>
 #include <forward_list>
 #include <map>
 #include <vector>
@@ -37,9 +38,11 @@
 #include "framework/network/NetBridge.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/NetProtocolGenerator.h"
+#include "framework/network/Serializable.h"
 #include "framework/network/TcpClient.h"
 #include "framework/network/TcpListener.h"
 #include "framework/network/TcpSession.h"
+#include "framework/network/UdpSession.h"
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/DBManager.h"
 #include "framework/manager/EntityManager.h"

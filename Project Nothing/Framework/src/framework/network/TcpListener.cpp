@@ -43,10 +43,7 @@ void CTcpListener::AsyncAccept ()
 				}
 				else
 				{
-					std::shared_ptr<CTcpSession> session = std::make_shared<CTcpSession> (_rkSocket);
-					session->Init ();
-
-					CSessionManager::PushSession (session);
+					CSessionManager::CreateTcpSession (_rkSocket);
 
 					AsyncAccept ();
 				}

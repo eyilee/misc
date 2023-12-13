@@ -16,7 +16,7 @@ namespace ProjectNothing.Network
         private NetworkStream m_NetworkStream;
 
         private readonly UdpClient m_UdpClient = new ();
-        private IPEndPoint m_UdpEndPoint;
+        private IPEndPoint m_RemotIPEndPoint;
 
         public readonly NetBridge m_NetBridge = new ();
 
@@ -50,7 +50,9 @@ namespace ProjectNothing.Network
                 AsyncRead ();
             }, null);
 
-            m_UdpEndPoint = new IPEndPoint (m_IPAddress, _udpPort);
+            m_RemotIPEndPoint = new IPEndPoint (m_IPAddress, _udpPort);
+
+            AsyncReceive ();
 
             yield return new WaitUntil (() => m_IsInit);
         }
@@ -96,7 +98,7 @@ namespace ProjectNothing.Network
         {
             m_UdpClient.BeginReceive ((IAsyncResult _asyncResult) =>
             {
-                byte[] bytes = m_UdpClient.EndReceive (_asyncResult, ref m_UdpEndPoint);
+                byte[] bytes = m_UdpClient.EndReceive (_asyncResult, ref m_RemotIPEndPoint);
                 OnReceive (bytes);
                 AsyncReceive ();
             }, null);
@@ -105,12 +107,17 @@ namespace ProjectNothing.Network
         private void OnReceive (byte[] _bytes)
         {
             BitInStream inStream = new (_bytes);
-            m_NetBridge.ResolveInput (inStream);
+            inStream.Read (out uint key);
+
+            if (key == GameManager.Instance.m_Key)
+            {
+                m_NetBridge.ResolveInput (inStream);
+            }
         }
 
         private void AsyncSend (int _length)
         {
-            m_UdpClient.BeginSend (m_SendBuffer, _length, m_UdpEndPoint, (IAsyncResult _asyncResult) =>
+            m_UdpClient.BeginSend (m_SendBuffer, _length, m_RemotIPEndPoint, (IAsyncResult _asyncResult) =>
             {
                 m_UdpClient.EndSend (_asyncResult);
             }, null);

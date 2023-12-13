@@ -1,6 +1,7 @@
 #pragma once
 #include "framework/manager/BaseManager.h"
 
+using boost::asio::ip::tcp;
 using boost::asio::ip::udp;
 
 class CTcpListener;
@@ -15,15 +16,16 @@ public:
 
 	static void Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort);
 	static void Shutdown ();
+	
+	static void CreateTcpSession (tcp::socket& _rkSocket);
 
-	static void PushSession (std::shared_ptr<CTcpSession> _pkTcpSession);
-
-	static void Send (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint);
+	static std::shared_ptr<CUdpSession> GetUdpSession ();
 
 private:
 	void Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort);
 	void Stop ();
 
+	void Create (tcp::socket& _rkSocket);
 	void Queue (std::shared_ptr<CTcpSession> _pkTcpSession);
 
 private:

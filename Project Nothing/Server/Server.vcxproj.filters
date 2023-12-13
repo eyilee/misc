@@ -51,6 +51,12 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\server\ServerUdpConnect.cpp">
+      <Filter>src\protocol\server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\client\ClientUdpConnectResult.cpp">
+      <Filter>src\protocol\client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -87,6 +93,12 @@
       <Filter>src\event</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\client\ClientLoginResult.h">
+      <Filter>src\protocol\client</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\server\ServerUdpConnect.h">
+      <Filter>src\protocol\server</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\client\ClientUdpConnectResult.h">
       <Filter>src\protocol\client</Filter>
     </ClInclude>
   </ItemGroup>

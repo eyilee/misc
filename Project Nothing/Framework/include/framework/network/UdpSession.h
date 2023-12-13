@@ -1,7 +1,7 @@
 #pragma once
 
 class CBitOutStream;
-class CSessionManager;
+class CNetBridge;
 
 using boost::asio::ip::udp;
 
@@ -21,7 +21,7 @@ struct SUdpSendCommand
 
 class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 {
-	friend CSessionManager;
+	friend CNetBridge;
 
 public:
 	CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort);

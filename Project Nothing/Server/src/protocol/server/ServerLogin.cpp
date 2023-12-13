@@ -31,11 +31,10 @@ void ServerLogin::Excute ()
 			entity->SetNetBridge (m_pkNetBridge);
 		}
 
-		// tofix: setup udp endpoint by udp session
-		short udpport = CConfigLoader::GetConfig<short> ("server.udpport");
-		m_pkNetBridge->SetUdpEndPoint (udpport);
+		uint32_t key = CRandom::GetValue<uint32_t> ();
+		m_pkNetBridge->SetUdpKey (key);
 
-		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (m_pkNetBridge->GetUdpKey ());
+		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (m_nID, key);
 		m_pkNetBridge->ComposeOutput (protocol);
 	}
 }

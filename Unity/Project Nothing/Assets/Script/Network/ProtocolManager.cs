@@ -10,7 +10,9 @@ namespace ProjectNothing.Network
         public void Init ()
         {
             RegisterProtocol<ServerLogin> (1);
-            RegisterProtocol<ClientLoginResult> (50);
+            RegisterProtocol<ServerUdpConnect> (2);
+            RegisterProtocol<ClientLoginResult> (51);
+            RegisterProtocol<ClientUdpConnectResult> (52);
 
             RegisterProtocol<ServerEcho> (100);
             RegisterProtocol<ClientEcho> (200);
