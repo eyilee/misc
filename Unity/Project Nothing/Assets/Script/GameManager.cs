@@ -10,6 +10,7 @@ namespace ProjectNothing
     public class GameManager : MonoSingleton<GameManager>
     {
         public int m_ID = 1001;
+        public uint m_Key = 0;
         public bool m_Login = false;
 
         private bool m_IsInit = false;
@@ -41,13 +42,13 @@ namespace ProjectNothing
 
                 if (!m_Login)
                 {
-                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID, m_Key = 0 });
+                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID });
                 }
                 else
                 {
                     if (m_Time >= 1f)
                     {
-                        NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "你好！" }, m_ID, 0);
+                        NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "你好！" }, m_ID, m_Key);
                         m_Time = 0.0f;
                     }
                 }

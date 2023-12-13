@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework\time\Time.h" />
+    <ClInclude Include="include\framework\Event.h" />
+    <ClInclude Include="include\framework\Random.h" />
+    <ClInclude Include="include\framework\Time.h" />
+    <ClCompile Include="src\framework\Random.cpp" />
     <ClInclude Include="src\stdafx.h" />
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <ClInclude Include="include\framework\event\Event.h" />
     <ClInclude Include="include\framework\manager\BaseManager.h" />
     <ClInclude Include="include\framework\manager\DBManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -66,7 +68,7 @@
     <ClInclude Include="include\logger\Logger.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\event\Event.cpp" />
+    <ClCompile Include="src\framework\Event.cpp" />
     <ClCompile Include="src\framework\manager\BaseManager.cpp" />
     <ClCompile Include="src\framework\manager\DBManager.cpp" />
     <ClCompile Include="src\framework\manager\EntityManager.cpp" />
@@ -83,12 +85,12 @@
     <ClCompile Include="src\framework\network\TcpListener.cpp" />
     <ClCompile Include="src\framework\network\TcpSession.cpp" />
     <ClCompile Include="src\framework\network\UdpSession.cpp" />
+    <ClCompile Include="src\framework\Time.cpp" />
     <ClCompile Include="src\logger\Logger.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\time\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

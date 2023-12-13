@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
-#include "framework/time/Time.h"
-#include "framework/event/Event.h"
+#include "framework/Event.h"
+#include "framework/Time.h"
 #include "framework/manager/EventManager.h"
 
 CEventManager::CEventManager ()

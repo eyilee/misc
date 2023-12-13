@@ -77,7 +77,7 @@ void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
 
 	int entityID;
-	int key;
+	uint32_t key;
 	inStream.Read (entityID);
 	inStream.Read (key);
 

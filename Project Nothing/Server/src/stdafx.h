@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <chrono>
 #include <memory>
+#include <random>
 #include <string>
 #include <utility>
 
@@ -28,8 +29,9 @@
 #include "boost/program_options.hpp"
 
 // framework
-#include "framework/time/Time.h"
-#include "framework/event/Event.h"
+#include "framework/Event.h"
+#include "framework/Random.h"
+#include "framework/Time.h"
 #include "framework/network/BitStream.h"
 #include "framework/network/Entity.h"
 #include "framework/network/NetBridge.h"

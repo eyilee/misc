@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "framework/time/Time.h"
+#include "framework/Time.h"
 
 CTime::CTime ()
 {

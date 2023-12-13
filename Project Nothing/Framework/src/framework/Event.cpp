@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "framework/event/Event.h"
+#include "framework/Event.h"
 
 CEvent::CEvent ()
 	: m_nTime (0)

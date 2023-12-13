@@ -30,10 +30,11 @@ void ServerLogin::Excute ()
 			entity->SetNetBridge (m_pkNetBridge);
 		}
 
-		m_pkNetBridge->SetKey (0);
+		uint32_t key = CRandom::GetValue<uint32_t> ();
+		m_pkNetBridge->SetKey (key);
 		m_pkNetBridge->SetEntity (entity);
 
-		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> ();
+		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (key);
 		m_pkNetBridge->ComposeOutput (protocol);
 	}
 }
