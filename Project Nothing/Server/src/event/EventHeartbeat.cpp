@@ -12,7 +12,6 @@ CEventHeartbeat::~CEventHeartbeat ()
 
 void CEventHeartbeat::Excute ()
 {
-	LOG_INFO ("Heart Beat.");
 	SetNextTime ();
 }
 

@@ -1,8 +1,6 @@
 ﻿using ProjectNothing.Network;
 using ProjectNothing.Protocol;
-using System;
 using System.Collections;
-using System.Text;
 using UnityEngine;
 
 namespace ProjectNothing
@@ -31,6 +29,8 @@ namespace ProjectNothing
             ProtocolManager.Initialize (gameObject);
             ProtocolManager.Instance.Init ();
 
+            NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID });
+
             m_IsInit = true;
         }
 
@@ -40,11 +40,7 @@ namespace ProjectNothing
             {
                 m_Time += Time.deltaTime;
 
-                if (!m_Login)
-                {
-                    NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID });
-                }
-                else
+                if (m_Login)
                 {
                     if (m_Time >= 1f)
                     {

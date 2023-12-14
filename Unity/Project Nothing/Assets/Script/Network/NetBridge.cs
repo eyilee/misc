@@ -7,8 +7,11 @@
             inStream.Read (out ushort protocolID);
 
             INetProtocol protocol = GenerateProtocol (protocolID, this);
-            protocol.Deserialize (inStream);
-            protocol.Excute ();
+            if (protocol != null)
+            {
+                protocol.Deserialize (inStream);
+                protocol.Excute ();
+            }
         }
 
         public void ComposeOutput (INetProtocol protocol)

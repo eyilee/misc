@@ -29,7 +29,7 @@ void CTcpListener::Shutdown ()
 void CTcpListener::AsyncAccept ()
 {
 	auto self (shared_from_this ());
-	m_kAcceptor.async_accept ([&, self](const boost::system::error_code& _rkErrorCode, tcp::socket _rkSocket)
+	m_kAcceptor.async_accept ([this, self](const boost::system::error_code& _rkErrorCode, tcp::socket _rkSocket)
 		{
 			if (!m_bIsRunning)
 			{

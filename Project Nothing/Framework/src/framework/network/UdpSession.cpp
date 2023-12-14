@@ -9,7 +9,6 @@
 
 CUdpSession::CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
 	: m_kSocket (_rkContext, udp::endpoint (boost::asio::ip::address::from_string (_rkHostAddr.c_str ()), _nPort))
-	, m_kSendBuffer {}
 	, m_kReceiveBuffer {}
 {
 }
@@ -43,10 +42,6 @@ void CUdpSession::Shutdown ()
 
 void CUdpSession::AsyncReceive ()
 {
-	if (!m_kSocket.is_open ()) {
-		return;
-	}
-
 	auto self (shared_from_this ());
 	m_kSocket.async_receive_from (boost::asio::buffer (m_kReceiveBuffer, UDP_SESSION_BUFFER_SIZE), m_kEndpoint,
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
@@ -67,15 +62,11 @@ void CUdpSession::AsyncReceive ()
 
 void CUdpSession::AsyncSend ()
 {
-	if (!m_kSocket.is_open ()) {
+	if (m_kCommandQueue.empty ()) {
 		return;
 	}
 
-	if (m_kSendQueue.empty ()) {
-		return;
-	}
-
-	const auto& command = m_kSendQueue.front ();
+	const SCommand& command = m_kCommandQueue.front ();
 
 	auto self (shared_from_this ());
 	m_kSocket.async_send_to (boost::asio::buffer (command.m_kBytes, command.m_kBytes.size ()), command.m_kEndPoint,
@@ -85,7 +76,8 @@ void CUdpSession::AsyncSend ()
 				LOG_ERROR (_rkErrorCode.message ());
 			}
 
-			m_kSendQueue.pop_front ();
+			m_kCommandQueue.pop_front ();
+
 			AsyncSend ();
 		});
 }
@@ -94,8 +86,6 @@ void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 {
 	const uint8_t* buffer = boost::asio::buffer_cast<const uint8_t*> (_rkBuffer);
 	CBitInStream inStream (buffer, _rkBuffer.size ());
-
-	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
 
 	int entityID;
 	uint32_t key;
@@ -112,6 +102,7 @@ void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 		return;
 	}
 
+	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
 	if (netBridge->GetIP () == ip && netBridge->GetUdpKey () == key) {
 		netBridge->ResolveInput (inStream);
 	}
@@ -119,10 +110,17 @@ void CUdpSession::OnReceive (const boost::asio::const_buffer& _rkBuffer)
 
 void CUdpSession::OnSend (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
 {
-	bool isSending = !m_kSendQueue.empty ();
-
 	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
-	m_kSendQueue.emplace_back (SUdpSendCommand (bytes, _rkEndPoint));
+
+	size_t size = bytes.size ();
+	if (size == 0 || size > UDP_SESSION_BUFFER_SIZE) {
+		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", UDP_SESSION_BUFFER_SIZE);
+		return;
+	}
+
+	bool isSending = !m_kCommandQueue.empty ();
+
+	m_kCommandQueue.emplace_back (SCommand (bytes, _rkEndPoint));
 
 	if (!isSending) {
 		AsyncSend ();

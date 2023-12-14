@@ -24,17 +24,17 @@ void ServerLogin::Deserialize (CBitInStream& _rkInStream)
 
 void ServerLogin::Excute ()
 {
-	if (m_pkNetBridge != nullptr)
+	std::shared_ptr<IEntity> entity = CEntityManager::GetOrCreateEntity<CPlayerEntity> (m_nID);
+	if (entity != nullptr)
 	{
-		std::shared_ptr<IEntity> entity = CEntityManager::GetOrCreateEntity<CPlayerEntity> (m_nID);
-		if (entity != nullptr) {
-			entity->SetNetBridge (m_pkNetBridge);
-		}
-
-		uint32_t key = CRandom::GetValue<uint32_t> ();
-		m_pkNetBridge->SetUdpKey (key);
-
-		std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (m_nID, key);
-		m_pkNetBridge->ComposeOutput (protocol);
+		entity->SetNetBridge (m_pkNetBridge);
+		m_pkNetBridge->SetEntity (entity);
 	}
+
+	uint32_t key = CRandom::GetValue<uint32_t> ();
+	m_pkNetBridge->SetUdpKey (key);
+
+	std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (m_nID, key);
+	LOG_DEBUG ("Protocol: %hu.", ClientLoginResult::GetID ());
+	m_pkNetBridge->ComposeTcpOutput (protocol);
 }

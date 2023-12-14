@@ -20,7 +20,12 @@ namespace ProjectNothing.Network
 
         public INetProtocol GenerateProtocol (ushort protocolID, NetBridge netBridge)
         {
-            INetProtocol netProtocol = m_ProtocolMap[protocolID].Generate ();
+            if (!m_ProtocolMap.TryGetValue (protocolID, out INetProtocolGenerator generator))
+            {
+                return null;
+            }
+
+            INetProtocol netProtocol = generator.Generate ();
             netProtocol.SetNetBridge (netBridge);
             return netProtocol;
         }

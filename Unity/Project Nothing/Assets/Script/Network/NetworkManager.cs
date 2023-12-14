@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
@@ -8,6 +9,21 @@ namespace ProjectNothing.Network
 {
     public sealed class NetworkManager : MonoSingleton<NetworkManager>
     {
+        struct Command
+        {
+            public byte[] m_Bytes;
+
+            public Command (byte[] _bytes)
+            {
+                ushort length = Convert.ToUInt16 (_bytes.Length);
+                byte[] lengthBytes = BitConverter.GetBytes (length);
+                m_Bytes = new byte[lengthBytes.Length + _bytes.Length];
+
+                Array.Copy (lengthBytes, m_Bytes, lengthBytes.Length);
+                Array.Copy (_bytes, 0, m_Bytes, lengthBytes.Length, _bytes.Length);
+            }
+        }
+
         private const int SESSION_BUFFER_SIZE = 8192;
 
         private IPAddress m_IPAddress = null;
@@ -21,8 +37,9 @@ namespace ProjectNothing.Network
         public readonly NetBridge m_NetBridge = new ();
 
         private readonly byte[] m_ReadBuffer = new byte[SESSION_BUFFER_SIZE];
-        private readonly byte[] m_WriteBuffer = new byte[SESSION_BUFFER_SIZE];
         private readonly byte[] m_SendBuffer = new byte[SESSION_BUFFER_SIZE];
+
+        private readonly Queue<Command> m_CommandQueue = new Queue<Command> ();
 
         private bool m_IsInit = false;
 
@@ -50,18 +67,18 @@ namespace ProjectNothing.Network
                 AsyncRead ();
             }, null);
 
+            yield return new WaitUntil (() => m_IsInit);
+
             m_RemotIPEndPoint = new IPEndPoint (m_IPAddress, _udpPort);
 
             AsyncReceive ();
-
-            yield return new WaitUntil (() => m_IsInit);
         }
 
         private void AsyncRead ()
         {
             if (m_NetworkStream.CanRead)
             {
-                m_NetworkStream.BeginRead (m_WriteBuffer, 0, m_WriteBuffer.Length, (IAsyncResult _asyncResult) =>
+                m_NetworkStream.BeginRead (m_ReadBuffer, 0, m_ReadBuffer.Length, (IAsyncResult _asyncResult) =>
                 {
                     int length = m_NetworkStream.EndRead (_asyncResult);
                     OnRead (length);
@@ -72,26 +89,46 @@ namespace ProjectNothing.Network
 
         private void OnRead (int _length)
         {
-            BitInStream inStream = new (m_WriteBuffer, _length);
+            BitInStream inStream = new (m_ReadBuffer, _length);
             m_NetBridge.ResolveInput (inStream);
         }
 
-        private void AsyncWrite (int _length)
+        private void AsyncWrite ()
         {
-            if (m_NetworkStream.CanWrite)
+            if (m_CommandQueue.Count == 0)
             {
-                m_NetworkStream.BeginWrite (m_ReadBuffer, 0, _length, (IAsyncResult _asyncResult) =>
-                {
-                    m_NetworkStream.EndWrite (_asyncResult);
-                }, null);
+                return;
             }
+
+            Command command = m_CommandQueue.Peek ();
+
+            m_NetworkStream.BeginWrite (command.m_Bytes, 0, command.m_Bytes.Length, (IAsyncResult _asyncResult) =>
+            {
+                m_NetworkStream.EndWrite (_asyncResult);
+
+                m_CommandQueue.Dequeue ();
+
+                AsyncWrite ();
+            }, null);
         }
 
         public void OnWrite (BitOutStream _outStream)
         {
             byte[] bytes = _outStream.GetBytes ();
-            Array.Copy (bytes, m_ReadBuffer, bytes.Length);
-            AsyncWrite (bytes.Length);
+            if (bytes.Length == 0 || bytes.Length > SESSION_BUFFER_SIZE)
+            {
+                Debug.LogErrorFormat ("Bytes size({0}) is 0 or more than {1}.", bytes.Length, SESSION_BUFFER_SIZE);
+                return;
+            }
+
+            bool isSending = m_CommandQueue.Count > 0;
+
+            m_CommandQueue.Enqueue (new Command (bytes));
+
+            if (!isSending)
+            {
+                AsyncWrite ();
+            }
         }
 
         private void AsyncReceive ()

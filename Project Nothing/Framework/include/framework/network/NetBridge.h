@@ -11,8 +11,11 @@ class CUdpSession;
 class CNetBridge : public std::enable_shared_from_this<CNetBridge>
 {
 public:
-	CNetBridge (std::shared_ptr<CTcpSession> _pkTcpSession, const uint32_t& _rnIP);
+	CNetBridge ();
 	virtual ~CNetBridge ();
+
+	void Init (std::shared_ptr<CTcpSession> _pkTcpSession, const uint32_t& _rnIP);
+	void Shutdown ();
 
 	uint32_t GetIP () const { return m_nIP; }
 
@@ -25,9 +28,8 @@ public:
 	std::shared_ptr<IEntity> GetEntity () { return m_pkEntity; }
 
 	void ResolveInput (CBitInStream& _rkInStream);
-	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);
-
-	void UdpOutput (std::shared_ptr<INetProtocol> _pkProtocol);
+	void ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol);
+	void ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:
 	std::shared_ptr<CTcpSession> m_pkTcpSession;
