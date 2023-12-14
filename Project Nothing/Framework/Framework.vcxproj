@@ -20,8 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\framework\Event.h" />
+    <ClInclude Include="include\framework\network\BitConverter.h" />
     <ClInclude Include="include\framework\Random.h" />
     <ClInclude Include="include\framework\Time.h" />
+    <ClCompile Include="src\framework\network\BitConverter.cpp" />
     <ClCompile Include="src\framework\Random.cpp" />
     <ClInclude Include="src\stdafx.h" />
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -158,6 +160,7 @@
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -208,9 +211,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)packages\boost.1.83.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -236,6 +240,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)packages\boost.1.83.0\lib\native\include;$(SolutionDir)3rdparty\postgresql-10.11\include;include;src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
     </ClCompile>
     <Link>
       <SubSystem>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
-#include "framework/network/BitStream.h"
+#include "framework/network/BitConverter.h"
 #include "framework/network/Entity.h"
 #include "framework/network/NetBridge.h"
 #include "framework/manager/EntityManager.h"
@@ -49,7 +49,7 @@ void CTcpSession::Shutdown ()
 void CTcpSession::AsyncRead ()
 {
 	auto self (shared_from_this ());
-	m_kSocket.async_read_some (boost::asio::buffer (m_kReadBuffer, TCP_SESSION_BUFFER_SIZE),
+	m_kSocket.async_read_some (boost::asio::buffer (m_kReadBuffer, TCP_SOCKET_BUFFER_SIZE),
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
 			if (_rkErrorCode)
@@ -62,7 +62,7 @@ void CTcpSession::AsyncRead ()
 			}
 			else
 			{
-				OnRead (boost::asio::buffer (m_kReadBuffer, _nLength));
+				OnRead (_nLength);
 				AsyncRead ();
 			}
 		});
@@ -70,11 +70,11 @@ void CTcpSession::AsyncRead ()
 
 void CTcpSession::AsyncWrite ()
 {
-	if (m_kCommandQueue.empty ()) {
+	if (m_kWriteQueue.empty ()) {
 		return;
 	}
 
-	SCommand& command = m_kCommandQueue.front ();
+	SWriteCommand& command = m_kWriteQueue.front ();
 
 	auto self (shared_from_this ());
 	m_kSocket.async_write_some (boost::asio::buffer (&command.m_kBytes[command.m_nByteOffset], command.m_kBytes.size () - command.m_nByteOffset),
@@ -86,34 +86,64 @@ void CTcpSession::AsyncWrite ()
 
 			command.m_nByteOffset += _nLength;
 			if (command.m_nByteOffset >= command.m_kBytes.size ()) {
-				m_kCommandQueue.pop_front ();
+				m_kWriteQueue.pop_front ();
 			}
 
 			AsyncWrite ();
 		});
 }
 
-void CTcpSession::OnRead (const boost::asio::const_buffer& _rkBuffer)
+void CTcpSession::OnRead (const size_t& _rnLength)
 {
-	const uint8_t* buffer = boost::asio::buffer_cast<const uint8_t*> (_rkBuffer);
-	CBitInStream inStream (buffer, _rkBuffer.size ());
+	const uint8_t* buffer = &m_kReadBuffer[0];
+	size_t offset = 0;
+	size_t tail = _rnLength;
 
-	m_pkNetBridge->ResolveInput (inStream);
+	if (!m_kBufferQueue.empty ())
+	{
+		SReadCommand& command = m_kBufferQueue.back ();
+		if (command.m_nSize > command.m_kBytes.size ())
+		{
+			size_t length = std::min (command.m_nSize, tail - offset);
+			std::copy (buffer + offset, buffer + offset + length, command.m_kBytes.end ());
+			offset += length;
+		}
+	}
+
+	while (offset < tail)
+	{
+		size_t size = ntohs (BitConverter::ToUInt16 (buffer + offset));
+		offset += sizeof (uint16_t);
+
+		SReadCommand& command = m_kBufferQueue.emplace_back (size);
+
+		size_t length = std::min (size, tail - offset);
+		std::copy (buffer + offset, buffer + offset + length, command.m_kBytes.end ());
+		offset += length;
+	}
+
+	if (!m_kBufferQueue.empty ())
+	{
+		SReadCommand& command = m_kBufferQueue.front ();
+
+		CBitInStream inStream (command.m_kBytes);
+		m_pkNetBridge->ResolveInput (inStream);
+
+		m_kBufferQueue.pop_front ();
+	}
 }
 
 void CTcpSession::OnWrite (const CBitOutStream& _rkOutStream)
 {
-	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
-
-	size_t size = bytes.size ();
-	if (size == 0 || size > TCP_SESSION_BUFFER_SIZE) {
-		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", TCP_SESSION_BUFFER_SIZE);
+	size_t size = _rkOutStream.GetSize ();
+	if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE) {
+		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", TCP_SOCKET_BUFFER_SIZE);
 		return;
 	}
 
-	bool isSending = !m_kCommandQueue.empty ();
+	bool isSending = !m_kWriteQueue.empty ();
 
-	m_kCommandQueue.emplace_back (SCommand (bytes));
+	m_kWriteQueue.emplace_back (_rkOutStream);
 
 	if (!isSending) {
 		AsyncWrite ();

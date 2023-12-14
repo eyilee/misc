@@ -2,9 +2,9 @@
 #include "framework/network/Serializable.h"
 #include "framework/network/BitStream.h"
 
-CBitInStream::CBitInStream (const std::vector<uint8_t>& _rkBytes)
+CBitInStream::CBitInStream (std::vector<uint8_t>& _rkBytes)
 	: m_nBitOffset (0)
-	, m_kBytes (_rkBytes)
+	, m_kBytes (std::move (_rkBytes))
 {
 }
 
@@ -105,6 +105,23 @@ CBitOutStream::CBitOutStream ()
 
 CBitOutStream::~CBitOutStream ()
 {
+}
+
+std::vector<uint8_t> CBitOutStream::GetHeader () const
+{
+	uint16_t size = static_cast<uint16_t> (m_kBytes.size ());
+	size = htons (size);
+
+	std::vector<uint8_t> header;
+	header.reserve (sizeof (uint16_t));
+
+	uint8_t* byte = reinterpret_cast<uint8_t*> (size);
+	for (size_t i = 0; i < sizeof (uint16_t); i++) {
+		header.emplace_back (*byte);
+		byte++;
+	}
+
+	return header;
 }
 
 void CBitOutStream::Write (bool _bValue)

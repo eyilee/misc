@@ -1,33 +1,42 @@
 #pragma once
+#include "framework/network/BitStream.h"
 
 using boost::asio::ip::tcp;
 
-class CBitOutStream;
 class CNetBridge;
 
-constexpr size_t TCP_SESSION_BUFFER_SIZE = 8192;
+constexpr size_t TCP_SOCKET_BUFFER_SIZE = 8192;
 
 class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 {
 	friend CNetBridge;
 
 private:
-	struct SCommand
+	struct SReadCommand
+	{
+		size_t m_nSize;
+		std::vector<uint8_t> m_kBytes;
+
+		SReadCommand (const size_t& _rnSize)
+		{
+			m_nSize = _rnSize;
+			m_kBytes.reserve (m_nSize);
+		}
+	};
+
+	struct SWriteCommand
 	{
 		size_t m_nByteOffset;
 		std::vector<uint8_t> m_kBytes;
 
-		SCommand (const std::vector<uint8_t>& _rkBytes)
+		SWriteCommand (const CBitOutStream& _rkOutStream)
 			: m_nByteOffset (0)
 		{
-			constexpr size_t size = sizeof (unsigned short);
-			unsigned short byteCount = static_cast<unsigned short> (_rkBytes.size ());
-			m_kBytes.resize (size + _rkBytes.size ());
-
-			auto it = m_kBytes.begin ();
-			std::copy ((uint8_t*)&byteCount, (uint8_t*)&byteCount + size, it);
-			std::advance (it, size);
-			std::copy (_rkBytes.begin (), _rkBytes.end (), it);
+			std::vector<uint8_t> header = _rkOutStream.GetHeader ();
+			const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
+			m_kBytes.reserve (header.size () + bytes.size ());
+			std::copy (header.begin (), header.end (), m_kBytes.end ());
+			std::copy (bytes.begin (), bytes.end (), m_kBytes.end ());
 		}
 	};
 
@@ -42,15 +51,15 @@ private:
 	void AsyncRead ();
 	void AsyncWrite ();
 
-	void OnRead (const boost::asio::const_buffer& _rkBuffer);
+	void OnRead (const size_t& _rnLength);
 	void OnWrite (const CBitOutStream& _rkOutStream);
 
 private:
 	tcp::socket m_kSocket;
 
-	std::deque<SCommand> m_kCommandQueue;
-	std::array<uint8_t, TCP_SESSION_BUFFER_SIZE> m_kReadBuffer;
-	std::array<uint8_t, TCP_SESSION_BUFFER_SIZE> m_kCommandBuffers[2];
+	std::deque<SReadCommand> m_kBufferQueue;
+	std::deque<SWriteCommand> m_kWriteQueue;
+	std::array<uint8_t, TCP_SOCKET_BUFFER_SIZE> m_kReadBuffer;
 
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };

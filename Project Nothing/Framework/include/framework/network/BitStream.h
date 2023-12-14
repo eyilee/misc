@@ -5,7 +5,7 @@ class ISerializable;
 class CBitInStream
 {
 public:
-	CBitInStream (const std::vector<uint8_t>& _rkBytes);
+	CBitInStream (std::vector<uint8_t>& _rkBytes);
 	CBitInStream (const uint8_t* _pnData, size_t _nSize);
 	virtual ~CBitInStream ();
 
@@ -68,7 +68,9 @@ public:
 	CBitOutStream ();
 	virtual ~CBitOutStream ();
 
+	std::vector<uint8_t> GetHeader () const;
 	const std::vector<uint8_t>& GetBytes () const { return m_kBytes; }
+	size_t GetSize () const { return m_kBytes.size (); }
 
 	void Write (bool _bValue);
 

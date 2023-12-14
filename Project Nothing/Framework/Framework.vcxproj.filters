@@ -99,6 +99,9 @@
     <ClInclude Include="include\framework\Random.h">
       <Filter>include\framework</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\network\BitConverter.h">
+      <Filter>include\framework\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -168,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="src\framework\Random.cpp">
       <Filter>src\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\BitConverter.cpp">
+      <Filter>src\framework\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -76,15 +76,12 @@ namespace ProjectNothing.Network
 
         private void AsyncRead ()
         {
-            if (m_NetworkStream.CanRead)
+            m_NetworkStream.BeginRead (m_ReadBuffer, 0, m_ReadBuffer.Length, (IAsyncResult _asyncResult) =>
             {
-                m_NetworkStream.BeginRead (m_ReadBuffer, 0, m_ReadBuffer.Length, (IAsyncResult _asyncResult) =>
-                {
-                    int length = m_NetworkStream.EndRead (_asyncResult);
-                    OnRead (length);
-                    AsyncRead ();
-                }, null);
-            }
+                int length = m_NetworkStream.EndRead (_asyncResult);
+                OnRead (length);
+                AsyncRead ();
+            }, null);
         }
 
         private void OnRead (int _length)

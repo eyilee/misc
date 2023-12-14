@@ -1,24 +1,23 @@
 #pragma once
+#include "framework/network/BitStream.h"
 
-class CBitOutStream;
 class CNetBridge;
 
 using boost::asio::ip::udp;
 
-constexpr size_t UDP_SESSION_BUFFER_SIZE = 512;
-
+constexpr size_t UDP_SOCKET_BUFFER_SIZE = 512;
 
 class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 {
 	friend CNetBridge;
 
 private:
-	struct SCommand
+	struct SWriteCommand
 	{
 		std::vector<uint8_t> m_kBytes;
 		udp::endpoint m_kEndPoint;
 
-		SCommand (const std::vector<uint8_t>& _rkBytes, const udp::endpoint& _rkEndPoint)
+		SWriteCommand (const std::vector<uint8_t>& _rkBytes, const udp::endpoint& _rkEndPoint)
 			: m_kBytes (_rkBytes)
 			, m_kEndPoint (_rkEndPoint)
 		{
@@ -36,13 +35,13 @@ private:
 	void AsyncReceive ();
 	void AsyncSend ();
 
-	void OnReceive (const boost::asio::const_buffer& _rkBuffer);
+	void OnReceive (const size_t& _rnLength);
 	void OnSend (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint);
 
 private:
 	udp::socket m_kSocket;
 	udp::endpoint m_kEndpoint;
 
-	std::deque<SCommand> m_kCommandQueue;
-	std::array<uint8_t, UDP_SESSION_BUFFER_SIZE> m_kReceiveBuffer;
+	std::deque<SWriteCommand> m_kWriteQueue;
+	std::array<uint8_t, UDP_SOCKET_BUFFER_SIZE> m_kReceiveBuffer;
 };
