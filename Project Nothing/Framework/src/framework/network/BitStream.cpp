@@ -107,21 +107,20 @@ CBitOutStream::~CBitOutStream ()
 {
 }
 
-std::vector<uint8_t> CBitOutStream::GetHeader () const
+const std::vector<uint8_t>& CBitOutStream::GetHeader ()
 {
 	uint16_t size = static_cast<uint16_t> (m_kBytes.size ());
 	size = htons (size);
 
-	std::vector<uint8_t> header;
-	header.reserve (sizeof (uint16_t));
+	m_kHeader.clear ();
 
-	uint8_t* byte = reinterpret_cast<uint8_t*> (size);
+	uint8_t* byte = reinterpret_cast<uint8_t*> (&size);
 	for (size_t i = 0; i < sizeof (uint16_t); i++) {
-		header.emplace_back (*byte);
+		m_kHeader.emplace_back (*byte);
 		byte++;
 	}
 
-	return header;
+	return m_kHeader;
 }
 
 void CBitOutStream::Write (bool _bValue)

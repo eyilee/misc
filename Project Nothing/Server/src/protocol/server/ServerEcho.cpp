@@ -22,11 +22,6 @@ void ServerEcho::Deserialize (CBitInStream& _rkInStream)
 void ServerEcho::Excute ()
 {
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientEcho> (m_kString);
-	LOG_DEBUG ("Protocol: %hu.", ClientEcho::GetID ());
-	m_pkNetBridge->ComposeTcpOutput (protocol);
-	m_pkNetBridge->ComposeTcpOutput (protocol);
-	m_pkNetBridge->ComposeTcpOutput (protocol);
-	m_pkNetBridge->ComposeTcpOutput (protocol);
 	m_pkNetBridge->ComposeTcpOutput (protocol);
 
 	std::shared_ptr<IEntity> entity = m_pkNetBridge->GetEntity ();

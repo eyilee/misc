@@ -68,7 +68,7 @@ public:
 	CBitOutStream ();
 	virtual ~CBitOutStream ();
 
-	std::vector<uint8_t> GetHeader () const;
+	const std::vector<uint8_t>& GetHeader ();
 	const std::vector<uint8_t>& GetBytes () const { return m_kBytes; }
 	size_t GetSize () const { return m_kBytes.size (); }
 
@@ -90,6 +90,7 @@ private:
 
 public:
 	size_t m_nBitOffset;
+	std::vector<uint8_t> m_kHeader;
 	std::vector<uint8_t> m_kBytes;
 };
 

@@ -2,10 +2,6 @@
 {
     public abstract class INetProtocol
     {
-        protected NetBridge m_NetBridge;
-
-        public void SetNetBridge (NetBridge value) { m_NetBridge = value; }
-
         public abstract void OnSerialize (BitOutStream outStream);
         public abstract void Serialize (BitOutStream outStream);
         public abstract void Deserialize (BitInStream inStream);

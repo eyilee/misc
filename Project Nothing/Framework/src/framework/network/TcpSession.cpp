@@ -62,10 +62,61 @@ void CTcpSession::AsyncRead ()
 			}
 			else
 			{
-				OnRead (_nLength);
+				if (_nLength > 0) {
+					OnRead (_nLength);
+				}
+
 				AsyncRead ();
 			}
 		});
+}
+
+void CTcpSession::OnRead (const size_t& _rnLength)
+{
+	size_t offset = 0;
+	size_t tail = _rnLength;
+
+	if (!m_kReadQueue.empty ())
+	{
+		SReadCommand& command = m_kReadQueue.back ();
+		if (command.m_nSize > command.m_nByteOffset)
+		{
+			size_t step = std::min (command.m_nSize, tail - offset);
+			std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kBytes.begin () + command.m_nByteOffset);
+			offset += step;
+			command.m_nByteOffset += step;
+		}
+	}
+
+	while (offset < tail)
+	{
+		size_t size = ntohs (BitConverter::ToUInt16 (&m_kReadBuffer[offset]));
+		if (size == 0) {
+			break;
+		}
+
+		offset += sizeof (uint16_t);
+
+		SReadCommand& command = m_kReadQueue.emplace_back (size);
+
+		size_t step = std::min (size, tail - offset);
+		std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kBytes.begin () + command.m_nByteOffset);
+		offset += step;
+		command.m_nByteOffset += step;
+	}
+
+	while (!m_kReadQueue.empty ())
+	{
+		SReadCommand& command = m_kReadQueue.front ();
+		if (command.m_nSize > command.m_nByteOffset) {
+			break;
+		}
+
+		CBitInStream inStream (command.m_kBytes);
+		m_pkNetBridge->ResolveInput (inStream);
+
+		m_kReadQueue.pop_front ();
+	}
 }
 
 void CTcpSession::AsyncWrite ()
@@ -93,51 +144,11 @@ void CTcpSession::AsyncWrite ()
 		});
 }
 
-void CTcpSession::OnRead (const size_t& _rnLength)
-{
-	const uint8_t* buffer = &m_kReadBuffer[0];
-	size_t offset = 0;
-	size_t tail = _rnLength;
-
-	if (!m_kBufferQueue.empty ())
-	{
-		SReadCommand& command = m_kBufferQueue.back ();
-		if (command.m_nSize > command.m_kBytes.size ())
-		{
-			size_t length = std::min (command.m_nSize, tail - offset);
-			std::copy (buffer + offset, buffer + offset + length, command.m_kBytes.end ());
-			offset += length;
-		}
-	}
-
-	while (offset < tail)
-	{
-		size_t size = ntohs (BitConverter::ToUInt16 (buffer + offset));
-		offset += sizeof (uint16_t);
-
-		SReadCommand& command = m_kBufferQueue.emplace_back (size);
-
-		size_t length = std::min (size, tail - offset);
-		std::copy (buffer + offset, buffer + offset + length, command.m_kBytes.end ());
-		offset += length;
-	}
-
-	if (!m_kBufferQueue.empty ())
-	{
-		SReadCommand& command = m_kBufferQueue.front ();
-
-		CBitInStream inStream (command.m_kBytes);
-		m_pkNetBridge->ResolveInput (inStream);
-
-		m_kBufferQueue.pop_front ();
-	}
-}
-
-void CTcpSession::OnWrite (const CBitOutStream& _rkOutStream)
+void CTcpSession::OnWrite (CBitOutStream& _rkOutStream)
 {
 	size_t size = _rkOutStream.GetSize ();
 	if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE) {
-		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", TCP_SOCKET_BUFFER_SIZE);
+		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", size, TCP_SOCKET_BUFFER_SIZE);
 		return;
 	}
 

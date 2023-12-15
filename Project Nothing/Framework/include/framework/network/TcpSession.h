@@ -14,13 +14,15 @@ class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 private:
 	struct SReadCommand
 	{
+		size_t m_nByteOffset;
 		size_t m_nSize;
 		std::vector<uint8_t> m_kBytes;
 
-		SReadCommand (const size_t& _rnSize)
+		SReadCommand (size_t _nSize)
+			: m_nByteOffset (0)
 		{
-			m_nSize = _rnSize;
-			m_kBytes.reserve (m_nSize);
+			m_nSize = _nSize;
+			m_kBytes.resize (m_nSize);
 		}
 	};
 
@@ -29,14 +31,14 @@ private:
 		size_t m_nByteOffset;
 		std::vector<uint8_t> m_kBytes;
 
-		SWriteCommand (const CBitOutStream& _rkOutStream)
+		SWriteCommand (CBitOutStream& _rkOutStream)
 			: m_nByteOffset (0)
 		{
-			std::vector<uint8_t> header = _rkOutStream.GetHeader ();
+			const std::vector<uint8_t>& header = _rkOutStream.GetHeader ();
 			const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
-			m_kBytes.reserve (header.size () + bytes.size ());
-			std::copy (header.begin (), header.end (), m_kBytes.end ());
-			std::copy (bytes.begin (), bytes.end (), m_kBytes.end ());
+			m_kBytes.resize (header.size () + bytes.size ());
+			std::copy (header.begin (), header.end (), m_kBytes.begin ());
+			std::copy (bytes.begin (), bytes.end (), m_kBytes.begin () + header.size ());
 		}
 	};
 
@@ -49,15 +51,15 @@ public:
 
 private:
 	void AsyncRead ();
-	void AsyncWrite ();
-
 	void OnRead (const size_t& _rnLength);
-	void OnWrite (const CBitOutStream& _rkOutStream);
+
+	void AsyncWrite ();
+	void OnWrite (CBitOutStream& _rkOutStream);
 
 private:
 	tcp::socket m_kSocket;
 
-	std::deque<SReadCommand> m_kBufferQueue;
+	std::deque<SReadCommand> m_kReadQueue;
 	std::deque<SWriteCommand> m_kWriteQueue;
 	std::array<uint8_t, TCP_SOCKET_BUFFER_SIZE> m_kReadBuffer;
 

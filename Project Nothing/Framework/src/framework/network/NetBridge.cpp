@@ -59,14 +59,14 @@ void CNetBridge::ResolveInput (CBitInStream& _rkInStream)
 	}
 }
 
-void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol)
+void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
 {
 	CBitOutStream outStream;
 	_pkProtocol->OnSerialize (outStream);
 	m_pkTcpSession->OnWrite (outStream);
 }
 
-void CNetBridge::ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol)
+void CNetBridge::ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
 {
 	CBitOutStream outStream;
 	outStream.Write (m_nUdpKey);

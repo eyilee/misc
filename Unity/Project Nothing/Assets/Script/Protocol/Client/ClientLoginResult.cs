@@ -16,9 +16,9 @@ namespace ProjectNothing.Protocol
         public override void Excute ()
         {
             GameManager.Instance.m_Login = true;
-            GameManager.Instance.m_ID = m_ID;
-            GameManager.Instance.m_Key = m_Key;
-            NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerUdpConnect (), m_ID, m_Key);
+            NetworkManager.m_ID = m_ID;
+            NetworkManager.m_Key = m_Key;
+            NetworkManager.ComposeUdpOutput (new ServerUdpConnect ());
         }
 
         public override void Serialize (BitOutStream outStream)

@@ -35,6 +35,5 @@ void ServerLogin::Excute ()
 	m_pkNetBridge->SetUdpKey (key);
 
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientLoginResult> (m_nID, key);
-	LOG_DEBUG ("Protocol: %hu.", ClientLoginResult::GetID ());
 	m_pkNetBridge->ComposeTcpOutput (protocol);
 }

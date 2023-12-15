@@ -25,11 +25,11 @@ public:
 	void SetUdpEndPoint ();
 
 	void SetEntity (std::shared_ptr<IEntity> _pkEntity) { m_pkEntity = _pkEntity; }
-	std::shared_ptr<IEntity> GetEntity () { return m_pkEntity; }
+	std::shared_ptr<IEntity> GetEntity () const { return m_pkEntity; }
 
 	void ResolveInput (CBitInStream& _rkInStream);
-	void ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol);
-	void ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol);
+	void ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
+	void ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
 
 private:
 	std::shared_ptr<CTcpSession> m_pkTcpSession;

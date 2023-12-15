@@ -24,12 +24,12 @@ namespace ProjectNothing
             Initialize (gameObject);
 
             NetworkManager.Initialize (gameObject);
-            yield return NetworkManager.Instance.Init ("127.0.0.1", 8484, 8485);
+            yield return NetworkManager.Init ("127.0.0.1", 8484, 8485);
 
             ProtocolManager.Initialize (gameObject);
             ProtocolManager.Instance.Init ();
 
-            NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerLogin { m_ID = m_ID });
+            NetworkManager.ComposeTcpOutput (new ServerLogin { m_ID = m_ID });
 
             m_IsInit = true;
         }
@@ -44,7 +44,7 @@ namespace ProjectNothing
                 {
                     if (m_Time >= 1f)
                     {
-                        NetworkManager.Instance.m_NetBridge.ComposeOutput (new ServerEcho { m_String = "你好！" }, m_ID, m_Key);
+                        NetworkManager.ComposeTcpOutput (new ServerEcho { m_String = "你好！" });
                         m_Time = 0.0f;
                     }
                 }

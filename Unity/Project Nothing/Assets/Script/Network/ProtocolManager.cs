@@ -18,16 +18,24 @@ namespace ProjectNothing.Network
             RegisterProtocol<ClientEcho> (200);
         }
 
-        public INetProtocol GenerateProtocol (ushort protocolID, NetBridge netBridge)
+        static public INetProtocol GenerateProtocol (ushort protocolID)
+        {
+            if (Instance == null)
+            {
+                return null;
+            }
+
+            return Instance.Generate (protocolID);
+        }
+
+        private INetProtocol Generate (ushort protocolID)
         {
             if (!m_ProtocolMap.TryGetValue (protocolID, out INetProtocolGenerator generator))
             {
                 return null;
             }
 
-            INetProtocol netProtocol = generator.Generate ();
-            netProtocol.SetNetBridge (netBridge);
-            return netProtocol;
+            return generator.Generate ();
         }
 
         private void RegisterProtocol<T> (ushort protocolID) where T : NetProtocol<T>, new()

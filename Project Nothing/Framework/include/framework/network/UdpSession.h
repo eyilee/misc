@@ -12,12 +12,12 @@ class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 	friend CNetBridge;
 
 private:
-	struct SWriteCommand
+	struct SSendCommand
 	{
 		std::vector<uint8_t> m_kBytes;
 		udp::endpoint m_kEndPoint;
 
-		SWriteCommand (const std::vector<uint8_t>& _rkBytes, const udp::endpoint& _rkEndPoint)
+		SSendCommand (const std::vector<uint8_t>& _rkBytes, const udp::endpoint& _rkEndPoint)
 			: m_kBytes (_rkBytes)
 			, m_kEndPoint (_rkEndPoint)
 		{
@@ -33,15 +33,15 @@ public:
 
 private:
 	void AsyncReceive ();
-	void AsyncSend ();
-
 	void OnReceive (const size_t& _rnLength);
+
+	void AsyncSend ();
 	void OnSend (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint);
 
 private:
 	udp::socket m_kSocket;
 	udp::endpoint m_kEndpoint;
 
-	std::deque<SWriteCommand> m_kWriteQueue;
+	std::deque<SSendCommand> m_kSendQueue;
 	std::array<uint8_t, UDP_SOCKET_BUFFER_SIZE> m_kReceiveBuffer;
 };

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using UnityEngine;
 
 namespace ProjectNothing.Network
 {
@@ -268,9 +269,20 @@ namespace ProjectNothing.Network
             m_BitOffset = 0;
         }
 
+        public byte[] GetHeader ()
+        {
+            byte[] bytes = BitConverter.GetBytes (Convert.ToUInt16 (m_Bytes.Count));
+            return BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (bytes)));
+        }
+
         public byte[] GetBytes ()
         {
             return m_Bytes.ToArray ();
+        }
+
+        public int GetSize ()
+        {
+            return m_Bytes.Count;
         }
 
         public void Write (bool _bool)

@@ -23,6 +23,5 @@ void ServerUdpConnect::Excute ()
 	m_pkNetBridge->SetUdpEndPoint ();
 
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<ClientUdpConnectResult> ();
-	LOG_DEBUG ("Protocol: %hu.", ClientUdpConnectResult::GetID ());
 	m_pkNetBridge->ComposeTcpOutput (protocol);
 }

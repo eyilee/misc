@@ -53,31 +53,12 @@ void CUdpSession::AsyncReceive ()
 			}
 			else
 			{
-				OnReceive (_nLength);
+				if (_nLength > 0) {
+					OnReceive (_nLength);
+				}
+
 				AsyncReceive ();
 			}
-		});
-}
-
-void CUdpSession::AsyncSend ()
-{
-	if (m_kWriteQueue.empty ()) {
-		return;
-	}
-
-	const SWriteCommand& command = m_kWriteQueue.front ();
-
-	auto self (shared_from_this ());
-	m_kSocket.async_send_to (boost::asio::buffer (command.m_kBytes, command.m_kBytes.size ()), command.m_kEndPoint,
-		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
-		{
-			if (_rkErrorCode) {
-				LOG_ERROR (_rkErrorCode.message ());
-			}
-
-			m_kWriteQueue.pop_front ();
-
-			AsyncSend ();
 		});
 }
 
@@ -107,17 +88,39 @@ void CUdpSession::OnReceive (const size_t& _rnLength)
 	}
 }
 
+void CUdpSession::AsyncSend ()
+{
+	if (m_kSendQueue.empty ()) {
+		return;
+	}
+
+	const SSendCommand& command = m_kSendQueue.front ();
+
+	auto self (shared_from_this ());
+	m_kSocket.async_send_to (boost::asio::buffer (command.m_kBytes, command.m_kBytes.size ()), command.m_kEndPoint,
+		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
+		{
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
+			}
+
+			m_kSendQueue.pop_front ();
+
+			AsyncSend ();
+		});
+}
+
 void CUdpSession::OnSend (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
 {
 	size_t size = _rkOutStream.GetSize ();
 	if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE) {
-		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", UDP_SOCKET_BUFFER_SIZE);
+		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", size, UDP_SOCKET_BUFFER_SIZE);
 		return;
 	}
 
-	bool isSending = !m_kWriteQueue.empty ();
+	bool isSending = !m_kSendQueue.empty ();
 
-	m_kWriteQueue.emplace_back (_rkOutStream.GetBytes (), _rkEndPoint);
+	m_kSendQueue.emplace_back (_rkOutStream.GetBytes (), _rkEndPoint);
 
 	if (!isSending) {
 		AsyncSend ();
