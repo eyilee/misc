@@ -10,10 +10,6 @@ NE_ServerEcho::~NE_ServerEcho ()
 {
 }
 
-void NE_ServerEcho::Serialize (CBitOutStream& _rkOutStream)
-{
-}
-
 void NE_ServerEcho::Deserialize (CBitInStream& _rkInStream)
 {
 	_rkInStream.Read (m_kString);

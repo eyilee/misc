@@ -11,10 +11,6 @@ NE_ServerShutdown::~NE_ServerShutdown ()
 {
 }
 
-void NE_ServerShutdown::Serialize (CBitOutStream& _rkOutStream)
-{
-}
-
 void NE_ServerShutdown::Deserialize (CBitInStream& _rkInStream)
 {
 }

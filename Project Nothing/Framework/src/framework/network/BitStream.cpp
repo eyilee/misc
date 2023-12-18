@@ -20,7 +20,8 @@ CBitInStream::~CBitInStream ()
 
 void CBitInStream::Read (bool& _rbValue)
 {
-	if (m_nBitOffset + 1 > m_kBytes.size () * 8) {
+	if (m_nBitOffset + 1 > m_kBytes.size () * 8)
+	{
 		_rbValue = false;
 		return;
 	}
@@ -36,7 +37,8 @@ void CBitInStream::Read (std::string& _rkValue)
 	std::string value;
 	value.reserve (size);
 
-	for (unsigned short i = 0; i < size; i++) {
+	for (unsigned short i = 0; i < size; i++)
+	{
 		char c;
 		Read (c);
 		value.push_back (c);
@@ -53,7 +55,8 @@ void CBitInStream::Read (std::wstring& _rkValue)
 	std::wstring value;
 	value.reserve (size);
 
-	for (unsigned short i = 0; i < size; i++) {
+	for (unsigned short i = 0; i < size; i++)
+	{
 		wchar_t c;
 		Read (c);
 		value.push_back (c);
@@ -69,7 +72,8 @@ void CBitInStream::ReadValue (void* _pValue, size_t _nByteCount)
 	}
 
 	uint8_t* byte = reinterpret_cast<uint8_t*> (_pValue);
-	for (size_t i = 0; i < _nByteCount; i++) {
+	for (size_t i = 0; i < _nByteCount; i++)
+	{
 		ReadByte (*byte);
 		byte++;
 	}
@@ -115,7 +119,8 @@ const std::vector<uint8_t>& CBitOutStream::GetHeader ()
 	m_kHeader.clear ();
 
 	uint8_t* byte = reinterpret_cast<uint8_t*> (&size);
-	for (size_t i = 0; i < sizeof (uint16_t); i++) {
+	for (size_t i = 0; i < sizeof (uint16_t); i++)
+	{
 		m_kHeader.emplace_back (*byte);
 		byte++;
 	}
@@ -164,7 +169,8 @@ void CBitOutStream::WriteByte (uint8_t& _rnByte)
 	if (bitOffset == 0) {
 		m_kBytes.emplace_back (_rnByte);
 	}
-	else {
+	else
+	{
 		m_kBytes.back () |= (_rnByte >> bitOffset);
 		m_kBytes.emplace_back (_rnByte << (8 - bitOffset));
 	}

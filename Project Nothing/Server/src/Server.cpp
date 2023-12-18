@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ConfigLoader.h"
-#include "protocol/ClientProtocols.h"
-#include "protocol/ServerProtocols.h"
+#include "protocol/CommandProtocols.h"
+#include "protocol/EventProtocols.h"
 #include "event/EventHeartbeat.h"
 #include "Server.h"
 
@@ -79,15 +79,15 @@ void CServer::InitProtocolManager ()
 {
 	CProtocolManager::Init ();
 
-	CProtocolManager::RegisterProtocol<NE_ServerLogin> (1);
-	CProtocolManager::RegisterProtocol<NE_ServerUdpConnect> (2);
-	CProtocolManager::RegisterProtocol<NC_ClientLoginResult> (51);
-	CProtocolManager::RegisterProtocol<NC_ClientUdpConnectResult> (52);
+	CProtocolManager::RegisterNetEvent<NE_ServerLogin> (1);
+	CProtocolManager::RegisterNetEvent<NE_ServerUdpConnect> (2);
+	CProtocolManager::RegisterNetCommand<NC_ClientLoginResult> (51);
+	CProtocolManager::RegisterNetCommand<NC_ClientUdpConnectResult> (52);
 
-	CProtocolManager::RegisterProtocol<NE_ServerEcho> (100);
-	CProtocolManager::RegisterProtocol<NC_ClientEchoResult> (200);
+	CProtocolManager::RegisterNetEvent<NE_ServerEcho> (100);
+	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
 
-	CProtocolManager::RegisterProtocol<NE_ServerShutdown> (9000);
+	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);
 }
 
 void CServer::InitSessionManager ()

@@ -21,17 +21,56 @@ protected:
 };
 
 template<typename T>
-class CNetProtocol : public INetProtocol
+class CNetCommand : public INetProtocol
 {
 public:
-	CNetProtocol ();
-	virtual ~CNetProtocol ();
+	CNetCommand ();
+	virtual ~CNetCommand ();
 
 	static unsigned short GetID () { return m_nID; };
 	static void SetID (unsigned short _nID) { m_nID = _nID; }
 
-	virtual void OnSerialize (CBitOutStream& _rkOutStream);
+	virtual void OnSerialize (CBitOutStream& _rkOutStream) final;
 	virtual void Serialize (CBitOutStream& _rkOutStream) = 0;
+	virtual void Deserialize (CBitInStream& _rkInStream) final {}
+	virtual void Excute () final {}
+
+private:
+	static unsigned short m_nID;
+};
+
+template<typename T>
+inline CNetCommand<T>::CNetCommand ()
+{
+}
+
+template<typename T>
+inline CNetCommand<T>::~CNetCommand ()
+{
+}
+
+template<typename T>
+inline void CNetCommand<T>::OnSerialize (CBitOutStream& _rkOutStream)
+{
+	_rkOutStream.Write (m_nID);
+	Serialize (_rkOutStream);
+}
+
+template<typename T>
+unsigned short CNetCommand<T>::m_nID;
+
+template<typename T>
+class CNetEvent : public INetProtocol
+{
+public:
+	CNetEvent ();
+	virtual ~CNetEvent ();
+
+	static unsigned short GetID () { return m_nID; };
+	static void SetID (unsigned short _nID) { m_nID = _nID; }
+
+	virtual void OnSerialize (CBitOutStream& _rkOutStream) final {}
+	virtual void Serialize (CBitOutStream& _rkOutStream) final {}
 	virtual void Deserialize (CBitInStream& _rkInStream) = 0;
 	virtual void Excute () = 0;
 
@@ -40,21 +79,14 @@ private:
 };
 
 template<typename T>
-inline CNetProtocol<T>::CNetProtocol ()
+inline CNetEvent<T>::CNetEvent ()
 {
 }
 
 template<typename T>
-inline CNetProtocol<T>::~CNetProtocol ()
+inline CNetEvent<T>::~CNetEvent ()
 {
 }
 
 template<typename T>
-inline void CNetProtocol<T>::OnSerialize (CBitOutStream& _rkOutStream)
-{
-	_rkOutStream.Write (m_nID);
-	Serialize (_rkOutStream);
-}
-
-template<typename T>
-unsigned short CNetProtocol<T>::m_nID;
+unsigned short CNetEvent<T>::m_nID;

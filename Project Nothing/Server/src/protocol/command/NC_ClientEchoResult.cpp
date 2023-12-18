@@ -18,11 +18,3 @@ void NC_ClientEchoResult::Serialize (CBitOutStream& _rkOutStream)
 {
 	_rkOutStream.Write (m_kString);
 }
-
-void NC_ClientEchoResult::Deserialize (CBitInStream& _rkInStream)
-{
-}
-
-void NC_ClientEchoResult::Excute ()
-{
-}

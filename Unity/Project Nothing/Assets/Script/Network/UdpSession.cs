@@ -27,8 +27,6 @@ namespace ProjectNothing.Network
         private IPEndPoint m_RemotIPEndPoint = null;
 
         private readonly LinkedList<SendCommand> m_SendQueue = new ();
-        private readonly byte[] m_ReceiveBuffer = new byte[UDP_SOCKET_BUFFER_SIZE];
-
 
         public IEnumerator Init (IPAddress ipAddress, int port)
         {
@@ -85,7 +83,7 @@ namespace ProjectNothing.Network
             int size = outStream.GetSize ();
             if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE)
             {
-                Debug.LogErrorFormat ("Bytes size({0}) is 0 or more than {1}.", size, UDP_SOCKET_BUFFER_SIZE);
+                Debug.LogErrorFormat ("Bytes size({0}) is 0 or more than UDP_SOCKET_BUFFER_SIZE({1}).", size, UDP_SOCKET_BUFFER_SIZE);
                 return;
             }
 

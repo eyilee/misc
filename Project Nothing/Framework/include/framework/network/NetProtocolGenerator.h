@@ -34,5 +34,5 @@ inline CNetProtocolGenerator<T>::~CNetProtocolGenerator ()
 template<typename T>
 inline std::shared_ptr<INetProtocol> CNetProtocolGenerator<T>::Generate ()
 {
-	return std::make_shared<T> ();
+	return std::static_pointer_cast<INetProtocol> (std::make_shared<T> ());
 }

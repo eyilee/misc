@@ -1,6 +1,6 @@
 #pragma once
 
-class NC_ClientEchoResult : public CNetProtocol<NC_ClientEchoResult>
+class NC_ClientEchoResult : public CNetCommand<NC_ClientEchoResult>
 {
 public:
 	NC_ClientEchoResult ();
@@ -8,8 +8,6 @@ public:
 	virtual ~NC_ClientEchoResult ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
-	virtual void Deserialize (CBitInStream& _rkInStream) override;
-	virtual void Excute () override;
 
 private:
 	std::wstring m_kString;

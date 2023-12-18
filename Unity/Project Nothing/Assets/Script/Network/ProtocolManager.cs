@@ -1,11 +1,12 @@
 ﻿using ProjectNothing.Protocol;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ProjectNothing.Network
 {
     public sealed class ProtocolManager : MonoSingleton<ProtocolManager>
     {
-        private readonly Dictionary<ushort, INetProtocolGenerator> m_ProtocolMap = new Dictionary<ushort, INetProtocolGenerator> ();
+        private readonly Dictionary<ushort, INetProtocolGenerator> m_ProtocolMap = new ();
 
         public void Init ()
         {
@@ -44,7 +45,11 @@ namespace ProjectNothing.Network
 
             if (!m_ProtocolMap.ContainsKey (protocolID))
             {
-                m_ProtocolMap.Add (protocolID, new NetCommandGenerator<T> ());
+                m_ProtocolMap.Add (protocolID, new NetProtocolGenerator<T> ());
+            }
+            else
+            {
+                Debug.LogErrorFormat ("NetCommand ID({0}) has registered.", protocolID);
             }
         }
 
@@ -54,7 +59,11 @@ namespace ProjectNothing.Network
 
             if (!m_ProtocolMap.ContainsKey (protocolID))
             {
-                m_ProtocolMap.Add (protocolID, new NetEventGenerator<T> ());
+                m_ProtocolMap.Add (protocolID, new NetProtocolGenerator<T> ());
+            }
+            else
+            {
+                Debug.LogErrorFormat ("NetEvent ID({0}) has registered.", protocolID);
             }
         }
     }

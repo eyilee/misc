@@ -2,7 +2,6 @@
 #include "PlayerEntity.h"
 
 CPlayerEntity::CPlayerEntity ()
-    : IEntity ()
 {
 }
 

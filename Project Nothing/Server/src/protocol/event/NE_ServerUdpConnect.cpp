@@ -10,10 +10,6 @@ NE_ServerUdpConnect::~NE_ServerUdpConnect ()
 {
 }
 
-void NE_ServerUdpConnect::Serialize (CBitOutStream& _rkOutStream)
-{
-}
-
 void NE_ServerUdpConnect::Deserialize (CBitInStream& _rkInStream)
 {
 }

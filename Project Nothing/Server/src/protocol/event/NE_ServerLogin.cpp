@@ -13,10 +13,6 @@ NE_ServerLogin::~NE_ServerLogin ()
 {
 }
 
-void NE_ServerLogin::Serialize (CBitOutStream& _rkOutStream)
-{
-}
-
 void NE_ServerLogin::Deserialize (CBitInStream& _rkInStream)
 {
 	_rkInStream.Read (m_nID);

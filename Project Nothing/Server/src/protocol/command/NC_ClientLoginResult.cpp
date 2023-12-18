@@ -20,11 +20,3 @@ void NC_ClientLoginResult::Serialize (CBitOutStream& _rkOutStream)
 	_rkOutStream.Write (m_nID);
 	_rkOutStream.Write (m_nKey);
 }
-
-void NC_ClientLoginResult::Deserialize (CBitInStream& _rkInStream)
-{
-}
-
-void NC_ClientLoginResult::Excute ()
-{
-}

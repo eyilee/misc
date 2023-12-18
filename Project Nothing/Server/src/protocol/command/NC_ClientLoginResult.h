@@ -1,6 +1,6 @@
 #pragma once
 
-class NC_ClientLoginResult : public CNetProtocol<NC_ClientLoginResult>
+class NC_ClientLoginResult : public CNetCommand<NC_ClientLoginResult>
 {
 public:
 	NC_ClientLoginResult ();
@@ -8,8 +8,6 @@ public:
 	virtual ~NC_ClientLoginResult ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
-	virtual void Deserialize (CBitInStream& _rkInStream) override;
-	virtual void Excute () override;
 
 private:
 	int m_nID;
