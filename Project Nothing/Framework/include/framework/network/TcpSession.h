@@ -14,15 +14,17 @@ class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 private:
 	struct SReadCommand
 	{
+		size_t m_nHeaderOffset;
+		std::vector<uint8_t> m_kHeader;
+
 		size_t m_nByteOffset;
-		size_t m_nSize;
 		std::vector<uint8_t> m_kBytes;
 
-		SReadCommand (size_t _nSize)
-			: m_nByteOffset (0)
+		SReadCommand ()
+			: m_nHeaderOffset (0)
+			, m_nByteOffset (0)
 		{
-			m_nSize = _nSize;
-			m_kBytes.resize (m_nSize);
+			m_kHeader.resize (2);
 		}
 	};
 

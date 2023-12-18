@@ -14,15 +14,17 @@ namespace ProjectNothing.Network
 
         class ReadCommand
         {
+            public int m_HeaderOffset;
+            public byte[] m_Header;
+
             public int m_ByteOffset;
-            public int m_Size;
             public byte[] m_Bytes;
 
-            public ReadCommand (int size)
+            public ReadCommand ()
             {
+                m_HeaderOffset = 0;
                 m_ByteOffset = 0;
-                m_Size = size;
-                m_Bytes = new byte[m_Size];
+                m_Header = new byte[2];
             }
         }
 
@@ -51,6 +53,7 @@ namespace ProjectNothing.Network
 
         public IEnumerator Init (IPAddress ipAddress, int port)
         {
+            m_TcpClient.NoDelay = false;
             m_TcpClient.BeginConnect (ipAddress, port, (IAsyncResult asyncResult) =>
             {
                 if (!m_TcpClient.Connected)
@@ -93,9 +96,26 @@ namespace ProjectNothing.Network
             if (m_ReadQueue.Last != null)
             {
                 ReadCommand command = m_ReadQueue.Last.Value;
-                if (command.m_Size > command.m_ByteOffset)
+                if (command.m_HeaderOffset < command.m_Header.Length)
                 {
-                    int step = Math.Min (command.m_Size, tail - offset);
+                    int step = Math.Min (command.m_Header.Length - command.m_HeaderOffset, tail - offset);
+                    Array.Copy (m_ReadBuffer, offset, command.m_Header, command.m_HeaderOffset, step);
+                    offset += step;
+                    command.m_HeaderOffset += step;
+
+                    if (command.m_HeaderOffset == command.m_Header.Length)
+                    {
+                        int size = IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (command.m_Header));
+                        if (size > 0)
+                        {
+                            command.m_Bytes = new byte[size];
+                        }
+                    }
+                }
+
+                if (command.m_Bytes != null && command.m_ByteOffset < command.m_Bytes.Length)
+                {
+                    int step = Math.Min (command.m_Bytes.Length - command.m_ByteOffset, tail - offset);
                     Array.Copy (m_ReadBuffer, offset, command.m_Bytes, command.m_ByteOffset, step);
                     offset += step;
                     command.m_ByteOffset += step;
@@ -104,15 +124,31 @@ namespace ProjectNothing.Network
 
             while (offset < tail)
             {
-                int size = IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (m_ReadBuffer, offset));
-                offset += sizeof (short);
+                ReadCommand command = new ();
+                if (command.m_HeaderOffset < command.m_Header.Length)
+                {
+                    int step = Math.Min (command.m_Header.Length - command.m_HeaderOffset, tail - offset);
+                    Array.Copy (m_ReadBuffer, offset, command.m_Header, command.m_HeaderOffset, step);
+                    offset += step;
+                    command.m_HeaderOffset += step;
 
-                ReadCommand command = new (size);
+                    if (command.m_HeaderOffset == command.m_Header.Length)
+                    {
+                        int size = IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (command.m_Header));
+                        if (size > 0)
+                        {
+                            command.m_Bytes = new byte[size];
+                        }
+                    }
+                }
 
-                int step = Math.Min (command.m_Size, tail - offset);
-                Array.Copy (m_ReadBuffer, offset, command.m_Bytes, command.m_ByteOffset, step);
-                offset += step;
-                command.m_ByteOffset += step;
+                if (command.m_Bytes != null && command.m_ByteOffset < command.m_Bytes.Length)
+                {
+                    int step = Math.Min (command.m_Bytes.Length - command.m_ByteOffset, tail - offset);
+                    Array.Copy (m_ReadBuffer, offset, command.m_Bytes, command.m_ByteOffset, step);
+                    offset += step;
+                    command.m_ByteOffset += step;
+                }
 
                 m_ReadQueue.AddLast (command);
             }
@@ -120,7 +156,7 @@ namespace ProjectNothing.Network
             while (m_ReadQueue.First != null)
             {
                 ReadCommand command = m_ReadQueue.First.Value;
-                if (command.m_Size > command.m_ByteOffset)
+                if (command.m_HeaderOffset < command.m_Header.Length || command.m_ByteOffset < command.m_Bytes.Length)
                 {
                     break;
                 }
@@ -161,7 +197,7 @@ namespace ProjectNothing.Network
             int size = outStream.GetSize ();
             if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE)
             {
-                Debug.LogErrorFormat ("Bytes size({0}) is 0 or more than {1}.", size, TCP_SOCKET_BUFFER_SIZE);
+                Debug.LogErrorFormat ("Bytes size({0}) is 0 or more than TCP_SOCKET_BUFFER_SIZE({1}).", size, TCP_SOCKET_BUFFER_SIZE);
                 return;
             }
 

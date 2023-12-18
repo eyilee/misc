@@ -79,9 +79,25 @@ void CTcpSession::OnRead (const size_t& _rnLength)
 	if (!m_kReadQueue.empty ())
 	{
 		SReadCommand& command = m_kReadQueue.back ();
-		if (command.m_nSize > command.m_nByteOffset)
+		if (command.m_nHeaderOffset < command.m_kHeader.size ())
 		{
-			size_t step = std::min (command.m_nSize, tail - offset);
+			size_t step = std::min (command.m_kHeader.size () - command.m_nHeaderOffset, tail - offset);
+			std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kHeader.begin () + command.m_nHeaderOffset);
+			offset += step;
+			command.m_nHeaderOffset += step;
+
+			if (command.m_nHeaderOffset == command.m_kHeader.size ())
+			{
+				size_t size = ntohs (BitConverter::ToUInt16 (&command.m_kHeader[0]));
+				if (size > 0) {
+					command.m_kBytes.resize (size);
+				}
+			}
+		}
+
+		if (command.m_nByteOffset < command.m_kBytes.size ())
+		{
+			size_t step = std::min (command.m_kBytes.size () - command.m_nByteOffset, tail - offset);
 			std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kBytes.begin () + command.m_nByteOffset);
 			offset += step;
 			command.m_nByteOffset += step;
@@ -90,25 +106,36 @@ void CTcpSession::OnRead (const size_t& _rnLength)
 
 	while (offset < tail)
 	{
-		size_t size = ntohs (BitConverter::ToUInt16 (&m_kReadBuffer[offset]));
-		if (size == 0) {
-			break;
+		SReadCommand& command = m_kReadQueue.emplace_back ();
+		if (command.m_nHeaderOffset < command.m_kHeader.size ())
+		{
+			size_t step = std::min (command.m_kHeader.size () - command.m_nHeaderOffset, tail - offset);
+			std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kHeader.begin () + command.m_nHeaderOffset);
+			offset += step;
+			command.m_nHeaderOffset += step;
+
+			if (command.m_nHeaderOffset == command.m_kHeader.size ())
+			{
+				size_t size = ntohs (BitConverter::ToUInt16 (&command.m_kHeader[0]));
+				if (size > 0) {
+					command.m_kBytes.resize (size);
+				}
+			}
 		}
 
-		offset += sizeof (uint16_t);
-
-		SReadCommand& command = m_kReadQueue.emplace_back (size);
-
-		size_t step = std::min (size, tail - offset);
-		std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kBytes.begin () + command.m_nByteOffset);
-		offset += step;
-		command.m_nByteOffset += step;
+		if (command.m_nByteOffset < command.m_kBytes.size ())
+		{
+			size_t step = std::min (command.m_kBytes.size () - command.m_nByteOffset, tail - offset);
+			std::copy (m_kReadBuffer.begin () + offset, m_kReadBuffer.begin () + offset + step, command.m_kBytes.begin () + command.m_nByteOffset);
+			offset += step;
+			command.m_nByteOffset += step;
+		}
 	}
 
 	while (!m_kReadQueue.empty ())
 	{
 		SReadCommand& command = m_kReadQueue.front ();
-		if (command.m_nSize > command.m_nByteOffset) {
+		if (command.m_nHeaderOffset < command.m_kHeader.size () || command.m_nByteOffset < command.m_kBytes.size ()) {
 			break;
 		}
 
