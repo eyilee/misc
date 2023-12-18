@@ -1,4 +1,4 @@
 #pragma once
-#include "protocol/client/ClientLoginResult.h"
-#include "protocol/client/ClientUdpConnectResult.h"
-#include "protocol/client/ClientEcho.h"
+#include "protocol/command/NC_ClientLoginResult.h"
+#include "protocol/command/NC_ClientUdpConnectResult.h"
+#include "protocol/command/NC_ClientEchoResult.h"

@@ -1,15 +1,15 @@
 #pragma once
 
-class ServerLogin : public CNetProtocol<ServerLogin>
+class NC_ClientUdpConnectResult : public CNetProtocol<NC_ClientUdpConnectResult>
 {
 public:
-	ServerLogin ();
-	virtual ~ServerLogin ();
+	NC_ClientUdpConnectResult ();
+	virtual ~NC_ClientUdpConnectResult ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
 	virtual void Deserialize (CBitInStream& _rkInStream) override;
 	virtual void Excute () override;
 
 private:
-	int m_nID;
+	uint32_t m_nKey;
 };

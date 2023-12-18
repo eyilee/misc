@@ -2,7 +2,7 @@
 
 namespace ProjectNothing.Protocol
 {
-    public sealed class ClientLoginResult : NetProtocol<ClientLoginResult>
+    public sealed class NE_ClientLoginResult : NetEvent<NE_ClientLoginResult>
     {
         public int m_ID;
         public uint m_Key;
@@ -18,11 +18,7 @@ namespace ProjectNothing.Protocol
             GameManager.Instance.m_Login = true;
             NetworkManager.m_ID = m_ID;
             NetworkManager.m_Key = m_Key;
-            NetworkManager.ComposeUdpOutput (new ServerUdpConnect ());
-        }
-
-        public override void Serialize (BitOutStream outStream)
-        {
+            NetworkManager.ComposeUdpOutput (new NC_ServerUdpConnect ());
         }
     }
 }

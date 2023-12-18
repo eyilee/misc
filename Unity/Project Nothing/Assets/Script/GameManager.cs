@@ -29,7 +29,7 @@ namespace ProjectNothing
             ProtocolManager.Initialize (gameObject);
             ProtocolManager.Instance.Init ();
 
-            NetworkManager.ComposeTcpOutput (new ServerLogin { m_ID = m_ID });
+            NetworkManager.ComposeTcpOutput (new NC_ServerLogin { m_ID = m_ID });
 
             m_IsInit = true;
         }
@@ -44,7 +44,7 @@ namespace ProjectNothing
                 {
                     if (m_Time >= 1f)
                     {
-                        NetworkManager.ComposeTcpOutput (new ServerEcho { m_String = "你好！" });
+                        NetworkManager.ComposeTcpOutput (new NC_ServerEcho { m_String = "你好！" });
                         m_Time = 0.0f;
                     }
                 }

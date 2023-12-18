@@ -18,7 +18,7 @@ private:
 	void InitProtocolManager ();
 	void InitSessionManager ();
 
-public:
+protected:
 	static std::shared_ptr<CServer> Instance;
 
 private:

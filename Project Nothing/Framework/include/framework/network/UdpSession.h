@@ -33,7 +33,7 @@ public:
 
 private:
 	void AsyncReceive ();
-	void OnReceive (const size_t& _rnLength);
+	void OnReceive (size_t _nLength);
 
 	void AsyncSend ();
 	void OnSend (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint);

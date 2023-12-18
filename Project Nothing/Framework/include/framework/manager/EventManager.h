@@ -9,13 +9,13 @@ public:
 	CEventManager ();
 	virtual ~CEventManager ();
 
-	static void Init (boost::asio::io_context& _rkContext, const unsigned short& _rnTickRate);
+	static void Init (boost::asio::io_context& _rkContext, unsigned short _nTickRate);
 	static void Shutdown ();
 
 	static void PushEvent (std::shared_ptr<CEvent> _pkEvent);
 
 private:
-	void Run (boost::asio::io_context& _rkContext, const unsigned short& _rnEventRate);
+	void Run (boost::asio::io_context& _rkContext, unsigned short _nEventRate);
 	void Stop ();
 	void Tick ();
 

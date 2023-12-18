@@ -12,7 +12,7 @@ namespace ProjectNothing.Network
         public static int m_ID;
         public static uint m_Key;
 
-        static public IEnumerator Init (string host, int tcpPort, int udpPort)
+        public static IEnumerator Init (string host, int tcpPort, int udpPort)
         {
             if (!IPAddress.TryParse (host, out m_IPAddress))
             {
@@ -23,7 +23,7 @@ namespace ProjectNothing.Network
             yield return m_UdpSession.Init (m_IPAddress, udpPort);
         }
 
-        static public void ResolveInput (BitInStream inStream)
+        public static void ResolveInput (BitInStream inStream)
         {
             inStream.Read (out ushort protocolID);
 
@@ -35,14 +35,14 @@ namespace ProjectNothing.Network
             }
         }
 
-        static public void ComposeTcpOutput (INetProtocol protocol)
+        public static void ComposeTcpOutput (INetProtocol protocol)
         {
             BitOutStream outStream = new ();
             protocol.OnSerialize (outStream);
             m_TcpSession.OnWrite (outStream);
         }
 
-        static public void ComposeUdpOutput (INetProtocol protocol)
+        public static void ComposeUdpOutput (INetProtocol protocol)
         {
             BitOutStream outStream = new ();
             outStream.Write (m_ID);

@@ -14,7 +14,7 @@ CSessionManager::~CSessionManager ()
 {
 }
 
-void CSessionManager::Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort)
+void CSessionManager::Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort)
 {
 	if (Instance != nullptr) {
 		return;
@@ -52,7 +52,7 @@ std::shared_ptr<CUdpSession> CSessionManager::GetUdpSession ()
 	return Instance->m_pkUdpSession;
 }
 
-void CSessionManager::Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort)
+void CSessionManager::Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort)
 {
 	m_pkListener = std::make_shared<CTcpListener> (_rkContext, _rkHostAddr, _nTcpPort);
 	m_pkListener->Init ();

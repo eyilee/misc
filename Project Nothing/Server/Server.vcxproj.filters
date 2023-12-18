@@ -7,14 +7,14 @@
     <Filter Include="src\protocol">
       <UniqueIdentifier>{5ffcdb89-3b77-46a5-93df-91d168f57179}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\protocol\client">
-      <UniqueIdentifier>{ebc83ef0-d344-49a6-877c-2598ab5d82b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\protocol\server">
-      <UniqueIdentifier>{fca341d7-eada-4d50-ad75-531ddc28249f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\event">
       <UniqueIdentifier>{0d2882ec-190d-4755-8047-605e3642b0bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\protocol\command">
+      <UniqueIdentifier>{ebc83ef0-d344-49a6-877c-2598ab5d82b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\protocol\event">
+      <UniqueIdentifier>{fca341d7-eada-4d50-ad75-531ddc28249f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,35 +27,35 @@
     <ClCompile Include="src\ConfigLoader.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\client\ClientEcho.cpp">
-      <Filter>src\protocol\client</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\server\ServerEcho.cpp">
-      <Filter>src\protocol\server</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\server\ServerLogin.cpp">
-      <Filter>src\protocol\server</Filter>
-    </ClCompile>
     <ClCompile Include="src\PlayerEntity.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\server\ServerShutdown.cpp">
-      <Filter>src\protocol\server</Filter>
     </ClCompile>
     <ClCompile Include="src\event\EventHeartbeat.cpp">
       <Filter>src\event</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\client\ClientLoginResult.cpp">
-      <Filter>src\protocol\client</Filter>
-    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\server\ServerUdpConnect.cpp">
-      <Filter>src\protocol\server</Filter>
+    <ClCompile Include="src\protocol\command\NC_ClientLoginResult.cpp">
+      <Filter>src\protocol\command</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\client\ClientUdpConnectResult.cpp">
-      <Filter>src\protocol\client</Filter>
+    <ClCompile Include="src\protocol\command\NC_ClientUdpConnectResult.cpp">
+      <Filter>src\protocol\command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\command\NC_ClientEchoResult.cpp">
+      <Filter>src\protocol\command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\event\NE_ServerLogin.cpp">
+      <Filter>src\protocol\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\event\NE_ServerShutdown.cpp">
+      <Filter>src\protocol\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\event\NE_ServerUdpConnect.cpp">
+      <Filter>src\protocol\event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\event\NE_ServerEcho.cpp">
+      <Filter>src\protocol\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,32 +74,32 @@
     <ClInclude Include="src\protocol\ServerProtocols.h">
       <Filter>src\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\client\ClientEcho.h">
-      <Filter>src\protocol\client</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\server\ServerEcho.h">
-      <Filter>src\protocol\server</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\server\ServerLogin.h">
-      <Filter>src\protocol\server</Filter>
-    </ClInclude>
     <ClInclude Include="src\PlayerEntity.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\server\ServerShutdown.h">
-      <Filter>src\protocol\server</Filter>
     </ClInclude>
     <ClInclude Include="src\event\EventHeartbeat.h">
       <Filter>src\event</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\client\ClientLoginResult.h">
-      <Filter>src\protocol\client</Filter>
+    <ClInclude Include="src\protocol\command\NC_ClientEchoResult.h">
+      <Filter>src\protocol\command</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\server\ServerUdpConnect.h">
-      <Filter>src\protocol\server</Filter>
+    <ClInclude Include="src\protocol\command\NC_ClientLoginResult.h">
+      <Filter>src\protocol\command</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\client\ClientUdpConnectResult.h">
-      <Filter>src\protocol\client</Filter>
+    <ClInclude Include="src\protocol\command\NC_ClientUdpConnectResult.h">
+      <Filter>src\protocol\command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\event\NE_ServerEcho.h">
+      <Filter>src\protocol\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\event\NE_ServerLogin.h">
+      <Filter>src\protocol\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\event\NE_ServerShutdown.h">
+      <Filter>src\protocol\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\event\NE_ServerUdpConnect.h">
+      <Filter>src\protocol\event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

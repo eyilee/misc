@@ -1,5 +1,5 @@
 #pragma once
-#include "protocol/server/ServerShutdown.h"
-#include "protocol/server/ServerLogin.h"
-#include "protocol/server/ServerUdpConnect.h"
-#include "protocol/server/ServerEcho.h"
+#include "protocol/event/NE_ServerShutdown.h"
+#include "protocol/event/NE_ServerLogin.h"
+#include "protocol/event/NE_ServerUdpConnect.h"
+#include "protocol/event/NE_ServerEcho.h"

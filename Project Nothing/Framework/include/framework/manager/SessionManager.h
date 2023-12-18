@@ -14,7 +14,7 @@ public:
 	CSessionManager ();
 	virtual ~CSessionManager ();
 
-	static void Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort);
+	static void Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort);
 	static void Shutdown ();
 	
 	static void CreateTcpSession (tcp::socket& _rkSocket);
@@ -22,7 +22,7 @@ public:
 	static std::shared_ptr<CUdpSession> GetUdpSession ();
 
 private:
-	void Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, const short _nTcpPort, const short _nUdpPort);
+	void Run (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort);
 	void Stop ();
 
 	void Create (tcp::socket& _rkSocket);

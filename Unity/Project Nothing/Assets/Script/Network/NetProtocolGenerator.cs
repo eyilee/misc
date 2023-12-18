@@ -5,7 +5,15 @@
         public abstract INetProtocol Generate ();
     }
 
-    public sealed class NetProtocolGenerator<T> : INetProtocolGenerator where T : NetProtocol<T>, new()
+    public sealed class NetCommandGenerator<T> : INetProtocolGenerator where T : NetCommand<T>, new()
+    {
+        public override INetProtocol Generate ()
+        {
+            return new T ();
+        }
+    }
+
+    public sealed class NetEventGenerator<T> : INetProtocolGenerator where T : NetEvent<T>, new()
     {
         public override INetProtocol Generate ()
         {

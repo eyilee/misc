@@ -5,7 +5,7 @@ class ISerializable;
 class CBitInStream
 {
 public:
-	CBitInStream (std::vector<uint8_t>& _rkBytes);
+	CBitInStream (const std::vector<uint8_t>& _rkBytes);
 	CBitInStream (const uint8_t* _pnData, size_t _nSize);
 	virtual ~CBitInStream ();
 

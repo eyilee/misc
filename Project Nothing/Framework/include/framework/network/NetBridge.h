@@ -14,13 +14,13 @@ public:
 	CNetBridge ();
 	virtual ~CNetBridge ();
 
-	void Init (std::shared_ptr<CTcpSession> _pkTcpSession, const uint32_t& _rnIP);
+	void Init (std::shared_ptr<CTcpSession> _pkTcpSession, uint32_t _nIP);
 	void Shutdown ();
 
 	uint32_t GetIP () const { return m_nIP; }
 
-	void SetUdpKey (const uint32_t& _rnUdpKey) { m_nUdpKey = _rnUdpKey; }
 	uint32_t GetUdpKey () const { return m_nUdpKey; }
+	void SetUdpKey (uint32_t _nUdpKey) { m_nUdpKey = _nUdpKey; }
 
 	void SetUdpEndPoint ();
 

@@ -79,15 +79,15 @@ void CServer::InitProtocolManager ()
 {
 	CProtocolManager::Init ();
 
-	CProtocolManager::RegisterProtocol<ServerLogin> (1);
-	CProtocolManager::RegisterProtocol<ServerUdpConnect> (2);
-	CProtocolManager::RegisterProtocol<ClientLoginResult> (51);
-	CProtocolManager::RegisterProtocol<ClientUdpConnectResult> (52);
+	CProtocolManager::RegisterProtocol<NE_ServerLogin> (1);
+	CProtocolManager::RegisterProtocol<NE_ServerUdpConnect> (2);
+	CProtocolManager::RegisterProtocol<NC_ClientLoginResult> (51);
+	CProtocolManager::RegisterProtocol<NC_ClientUdpConnectResult> (52);
 
-	CProtocolManager::RegisterProtocol<ServerEcho> (100);
-	CProtocolManager::RegisterProtocol<ClientEcho> (200);
+	CProtocolManager::RegisterProtocol<NE_ServerEcho> (100);
+	CProtocolManager::RegisterProtocol<NC_ClientEchoResult> (200);
 
-	CProtocolManager::RegisterProtocol<ServerShutdown> (9000);
+	CProtocolManager::RegisterProtocol<NE_ServerShutdown> (9000);
 }
 
 void CServer::InitSessionManager ()

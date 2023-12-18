@@ -1,10 +1,10 @@
 #pragma once
 
-class ServerShutdown : public CNetProtocol<ServerShutdown>
+class NE_ServerShutdown : public CNetProtocol<NE_ServerShutdown>
 {
 public:
-	ServerShutdown ();
-	virtual ~ServerShutdown ();
+	NE_ServerShutdown ();
+	virtual ~NE_ServerShutdown ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
 	virtual void Deserialize (CBitInStream& _rkInStream) override;

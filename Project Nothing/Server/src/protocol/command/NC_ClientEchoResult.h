@@ -1,11 +1,11 @@
 #pragma once
 
-class ClientEcho : public CNetProtocol<ClientEcho>
+class NC_ClientEchoResult : public CNetProtocol<NC_ClientEchoResult>
 {
 public:
-	ClientEcho ();
-	ClientEcho (const std::wstring& _rkString);
-	virtual ~ClientEcho ();
+	NC_ClientEchoResult ();
+	NC_ClientEchoResult (const std::wstring& _rkString);
+	virtual ~NC_ClientEchoResult ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
 	virtual void Deserialize (CBitInStream& _rkInStream) override;

@@ -1,15 +1,15 @@
 #pragma once
 
-class ClientUdpConnectResult : public CNetProtocol<ClientUdpConnectResult>
+class NE_ServerEcho : public CNetProtocol<NE_ServerEcho>
 {
 public:
-	ClientUdpConnectResult ();
-	virtual ~ClientUdpConnectResult ();
+	NE_ServerEcho ();
+	virtual ~NE_ServerEcho ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
 	virtual void Deserialize (CBitInStream& _rkInStream) override;
 	virtual void Excute () override;
 
 private:
-	uint32_t m_nKey;
+	std::wstring m_kString;
 };

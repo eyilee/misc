@@ -15,14 +15,14 @@ CEventManager::~CEventManager ()
 {
 }
 
-void CEventManager::Init (boost::asio::io_context& _rkContext, const unsigned short& _rnEventRate)
+void CEventManager::Init (boost::asio::io_context& _rkContext, unsigned short _nEventRate)
 {
 	if (Instance != nullptr) {
 		return;
 	}
 
 	Instance = std::make_shared<CEventManager> ();
-	Instance->Run (_rkContext, _rnEventRate);
+	Instance->Run (_rkContext, _nEventRate);
 }
 
 void CEventManager::Shutdown ()
@@ -44,11 +44,11 @@ void CEventManager::PushEvent (std::shared_ptr<CEvent> _pkEvent)
 	Instance->Queue (_pkEvent);
 }
 
-void CEventManager::Run (boost::asio::io_context& _rkContext, const unsigned short& _rnEventRate)
+void CEventManager::Run (boost::asio::io_context& _rkContext, unsigned short _nEventRate)
 {
 	m_bIsRunning = true;
 
-	m_kInterval = boost::posix_time::milliseconds (1000 / _rnEventRate);
+	m_kInterval = boost::posix_time::milliseconds (1000 / _nEventRate);
 
 	auto self (shared_from_this ());
 	m_fnTick = [this, self](const boost::system::error_code& _rkErrorCode)

@@ -28,7 +28,7 @@ public:
 	virtual ~CNetProtocol ();
 
 	static unsigned short GetID () { return m_nID; };
-	static void SetID (const unsigned short& _rnID) { m_nID = _rnID; }
+	static void SetID (unsigned short _nID) { m_nID = _nID; }
 
 	virtual void OnSerialize (CBitOutStream& _rkOutStream);
 	virtual void Serialize (CBitOutStream& _rkOutStream) = 0;

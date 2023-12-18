@@ -21,10 +21,10 @@ CNetBridge::~CNetBridge ()
 {
 }
 
-void CNetBridge::Init (std::shared_ptr<CTcpSession> _pkTcpSession, const uint32_t& _rnIP)
+void CNetBridge::Init (std::shared_ptr<CTcpSession> _pkTcpSession, uint32_t _nIP)
 {
 	m_pkTcpSession = _pkTcpSession;
-	m_nIP = _rnIP;
+	m_nIP = _nIP;
 }
 
 void CNetBridge::Shutdown ()

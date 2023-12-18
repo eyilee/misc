@@ -14,7 +14,7 @@ public:
 	CBaseManager ();
 	virtual ~CBaseManager ();
 
-public:
+protected:
 	static std::shared_ptr<T> Instance;
 };
 

@@ -72,6 +72,11 @@ namespace ProjectNothing.Network
 
         private void AsyncRead ()
         {
+            if (!m_TcpClient.Connected)
+            {
+                return;
+            }
+
             m_NetworkStream.BeginRead (m_ReadBuffer, 0, m_ReadBuffer.Length, (IAsyncResult asyncResult) =>
             {
                 int length = m_NetworkStream.EndRead (asyncResult);
@@ -129,6 +134,11 @@ namespace ProjectNothing.Network
 
         private void AsyncWrite ()
         {
+            if (!m_TcpClient.Connected)
+            {
+                return;
+            }
+
             if (m_WriteQueue.First == null)
             {
                 return;

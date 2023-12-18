@@ -20,11 +20,11 @@ private:
 
 	void Write (const char* _szMessage);
 
+protected:
+	static std::shared_ptr<CLogger> Instance;
+
 private:
 	std::ofstream m_kFileStream;
-
-public:
-	static std::shared_ptr<CLogger> Instance;
 };
 
 template<typename ...ARGS>

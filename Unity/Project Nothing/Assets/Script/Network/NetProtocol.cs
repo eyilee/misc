@@ -8,18 +8,28 @@
         public abstract void Excute ();
     }
 
-    public abstract class NetProtocol<T> : INetProtocol where T : NetProtocol<T>
+    public abstract class NetCommand<T> : INetProtocol
     {
         public static ushort m_ProtocolID;
 
-        public override void OnSerialize (BitOutStream outStream)
+        public sealed override void OnSerialize (BitOutStream outStream)
         {
             outStream.Write (m_ProtocolID);
             Serialize (outStream);
         }
 
-        public override abstract void Serialize (BitOutStream outStream);
-        public override abstract void Deserialize (BitInStream inStream);
-        public override abstract void Excute ();
+        public abstract override void Serialize (BitOutStream outStream);
+        public sealed override void Deserialize (BitInStream inStream) { }
+        public sealed override void Excute () { }
+    }
+
+    public abstract class NetEvent<T> : INetProtocol
+    {
+        public static ushort m_ProtocolID;
+
+        public sealed override void OnSerialize (BitOutStream outStream) { }
+        public sealed override void Serialize (BitOutStream outStream) { }
+        public abstract override void Deserialize (BitInStream inStream);
+        public abstract override void Excute ();
     }
 }

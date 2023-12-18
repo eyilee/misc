@@ -62,10 +62,9 @@ void CUdpSession::AsyncReceive ()
 		});
 }
 
-void CUdpSession::OnReceive (const size_t& _rnLength)
+void CUdpSession::OnReceive (size_t _nLength)
 {
-	const uint8_t* buffer = &m_kReceiveBuffer[0];
-	CBitInStream inStream (buffer, _rnLength);
+	CBitInStream inStream (&m_kReceiveBuffer[0], _nLength);
 
 	int entityID;
 	uint32_t key;

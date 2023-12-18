@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ProjectNothing.Protocol
 {
-    public sealed class ClientEcho : NetProtocol<ClientEcho>
+    public sealed class NE_ClientEchoResult : NetEvent<NE_ClientEchoResult>
     {
         private string m_String;
 
@@ -15,10 +15,6 @@ namespace ProjectNothing.Protocol
         public override void Excute ()
         {
             Debug.Log (m_String);
-        }
-
-        public override void Serialize (BitOutStream outStream)
-        {
         }
     }
 }

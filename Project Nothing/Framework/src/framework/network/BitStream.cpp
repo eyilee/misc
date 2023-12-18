@@ -2,9 +2,9 @@
 #include "framework/network/Serializable.h"
 #include "framework/network/BitStream.h"
 
-CBitInStream::CBitInStream (std::vector<uint8_t>& _rkBytes)
+CBitInStream::CBitInStream (const std::vector<uint8_t>& _rkBytes)
 	: m_nBitOffset (0)
-	, m_kBytes (std::move (_rkBytes))
+	, m_kBytes (_rkBytes)
 {
 }
 

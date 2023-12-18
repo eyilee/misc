@@ -9,16 +9,16 @@ namespace ProjectNothing.Network
 
         public void Init ()
         {
-            RegisterProtocol<ServerLogin> (1);
-            RegisterProtocol<ServerUdpConnect> (2);
-            RegisterProtocol<ClientLoginResult> (51);
-            RegisterProtocol<ClientUdpConnectResult> (52);
+            RegisterNetCommand<NC_ServerLogin> (1);
+            RegisterNetCommand<NC_ServerUdpConnect> (2);
+            RegisterNetEvent<NE_ClientLoginResult> (51);
+            RegisterNetEvent<NE_ClientUdpConnectResult> (52);
 
-            RegisterProtocol<ServerEcho> (100);
-            RegisterProtocol<ClientEcho> (200);
+            RegisterNetCommand<NC_ServerEcho> (100);
+            RegisterNetEvent<NE_ClientEchoResult> (200);
         }
 
-        static public INetProtocol GenerateProtocol (ushort protocolID)
+        public static INetProtocol GenerateProtocol (ushort protocolID)
         {
             if (Instance == null)
             {
@@ -38,13 +38,23 @@ namespace ProjectNothing.Network
             return generator.Generate ();
         }
 
-        private void RegisterProtocol<T> (ushort protocolID) where T : NetProtocol<T>, new()
+        private void RegisterNetCommand<T> (ushort protocolID) where T : NetCommand<T>, new()
         {
-            NetProtocol<T>.m_ProtocolID = protocolID;
+            NetCommand<T>.m_ProtocolID = protocolID;
 
             if (!m_ProtocolMap.ContainsKey (protocolID))
             {
-                m_ProtocolMap.Add (protocolID, new NetProtocolGenerator<T> ());
+                m_ProtocolMap.Add (protocolID, new NetCommandGenerator<T> ());
+            }
+        }
+
+        private void RegisterNetEvent<T> (ushort protocolID) where T : NetEvent<T>, new()
+        {
+            NetEvent<T>.m_ProtocolID = protocolID;
+
+            if (!m_ProtocolMap.ContainsKey (protocolID))
+            {
+                m_ProtocolMap.Add (protocolID, new NetEventGenerator<T> ());
             }
         }
     }
