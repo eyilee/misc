@@ -20,9 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\framework\Event.h" />
+    <ClInclude Include="include\framework\GameLoop.h" />
+    <ClInclude Include="include\framework\manager\GameLoopManager.h" />
     <ClInclude Include="include\framework\network\BitConverter.h" />
     <ClInclude Include="include\framework\Random.h" />
+    <ClInclude Include="include\framework\StateMachine.h" />
     <ClInclude Include="include\framework\Time.h" />
+    <ClCompile Include="src\framework\GameLoop.cpp" />
+    <ClCompile Include="src\framework\manager\GameLoopManager.cpp" />
     <ClCompile Include="src\framework\network\BitConverter.cpp" />
     <ClCompile Include="src\framework\Random.cpp" />
     <ClInclude Include="src\stdafx.h" />
@@ -87,6 +92,7 @@
     <ClCompile Include="src\framework\network\TcpListener.cpp" />
     <ClCompile Include="src\framework\network\TcpSession.cpp" />
     <ClCompile Include="src\framework\network\UdpSession.cpp" />
+    <ClCompile Include="src\framework\StateMachine.cpp" />
     <ClCompile Include="src\framework\Time.cpp" />
     <ClCompile Include="src\logger\Logger.cpp" />
     <ClCompile Include="src\stdafx.cpp">

@@ -24,6 +24,7 @@ void CServer::Init ()
 
 	Instance = std::make_shared<CServer> ();
 	Instance->InitDBManager ();
+	Instance->InitGameLoopManager ();
 	Instance->InitEntityManager ();
 	Instance->InitEventManager ();
 	Instance->InitProtocolManager ();
@@ -61,6 +62,11 @@ void CServer::InitDBManager ()
 	std::string dbname = CConfigLoader::GetConfig<std::string> ("db.dbname");
 	std::string hostaddr = CConfigLoader::GetConfig<std::string> ("db.hostaddr");
 	CDBManager::Init (user, password, dbname, hostaddr);
+}
+
+void CServer::InitGameLoopManager ()
+{
+	CGameLoopManager::Init (m_kContext);
 }
 
 void CServer::InitEntityManager ()

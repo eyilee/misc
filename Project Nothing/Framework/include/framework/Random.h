@@ -6,17 +6,17 @@ public:
 	CRandom ();
 	virtual ~CRandom ();
 
-	template<typename T>
-	static T GetValue () requires std::is_integral<T>::value;
+	template<typename T> requires std::is_integral<T>::value
+		static T GetValue ();
 
-	template<typename T>
-	static T GetValue () requires std::is_floating_point<T>::value;
+	template<typename T> requires std::is_floating_point<T>::value
+		static T GetValue ();
 
-	template<typename T>
-	static T GetValue (T _nMin, T _nMax) requires std::is_integral<T>::value;
+	template<typename T> requires std::is_integral<T>::value
+		static T GetValue (T _nMin, T _nMax);
 
-	template<typename T>
-	static T GetValue (T _nMin, T _nMax) requires std::is_floating_point<T>::value;
+	template<typename T> requires std::is_floating_point<T>::value
+		static T GetValue (T _nMin, T _nMax);
 
 private:
 	static void Init ();
@@ -27,8 +27,8 @@ private:
 	static std::mt19937_64 m_kMT19937_64;
 };
 
-template<typename T>
-inline T CRandom::GetValue () requires std::is_integral<T>::value
+template<typename T> requires std::is_integral<T>::value
+inline T CRandom::GetValue ()
 {
 	if (!m_bIsInit) {
 		Init ();
@@ -45,8 +45,8 @@ inline T CRandom::GetValue () requires std::is_integral<T>::value
 	}
 }
 
-template<typename T>
-inline T CRandom::GetValue () requires std::is_floating_point<T>::value
+template<typename T> requires std::is_floating_point<T>::value
+inline T CRandom::GetValue ()
 {
 	if (!m_bIsInit) {
 		Init ();
@@ -63,8 +63,8 @@ inline T CRandom::GetValue () requires std::is_floating_point<T>::value
 	}
 }
 
-template<typename T>
-inline T CRandom::GetValue (T _nMin, T _nMax) requires std::is_integral<T>::value
+template<typename T> requires std::is_integral<T>::value
+inline T CRandom::GetValue (T _nMin, T _nMax)
 {
 	if (!m_bIsInit) {
 		Init ();
@@ -81,8 +81,8 @@ inline T CRandom::GetValue (T _nMin, T _nMax) requires std::is_integral<T>::valu
 	}
 }
 
-template<typename T>
-inline T CRandom::GetValue (T _nMin, T _nMax) requires std::is_floating_point<T>::value
+template<typename T> requires std::is_floating_point<T>::value
+inline T CRandom::GetValue (T _nMin, T _nMax)
 {
 	if (!m_bIsInit) {
 		Init ();

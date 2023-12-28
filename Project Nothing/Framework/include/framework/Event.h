@@ -1,6 +1,6 @@
 #pragma once
 
-class CEvent : public std::enable_shared_from_this<CEvent>
+class CEvent
 {
 public:
 	CEvent ();

@@ -102,6 +102,15 @@
     <ClInclude Include="include\framework\network\BitConverter.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\manager\GameLoopManager.h">
+      <Filter>include\framework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework\GameLoop.h">
+      <Filter>include\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework\StateMachine.h">
+      <Filter>include\framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -174,6 +183,15 @@
     </ClCompile>
     <ClCompile Include="src\framework\network\BitConverter.cpp">
       <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\manager\GameLoopManager.cpp">
+      <Filter>src\framework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\GameLoop.cpp">
+      <Filter>src\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\StateMachine.cpp">
+      <Filter>src\framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

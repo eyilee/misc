@@ -11,11 +11,11 @@ public:
 
 	void Read (bool& _rbValue);
 
-	template<typename T>
-	void Read (T& _rnValue) requires std::is_arithmetic_v<T>;
+	template<typename T> requires std::is_arithmetic_v<T>
+	void Read (T& _rnValue);
 
-	template<typename T>
-	void Read (T& _rkValue) requires std::is_base_of_v<ISerializable, T>;
+	template<typename T> requires std::is_base_of_v<ISerializable, T>
+	void Read (T& _rkValue);
 
 	void Read (std::string& _rkValue);
 	void Read (std::wstring& _rkValue);
@@ -30,8 +30,8 @@ public:
 	std::vector<uint8_t> m_kBytes;
 };
 
-template<typename T>
-inline void CBitInStream::Read (T& _rnValue) requires std::is_arithmetic_v<T>
+template<typename T> requires std::is_arithmetic_v<T>
+inline void CBitInStream::Read (T& _rnValue)
 {
 	constexpr size_t byteCount = sizeof (T);
 
@@ -60,8 +60,8 @@ inline void CBitInStream::Read (T& _rnValue) requires std::is_arithmetic_v<T>
 	}
 }
 
-template<typename T>
-inline void CBitInStream::Read (T& _rkValue) requires std::is_base_of_v<ISerializable, T>
+template<typename T> requires std::is_base_of_v<ISerializable, T>
+inline void CBitInStream::Read (T& _rkValue)
 {
 	_rkValue.Deserialize (*this);
 }
@@ -78,11 +78,11 @@ public:
 
 	void Write (bool _bValue);
 
-	template<typename T>
-	void Write (T _nValue) requires std::is_arithmetic_v<T>;
+	template<typename T> requires std::is_arithmetic_v<T>
+	void Write (T _nValue);
 
-	template<typename T>
-	void Write (const T& _rkValue) requires std::is_base_of_v<ISerializable, T>;
+	template<typename T> requires std::is_base_of_v<ISerializable, T>
+	void Write (const T& _rkValue);
 
 	void Write (const std::string& _rkValue);
 	void Write (const std::wstring& _rkValue);
@@ -98,8 +98,8 @@ public:
 	std::vector<uint8_t> m_kBytes;
 };
 
-template<typename T>
-inline void CBitOutStream::Write (T _nValue) requires std::is_arithmetic_v<T>
+template<typename T> requires std::is_arithmetic_v<T>
+inline void CBitOutStream::Write (T _nValue)
 {
 	constexpr size_t byteCount = sizeof (T);
 
@@ -128,8 +128,8 @@ inline void CBitOutStream::Write (T _nValue) requires std::is_arithmetic_v<T>
 	}
 }
 
-template<typename T>
-inline void CBitOutStream::Write (const T& _rkValue) requires std::is_base_of_v<ISerializable, T>
+template<typename T> requires std::is_base_of_v<ISerializable, T>
+inline void CBitOutStream::Write (const T& _rkValue)
 {
 	_rkValue.Serialize (*this);
 }

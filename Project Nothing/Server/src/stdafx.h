@@ -46,6 +46,7 @@
 #include "framework/network/UdpSession.h"
 #include "framework/manager/BaseManager.h"
 #include "framework/manager/DBManager.h"
+#include "framework/manager/GameLoopManager.h"
 #include "framework/manager/EntityManager.h"
 #include "framework/manager/EventManager.h"
 #include "framework/manager/ProtocolManager.h"
