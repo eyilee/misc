@@ -102,13 +102,16 @@
     <ClInclude Include="include\framework\network\BitConverter.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\GameLoopManager.h">
+    <ClInclude Include="include\framework\manager\GameManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\GameLoop.h">
       <Filter>include\framework</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\StateMachine.h">
+      <Filter>include\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework\Framework.h">
       <Filter>include\framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -184,7 +187,7 @@
     <ClCompile Include="src\framework\network\BitConverter.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\GameLoopManager.cpp">
+    <ClCompile Include="src\framework\manager\GameManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\GameLoop.cpp">

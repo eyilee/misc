@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ConfigLoader.h"
+#include "ServerGame.h"
 #include "protocol/CommandProtocols.h"
 #include "protocol/EventProtocols.h"
 #include "event/EventHeartbeat.h"
@@ -38,6 +39,7 @@ void CServer::Shutdown ()
 	}
 
 	CDBManager::Shutdown ();
+	CGameManager::Shutdown ();
 	CEntityManager::Shutdown ();
 	CEventManager::Shutdown ();
 	CProtocolManager::Shutdown ();
@@ -66,7 +68,10 @@ void CServer::InitDBManager ()
 
 void CServer::InitGameLoopManager ()
 {
-	CGameLoopManager::Init (m_kContext);
+	unsigned short tickRate = CConfigLoader::GetConfig<unsigned short> ("game.tickrate");
+	CServerGame::TickRate = tickRate;
+
+	CGameManager::Init (m_kContext);
 }
 
 void CServer::InitEntityManager ()
@@ -76,8 +81,7 @@ void CServer::InitEntityManager ()
 
 void CServer::InitEventManager ()
 {
-	unsigned short eventRate = CConfigLoader::GetConfig<unsigned short> ("event.eventrate");
-	CEventManager::Init (m_kContext, eventRate);
+	CEventManager::Init (m_kContext);
 	CEventManager::PushEvent (std::make_shared<CEventHeartbeat> ());
 }
 
@@ -91,6 +95,7 @@ void CServer::InitProtocolManager ()
 	CProtocolManager::RegisterNetCommand<NC_ClientUdpConnectResult> (52);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerEcho> (100);
+	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101);
 	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);

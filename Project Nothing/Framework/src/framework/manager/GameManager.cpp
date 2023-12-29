@@ -1,30 +1,31 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
+#include "framework/GameLoop.h"
 #include "framework/Time.h"
-#include "framework/manager/GameLoopManager.h"
+#include "framework/manager/GameManager.h"
 
-CGameLoopManager::CGameLoopManager ()
+CGameManager::CGameManager ()
 	: m_bIsRunning (false)
 	, m_kInterval (boost::posix_time::milliseconds (1))
 	, m_pkTimer (nullptr)
 {
 }
 
-CGameLoopManager::~CGameLoopManager ()
+CGameManager::~CGameManager ()
 {
 }
 
-void CGameLoopManager::Init (boost::asio::io_context& _rkContext)
+void CGameManager::Init (boost::asio::io_context& _rkContext)
 {
 	if (Instance != nullptr) {
 		return;
 	}
 
-	Instance = std::make_shared<CGameLoopManager> ();
+	Instance = std::make_shared<CGameManager> ();
 	Instance->Run (_rkContext);
 }
 
-void CGameLoopManager::Shutdown ()
+void CGameManager::Shutdown ()
 {
 	if (Instance == nullptr) {
 		return;
@@ -34,7 +35,16 @@ void CGameLoopManager::Shutdown ()
 	Instance = nullptr;
 }
 
-void CGameLoopManager::Run (boost::asio::io_context& _rkContext)
+void CGameManager::AddGame (std::shared_ptr<IGameLoop> _pkGameLoop)
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->m_kGameLoops.emplace_back (_pkGameLoop);
+}
+
+void CGameManager::Run (boost::asio::io_context& _rkContext)
 {
 	m_bIsRunning = true;
 
@@ -43,6 +53,10 @@ void CGameLoopManager::Run (boost::asio::io_context& _rkContext)
 		{
 			if (!m_bIsRunning)
 			{
+				for (auto& gameLoop : m_kGameLoops) {
+					gameLoop->Shutdown ();
+				}
+
 				m_pkTimer->cancel ();
 				m_pkTimer = nullptr;
 			}
@@ -53,7 +67,7 @@ void CGameLoopManager::Run (boost::asio::io_context& _rkContext)
 				}
 				else
 				{
-					Tick ();
+					Update ();
 
 					if (m_pkTimer != nullptr)
 					{
@@ -69,11 +83,20 @@ void CGameLoopManager::Run (boost::asio::io_context& _rkContext)
 	m_pkTimer->async_wait (m_fnTick);
 }
 
-void CGameLoopManager::Stop ()
+void CGameManager::Stop ()
 {
 	m_bIsRunning = false;
 }
 
-void CGameLoopManager::Tick ()
+void CGameManager::Update ()
 {
+	CTime::FrameTime = CTime::GetMiliSecond ();
+
+	for (auto& gameLoop : m_kGameLoops) {
+		gameLoop->Update ();
+	}
+
+	for (auto& gameLoop : m_kGameLoops) {
+		gameLoop->LateUpdate ();
+	}
 }

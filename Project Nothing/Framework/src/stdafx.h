@@ -21,6 +21,7 @@
 // Other
 #include <algorithm>
 #include <chrono>
+#include <functional>
 #include <memory>
 #include <random>
 #include <string>

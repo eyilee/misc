@@ -20,14 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\framework\Event.h" />
+    <ClInclude Include="include\framework\Framework.h" />
     <ClInclude Include="include\framework\GameLoop.h" />
-    <ClInclude Include="include\framework\manager\GameLoopManager.h" />
+    <ClInclude Include="include\framework\manager\GameManager.h" />
     <ClInclude Include="include\framework\network\BitConverter.h" />
     <ClInclude Include="include\framework\Random.h" />
     <ClInclude Include="include\framework\StateMachine.h" />
     <ClInclude Include="include\framework\Time.h" />
     <ClCompile Include="src\framework\GameLoop.cpp" />
-    <ClCompile Include="src\framework\manager\GameLoopManager.cpp" />
+    <ClCompile Include="src\framework\manager\GameManager.cpp" />
     <ClCompile Include="src\framework\network\BitConverter.cpp" />
     <ClCompile Include="src\framework\Random.cpp" />
     <ClInclude Include="src\stdafx.h" />

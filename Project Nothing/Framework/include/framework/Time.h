@@ -9,6 +9,6 @@ public:
 	static uint64_t GetSecond ();
 	static uint64_t GetMiliSecond ();
 
-private:
-	uint64_t m_nMiliSeconds;
+public:
+	static uint64_t FrameTime;
 };

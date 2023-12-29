@@ -3,3 +3,4 @@
 #include "protocol/event/NE_ServerLogin.h"
 #include "protocol/event/NE_ServerUdpConnect.h"
 #include "protocol/event/NE_ServerEcho.h"
+#include "protocol/event/NE_ServerCreateGame.h"

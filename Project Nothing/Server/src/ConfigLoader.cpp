@@ -18,8 +18,7 @@ void CConfigLoader::Load ()
 		("server.hostaddr", po::value<std::string> ())
 		("server.tcpport", po::value<short> ())
 		("server.udpport", po::value<short> ())
-		("event.eventrate", po::value<unsigned short> ())
-		("tick.tickrate", po::value<unsigned short> ())
+		("game.tickrate", po::value<unsigned short> ())
 		("db.user", po::value<std::string> ())
 		("db.password", po::value<std::string> ())
 		("db.dbname", po::value<std::string> ())
@@ -41,12 +40,8 @@ void CConfigLoader::Load ()
 		LOG_INFO ("server.udpport: %hd", m_kVM["server.udpport"].as<short> ());
 	}
 
-	if (m_kVM.count ("event.eventrate")) {
-		LOG_INFO ("event.eventrate: %hu", m_kVM["event.eventrate"].as<unsigned short> ());
-	}
-
-	if (m_kVM.count ("tick.tickrate")) {
-		LOG_INFO ("tick.tickrate: %hu", m_kVM["tick.tickrate"].as<unsigned short> ());
+	if (m_kVM.count ("game.tickrate")) {
+		LOG_INFO ("game.tickrate: %hu", m_kVM["game.tickrate"].as<unsigned short> ());
 	}
 
 	if (m_kVM.count ("db.user")) {

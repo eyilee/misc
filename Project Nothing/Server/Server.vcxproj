@@ -24,6 +24,7 @@
     <ClCompile Include="src\protocol\command\NC_ClientEchoResult.cpp" />
     <ClCompile Include="src\protocol\command\NC_ClientLoginResult.cpp" />
     <ClCompile Include="src\protocol\command\NC_ClientUdpConnectResult.cpp" />
+    <ClCompile Include="src\protocol\event\NE_ServerCreateGame.cpp" />
     <ClCompile Include="src\protocol\event\NE_ServerEcho.cpp" />
     <ClCompile Include="src\protocol\event\NE_ServerLogin.cpp" />
     <ClCompile Include="src\protocol\event\NE_ServerShutdown.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\event\EventHeartbeat.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ServerGame.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -42,6 +44,7 @@
     <ClInclude Include="src\protocol\command\NC_ClientEchoResult.h" />
     <ClInclude Include="src\protocol\command\NC_ClientLoginResult.h" />
     <ClInclude Include="src\protocol\command\NC_ClientUdpConnectResult.h" />
+    <ClInclude Include="src\protocol\event\NE_ServerCreateGame.h" />
     <ClInclude Include="src\protocol\event\NE_ServerEcho.h" />
     <ClInclude Include="src\protocol\event\NE_ServerLogin.h" />
     <ClInclude Include="src\protocol\event\NE_ServerShutdown.h" />
@@ -50,6 +53,7 @@
     <ClInclude Include="src\event\EventHeartbeat.h" />
     <ClInclude Include="src\protocol\CommandProtocols.h" />
     <ClInclude Include="src\protocol\EventProtocols.h" />
+    <ClInclude Include="src\ServerGame.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

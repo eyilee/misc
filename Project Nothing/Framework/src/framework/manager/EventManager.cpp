@@ -6,7 +6,7 @@
 
 CEventManager::CEventManager ()
 	: m_bIsRunning (false)
-	, m_kInterval (boost::posix_time::milliseconds (100))
+	, m_kInterval (boost::posix_time::seconds (1))
 	, m_pkTimer (nullptr)
 {
 }
@@ -15,14 +15,14 @@ CEventManager::~CEventManager ()
 {
 }
 
-void CEventManager::Init (boost::asio::io_context& _rkContext, unsigned short _nEventRate)
+void CEventManager::Init (boost::asio::io_context& _rkContext)
 {
 	if (Instance != nullptr) {
 		return;
 	}
 
 	Instance = std::make_shared<CEventManager> ();
-	Instance->Run (_rkContext, _nEventRate);
+	Instance->Run (_rkContext);
 }
 
 void CEventManager::Shutdown ()
@@ -44,11 +44,9 @@ void CEventManager::PushEvent (std::shared_ptr<CEvent> _pkEvent)
 	Instance->Queue (_pkEvent);
 }
 
-void CEventManager::Run (boost::asio::io_context& _rkContext, unsigned short _nEventRate)
+void CEventManager::Run (boost::asio::io_context& _rkContext)
 {
 	m_bIsRunning = true;
-
-	m_kInterval = boost::posix_time::milliseconds (1000 / _nEventRate);
 
 	auto self (shared_from_this ());
 	m_fnTick = [this, self](const boost::system::error_code& _rkErrorCode)
@@ -65,11 +63,11 @@ void CEventManager::Run (boost::asio::io_context& _rkContext, unsigned short _nE
 				}
 				else
 				{
-					Tick ();
+					Update ();
 
 					if (m_pkTimer != nullptr)
 					{
-						m_pkTimer->expires_at (m_pkTimer->expires_at () + m_kInterval);
+						m_pkTimer->expires_from_now (m_kInterval);
 						m_pkTimer->async_wait (m_fnTick);
 					}
 				}
@@ -86,7 +84,7 @@ void CEventManager::Stop ()
 	m_bIsRunning = false;
 }
 
-void CEventManager::Tick ()
+void CEventManager::Update ()
 {
 	uint64_t time = CTime::GetMiliSecond ();
 

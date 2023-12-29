@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "framework/Time.h"
 
+uint64_t CTime::FrameTime = 0;
+
 CTime::CTime ()
 {
 }

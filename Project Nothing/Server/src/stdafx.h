@@ -30,27 +30,7 @@
 #include "boost/program_options.hpp"
 
 // framework
-#include "framework/Event.h"
-#include "framework/Random.h"
-#include "framework/Time.h"
-#include "framework/network/BitConverter.h"
-#include "framework/network/BitStream.h"
-#include "framework/network/Entity.h"
-#include "framework/network/NetBridge.h"
-#include "framework/network/NetProtocol.h"
-#include "framework/network/NetProtocolGenerator.h"
-#include "framework/network/Serializable.h"
-#include "framework/network/TcpClient.h"
-#include "framework/network/TcpListener.h"
-#include "framework/network/TcpSession.h"
-#include "framework/network/UdpSession.h"
-#include "framework/manager/BaseManager.h"
-#include "framework/manager/DBManager.h"
-#include "framework/manager/GameLoopManager.h"
-#include "framework/manager/EntityManager.h"
-#include "framework/manager/EventManager.h"
-#include "framework/manager/ProtocolManager.h"
-#include "framework/manager/SessionManager.h"
+#include "framework/Framework.h"
 
 // logger
 #include "logger/Logger.h"

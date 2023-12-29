@@ -16,7 +16,10 @@ namespace ProjectNothing.Network
             RegisterNetEvent<NE_ClientUdpConnectResult> (52);
 
             RegisterNetCommand<NC_ServerEcho> (100);
+            RegisterNetCommand<NC_ServerCreateGame> (101);
             RegisterNetEvent<NE_ClientEchoResult> (200);
+
+            RegisterNetCommand<NC_ServerShutdown> (9000);
         }
 
         public static INetProtocol GenerateProtocol (ushort protocolID)

@@ -9,15 +9,15 @@ public:
 	CEventManager ();
 	virtual ~CEventManager ();
 
-	static void Init (boost::asio::io_context& _rkContext, unsigned short _nTickRate);
+	static void Init (boost::asio::io_context& _rkContext);
 	static void Shutdown ();
 
 	static void PushEvent (std::shared_ptr<CEvent> _pkEvent);
 
 private:
-	void Run (boost::asio::io_context& _rkContext, unsigned short _nEventRate);
+	void Run (boost::asio::io_context& _rkContext);
 	void Stop ();
-	void Tick ();
+	void Update ();
 
 	void Queue (std::shared_ptr<CEvent> _pkEvent);
 	void Flush ();
@@ -27,7 +27,7 @@ private:
 
 private:
 	bool m_bIsRunning;
-	boost::posix_time::milliseconds m_kInterval;
+	boost::posix_time::seconds m_kInterval;
 	std::shared_ptr<boost::asio::deadline_timer> m_pkTimer;
 
 	std::forward_list<std::shared_ptr<CEvent>> m_kEventList;

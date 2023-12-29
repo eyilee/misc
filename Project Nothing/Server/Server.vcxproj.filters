@@ -57,6 +57,12 @@
     <ClCompile Include="src\protocol\event\NE_ServerEcho.cpp">
       <Filter>src\protocol\event</Filter>
     </ClCompile>
+    <ClCompile Include="src\ServerGame.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\event\NE_ServerCreateGame.cpp">
+      <Filter>src\protocol\event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -99,6 +105,12 @@
       <Filter>src\protocol\event</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\event\NE_ServerUdpConnect.h">
+      <Filter>src\protocol\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ServerGame.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\event\NE_ServerCreateGame.h">
       <Filter>src\protocol\event</Filter>
     </ClInclude>
   </ItemGroup>
