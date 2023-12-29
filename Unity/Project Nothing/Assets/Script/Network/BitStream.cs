@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using UnityEngine;
 
 namespace ProjectNothing.Network
 {
@@ -10,59 +9,53 @@ namespace ProjectNothing.Network
         private readonly byte[] m_Bytes;
         private int m_BitOffset;
 
-        public BitInStream (byte[] _bytes)
+        public BitInStream (byte[] bytes)
         {
-            m_Bytes = _bytes;
+            m_Bytes = new byte[bytes.Length];
+            bytes.CopyTo (m_Bytes, 0);
             m_BitOffset = 0;
         }
 
-        public BitInStream (byte[] _bytes, int _length)
-        {
-            m_Bytes = new byte[_length];
-            Array.Copy (_bytes, m_Bytes, _length);
-            m_BitOffset = 0;
-        }
-
-        public void Read (out bool _outBool)
+        public void Read (out bool outValue)
         {
             if (m_BitOffset + 1 > m_Bytes.Length * 8)
             {
-                _outBool = default;
+                outValue = default;
                 return;
             }
 
-            ReadBit (out _outBool);
+            ReadBit (out outValue);
         }
 
-        public void Read (out sbyte _outSByte)
+        public void Read (out sbyte outValue)
         {
             if (m_BitOffset + sizeof (sbyte) * 8 > m_Bytes.Length * 8)
             {
-                _outSByte = default;
+                outValue = default;
                 return;
             }
 
             ReadByte (out byte outByte);
-            _outSByte = unchecked((sbyte)outByte);
+            outValue = unchecked((sbyte)outByte);
         }
 
-        public void Read (out byte _outByte)
+        public void Read (out byte outValue)
         {
             if (m_BitOffset + sizeof (byte) * 8 > m_Bytes.Length * 8)
             {
-                _outByte = default;
+                outValue = default;
                 return;
             }
 
-            ReadByte (out _outByte);
+            ReadByte (out outValue);
         }
 
-        public void Read (out char _outChar)
+        public void Read (out char outValue)
         {
             int byteCount = sizeof (char);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outChar = default;
+                outValue = default;
                 return;
             }
 
@@ -72,15 +65,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outChar = BitConverter.ToChar (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (bytes))));
+            outValue = BitConverter.ToChar (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (bytes))));
         }
 
-        public void Read (out short _outShort)
+        public void Read (out short outValue)
         {
             int byteCount = sizeof (short);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outShort = default;
+                outValue = default;
                 return;
             }
 
@@ -90,15 +83,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outShort = BitConverter.ToInt16 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (bytes))));
+            outValue = BitConverter.ToInt16 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (bytes))));
         }
 
-        public void Read (out ushort _outUShort)
+        public void Read (out ushort outValue)
         {
             int byteCount = sizeof (ushort);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outUShort = default;
+                outValue = default;
                 return;
             }
 
@@ -108,15 +101,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outUShort = BitConverter.ToUInt16 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (bytes))));
+            outValue = BitConverter.ToUInt16 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt16 (bytes))));
         }
 
-        public void Read (out int _outInt)
+        public void Read (out int outValue)
         {
             int byteCount = sizeof (int);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outInt = default;
+                outValue = default;
                 return;
             }
 
@@ -126,15 +119,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outInt = BitConverter.ToInt32 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt32 (bytes))));
+            outValue = BitConverter.ToInt32 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt32 (bytes))));
         }
 
-        public void Read (out uint _outUInt)
+        public void Read (out uint outValue)
         {
             int byteCount = sizeof (uint);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outUInt = default;
+                outValue = default;
                 return;
             }
 
@@ -144,15 +137,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outUInt = BitConverter.ToUInt32 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt32 (bytes))));
+            outValue = BitConverter.ToUInt32 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt32 (bytes))));
         }
 
-        public void Read (out long _outLong)
+        public void Read (out long outValue)
         {
             int byteCount = sizeof (long);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outLong = default;
+                outValue = default;
                 return;
             }
 
@@ -162,15 +155,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outLong = BitConverter.ToInt64 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (bytes))));
+            outValue = BitConverter.ToInt64 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (bytes))));
         }
 
-        public void Read (out ulong _outULong)
+        public void Read (out ulong outValue)
         {
             int byteCount = sizeof (ulong);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outULong = default;
+                outValue = default;
                 return;
             }
 
@@ -180,15 +173,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outULong = BitConverter.ToUInt64 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (bytes))));
+            outValue = BitConverter.ToUInt64 (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (bytes))));
         }
 
-        public void Read (out float _outFloat)
+        public void Read (out float outValue)
         {
             int byteCount = sizeof (float);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outFloat = default;
+                outValue = default;
                 return;
             }
 
@@ -198,15 +191,15 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outFloat = BitConverter.ToSingle (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt32 (bytes))));
+            outValue = BitConverter.ToSingle (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt32 (bytes))));
         }
 
-        public void Read (out double _outDouble)
+        public void Read (out double outValue)
         {
             int byteCount = sizeof (double);
             if (m_BitOffset + byteCount * 8 > m_Bytes.Length * 8)
             {
-                _outDouble = default;
+                outValue = default;
                 return;
             }
 
@@ -216,10 +209,10 @@ namespace ProjectNothing.Network
                 ReadByte (out bytes[i]);
             }
 
-            _outDouble = BitConverter.ToDouble (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (bytes))));
+            outValue = BitConverter.ToDouble (BitConverter.GetBytes (IPAddress.NetworkToHostOrder (BitConverter.ToInt64 (bytes))));
         }
 
-        public void Read (out string _outString)
+        public void Read (out string outValue)
         {
             Read (out ushort size);
 
@@ -230,29 +223,29 @@ namespace ProjectNothing.Network
                 list.Add (c);
             }
 
-            _outString = new string (list.ToArray ());
+            outValue = new string (list.ToArray ());
         }
 
-        private void ReadByte (out byte _outByte)
+        private void ReadByte (out byte outValue)
         {
             int byteOffset = m_BitOffset >> 3;
             int bitOffset = m_BitOffset & 0x7;
 
-            _outByte = unchecked((byte)(m_Bytes[byteOffset] << bitOffset));
+            outValue = unchecked((byte)(m_Bytes[byteOffset] << bitOffset));
             if (bitOffset > 0)
             {
-                _outByte |= unchecked((byte)(m_Bytes[byteOffset + 1] >> (8 - bitOffset)));
+                outValue |= unchecked((byte)(m_Bytes[byteOffset + 1] >> (8 - bitOffset)));
             }
 
             m_BitOffset += 8;
         }
 
-        private void ReadBit (out bool _outBit)
+        private void ReadBit (out bool outValue)
         {
             int byteOffset = m_BitOffset >> 3;
             int bitOffset = m_BitOffset & 0x7;
 
-            _outBit = (m_Bytes[byteOffset] & (1 << (7 - bitOffset))) != 0;
+            outValue = (m_Bytes[byteOffset] & (1 << (7 - bitOffset))) != 0;
 
             m_BitOffset += 1;
         }
@@ -285,137 +278,137 @@ namespace ProjectNothing.Network
             return m_Bytes.Count;
         }
 
-        public void Write (bool _bool)
+        public void Write (bool value)
         {
-            WriteBit (ref _bool);
+            WriteBit (ref value);
         }
 
-        public void Write (sbyte _sbyte)
+        public void Write (sbyte value)
         {
-            byte refByte = unchecked((byte)_sbyte);
+            byte refByte = unchecked((byte)value);
             WriteByte (ref refByte);
         }
 
-        public void Write (byte _byte)
+        public void Write (byte value)
         {
-            WriteByte (ref _byte);
+            WriteByte (ref value);
         }
 
-        public void Write (char _char)
+        public void Write (char value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (BitConverter.GetBytes (_char))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (short _short)
+        public void Write (short value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (BitConverter.GetBytes (_short))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (ushort _ushort)
+        public void Write (ushort value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (BitConverter.GetBytes (_ushort))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt16 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (int _int)
+        public void Write (int value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt32 (BitConverter.GetBytes (_int))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt32 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (uint _uint)
+        public void Write (uint value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt32 (BitConverter.GetBytes (_uint))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt32 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (long _long)
+        public void Write (long value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt64 (BitConverter.GetBytes (_long))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt64 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (ulong _ulong)
+        public void Write (ulong value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt64 (BitConverter.GetBytes (_ulong))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt64 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (float _float)
+        public void Write (float value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt32 (BitConverter.GetBytes (_float))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt32 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (double _double)
+        public void Write (double value)
         {
-            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt64 (BitConverter.GetBytes (_double))));
+            byte[] bytes = BitConverter.GetBytes (IPAddress.HostToNetworkOrder (BitConverter.ToInt64 (BitConverter.GetBytes (value))));
             for (int i = 0; i < bytes.Length; i++)
             {
                 WriteByte (ref bytes[i]);
             }
         }
 
-        public void Write (string _string)
+        public void Write (string value)
         {
-            ushort size = unchecked((ushort)_string.Length);
+            ushort size = unchecked((ushort)value.Length);
 
             Write (size);
 
             for (int i = 0; i < size; i++)
             {
-                Write (_string[i]);
+                Write (value[i]);
             }
         }
 
-        private void WriteByte (ref byte _refByte)
+        private void WriteByte (ref byte refValue)
         {
             int bitOffset = m_BitOffset & 0x7;
 
             if (bitOffset == 0)
             {
-                m_Bytes.Add (_refByte);
+                m_Bytes.Add (refValue);
             }
             else
             {
-                m_Bytes[^1] |= unchecked((byte)(_refByte >> bitOffset));
-                m_Bytes.Add (unchecked((byte)(_refByte << (8 - bitOffset))));
+                m_Bytes[^1] |= unchecked((byte)(refValue >> bitOffset));
+                m_Bytes.Add (unchecked((byte)(refValue << (8 - bitOffset))));
             }
 
             m_BitOffset += 8;
         }
 
-        private void WriteBit (ref bool _refBit)
+        private void WriteBit (ref bool refValue)
         {
             int bitOffset = m_BitOffset & 0x7;
 
-            byte value = unchecked((byte)((_refBit ? 1 : 0) << (7 - bitOffset)));
+            byte value = unchecked((byte)((refValue ? 1 : 0) << (7 - bitOffset)));
 
             if (bitOffset == 0)
             {
