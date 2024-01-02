@@ -10,5 +10,6 @@ public:
 	virtual void Excute () override;
 
 private:
-	std::wstring m_kString;
+	unsigned short m_nSequence;
+	long long m_nSendTime;
 };

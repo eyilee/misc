@@ -15,7 +15,6 @@ namespace ProjectNothing.Protocol
 
         public override void Excute ()
         {
-            GameManager.Instance.m_Login = true;
             NetworkManager.m_ID = m_ID;
             NetworkManager.m_Key = m_Key;
             NetworkManager.ComposeUdpOutput (new NC_ServerUdpConnect ());

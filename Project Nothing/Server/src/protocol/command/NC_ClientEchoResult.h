@@ -4,11 +4,12 @@ class NC_ClientEchoResult : public CNetCommand<NC_ClientEchoResult>
 {
 public:
 	NC_ClientEchoResult ();
-	NC_ClientEchoResult (const std::wstring& _rkString);
+	NC_ClientEchoResult (unsigned short _nSequence, long long _nSendTime);
 	virtual ~NC_ClientEchoResult ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
 
 private:
-	std::wstring m_kString;
+	unsigned short m_nSequence;
+	long long m_nSendTime;
 };

@@ -4,11 +4,13 @@ namespace ProjectNothing.Protocol
 {
     public sealed class NC_ServerEcho : NetCommand<NC_ServerEcho>
     {
-        public string m_String;
+        public ushort m_Sequence;
+        public long m_SendTime;
 
         public override void Serialize (BitOutStream outStream)
         {
-            outStream.Write (m_String);
+            outStream.Write (m_Sequence);
+            outStream.Write (m_SendTime);
         }
     }
 }

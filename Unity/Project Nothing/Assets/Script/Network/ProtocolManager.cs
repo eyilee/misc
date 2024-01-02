@@ -4,12 +4,14 @@ using UnityEngine;
 
 namespace ProjectNothing.Network
 {
-    public sealed class ProtocolManager : MonoSingleton<ProtocolManager>
+    public sealed class ProtocolManager
     {
-        private readonly Dictionary<ushort, INetProtocolGenerator> m_ProtocolMap = new ();
+        private static Dictionary<ushort, INetProtocolGenerator> m_ProtocolMap = null;
 
-        public void Init ()
+        public static void Init ()
         {
+            m_ProtocolMap = new Dictionary<ushort, INetProtocolGenerator> ();
+
             RegisterNetCommand<NC_ServerLogin> (1);
             RegisterNetCommand<NC_ServerUdpConnect> (2);
             RegisterNetEvent<NE_ClientLoginResult> (51);
@@ -18,21 +20,12 @@ namespace ProjectNothing.Network
             RegisterNetCommand<NC_ServerEcho> (100);
             RegisterNetCommand<NC_ServerCreateGame> (101);
             RegisterNetEvent<NE_ClientEchoResult> (200);
+            RegisterNetEvent<NE_ClientCreateGameResult> (201);
 
             RegisterNetCommand<NC_ServerShutdown> (9000);
         }
 
         public static INetProtocol GenerateProtocol (ushort protocolID)
-        {
-            if (Instance == null)
-            {
-                return null;
-            }
-
-            return Instance.Generate (protocolID);
-        }
-
-        private INetProtocol Generate (ushort protocolID)
         {
             if (!m_ProtocolMap.TryGetValue (protocolID, out INetProtocolGenerator generator))
             {
@@ -42,7 +35,7 @@ namespace ProjectNothing.Network
             return generator.Generate ();
         }
 
-        private void RegisterNetCommand<T> (ushort protocolID) where T : NetCommand<T>, new()
+        private static void RegisterNetCommand<T> (ushort protocolID) where T : NetCommand<T>, new()
         {
             NetCommand<T>.m_ProtocolID = protocolID;
 
@@ -56,7 +49,7 @@ namespace ProjectNothing.Network
             }
         }
 
-        private void RegisterNetEvent<T> (ushort protocolID) where T : NetEvent<T>, new()
+        private static void RegisterNetEvent<T> (ushort protocolID) where T : NetEvent<T>, new()
         {
             NetEvent<T>.m_ProtocolID = protocolID;
 

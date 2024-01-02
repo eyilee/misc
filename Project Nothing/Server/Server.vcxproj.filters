@@ -63,6 +63,9 @@
     <ClCompile Include="src\protocol\event\NE_ServerCreateGame.cpp">
       <Filter>src\protocol\event</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\command\NC_ClientCreateGameResult.cpp">
+      <Filter>src\protocol\command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="src\protocol\event\NE_ServerCreateGame.h">
       <Filter>src\protocol\event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\command\NC_ClientCreateGameResult.h">
+      <Filter>src\protocol\command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

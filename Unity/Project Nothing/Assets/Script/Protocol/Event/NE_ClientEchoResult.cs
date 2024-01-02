@@ -1,20 +1,21 @@
 ﻿using ProjectNothing.Network;
-using UnityEngine;
 
 namespace ProjectNothing.Protocol
 {
     public sealed class NE_ClientEchoResult : NetEvent<NE_ClientEchoResult>
     {
-        private string m_String;
+        public ushort m_Sequence;
+        public long m_SendTime;
 
         public override void Deserialize (BitInStream inStream)
         {
-            inStream.Read (out m_String);
+            inStream.Read (out m_Sequence);
+            inStream.Read (out m_SendTime);
         }
 
         public override void Excute ()
         {
-            Debug.Log (m_String);
+            NetworkManager.RefreshLatency (m_Sequence, m_SendTime);
         }
     }
 }
