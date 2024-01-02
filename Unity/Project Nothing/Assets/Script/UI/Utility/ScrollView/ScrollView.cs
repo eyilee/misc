@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ProjectNothing.Utility
+namespace ProjectNothing
 {
     public class ScrollView : ScrollRect
     {

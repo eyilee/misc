@@ -1,6 +1,4 @@
-﻿using ProjectNothing.Network;
-
-namespace ProjectNothing.Protocol
+﻿namespace ProjectNothing
 {
     public sealed class NC_ServerCreateGame : NetCommand<NC_ServerCreateGame>
     {

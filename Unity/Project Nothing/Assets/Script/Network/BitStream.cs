@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace ProjectNothing.Network
+namespace ProjectNothing
 {
     public class BitInStream
     {

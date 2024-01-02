@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace ProjectNothing.Network
+namespace ProjectNothing
 {
     public sealed class UdpSession
     {

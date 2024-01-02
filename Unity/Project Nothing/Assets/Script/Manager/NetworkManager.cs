@@ -1,9 +1,8 @@
-﻿using ProjectNothing.Protocol;
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics;
 using System.Net;
 
-namespace ProjectNothing.Network
+namespace ProjectNothing
 {
     public sealed class NetworkManager
     {

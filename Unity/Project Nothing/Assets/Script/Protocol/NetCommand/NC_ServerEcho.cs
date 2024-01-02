@@ -1,6 +1,4 @@
-﻿using ProjectNothing.Network;
-
-namespace ProjectNothing.Protocol
+﻿namespace ProjectNothing
 {
     public sealed class NC_ServerEcho : NetCommand<NC_ServerEcho>
     {

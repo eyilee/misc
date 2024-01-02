@@ -1,6 +1,4 @@
-﻿using ProjectNothing.Network;
-
-namespace ProjectNothing.Protocol
+﻿namespace ProjectNothing
 {
     public sealed class NE_ClientEchoResult : NetEvent<NE_ClientEchoResult>
     {

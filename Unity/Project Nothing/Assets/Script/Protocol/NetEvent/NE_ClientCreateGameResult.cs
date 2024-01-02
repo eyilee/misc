@@ -1,6 +1,4 @@
-﻿using ProjectNothing.Network;
-
-namespace ProjectNothing.Protocol
+﻿namespace ProjectNothing
 {
     public sealed class NE_ClientCreateGameResult : NetEvent<NE_ClientCreateGameResult>
     {

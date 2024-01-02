@@ -1,4 +1,4 @@
-﻿namespace ProjectNothing.Network
+﻿namespace ProjectNothing
 {
     public abstract class INetProtocol
     {

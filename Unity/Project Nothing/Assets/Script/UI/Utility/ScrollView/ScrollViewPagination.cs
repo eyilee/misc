@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-namespace ProjectNothing.Utility
+namespace ProjectNothing
 {
     public class ScrollViewPagination
     {
         protected GameObject m_GameObject;
 
-        public bool IsValid {
+        public bool IsValid
+        {
             get { return m_GameObject != null; }
         }
 

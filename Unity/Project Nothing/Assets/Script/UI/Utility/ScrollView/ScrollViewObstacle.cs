@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 
-namespace ProjectNothing.Utility
+namespace ProjectNothing
 {
     public class ScrollViewObstacle
     {
         protected GameObject m_GameObject;
         protected RectTransform m_RectTransform;
 
-        public float Width {
-            get {
+        public float Width
+        {
+            get
+            {
                 if (m_RectTransform != null)
                 {
                     return m_RectTransform.rect.width;
@@ -17,8 +19,10 @@ namespace ProjectNothing.Utility
             }
         }
 
-        public float Height {
-            get {
+        public float Height
+        {
+            get
+            {
                 if (m_RectTransform != null)
                 {
                     return m_RectTransform.rect.height;

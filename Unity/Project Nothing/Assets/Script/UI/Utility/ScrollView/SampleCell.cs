@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ProjectNothing.Utility
+namespace ProjectNothing
 {
     public sealed class SampleCell : ScrollViewCell
     {

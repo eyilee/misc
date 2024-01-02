@@ -1,8 +1,7 @@
-﻿using ProjectNothing.Protocol;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectNothing.Network
+namespace ProjectNothing
 {
     public sealed class ProtocolManager
     {
