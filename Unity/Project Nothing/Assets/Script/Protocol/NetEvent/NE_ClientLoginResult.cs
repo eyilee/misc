@@ -1,4 +1,6 @@
-﻿namespace ProjectNothing
+﻿using UnityEngine;
+
+namespace ProjectNothing
 {
     public sealed class NE_ClientLoginResult : NetEvent<NE_ClientLoginResult>
     {
@@ -16,6 +18,8 @@
             NetworkManager.m_ID = m_ID;
             NetworkManager.m_Key = m_Key;
             NetworkManager.ComposeUdpOutput (new NC_ServerUdpConnect ());
+
+            Debug.Log ("Logined.");
         }
     }
 }

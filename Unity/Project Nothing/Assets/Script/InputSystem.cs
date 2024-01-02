@@ -51,18 +51,19 @@ public class InputSystem
         return m_BlockType == EBlockType.None && Input.GetMouseButton (button);
     }
 
-    public void AccumulateInput (ref UserCommand command, float deltaTime)
+    public void SampleInput (ref UserCommand userCommand)
     {
-        command.buttons.Or (UserCommand.Button.Forward, GetKey (KeyCode.UpArrow));
-        command.buttons.Or (UserCommand.Button.Backward, GetKey (KeyCode.DownArrow));
-        command.buttons.Or (UserCommand.Button.TurnLeft, GetKey (KeyCode.LeftArrow));
-        command.buttons.Or (UserCommand.Button.TurnRight, GetKey (KeyCode.RightArrow));
-        command.buttons.Or (UserCommand.Button.Accel, GetKey (KeyCode.A));
-        command.buttons.Or (UserCommand.Button.Melee, GetKeyDown (KeyCode.S));
-        command.buttons.Or (UserCommand.Button.Shoot, GetKeyDown (KeyCode.D));
+        userCommand.buttons.Or (UserCommand.Button.Forward, GetKey (KeyCode.UpArrow));
+        userCommand.buttons.Or (UserCommand.Button.Backward, GetKey (KeyCode.DownArrow));
+        userCommand.buttons.Or (UserCommand.Button.TurnLeft, GetKey (KeyCode.LeftArrow));
+        userCommand.buttons.Or (UserCommand.Button.TurnRight, GetKey (KeyCode.RightArrow));
+        userCommand.buttons.Or (UserCommand.Button.Accel, GetKey (KeyCode.A));
+        userCommand.buttons.Or (UserCommand.Button.Melee, GetKeyDown (KeyCode.S));
+        userCommand.buttons.Or (UserCommand.Button.Shoot, GetKeyDown (KeyCode.D));
     }
 
-    public void ClearInput () { 
+    public void ClearInput ()
+    {
     }
 }
 

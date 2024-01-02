@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net;
 
@@ -6,6 +7,8 @@ namespace ProjectNothing
 {
     public sealed class NetworkManager
     {
+        private static ConcurrentQueue<INetProtocol> m_InputProtocols;
+
         private static IPAddress m_IPAddress = null;
         private static TcpSession m_TcpSession = null;
         private static UdpSession m_UdpSession = null;
@@ -23,6 +26,8 @@ namespace ProjectNothing
 
         public static IEnumerator Init (string host, int tcpPort, int udpPort)
         {
+            m_InputProtocols = new ConcurrentQueue<INetProtocol> ();
+
             if (!IPAddress.TryParse (host, out m_IPAddress))
             {
                 yield break;
@@ -55,6 +60,13 @@ namespace ProjectNothing
                 m_LastSequence++;
                 ComposeUdpOutput (new NC_ServerEcho { m_Sequence = m_LastSequence, m_SendTime = time });
             }
+
+            foreach (INetProtocol protocol in m_InputProtocols)
+            {
+                protocol.Excute ();
+            }
+
+            m_InputProtocols.Clear ();
         }
 
         public static void RefreshLatency (ushort sequence, long sendTime)
@@ -74,7 +86,7 @@ namespace ProjectNothing
             if (protocol != null)
             {
                 protocol.Deserialize (inStream);
-                protocol.Excute ();
+                m_InputProtocols.Enqueue (protocol);
             }
         }
 
