@@ -82,7 +82,7 @@ void CUdpSession::OnReceive (size_t _nLength)
 	}
 
 	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
-	if (netBridge->GetIP () == ip && netBridge->GetUdpKey () == key) {
+	if (netBridge->GetIP () == ip && netBridge->GetKey () == key) {
 		netBridge->ResolveInput (inStream);
 	}
 }

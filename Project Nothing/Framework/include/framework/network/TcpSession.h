@@ -3,13 +3,13 @@
 
 using boost::asio::ip::tcp;
 
-class CNetBridge;
+class CTcpConnection;
 
 constexpr size_t TCP_SOCKET_BUFFER_SIZE = 8192;
 
 class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 {
-	friend CNetBridge;
+	friend CTcpConnection;
 
 private:
 	struct SReadCommand
@@ -48,8 +48,10 @@ public:
 	CTcpSession (tcp::socket& _rkSocket);
 	virtual ~CTcpSession ();
 
-	void Init ();
+	void Init (std::shared_ptr<CTcpConnection> _pkTcpConnection);
 	void Shutdown ();
+
+	inline uint32_t GetIP () const { return m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint (); }
 
 private:
 	void AsyncRead ();
@@ -59,11 +61,10 @@ private:
 	void OnWrite (CBitOutStream& _rkOutStream);
 
 private:
+	std::shared_ptr<CTcpConnection> m_pkTcpConnection;
 	tcp::socket m_kSocket;
 
 	std::deque<SReadCommand> m_kReadQueue;
 	std::deque<SWriteCommand> m_kWriteQueue;
 	std::array<uint8_t, TCP_SOCKET_BUFFER_SIZE> m_kReadBuffer;
-
-	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };

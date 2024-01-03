@@ -3,13 +3,13 @@
 #include "framework/network/BitConverter.h"
 #include "framework/network/Entity.h"
 #include "framework/network/NetBridge.h"
+#include "framework/network/TcpConnection.h"
 #include "framework/manager/EntityManager.h"
 #include "framework/network/TcpSession.h"
 
 CTcpSession::CTcpSession (tcp::socket& _rkSocket)
 	: m_kSocket (std::move (_rkSocket))
 	, m_kReadBuffer {}
-	, m_pkNetBridge (nullptr)
 {
 }
 
@@ -17,10 +17,9 @@ CTcpSession::~CTcpSession ()
 {
 }
 
-void CTcpSession::Init ()
+void CTcpSession::Init (std::shared_ptr<CTcpConnection> _pkTcpConnection)
 {
-	m_pkNetBridge = std::make_shared<CNetBridge> ();
-	m_pkNetBridge->Init (shared_from_this (), m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint ());
+	m_pkTcpConnection = _pkTcpConnection;
 
 	AsyncRead ();
 }
@@ -41,8 +40,7 @@ void CTcpSession::Shutdown ()
 			m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
 			m_kSocket.close ();
 
-			m_pkNetBridge->Shutdown ();
-			m_pkNetBridge = nullptr;
+			m_pkTcpConnection = nullptr;
 		});
 }
 
@@ -140,7 +138,7 @@ void CTcpSession::OnRead (const size_t& _rnLength)
 		}
 
 		CBitInStream inStream (command.m_kBytes);
-		m_pkNetBridge->ResolveInput (inStream);
+		m_pkTcpConnection->ResolveInput (inStream);
 
 		m_kReadQueue.pop_front ();
 	}

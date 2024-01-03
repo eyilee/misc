@@ -5,7 +5,9 @@ using boost::asio::ip::udp;
 class IEntity;
 class INetProtocol;
 class CBitInStream;
+class CTcpConnection;
 class CTcpSession;
+class CUdpConnection;
 class CUdpSession;
 
 class CNetBridge : public std::enable_shared_from_this<CNetBridge>
@@ -14,15 +16,15 @@ public:
 	CNetBridge ();
 	virtual ~CNetBridge ();
 
-	void Init (std::shared_ptr<CTcpSession> _pkTcpSession, uint32_t _nIP);
+	void SetTcpConnection (std::shared_ptr<CTcpConnection> _pkTcpConnection);
+	inline void SetUdpConnection (std::shared_ptr<CUdpConnection> _pkUdpConnection) { m_pkUdpConnection = _pkUdpConnection; }
+
 	void Shutdown ();
 
-	uint32_t GetIP () const { return m_nIP; }
+	uint32_t GetIP ();
 
-	uint32_t GetUdpKey () const { return m_nUdpKey; }
-	void SetUdpKey (uint32_t _nUdpKey) { m_nUdpKey = _nUdpKey; }
-
-	void SetUdpEndPoint ();
+	uint32_t GetKey () const { return m_nKey; }
+	void SetKey (uint32_t _nKey) { m_nKey = _nKey; }
 
 	void SetEntity (std::shared_ptr<IEntity> _pkEntity) { m_pkEntity = _pkEntity; }
 	std::shared_ptr<IEntity> GetEntity () const { return m_pkEntity; }
@@ -32,11 +34,10 @@ public:
 	void ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
 
 private:
-	std::shared_ptr<CTcpSession> m_pkTcpSession;
 	uint32_t m_nIP;
+	uint32_t m_nKey;
 
-	uint32_t m_nUdpKey;
-	udp::endpoint m_kUdpEndPoint;
-
+	std::shared_ptr<CTcpConnection> m_pkTcpConnection;
+	std::shared_ptr<CUdpConnection> m_pkUdpConnection;
 	std::shared_ptr<IEntity> m_pkEntity;
 };

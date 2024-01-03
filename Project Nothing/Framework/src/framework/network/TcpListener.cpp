@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
 #include "framework/network/TcpSession.h"
-#include "framework/manager/SessionManager.h"
+#include "framework/manager/NetworkManager.h"
 #include "framework/network/TcpListener.h"
 
 CTcpListener::CTcpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
@@ -43,7 +43,7 @@ void CTcpListener::AsyncAccept ()
 				}
 				else
 				{
-					CSessionManager::CreateTcpSession (_rkSocket);
+					CNetworkManager::TcpAccept (_rkSocket);
 
 					AsyncAccept ();
 				}

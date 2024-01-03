@@ -16,7 +16,7 @@ void NE_ServerUdpConnect::Deserialize (CBitInStream& _rkInStream)
 
 void NE_ServerUdpConnect::Excute ()
 {
-	m_pkNetBridge->SetUdpEndPoint ();
+	CNetworkManager::UdpConnect (m_pkNetBridge);
 
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientUdpConnectResult> ();
 	m_pkNetBridge->ComposeTcpOutput (protocol);

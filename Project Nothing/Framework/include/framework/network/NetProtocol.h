@@ -3,6 +3,13 @@
 
 class CNetBridge;
 
+enum class EProtocolType
+{
+	None,
+	Tcp,
+	Udp
+};
+
 class INetProtocol
 {
 public:
@@ -30,6 +37,9 @@ public:
 	static unsigned short GetID () { return m_nID; };
 	static void SetID (unsigned short _nID) { m_nID = _nID; }
 
+	static EProtocolType GetType () { return m_nType; };
+	static void SetType (EProtocolType _nType) { m_nType = _nType; }
+
 	virtual void OnSerialize (CBitOutStream& _rkOutStream) final;
 	virtual void Serialize (CBitOutStream& _rkOutStream) = 0;
 	virtual void Deserialize (CBitInStream& _rkInStream) final {}
@@ -37,6 +47,7 @@ public:
 
 private:
 	static unsigned short m_nID;
+	static EProtocolType m_nType;
 };
 
 template<typename T>
@@ -60,6 +71,9 @@ template<typename T>
 unsigned short CNetCommand<T>::m_nID;
 
 template<typename T>
+EProtocolType CNetCommand<T>::m_nType;
+
+template<typename T>
 class CNetEvent : public INetProtocol
 {
 public:
@@ -69,6 +83,9 @@ public:
 	static unsigned short GetID () { return m_nID; };
 	static void SetID (unsigned short _nID) { m_nID = _nID; }
 
+	static EProtocolType GetType () { return m_nType; };
+	static void SetType (EProtocolType _nType) { m_nType = _nType; }
+
 	virtual void OnSerialize (CBitOutStream& _rkOutStream) final {}
 	virtual void Serialize (CBitOutStream& _rkOutStream) final {}
 	virtual void Deserialize (CBitInStream& _rkInStream) = 0;
@@ -76,6 +93,7 @@ public:
 
 private:
 	static unsigned short m_nID;
+	static EProtocolType m_nType;
 };
 
 template<typename T>
@@ -90,3 +108,6 @@ inline CNetEvent<T>::~CNetEvent ()
 
 template<typename T>
 unsigned short CNetEvent<T>::m_nID;
+
+template<typename T>
+EProtocolType CNetEvent<T>::m_nType;

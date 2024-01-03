@@ -45,7 +45,7 @@
     <ClInclude Include="include\framework\manager\ProtocolManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\SessionManager.h">
+    <ClInclude Include="include\framework\manager\NetworkManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\network\Entity.h">
@@ -114,6 +114,12 @@
     <ClInclude Include="include\framework\Framework.h">
       <Filter>include\framework</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\network\TcpConnection.h">
+      <Filter>include\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework\network\UdpConnection.h">
+      <Filter>include\framework\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -133,7 +139,7 @@
     <ClCompile Include="src\framework\manager\ProtocolManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\SessionManager.cpp">
+    <ClCompile Include="src\framework\manager\NetworkManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\Entity.cpp">
@@ -195,6 +201,12 @@
     </ClCompile>
     <ClCompile Include="src\framework\StateMachine.cpp">
       <Filter>src\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\TcpConnection.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\UdpConnection.cpp">
+      <Filter>src\framework\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

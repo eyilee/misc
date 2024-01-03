@@ -28,7 +28,7 @@ void NE_ServerLogin::Excute ()
 	}
 
 	uint32_t key = CRandom::GetValue<uint32_t> ();
-	m_pkNetBridge->SetUdpKey (key);
+	m_pkNetBridge->SetKey (key);
 
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientLoginResult> (m_nID, key);
 	m_pkNetBridge->ComposeTcpOutput (protocol);

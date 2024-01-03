@@ -24,12 +24,16 @@
     <ClInclude Include="include\framework\GameLoop.h" />
     <ClInclude Include="include\framework\manager\GameManager.h" />
     <ClInclude Include="include\framework\network\BitConverter.h" />
+    <ClInclude Include="include\framework\network\TcpConnection.h" />
+    <ClInclude Include="include\framework\network\UdpConnection.h" />
     <ClInclude Include="include\framework\Random.h" />
     <ClInclude Include="include\framework\StateMachine.h" />
     <ClInclude Include="include\framework\Time.h" />
     <ClCompile Include="src\framework\GameLoop.cpp" />
     <ClCompile Include="src\framework\manager\GameManager.cpp" />
     <ClCompile Include="src\framework\network\BitConverter.cpp" />
+    <ClCompile Include="src\framework\network\TcpConnection.cpp" />
+    <ClCompile Include="src\framework\network\UdpConnection.cpp" />
     <ClCompile Include="src\framework\Random.cpp" />
     <ClInclude Include="src\stdafx.h" />
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -46,7 +50,7 @@
     <ClInclude Include="include\framework\manager\ProtocolManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\SessionManager.h">
+    <ClInclude Include="include\framework\manager\NetworkManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="include\framework\network\BitStream.h" />
@@ -82,7 +86,7 @@
     <ClCompile Include="src\framework\manager\EntityManager.cpp" />
     <ClCompile Include="src\framework\manager\EventManager.cpp" />
     <ClCompile Include="src\framework\manager\ProtocolManager.cpp" />
-    <ClCompile Include="src\framework\manager\SessionManager.cpp" />
+    <ClCompile Include="src\framework\manager\NetworkManager.cpp" />
     <ClCompile Include="src\framework\network\BitStream.cpp" />
     <ClCompile Include="src\framework\network\Entity.cpp" />
     <ClCompile Include="src\framework\network\NetBridge.cpp" />

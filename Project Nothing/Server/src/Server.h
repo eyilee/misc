@@ -17,7 +17,7 @@ private:
 	void InitEntityManager ();
 	void InitEventManager ();
 	void InitProtocolManager ();
-	void InitSessionManager ();
+	void InitNetworkManager ();
 
 protected:
 	static std::shared_ptr<CServer> Instance;

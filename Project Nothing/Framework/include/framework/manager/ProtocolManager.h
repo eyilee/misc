@@ -1,13 +1,9 @@
 #pragma once
 #include "logger/Logger.h"
 #include "framework/manager/BaseManager.h"
+#include "framework/network/NetProtocol.h"
 
-class INetProtocol;
 class INetProtocolGenerator;
-template<typename T>
-class CNetCommand;
-template<typename T>
-class CNetEvent;
 template<typename T>
 class CNetProtocolGenerator;
 
@@ -21,19 +17,19 @@ public:
 	static void Shutdown ();
 
 	template<typename T> requires std::is_class_v<CNetCommand<T>>
-	static void RegisterNetCommand (unsigned short _nID);
+	static void RegisterNetCommand (unsigned short _nID, EProtocolType _nType);
 
 	template<typename T> requires std::is_class_v<CNetEvent<T>>
-	static void RegisterNetEvent (unsigned short _nID);
+	static void RegisterNetEvent (unsigned short _nID, EProtocolType _nType);
 
 	static std::shared_ptr<INetProtocol> GenerateProtocol (unsigned short _nID);
 
 private:
 	template<typename T> requires std::is_class_v<CNetCommand<T>>
-	void RegisterCommand (unsigned short _nID);
+	void RegisterCommand (unsigned short _nID, EProtocolType _nType);
 
 	template<typename T> requires std::is_class_v<CNetEvent<T>>
-	void RegisterEvent (unsigned short _nID);
+	void RegisterEvent (unsigned short _nID, EProtocolType _nType);
 
 	std::shared_ptr<INetProtocol> Generate (unsigned short _nID);
 
@@ -42,29 +38,30 @@ private:
 };
 
 template<typename T> requires std::is_class_v<CNetCommand<T>>
-inline static void CProtocolManager::RegisterNetCommand (unsigned short _nID)
+inline static void CProtocolManager::RegisterNetCommand (unsigned short _nID, EProtocolType _nType)
 {
 	if (Instance == nullptr) {
 		return;
 	}
 
-	Instance->RegisterCommand<T> (_nID);
+	Instance->RegisterCommand<T> (_nID, _nType);
 }
 
 template<typename T> requires std::is_class_v<CNetEvent<T>>
-inline static void CProtocolManager::RegisterNetEvent (unsigned short _nID)
+inline static void CProtocolManager::RegisterNetEvent (unsigned short _nID, EProtocolType _nType)
 {
 	if (Instance == nullptr) {
 		return;
 	}
 
-	Instance->RegisterEvent<T> (_nID);
+	Instance->RegisterEvent<T> (_nID, _nType);
 }
 
 template<typename T> requires std::is_class_v<CNetCommand<T>>
-inline void CProtocolManager::RegisterCommand (unsigned short _nID)
+inline void CProtocolManager::RegisterCommand (unsigned short _nID, EProtocolType _nType)
 {
 	CNetCommand<T>::SetID (_nID);
+	CNetCommand<T>::SetType (_nType);
 
 	auto it = m_kProtocolMap.find (_nID);
 	if (it == m_kProtocolMap.end ()) {
@@ -76,9 +73,10 @@ inline void CProtocolManager::RegisterCommand (unsigned short _nID)
 }
 
 template<typename T> requires std::is_class_v<CNetEvent<T>>
-inline void CProtocolManager::RegisterEvent (unsigned short _nID)
+inline void CProtocolManager::RegisterEvent (unsigned short _nID, EProtocolType _nType)
 {
 	CNetEvent<T>::SetID (_nID);
+	CNetEvent<T>::SetType (_nType);
 
 	auto it = m_kProtocolMap.find (_nID);
 	if (it == m_kProtocolMap.end ()) {

@@ -1,15 +1,13 @@
 #pragma once
 #include "framework/network/BitStream.h"
 
-class CNetBridge;
-
 using boost::asio::ip::udp;
 
 constexpr size_t UDP_SOCKET_BUFFER_SIZE = 512;
 
 class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 {
-	friend CNetBridge;
+	friend CUdpConnection;
 
 private:
 	struct SSendCommand
@@ -30,6 +28,8 @@ public:
 
 	void Init ();
 	void Shutdown ();
+
+	inline udp::endpoint GetEndPoint () const { return m_kEndpoint; }
 
 private:
 	void AsyncReceive ();
