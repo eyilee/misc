@@ -9,7 +9,7 @@ class CTcpSession;
 class CTcpConnection : public std::enable_shared_from_this<CTcpConnection>
 {
 public:
-	CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, tcp::socket& _rkSocket);
+	CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession);
 	virtual ~CTcpConnection ();
 
 	void Init ();

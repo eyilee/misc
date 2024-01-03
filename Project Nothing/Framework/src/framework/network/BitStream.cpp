@@ -103,7 +103,7 @@ void CBitInStream::ReadBit (bool& _rbBit)
 }
 
 CBitOutStream::CBitOutStream ()
-	: m_nBitOffset {0}
+	: m_nBitOffset (0)
 {
 }
 

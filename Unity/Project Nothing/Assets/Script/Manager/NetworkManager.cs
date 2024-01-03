@@ -15,7 +15,7 @@ namespace ProjectNothing
 
         public static bool m_IsInit = false;
 
-        public static int m_ID;
+        public static uint m_ID;
         public static uint m_Key;
 
         private static Stopwatch m_StopWatch = null;

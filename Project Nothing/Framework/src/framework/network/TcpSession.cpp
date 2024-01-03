@@ -169,7 +169,7 @@ void CTcpSession::AsyncWrite ()
 		});
 }
 
-void CTcpSession::OnWrite (CBitOutStream& _rkOutStream)
+void CTcpSession::Write (CBitOutStream& _rkOutStream)
 {
 	size_t size = _rkOutStream.GetSize ();
 	if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE) {

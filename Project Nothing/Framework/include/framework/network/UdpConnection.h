@@ -15,6 +15,7 @@ public:
 	void Init ();
 	void Shutdown ();
 
+	void ResolveInput (CBitInStream& _rkInStream);
 	void ComposeOutput (CBitOutStream& _rkOutStream);
 
 private:

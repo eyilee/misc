@@ -3,7 +3,7 @@
 #include "framework/network/Entity.h"
 #include "framework/network/NetBridge.h"
 #include "framework/network/NetProtocol.h"
-#include "framework/manager/EntityManager.h"
+#include "framework/manager/NetWorkManager.h"
 #include "framework/network/UdpSession.h"
 
 CUdpSession::CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
@@ -66,25 +66,18 @@ void CUdpSession::OnReceive (size_t _nLength)
 {
 	CBitInStream inStream (&m_kReceiveBuffer[0], _nLength);
 
-	int entityID;
+	uint32_t id;
 	uint32_t key;
-	inStream.Read (entityID);
+	inStream.Read (id);
 	inStream.Read (key);
 
-	std::shared_ptr<IEntity> entity = CEntityManager::GetEntity (entityID);
-	if (entity == nullptr) {
-		return;
-	}
-
-	std::shared_ptr<CNetBridge> netBridge = entity->GetNetBridge ();
+	std::shared_ptr<CNetBridge> netBridge = CNetworkManager::GetNetBridge (id);
 	if (netBridge == nullptr) {
 		return;
 	}
 
 	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
-	if (netBridge->GetIP () == ip && netBridge->GetKey () == key) {
-		netBridge->ResolveInput (inStream);
-	}
+	netBridge->ResolveUdpInput (ip, key, inStream);
 }
 
 void CUdpSession::AsyncSend ()
@@ -109,7 +102,7 @@ void CUdpSession::AsyncSend ()
 		});
 }
 
-void CUdpSession::OnSend (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
+void CUdpSession::Send (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
 {
 	size_t size = _rkOutStream.GetSize ();
 	if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE) {

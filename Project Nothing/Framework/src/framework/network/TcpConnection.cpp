@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "framework/network/NetBridge.h"
 #include "framework/network/TcpSession.h"
+#include "framework/manager/ProtocolManager.h"
 #include "framework/network/TcpConnection.h"
 
-CTcpConnection::CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, tcp::socket& _rkSocket)
+CTcpConnection::CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession)
 	: m_pkNetBridge (_pkNetBridge)
+	, m_pkTcpSession (_pkTcpSession)
+	, m_nIP (m_pkTcpSession->GetIP ())
 {
-	m_pkTcpSession = std::make_shared<CTcpSession> (_rkSocket);
-	m_nIP = m_pkTcpSession->GetIP ();
 }
 
 CTcpConnection::~CTcpConnection ()
@@ -29,10 +30,19 @@ void CTcpConnection::Shutdown ()
 
 void CTcpConnection::ResolveInput (CBitInStream& _rkInStream)
 {
-	m_pkNetBridge->ResolveInput (_rkInStream);
+	unsigned short protocolID;
+	_rkInStream.Read (protocolID);
+
+	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
+	if (protocol != nullptr)
+	{
+		protocol->SetNetBridge (m_pkNetBridge);
+		protocol->Deserialize (_rkInStream);
+		protocol->Excute ();
+	}
 }
 
 void CTcpConnection::ComposeOutput (CBitOutStream& _rkOutStream)
 {
-	m_pkTcpSession->OnWrite (_rkOutStream);
+	m_pkTcpSession->Write (_rkOutStream);
 }

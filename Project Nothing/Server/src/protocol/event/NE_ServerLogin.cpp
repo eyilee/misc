@@ -27,9 +27,10 @@ void NE_ServerLogin::Excute ()
 		m_pkNetBridge->SetEntity (entity);
 	}
 
+	uint32_t id = m_pkNetBridge->GetID ();
 	uint32_t key = CRandom::GetValue<uint32_t> ();
 	m_pkNetBridge->SetKey (key);
 
-	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientLoginResult> (m_nID, key);
+	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientLoginResult> (id, key);
 	m_pkNetBridge->ComposeTcpOutput (protocol);
 }

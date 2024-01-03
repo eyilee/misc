@@ -24,14 +24,16 @@ namespace ProjectNothing
         }
 
         private UdpClient m_UdpClient = null;
-        private IPEndPoint m_RemotIPEndPoint = null;
+        private IPEndPoint m_LocalIPEndPoint = null;
+        private IPEndPoint m_RemoteIPEndPoint = null;
 
         private readonly LinkedList<SendCommand> m_SendQueue = new ();
 
         public IEnumerator Init (IPAddress ipAddress, int port)
         {
-            m_UdpClient = new UdpClient ();
-            m_RemotIPEndPoint = new IPEndPoint (ipAddress, port);
+            m_UdpClient = new UdpClient (0);
+            m_LocalIPEndPoint = m_UdpClient.Client.LocalEndPoint as IPEndPoint;
+            m_RemoteIPEndPoint = new IPEndPoint (ipAddress, port);
 
             AsyncReceive ();
 
@@ -42,7 +44,7 @@ namespace ProjectNothing
         {
             m_UdpClient.BeginReceive ((IAsyncResult asyncResult) =>
             {
-                byte[] bytes = m_UdpClient.EndReceive (asyncResult, ref m_RemotIPEndPoint);
+                byte[] bytes = m_UdpClient.EndReceive (asyncResult, ref m_RemoteIPEndPoint);
                 OnReceive (bytes);
                 AsyncReceive ();
             }, null);
@@ -68,7 +70,7 @@ namespace ProjectNothing
 
             SendCommand command = m_SendQueue.First ();
 
-            m_UdpClient.BeginSend (command.m_Bytes, command.m_Bytes.Length, m_RemotIPEndPoint, (IAsyncResult asyncResult) =>
+            m_UdpClient.BeginSend (command.m_Bytes, command.m_Bytes.Length, m_RemoteIPEndPoint, (IAsyncResult asyncResult) =>
             {
                 m_UdpClient.EndSend (asyncResult);
 

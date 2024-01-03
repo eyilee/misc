@@ -5,7 +5,7 @@ NC_ClientLoginResult::NC_ClientLoginResult ()
 {
 }
 
-NC_ClientLoginResult::NC_ClientLoginResult (int _nID, uint32_t _nKey)
+NC_ClientLoginResult::NC_ClientLoginResult (uint32_t _nID, uint32_t _nKey)
 	: m_nID (_nID)
 	, m_nKey (_nKey)
 {

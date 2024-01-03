@@ -12,6 +12,7 @@
 CNetBridge::CNetBridge ()
 	: m_pkTcpConnection (nullptr)
 	, m_pkUdpConnection (nullptr)
+	, m_nID (0)
 	, m_nIP (0)
 	, m_nKey (0)
 	, m_pkEntity (nullptr)
@@ -20,12 +21,6 @@ CNetBridge::CNetBridge ()
 
 CNetBridge::~CNetBridge ()
 {
-}
-
-void CNetBridge::SetTcpConnection (std::shared_ptr<CTcpConnection> _pkTcpConnection)
-{
-	m_pkTcpConnection = _pkTcpConnection;
-	m_nIP = m_pkTcpConnection->GetIP ();
 }
 
 void CNetBridge::Shutdown ()
@@ -49,27 +44,28 @@ void CNetBridge::Shutdown ()
 	}
 }
 
-uint32_t CNetBridge::GetIP ()
+void CNetBridge::SetTcpConnection (std::shared_ptr<CTcpConnection> _pkTcpConnection)
 {
-	if (m_pkTcpConnection != nullptr) {
-		return m_pkTcpConnection->GetIP ();
-	}
-
-	return 0;
+	m_pkTcpConnection = _pkTcpConnection;
+	m_nIP = m_pkTcpConnection->GetIP ();
 }
 
-void CNetBridge::ResolveInput (CBitInStream& _rkInStream)
+void CNetBridge::SetUdpConnection (std::shared_ptr<CUdpConnection> _pkUdpConnection)
 {
-	unsigned short protocolID;
-	_rkInStream.Read (protocolID);
+	m_pkUdpConnection = _pkUdpConnection;
+}
 
-	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
-	if (protocol != nullptr)
-	{
-		protocol->SetNetBridge (shared_from_this ());
-		protocol->Deserialize (_rkInStream);
-		protocol->Excute ();
+void CNetBridge::ResolveUdpInput (uint32_t _nIP, uint32_t _nKey, CBitInStream& _rkInStream)
+{
+	if (m_nIP != _nIP || m_nKey != _nKey) {
+		return;
 	}
+
+	if (m_pkUdpConnection == nullptr) {
+		return;
+	}
+
+	m_pkUdpConnection->ResolveInput (_rkInStream);
 }
 
 void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const

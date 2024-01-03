@@ -4,7 +4,7 @@ namespace ProjectNothing
 {
     public sealed class NE_ClientLoginResult : NetEvent<NE_ClientLoginResult>
     {
-        public int m_ID;
+        public uint m_ID;
         public uint m_Key;
 
         public override void Deserialize (BitInStream inStream)

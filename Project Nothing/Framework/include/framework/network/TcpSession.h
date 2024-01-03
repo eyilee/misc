@@ -58,7 +58,7 @@ private:
 	void OnRead (const size_t& _rnLength);
 
 	void AsyncWrite ();
-	void OnWrite (CBitOutStream& _rkOutStream);
+	void Write (CBitOutStream& _rkOutStream);
 
 private:
 	std::shared_ptr<CTcpConnection> m_pkTcpConnection;
