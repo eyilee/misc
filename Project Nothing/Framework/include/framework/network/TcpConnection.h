@@ -15,7 +15,7 @@ public:
 	void Init ();
 	void Shutdown ();
 
-	inline uint32_t GetIP () const { return m_nIP; }
+	inline tcp::endpoint GetEndpoint () const { return m_kEndPoint; }
 
 	void ResolveInput (CBitInStream& _rkInStream);
 	void ComposeOutput (CBitOutStream& _rkOutStream);
@@ -23,5 +23,5 @@ public:
 private:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 	std::shared_ptr<CTcpSession> m_pkTcpSession;
-	uint32_t m_nIP;
+	tcp::endpoint m_kEndPoint;
 };

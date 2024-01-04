@@ -21,5 +21,5 @@ public:
 private:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 	std::shared_ptr<CUdpSession> m_pkUdpSession;
-	udp::endpoint m_kUdpEndPoint;
+	udp::endpoint m_kEndPoint;
 };

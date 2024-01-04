@@ -7,7 +7,7 @@
 CUdpConnection::CUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CUdpSession> _pkUdpSession)
 	: m_pkNetBridge (_pkNetBridge)
 	, m_pkUdpSession (_pkUdpSession)
-	, m_kUdpEndPoint (_pkUdpSession->m_kEndpoint)
+	, m_kEndPoint (_pkUdpSession->GetEndpoint ())
 {
 }
 
@@ -41,5 +41,5 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 
 void CUdpConnection::ComposeOutput (CBitOutStream& _rkOutStream)
 {
-	m_pkUdpSession->Send (_rkOutStream, m_kUdpEndPoint);
+	m_pkUdpSession->Send (_rkOutStream);
 }

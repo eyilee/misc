@@ -6,8 +6,8 @@
 #include "framework/manager/NetWorkManager.h"
 #include "framework/network/UdpSession.h"
 
-CUdpSession::CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
-	: m_kSocket (_rkContext, udp::endpoint (boost::asio::ip::address::from_string (_rkHostAddr.c_str ()), _nPort))
+CUdpSession::CUdpSession (udp::socket& _rkSocket)
+	: m_kSocket (std::move (_rkSocket))
 	, m_kReceiveBuffer {}
 {
 }
@@ -16,8 +16,10 @@ CUdpSession::~CUdpSession ()
 {
 }
 
-void CUdpSession::Init ()
+void CUdpSession::Init (std::shared_ptr<CUdpConnection> _pkUdpConnection)
 {
+	m_pkUdpConnection = _pkUdpConnection;
+
 	AsyncReceive ();
 }
 
@@ -42,7 +44,7 @@ void CUdpSession::Shutdown ()
 void CUdpSession::AsyncReceive ()
 {
 	auto self (shared_from_this ());
-	m_kSocket.async_receive_from (boost::asio::buffer (m_kReceiveBuffer, UDP_SOCKET_BUFFER_SIZE), m_kEndpoint,
+	m_kSocket.async_receive (boost::asio::buffer (m_kReceiveBuffer, UDP_SOCKET_BUFFER_SIZE),
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
 			if (_rkErrorCode)
@@ -65,19 +67,19 @@ void CUdpSession::AsyncReceive ()
 void CUdpSession::OnReceive (size_t _nLength)
 {
 	CBitInStream inStream (&m_kReceiveBuffer[0], _nLength);
+	//m_pkUdpConnection->ResolveInput (inStream);
 
-	uint32_t id;
-	uint32_t key;
-	inStream.Read (id);
-	inStream.Read (key);
+	//uint32_t id;
+	//uint32_t key;
+	//inStream.Read (id);
+	//inStream.Read (key);
 
-	std::shared_ptr<CNetBridge> netBridge = CNetworkManager::GetNetBridge (id);
-	if (netBridge == nullptr) {
-		return;
-	}
+	//std::shared_ptr<CNetBridge> netBridge = CNetworkManager::GetNetBridge (id);
+	//if (netBridge == nullptr) {
+	//	return;
+	//}
 
-	uint32_t ip = m_kEndpoint.address ().to_v4 ().to_uint ();
-	netBridge->ResolveUdpInput (ip, key, inStream);
+	//netBridge->ResolveUdpInput (0, key, inStream);
 }
 
 void CUdpSession::AsyncSend ()
@@ -89,7 +91,7 @@ void CUdpSession::AsyncSend ()
 	const SSendCommand& command = m_kSendQueue.front ();
 
 	auto self (shared_from_this ());
-	m_kSocket.async_send_to (boost::asio::buffer (command.m_kBytes, command.m_kBytes.size ()), command.m_kEndPoint,
+	m_kSocket.async_send (boost::asio::buffer (command.m_kBytes, command.m_kBytes.size ()),
 		[this, self](const boost::system::error_code& _rkErrorCode, std::size_t _nLength)
 		{
 			if (_rkErrorCode) {
@@ -102,7 +104,7 @@ void CUdpSession::AsyncSend ()
 		});
 }
 
-void CUdpSession::Send (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint)
+void CUdpSession::Send (const CBitOutStream& _rkOutStream)
 {
 	size_t size = _rkOutStream.GetSize ();
 	if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE) {
@@ -112,7 +114,7 @@ void CUdpSession::Send (const CBitOutStream& _rkOutStream, const udp::endpoint& 
 
 	bool isSending = !m_kSendQueue.empty ();
 
-	m_kSendQueue.emplace_back (_rkOutStream.GetBytes (), _rkEndPoint);
+	m_kSendQueue.emplace_back (_rkOutStream.GetBytes ());
 
 	if (!isSending) {
 		AsyncSend ();

@@ -15,32 +15,32 @@ private:
 	struct SSendCommand
 	{
 		std::vector<uint8_t> m_kBytes;
-		udp::endpoint m_kEndPoint;
 
-		SSendCommand (const std::vector<uint8_t>& _rkBytes, const udp::endpoint& _rkEndPoint)
+		SSendCommand (const std::vector<uint8_t>& _rkBytes)
 			: m_kBytes (_rkBytes)
-			, m_kEndPoint (_rkEndPoint)
 		{
 		}
 	};
 
 public:
-	CUdpSession (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort);
+	CUdpSession (udp::socket& _rkSocket);
 	virtual ~CUdpSession ();
 
-	void Init ();
+	void Init (std::shared_ptr<CUdpConnection> _pkUdpConnection);
 	void Shutdown ();
+
+	inline udp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
 
 private:
 	void AsyncReceive ();
 	void OnReceive (size_t _nLength);
 
 	void AsyncSend ();
-	void Send (const CBitOutStream& _rkOutStream, const udp::endpoint& _rkEndPoint);
+	void Send (const CBitOutStream& _rkOutStream);
 
 private:
+	std::shared_ptr<CUdpConnection> m_pkUdpConnection;
 	udp::socket m_kSocket;
-	udp::endpoint m_kEndpoint;
 
 	std::deque<SSendCommand> m_kSendQueue;
 	std::array<uint8_t, UDP_SOCKET_BUFFER_SIZE> m_kReceiveBuffer;

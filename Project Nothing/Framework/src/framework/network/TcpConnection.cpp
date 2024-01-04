@@ -7,7 +7,7 @@
 CTcpConnection::CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession)
 	: m_pkNetBridge (_pkNetBridge)
 	, m_pkTcpSession (_pkTcpSession)
-	, m_nIP (m_pkTcpSession->GetIP ())
+	, m_kEndPoint (_pkTcpSession->GetEndpoint ())
 {
 }
 

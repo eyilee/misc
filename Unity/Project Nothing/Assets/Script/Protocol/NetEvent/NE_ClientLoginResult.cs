@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Net;
+using UnityEngine;
 
 namespace ProjectNothing
 {
@@ -17,7 +18,9 @@ namespace ProjectNothing
         {
             NetworkManager.m_ID = m_ID;
             NetworkManager.m_Key = m_Key;
-            NetworkManager.ComposeUdpOutput (new NC_ServerUdpConnect ());
+
+            IPEndPoint endPoint = NetworkManager.GetIPEndPoint ();
+            NetworkManager.ComposeTcpOutput (new NC_ServerUdpConnect { m_nUdpPort = (short)endPoint.Port });
 
             Debug.Log ("Logined.");
         }

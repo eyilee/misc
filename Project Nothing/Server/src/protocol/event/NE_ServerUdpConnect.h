@@ -8,4 +8,7 @@ public:
 
 	virtual void Deserialize (CBitInStream& _rkInStream) override;
 	virtual void Excute () override;
+
+private:
+	short m_nUdpPort;
 };

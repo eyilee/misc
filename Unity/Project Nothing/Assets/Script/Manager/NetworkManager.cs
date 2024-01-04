@@ -24,6 +24,8 @@ namespace ProjectNothing
 
         public static long m_Latency = 0;
 
+        public static IPEndPoint GetIPEndPoint () { return m_UdpSession.GetIPEndPoint (); }
+
         public static IEnumerator Init (string host, int tcpPort, int udpPort)
         {
             m_InputProtocols = new ConcurrentQueue<INetProtocol> ();

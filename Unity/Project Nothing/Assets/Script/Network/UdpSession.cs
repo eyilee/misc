@@ -29,6 +29,8 @@ namespace ProjectNothing
 
         private readonly LinkedList<SendCommand> m_SendQueue = new ();
 
+        public IPEndPoint GetIPEndPoint () { return  m_LocalIPEndPoint; }
+
         public IEnumerator Init (IPAddress ipAddress, int port)
         {
             m_UdpClient = new UdpClient (0);

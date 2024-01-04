@@ -90,7 +90,7 @@ void CServer::InitProtocolManager ()
 	CProtocolManager::Init ();
 
 	CProtocolManager::RegisterNetEvent<NE_ServerLogin> (1, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetEvent<NE_ServerUdpConnect> (2, EProtocolType::Udp);
+	CProtocolManager::RegisterNetEvent<NE_ServerUdpConnect> (2, EProtocolType::Tcp);
 	CProtocolManager::RegisterNetCommand<NC_ClientLoginResult> (51, EProtocolType::Tcp);
 	CProtocolManager::RegisterNetCommand<NC_ClientUdpConnectResult> (52, EProtocolType::Udp);
 

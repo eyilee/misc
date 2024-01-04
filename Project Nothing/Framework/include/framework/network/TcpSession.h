@@ -51,7 +51,7 @@ public:
 	void Init (std::shared_ptr<CTcpConnection> _pkTcpConnection);
 	void Shutdown ();
 
-	inline uint32_t GetIP () const { return m_kSocket.remote_endpoint ().address ().to_v4 ().to_uint (); }
+	inline tcp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
 
 private:
 	void AsyncRead ();

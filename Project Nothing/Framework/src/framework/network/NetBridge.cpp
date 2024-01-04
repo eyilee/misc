@@ -13,7 +13,6 @@ CNetBridge::CNetBridge ()
 	: m_pkTcpConnection (nullptr)
 	, m_pkUdpConnection (nullptr)
 	, m_nID (0)
-	, m_nIP (0)
 	, m_nKey (0)
 	, m_pkEntity (nullptr)
 {
@@ -44,23 +43,8 @@ void CNetBridge::Shutdown ()
 	}
 }
 
-void CNetBridge::SetTcpConnection (std::shared_ptr<CTcpConnection> _pkTcpConnection)
-{
-	m_pkTcpConnection = _pkTcpConnection;
-	m_nIP = m_pkTcpConnection->GetIP ();
-}
-
-void CNetBridge::SetUdpConnection (std::shared_ptr<CUdpConnection> _pkUdpConnection)
-{
-	m_pkUdpConnection = _pkUdpConnection;
-}
-
 void CNetBridge::ResolveUdpInput (uint32_t _nIP, uint32_t _nKey, CBitInStream& _rkInStream)
 {
-	if (m_nIP != _nIP || m_nKey != _nKey) {
-		return;
-	}
-
 	if (m_pkUdpConnection == nullptr) {
 		return;
 	}
