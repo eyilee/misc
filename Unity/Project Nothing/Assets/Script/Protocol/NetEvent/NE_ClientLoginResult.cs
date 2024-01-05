@@ -20,7 +20,7 @@ namespace ProjectNothing
             NetworkManager.m_Key = m_Key;
 
             IPEndPoint endPoint = NetworkManager.GetUdpIPEndPoint ();
-            NetworkManager.ComposeTcpOutput (new NC_ServerUdpConnect { m_nUdpPort = (short)endPoint.Port });
+            NetworkManager.ComposeTcpOutput (new NC_ServerUdpConnect { m_nUdpPort = (ushort)endPoint.Port });
 
             Debug.Log ("Logined.");
         }

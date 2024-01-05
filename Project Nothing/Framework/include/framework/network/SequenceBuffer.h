@@ -11,6 +11,7 @@ public:
 
 	TPacketInfo& Insert (uint32_t _nSequence);
 	void Remove (uint32_t _nSequence);
+	void Clear ();
 
 	TPacketInfo* TryGet (uint32_t _nSequence);
 	TPacketInfo* TryGetByIndex (uint32_t _nIndex, uint32_t& _rnSequence);
@@ -18,13 +19,14 @@ public:
 	bool IsExist (uint32_t _nSequence);
 
 private:
-	uint32_t m_kIndexes[BUFFER_SIZE];
-	TPacketInfo m_kPacketInfos[BUFFER_SIZE];
+	std::array<uint32_t, BUFFER_SIZE> m_kIndexes;
+	std::array<TPacketInfo, BUFFER_SIZE> m_kPacketInfos;
 };
 
 template<typename TPacketInfo, uint32_t BUFFER_SIZE>
 inline SequenceBuffer<TPacketInfo, BUFFER_SIZE>::SequenceBuffer ()
 {
+	Clear ();
 }
 
 template<typename TPacketInfo, uint32_t BUFFER_SIZE>
@@ -47,6 +49,12 @@ inline void SequenceBuffer<TPacketInfo, BUFFER_SIZE>::Remove (uint32_t _nSequenc
 	if (m_kIndexes[index] == _nSequence) {
 		m_kIndexes[index] = BUFFER_SIZE;
 	}
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline void SequenceBuffer<TPacketInfo, BUFFER_SIZE>::Clear ()
+{
+	m_kIndexes.fill (BUFFER_SIZE);
 }
 
 template<typename TPacketInfo, uint32_t BUFFER_SIZE>

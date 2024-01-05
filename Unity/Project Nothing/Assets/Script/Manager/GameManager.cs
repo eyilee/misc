@@ -23,7 +23,7 @@ namespace ProjectNothing
 
             ProtocolManager.Init ();
 
-            yield return NetworkManager.Init ("127.0.0.1", 8484, 8485);
+            yield return NetworkManager.Init ("127.0.0.1", 8484);
 
             m_IsInit = true;
         }

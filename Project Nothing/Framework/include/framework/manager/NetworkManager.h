@@ -13,16 +13,17 @@ public:
 	CNetworkManager (boost::asio::io_context& _rkContext);
 	virtual ~CNetworkManager ();
 
-	static void Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort);
+	static void Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, unsigned short _nPort);
 	static void Shutdown ();
 
 	static void TcpAccept (tcp::socket& _rkSocket);
-	static void UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, short _nUdpPort);
+	static void UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, unsigned short _nPort);
 
 	static std::shared_ptr<CNetBridge> GetNetBridge (uint32_t _nID);
+	static void RemoveNetBridge (uint32_t _nID);
 
 private:
-	void Run (const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort);
+	void Run (const std::string& _rkHostAddr, unsigned short _nPort);
 	void Stop ();
 
 	std::shared_ptr<CNetBridge> CreateNetBridge ();
@@ -33,8 +34,7 @@ private:
 private:
 	boost::asio::io_context& m_rkContext;
 	std::string m_kHostAddr;
-	short m_nTcpPort;
-	short m_nUdpPort;
+	unsigned short m_nPort;
 
 	std::shared_ptr<CTcpListener> m_pkListener;
 

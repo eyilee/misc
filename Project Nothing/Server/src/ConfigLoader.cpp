@@ -16,8 +16,7 @@ void CConfigLoader::Load ()
 	po::options_description description ("config");
 	description.add_options ()
 		("server.hostaddr", po::value<std::string> ())
-		("server.tcpport", po::value<short> ())
-		("server.udpport", po::value<short> ())
+		("server.port", po::value<unsigned short> ())
 		("game.tickrate", po::value<unsigned short> ())
 		("db.user", po::value<std::string> ())
 		("db.password", po::value<std::string> ())
@@ -32,12 +31,8 @@ void CConfigLoader::Load ()
 		LOG_INFO ("server.hostaddr: %s", m_kVM["server.hostaddr"].as<std::string> ().c_str ());
 	}
 
-	if (m_kVM.count ("server.tcpport")) {
-		LOG_INFO ("server.tcpport: %hd", m_kVM["server.tcpport"].as<short> ());
-	}
-
-	if (m_kVM.count ("server.udpport")) {
-		LOG_INFO ("server.udpport: %hd", m_kVM["server.udpport"].as<short> ());
+	if (m_kVM.count ("server.port")) {
+		LOG_INFO ("server.tcpport: %hu", m_kVM["server.port"].as<unsigned short> ());
 	}
 
 	if (m_kVM.count ("game.tickrate")) {

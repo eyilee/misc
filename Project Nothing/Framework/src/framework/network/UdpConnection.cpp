@@ -30,10 +30,10 @@ void CUdpConnection::SHeader::Deserialize (CBitInStream& _rkInStream)
 CUdpConnection::CUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CUdpSession> _pkUdpSession)
 	: m_pkNetBridge (_pkNetBridge)
 	, m_pkUdpSession (_pkUdpSession)
-	, m_kEndPoint (_pkUdpSession->GetEndpoint ())
-	, m_nInSequece (0)
+	, m_kLocalEndPoint (_pkUdpSession->GetLocalEndpoint ())
+	, m_nInSequence (0)
 	, m_nInAckBits (0)
-	, m_nOutSequece (0)
+	, m_nOutSequence (1)
 	, m_nOutAck (0)
 	, m_nOutAckBits (0)
 {
@@ -56,6 +56,11 @@ void CUdpConnection::Shutdown ()
 	m_pkUdpSession = nullptr;
 }
 
+void CUdpConnection::OnDisconnect ()
+{
+	m_pkUdpSession = nullptr;
+}
+
 void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 {
 	uint32_t id;
@@ -67,6 +72,51 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 		return;
 	}
 
+	uint32_t sequence = ResolveHeader (_rkInStream);
+	if (sequence == 0) {
+		return;
+	}
+
+	unsigned short protocolID;
+	_rkInStream.Read (protocolID);
+
+	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
+	if (protocol != nullptr)
+	{
+		protocol->SetNetBridge (m_pkNetBridge);
+		protocol->Deserialize (_rkInStream);
+		protocol->Excute ();
+	}
+}
+
+void CUdpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
+{
+	if (m_kOutPackets.IsExist (m_nOutSequence)) {
+		// TODO: need client send data to update ack
+		return;
+	}
+
+	SHeader header;
+	header.m_nSequence = m_nOutSequence;
+	header.m_nAck = m_nInSequence;
+	header.m_nAckBits = m_nInAckBits;
+
+	SOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequence);
+	// TODO: reliable packet
+
+	CBitOutStream outStream;
+	outStream.Write (m_pkNetBridge->GetID ());
+	outStream.Write (m_pkNetBridge->GetKey ());
+	outStream.Write (header);
+	_pkProtocol->OnSerialize (outStream);
+	m_pkUdpSession->Send (outStream);
+
+	// NOTE: in an extreme case sequence may overflow
+	m_nOutSequence++;
+}
+
+uint32_t CUdpConnection::ResolveHeader (CBitInStream& _rkInStream)
+{
 	SHeader header;
 	_rkInStream.Read (header);
 
@@ -74,9 +124,9 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 	uint32_t newOutAck = header.m_nAck;
 	uint32_t newOutAckBits = header.m_nAckBits;
 
-	if (newInSequence > m_nInSequece)
+	if (newInSequence > m_nInSequence)
 	{
-		uint32_t distance = newInSequence - m_nInSequece;
+		uint32_t distance = newInSequence - m_nInSequence;
 		if (distance > 31) {
 			m_nInAckBits = 1;
 		}
@@ -86,28 +136,28 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 			m_nInAckBits |= 1;
 		}
 
-		m_nInSequece = newInSequence;
+		m_nInSequence = newInSequence;
 	}
-	else if (newInSequence < m_nInSequece)
+	else if (newInSequence < m_nInSequence)
 	{
-		uint32_t distance = m_nInSequece - newInSequence;
+		uint32_t distance = m_nInSequence - newInSequence;
 		if (distance > 31) {
-			return;
+			return 0;
 		}
 
 		uint32_t ackBit = 1 << distance;
 		if ((m_nInAckBits & ackBit) != 0) {
-			return;
+			return 0;
 		}
 
 		m_nInAckBits |= ackBit;
 	}
 	else {
-		return;
+		return 0;
 	}
 
 	if (newOutAck <= m_nOutAck) {
-		return;
+		return newInSequence;
 	}
 
 	uint32_t latestLostSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
@@ -153,42 +203,7 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 		}
 	}
 
-	unsigned short protocolID;
-	_rkInStream.Read (protocolID);
-
-	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
-	if (protocol != nullptr)
-	{
-		protocol->SetNetBridge (m_pkNetBridge);
-		protocol->Deserialize (_rkInStream);
-		protocol->Excute ();
-	}
-}
-
-void CUdpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
-{
-	if (m_kOutPackets.IsExist (m_nOutSequece)) {
-		// TODO: need client send data to update ack
-		return;
-	}
-
-	SHeader header;
-	header.m_nSequence = m_nOutSequece;
-	header.m_nAck = m_nInSequece;
-	header.m_nAckBits = m_nInAckBits;
-
-	SOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequece);
-	// TODO: reliable packet
-
-	CBitOutStream outStream;
-	outStream.Write (m_pkNetBridge->GetID ());
-	outStream.Write (m_pkNetBridge->GetKey ());
-	outStream.Write (header);
-	_pkProtocol->OnSerialize (outStream);
-	m_pkUdpSession->Send (outStream);
-
-	// NOTE: in an extreme case sequence may overflow
-	m_nOutSequece++;
+	return newInSequence;
 }
 
 void CUdpConnection::OnPacketAcked (uint32_t _nSequence, SOutPacket* _pkOutPacket)

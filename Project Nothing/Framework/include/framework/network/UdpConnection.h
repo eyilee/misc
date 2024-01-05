@@ -41,25 +41,29 @@ public:
 	CUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CUdpSession> _pkUdpSession);
 	virtual ~CUdpConnection ();
 
+	inline udp::endpoint GetLocalEndpoint () const { return m_kLocalEndPoint; }
+
 	void Init ();
 	void Shutdown ();
+	void OnDisconnect ();
 
 	void ResolveInput (CBitInStream& _rkInStream);
 	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:
+	uint32_t ResolveHeader (CBitInStream& _rkInStream);
 	void OnPacketAcked (uint32_t _nSequence, SOutPacket* _pkOutPacket);
 
 private:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 	std::shared_ptr<CUdpSession> m_pkUdpSession;
-	udp::endpoint m_kEndPoint;
+	udp::endpoint m_kLocalEndPoint;
 
-	uint32_t m_nInSequece;
+	uint32_t m_nInSequence;
 	uint32_t m_nInAckBits;
 	SequenceBuffer<SInPacket, SEQUENCE_BUFFER_SIZE> m_kInPackets;
 
-	uint32_t m_nOutSequece;
+	uint32_t m_nOutSequence;
 	uint32_t m_nOutAck;
 	uint32_t m_nOutAckBits;
 	SequenceBuffer<SOutPacket, SEQUENCE_BUFFER_SIZE> m_kOutPackets;

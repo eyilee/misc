@@ -31,7 +31,9 @@ void CUdpSession::Init (std::shared_ptr<CUdpConnection> _pkUdpConnection)
 
 void CUdpSession::Shutdown ()
 {
-	if (!m_kSocket.is_open ()) {
+	if (!m_kSocket.is_open ())
+	{
+		m_pkUdpConnection = nullptr;
 		return;
 	}
 
@@ -44,6 +46,9 @@ void CUdpSession::Shutdown ()
 
 			m_kSocket.shutdown (udp::socket::shutdown_type::shutdown_both);
 			m_kSocket.close ();
+
+			m_pkUdpConnection->OnDisconnect ();
+			m_pkUdpConnection = nullptr;
 		});
 }
 

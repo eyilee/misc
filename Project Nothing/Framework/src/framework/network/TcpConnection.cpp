@@ -8,7 +8,7 @@
 CTcpConnection::CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession)
 	: m_pkNetBridge (_pkNetBridge)
 	, m_pkTcpSession (_pkTcpSession)
-	, m_kEndPoint (_pkTcpSession->GetEndpoint ())
+	, m_kRemoteEndPoint (_pkTcpSession->GetRemoteEndpoint ())
 {
 }
 
@@ -27,6 +27,11 @@ void CTcpConnection::Shutdown ()
 
 	m_pkTcpSession->Shutdown ();
 	m_pkTcpSession = nullptr;
+}
+
+void CTcpConnection::OnDisconnect ()
+{
+	m_pkNetBridge->OnDisconnect ();
 }
 
 void CTcpConnection::ResolveInput (CBitInStream& _rkInStream)

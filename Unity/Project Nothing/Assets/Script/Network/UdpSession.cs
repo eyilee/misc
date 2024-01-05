@@ -31,18 +31,17 @@ namespace ProjectNothing
 
         public IPEndPoint GetIPEndPoint () { return m_UdpClient.Client.LocalEndPoint as IPEndPoint; }
 
-        public IEnumerator Init (UdpConnection connection, IPAddress ipAddress, int port)
+        public void Init (UdpConnection connection, IPAddress ipAddress, ushort port)
         {
             m_Connection = connection;
             m_RemoteIPEndPoint = new IPEndPoint (ipAddress, port);
 
             AsyncReceive ();
-
-            yield break;
         }
 
         public void Shutdown ()
         {
+            m_UdpClient.Close ();
         }
 
         void AsyncReceive ()

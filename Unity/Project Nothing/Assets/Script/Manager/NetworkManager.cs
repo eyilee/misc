@@ -9,6 +9,7 @@ namespace ProjectNothing
         public static uint m_ID = 0;
         public static uint m_Key = 0;
 
+        static IPAddress m_IPAddress = null;
         static readonly TcpConnection m_TcpConnection = new ();
         static readonly UdpConnection m_UdpConnection = new ();
 
@@ -18,23 +19,48 @@ namespace ProjectNothing
 
         static bool m_IsInit = false;
 
+        public static ushort m_Sequence = 0;
         public static long m_Latency = 0;
 
         public static IPEndPoint GetUdpIPEndPoint () { return m_UdpConnection.GetIPEndPoint (); }
 
-        public static IEnumerator Init (string host, int tcpPort, int udpPort)
+        public static IEnumerator Init (string host, ushort port)
         {
-            if (!IPAddress.TryParse (host, out IPAddress ipAddress))
+            if (!IPAddress.TryParse (host, out m_IPAddress))
             {
                 yield break;
             }
 
-            yield return m_TcpConnection.Init (ipAddress, tcpPort);
-            yield return m_UdpConnection.Init (ipAddress, udpPort);
+            yield return m_TcpConnection.Init (m_IPAddress, port);
 
             m_StopWatch.Start ();
 
             m_IsInit = true;
+        }
+
+        public static void Shutdown ()
+        {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            m_TcpConnection.Shutdown ();
+            m_UdpConnection.Shutdown ();
+
+            m_StopWatch.Stop ();
+
+            m_IsInit = false;
+        }
+
+        public static void SetupUdpConnection (ushort port)
+        {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            m_UdpConnection.Init (m_IPAddress, port);
         }
 
         public static void Update ()
@@ -43,6 +69,9 @@ namespace ProjectNothing
             {
                 return;
             }
+
+            m_TcpConnection.Update ();
+            m_UdpConnection.Update ();
 
             long time = m_StopWatch.ElapsedMilliseconds;
             if (time >= m_NextEchoTime)
@@ -58,6 +87,7 @@ namespace ProjectNothing
         {
             if (sequence == m_LastSequence)
             {
+                m_Sequence = sequence;
                 long time = m_StopWatch.ElapsedMilliseconds;
                 m_Latency = (time - sendTime) / 2;
             }
@@ -65,11 +95,21 @@ namespace ProjectNothing
 
         public static void ComposeTcpOutput (INetProtocol protocol)
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             m_TcpConnection.ComposeOutput (protocol);
         }
 
         public static void ComposeUdpOutput (INetProtocol protocol)
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             m_UdpConnection.ComposeOutput (protocol);
         }
     }

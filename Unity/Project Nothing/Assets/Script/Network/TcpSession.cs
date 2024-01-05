@@ -50,7 +50,7 @@ namespace ProjectNothing
         readonly LinkedList<WriteCommand> m_WriteQueue = new ();
         readonly byte[] m_ReadBuffer = new byte[TCP_SOCKET_BUFFER_SIZE];
 
-        public IEnumerator Init (TcpConnection connection, IPAddress ipAddress, int port)
+        public IEnumerator Init (TcpConnection connection, IPAddress ipAddress, ushort port)
         {
             m_Connection = connection;
 
@@ -73,6 +73,7 @@ namespace ProjectNothing
 
         public void Shutdown ()
         {
+            m_TcpClient.Close ();
         }
 
         void AsyncRead ()

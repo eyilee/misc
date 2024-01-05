@@ -11,8 +11,7 @@
 
 CNetworkManager::CNetworkManager (boost::asio::io_context& _rkContext)
 	: m_rkContext (_rkContext)
-	, m_nTcpPort (0)
-	, m_nUdpPort (0)
+	, m_nPort (0)
 	, m_pkListener (nullptr)
 {
 }
@@ -21,14 +20,14 @@ CNetworkManager::~CNetworkManager ()
 {
 }
 
-void CNetworkManager::Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort)
+void CNetworkManager::Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, unsigned short _nPort)
 {
 	if (Instance != nullptr) {
 		return;
 	}
 
 	Instance = std::make_shared<CNetworkManager> (_rkContext);
-	Instance->Run (_rkHostAddr, _nTcpPort, _nUdpPort);
+	Instance->Run (_rkHostAddr, _nPort);
 }
 
 void CNetworkManager::Shutdown ()
@@ -50,9 +49,14 @@ void CNetworkManager::TcpAccept (tcp::socket& _rkSocket)
 	Instance->SetupTcpConnection (Instance->CreateNetBridge (), _rkSocket);
 }
 
-void CNetworkManager::UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, short _nUdpPort)
+void CNetworkManager::UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, unsigned short _nPort)
 {
 	if (Instance == nullptr) {
+		return;
+	}
+
+	std::shared_ptr<CUdpConnection> udpConnection = _pkNetBridge->GetUdpConnection ();
+	if (udpConnection != nullptr) {
 		return;
 	}
 
@@ -61,16 +65,24 @@ void CNetworkManager::UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, shor
 		return;
 	}
 
-	tcp::endpoint tcpEndPoint = tcpConnection->GetEndpoint ();
-	udp::endpoint udpEndPoint = udp::endpoint (tcpEndPoint.address (), _nUdpPort);
+	tcp::endpoint tcpEndPoint = tcpConnection->GetRemoteEndpoint ();
+	udp::endpoint udpEndPoint = udp::endpoint (tcpEndPoint.address (), _nPort);
 
-	udp::socket socket (Instance->m_rkContext, udp::endpoint (boost::asio::ip::address::from_string (Instance->m_kHostAddr.c_str ()), Instance->m_nUdpPort));
-	socket.async_connect (udpEndPoint, [](const boost::system::error_code& _rkErrorCode)
-		{
-			if (_rkErrorCode) {
-				LOG_ERROR (_rkErrorCode.message ());
-			}
-		});
+	udp::socket socket (Instance->m_rkContext, udp::endpoint (boost::asio::ip::address::from_string (Instance->m_kHostAddr.c_str ()), 0));
+
+	boost::system::error_code errorCode;
+	socket.connect (udpEndPoint, errorCode);
+
+	if (errorCode) {
+		LOG_ERROR (errorCode.message ());
+	}
+
+	//socket.async_connect (udpEndPoint, [](const boost::system::error_code& _rkErrorCode)
+	//	{
+	//		if (_rkErrorCode) {
+	//			LOG_ERROR (_rkErrorCode.message ());
+	//		}
+	//	});
 
 	Instance->SetupUdpConnection (_pkNetBridge, socket);
 }
@@ -89,13 +101,21 @@ std::shared_ptr<CNetBridge> CNetworkManager::GetNetBridge (uint32_t _nID)
 	return nullptr;
 }
 
-void CNetworkManager::Run (const std::string& _rkHostAddr, short _nTcpPort, short _nUdpPort)
+void CNetworkManager::RemoveNetBridge (uint32_t _nID)
+{
+	if (Instance == nullptr) {
+		return;
+	}
+
+	Instance->m_pkNetBridges.erase (_nID);
+}
+
+void CNetworkManager::Run (const std::string& _rkHostAddr, unsigned short _nPort)
 {
 	m_kHostAddr = _rkHostAddr;
-	m_nTcpPort = _nTcpPort;
-	m_nUdpPort = _nUdpPort;
+	m_nPort = _nPort;
 
-	m_pkListener = std::make_shared<CTcpListener> (m_rkContext, m_kHostAddr, m_nTcpPort);
+	m_pkListener = std::make_shared<CTcpListener> (m_rkContext, m_kHostAddr, _nPort);
 	m_pkListener->Init ();
 }
 

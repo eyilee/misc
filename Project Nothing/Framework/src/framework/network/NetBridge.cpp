@@ -41,6 +41,13 @@ void CNetBridge::Shutdown ()
 		m_pkEntity->SetNetBridge (nullptr);
 		m_pkEntity = nullptr;
 	}
+
+	CNetworkManager::RemoveNetBridge (GetID ());
+}
+
+void CNetBridge::OnDisconnect ()
+{
+	Shutdown ();
 }
 
 void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
@@ -54,7 +61,7 @@ void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) co
 
 void CNetBridge::ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
 {
-	if (m_pkUdpConnection != nullptr) {
+	if (m_pkUdpConnection == nullptr) {
 		return;
 	}
 

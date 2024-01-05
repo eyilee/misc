@@ -4,7 +4,7 @@
 #include "framework/manager/NetworkManager.h"
 #include "framework/network/TcpListener.h"
 
-CTcpListener::CTcpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, short _nPort)
+CTcpListener::CTcpListener (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, unsigned short _nPort)
 	: m_kAcceptor (_rkContext, tcp::endpoint (boost::asio::ip::address::from_string (_rkHostAddr.c_str ()), _nPort))
 	, m_bIsRunning (false)
 {

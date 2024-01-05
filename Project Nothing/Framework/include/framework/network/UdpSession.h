@@ -24,7 +24,7 @@ public:
 	CUdpSession (udp::socket& _rkSocket);
 	virtual ~CUdpSession ();
 
-	inline udp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
+	inline udp::endpoint GetLocalEndpoint () const { return m_kSocket.local_endpoint (); }
 
 	void Init (std::shared_ptr<CUdpConnection> _pkUdpConnection);
 	void Shutdown ();

@@ -11,7 +11,7 @@ namespace ProjectNothing
 
         bool m_IsInit = false;
 
-        public IEnumerator Init (IPAddress ipAddress, int port)
+        public IEnumerator Init (IPAddress ipAddress, ushort port)
         {
             yield return m_TcpSession.Init (this, ipAddress, port);
 
@@ -20,7 +20,14 @@ namespace ProjectNothing
 
         public void Shutdown ()
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             m_TcpSession.Shutdown ();
+
+            m_IsInit = false;
         }
 
         public void Update ()
@@ -30,16 +37,19 @@ namespace ProjectNothing
                 return;
             }
 
-            foreach (INetProtocol protocol in m_QueuedProtocols)
+            while (m_QueuedProtocols.TryDequeue (out INetProtocol protocol))
             {
                 protocol.Excute ();
             }
-
-            m_QueuedProtocols.Clear ();
         }
 
         public void ResolveInput (BitInStream inStream)
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             inStream.Read (out ushort protocolID);
 
             INetProtocol protocol = ProtocolManager.GenerateProtocol (protocolID);
@@ -52,6 +62,11 @@ namespace ProjectNothing
 
         public void ComposeOutput (INetProtocol protocol)
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             BitOutStream outStream = new ();
             protocol.OnSerialize (outStream);
             m_TcpSession.Write (outStream);

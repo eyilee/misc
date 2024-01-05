@@ -10,5 +10,5 @@ public:
 	virtual void Excute () override;
 
 private:
-	short m_nUdpPort;
+	unsigned short m_nPort;
 };

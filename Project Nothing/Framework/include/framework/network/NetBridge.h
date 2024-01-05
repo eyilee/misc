@@ -30,6 +30,7 @@ public:
 	inline void SetEntity (std::shared_ptr<IEntity> _pkEntity) { m_pkEntity = _pkEntity; }
 
 	void Shutdown ();
+	void OnDisconnect ();
 
 	void ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
 	void ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;

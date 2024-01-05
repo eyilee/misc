@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ping: 0 ms'
+  m_text: 'ping: 0 ms, sequence: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: caa63f1fd78341b479ed40377de0b423, type: 2}
   m_sharedMaterial: {fileID: -1136483688991353374, guid: caa63f1fd78341b479ed40377de0b423,
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 12, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "\u9023\u7DDA"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: caa63f1fd78341b479ed40377de0b423, type: 2}
   m_sharedMaterial: {fileID: -1136483688991353374, guid: caa63f1fd78341b479ed40377de0b423,
@@ -693,7 +693,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "\u95DC\u9589\u4F3A\u670D\u5668"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: caa63f1fd78341b479ed40377de0b423, type: 2}
   m_sharedMaterial: {fileID: -1136483688991353374, guid: caa63f1fd78341b479ed40377de0b423,
@@ -828,7 +828,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "\u5275\u5EFA\u904A\u6232"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: caa63f1fd78341b479ed40377de0b423, type: 2}
   m_sharedMaterial: {fileID: -1136483688991353374, guid: caa63f1fd78341b479ed40377de0b423,

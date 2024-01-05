@@ -37,7 +37,7 @@ public:
 	CTcpSession (tcp::socket& _rkSocket);
 	virtual ~CTcpSession ();
 
-	inline tcp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
+	inline tcp::endpoint GetRemoteEndpoint () const { return m_kSocket.remote_endpoint (); }
 
 	void Init (std::shared_ptr<CTcpConnection> _pkTcpConnection);
 	void Shutdown ();

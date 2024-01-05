@@ -1,7 +1,6 @@
 [server]
 hostaddr = 127.0.0.1
-tcpport = 8484
-udpport = 8485
+port = 8484
 
 [game]
 tickrate = 30

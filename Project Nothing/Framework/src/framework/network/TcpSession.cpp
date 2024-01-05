@@ -48,7 +48,9 @@ void CTcpSession::Init (std::shared_ptr<CTcpConnection> _pkTcpConnection)
 
 void CTcpSession::Shutdown ()
 {
-	if (m_kSocket.is_open ()) {
+	if (!m_kSocket.is_open ())
+	{
+		m_pkTcpConnection = nullptr;
 		return;
 	}
 
@@ -62,6 +64,7 @@ void CTcpSession::Shutdown ()
 			m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
 			m_kSocket.close ();
 
+			m_pkTcpConnection->OnDisconnect ();
 			m_pkTcpConnection = nullptr;
 		});
 }

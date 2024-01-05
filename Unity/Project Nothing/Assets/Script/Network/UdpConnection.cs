@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Net;
+using UnityEngine;
 
 namespace ProjectNothing
 {
@@ -10,9 +12,9 @@ namespace ProjectNothing
 
         struct Header : IBitSerializable
         {
-            uint m_Sequence;
-            uint m_Ack;
-            uint m_AckBits;
+            public uint m_Sequence;
+            public uint m_Ack;
+            public uint m_AckBits;
 
             public void Deserialize (BitInStream inStream)
             {
@@ -43,29 +45,36 @@ namespace ProjectNothing
         readonly UdpSession m_UdpSession = new ();
         readonly ConcurrentQueue<INetProtocol> m_QueuedProtocols = new ();
 
-        uint m_InSequence;
-        uint m_InAckBits;
-        SequenceBuffer<InPacket> m_InPackets = new SequenceBuffer<InPacket> (SEQUENCE_BUFFER_SIZE);
+        uint m_InSequence = 0;
+        uint m_InAckBits = 0;
+        SequenceBuffer<InPacket> m_InPackets = new (SEQUENCE_BUFFER_SIZE);
 
-        uint m_OutSequence;
-        uint m_OutAck;
-        uint m_OutAckBits;
-        SequenceBuffer<OutPacket> m_OutPackets = new SequenceBuffer<OutPacket> (SEQUENCE_BUFFER_SIZE);
+        uint m_OutSequence = 1;
+        uint m_OutAck = 0;
+        uint m_OutAckBits = 0;
+        SequenceBuffer<OutPacket> m_OutPackets = new (SEQUENCE_BUFFER_SIZE);
 
         bool m_IsInit = false;
 
         public IPEndPoint GetIPEndPoint () { return m_UdpSession.GetIPEndPoint (); }
 
-        public IEnumerator Init (IPAddress ipAddress, int port)
+        public void Init (IPAddress ipAddress, ushort port)
         {
-            yield return m_UdpSession.Init (this, ipAddress, port);
+            m_UdpSession.Init (this, ipAddress, port);
 
             m_IsInit = true;
         }
 
         public void Shutdown ()
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             m_UdpSession.Shutdown ();
+
+            m_IsInit = false;
         }
 
         public void Update ()
@@ -75,20 +84,29 @@ namespace ProjectNothing
                 return;
             }
 
-            foreach (INetProtocol protocol in m_QueuedProtocols)
+            while (m_QueuedProtocols.TryDequeue (out INetProtocol protocol))
             {
                 protocol.Excute ();
             }
-
-            m_QueuedProtocols.Clear ();
         }
 
         public void ResolveInput (BitInStream inStream)
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
             inStream.Read (out uint id);
             inStream.Read (out uint key);
 
             if (id != NetworkManager.m_ID || key != NetworkManager.m_Key)
+            {
+                return;
+            }
+
+            uint sequence = ResolveHeader (inStream);
+            if (sequence == 0)
             {
                 return;
             }
@@ -105,14 +123,135 @@ namespace ProjectNothing
 
         public void ComposeOutput (INetProtocol protocol)
         {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            if (m_OutPackets.IsExist (m_OutSequence))
+            {
+                // TODO: need client send data to update ack
+                return;
+            }
+
+            Header header = new ()
+            {
+                m_Sequence = m_OutSequence,
+                m_Ack = m_InSequence,
+                m_AckBits = m_InAckBits
+            };
+
+            OutPacket outPacket = m_OutPackets.Insert (m_OutSequence);
+            // TODO: reliable packet
+
             BitOutStream outStream = new ();
             outStream.Write (NetworkManager.m_ID);
             outStream.Write (NetworkManager.m_Key);
+            outStream.Write (ref header);
             protocol.OnSerialize (outStream);
             m_UdpSession.Send (outStream);
+
+            // NOTE: in an extreme case sequence may overflow
+            m_OutSequence++;
         }
 
-        void OnPacketAcked ()
+        uint ResolveHeader (BitInStream inStream)
+        {
+            Header header = new ();
+            inStream.Read (ref header);
+
+            uint newInSequence = header.m_Sequence;
+            uint newOutAck = header.m_Ack;
+            uint newOutAckBits = header.m_AckBits;
+
+            if (newInSequence > m_InSequence)
+            {
+                int distance = (int)(newInSequence - m_InSequence);
+                if (distance > 31)
+                {
+                    m_InAckBits = 1;
+                }
+                else
+                {
+                    m_InAckBits <<= distance;
+                    m_InAckBits |= 1;
+                }
+
+                m_InSequence = newInSequence;
+            }
+            else if (newInSequence < m_InSequence)
+            {
+                int distance = (int)(m_InSequence - newInSequence);
+                if (distance > 31)
+                {
+                    return 0;
+                }
+
+                uint ackBit = (uint)(1 << distance);
+                if ((m_InAckBits & ackBit) != 0)
+                {
+                    return 0;
+                }
+
+                m_InAckBits |= ackBit;
+            }
+            else
+            {
+                return 0;
+            }
+
+            if (newOutAck <= m_OutAck)
+            {
+                return newInSequence;
+            }
+
+            uint latestLostSequence = m_OutAck >= 31 ? m_OutAck - 31 : 0;
+            uint oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
+            for (uint sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
+            {
+                int distance = (int)(m_OutAck >= sequence ? m_OutAck - sequence : 0);
+                uint ackBit = ((uint)(1 << distance));
+                bool hasAcked = (m_OutAckBits & ackBit) != 0;
+
+                if (m_OutPackets.IsExist (sequence) && !hasAcked)
+                {
+                    OutPacket packet = m_OutPackets.TryGet (sequence);
+                    if (packet != null)
+                    {
+                        OnPacketAcked (sequence, packet);
+                    }
+
+                    m_OutPackets.Remove (sequence);
+                }
+            }
+
+            m_OutAck = newOutAck;
+            m_OutAckBits = newOutAckBits;
+
+            uint latestSequence = m_OutAck;
+            uint oldestSequence = m_OutAck >= 31 ? m_OutAck - 31 : 0;
+            for (uint sequence = oldestSequence; sequence <= latestSequence; sequence++)
+            {
+                int distance = (int)(m_OutAck - sequence);
+                uint ackBit = (uint)(1 << distance);
+                bool hasAcked = (m_OutAckBits & ackBit) != 0;
+
+                if (m_OutPackets.IsExist (sequence) && !hasAcked)
+                {
+                    OutPacket packet = m_OutPackets.TryGet (sequence);
+                    if (packet != null)
+                    {
+                        OnPacketAcked (sequence, packet);
+                    }
+
+                    m_OutPackets.Remove (sequence);
+                }
+            }
+
+            return newInSequence;
+        }
+
+        void OnPacketAcked (uint sequence, OutPacket outPacket)
         {
 
         }

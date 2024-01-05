@@ -105,7 +105,6 @@ void CServer::InitProtocolManager ()
 void CServer::InitNetworkManager ()
 {
 	std::string hostaddr = CConfigLoader::GetConfig<std::string> ("server.hostaddr");
-	short tcpport = CConfigLoader::GetConfig<short> ("server.tcpport");
-	short udpport = CConfigLoader::GetConfig<short> ("server.udpport");
-	CNetworkManager::Init (m_kContext, hostaddr, tcpport, udpport);
+	unsigned short port = CConfigLoader::GetConfig<unsigned short> ("server.port");
+	CNetworkManager::Init (m_kContext, hostaddr, port);
 }

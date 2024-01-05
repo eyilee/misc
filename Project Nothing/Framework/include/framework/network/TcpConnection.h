@@ -13,10 +13,11 @@ public:
 	CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession);
 	virtual ~CTcpConnection ();
 
-	inline tcp::endpoint GetEndpoint () const { return m_kEndPoint; }
+	inline tcp::endpoint GetRemoteEndpoint () const { return m_kRemoteEndPoint; }
 
 	void Init ();
 	void Shutdown ();
+	void OnDisconnect ();
 
 	void ResolveInput (CBitInStream& _rkInStream);
 	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);
@@ -24,5 +25,5 @@ public:
 private:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 	std::shared_ptr<CTcpSession> m_pkTcpSession;
-	tcp::endpoint m_kEndPoint;
+	tcp::endpoint m_kRemoteEndPoint;
 };

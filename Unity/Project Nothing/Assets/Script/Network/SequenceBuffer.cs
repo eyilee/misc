@@ -1,4 +1,6 @@
-﻿namespace ProjectNothing
+﻿using System;
+
+namespace ProjectNothing
 {
     public sealed class SequenceBuffer<TPacketInfo> where TPacketInfo : class
     {
@@ -11,6 +13,8 @@
             m_Size = bufferSize;
             m_Indexes = new uint[bufferSize];
             m_PacketInfos = new TPacketInfo[bufferSize];
+
+            Clear ();
         }
 
         public uint GetSize () { return m_Size; }
@@ -29,6 +33,11 @@
             {
                 m_Indexes[index] = m_Size;
             }
+        }
+
+        public void Clear ()
+        {
+            Array.Fill (m_Indexes, m_Size);
         }
 
         public TPacketInfo TryGet (uint sequence)
