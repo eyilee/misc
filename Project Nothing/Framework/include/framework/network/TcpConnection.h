@@ -18,7 +18,7 @@ public:
 	inline tcp::endpoint GetEndpoint () const { return m_kEndPoint; }
 
 	void ResolveInput (CBitInStream& _rkInStream);
-	void ComposeOutput (CBitOutStream& _rkOutStream);
+	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;

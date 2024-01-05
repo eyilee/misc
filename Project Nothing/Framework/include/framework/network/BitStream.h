@@ -82,7 +82,7 @@ public:
 	void Write (T _nValue);
 
 	template<typename T> requires std::is_base_of_v<ISerializable, T>
-	void Write (const T& _rkValue);
+	void Write (T& _rkValue);
 
 	void Write (const std::string& _rkValue);
 	void Write (const std::wstring& _rkValue);
@@ -129,7 +129,7 @@ inline void CBitOutStream::Write (T _nValue)
 }
 
 template<typename T> requires std::is_base_of_v<ISerializable, T>
-inline void CBitOutStream::Write (const T& _rkValue)
+inline void CBitOutStream::Write (T& _rkValue)
 {
 	_rkValue.Serialize (*this);
 }

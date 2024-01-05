@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "framework/network/NetBridge.h"
+#include "framework/network/NetProtocol.h"
 #include "framework/network/TcpSession.h"
 #include "framework/manager/ProtocolManager.h"
 #include "framework/network/TcpConnection.h"
@@ -42,7 +43,9 @@ void CTcpConnection::ResolveInput (CBitInStream& _rkInStream)
 	}
 }
 
-void CTcpConnection::ComposeOutput (CBitOutStream& _rkOutStream)
+void CTcpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 {
-	m_pkTcpSession->Write (_rkOutStream);
+	CBitOutStream outStream;
+	_pkProtocol->OnSerialize (outStream);
+	m_pkTcpSession->Write (outStream);
 }

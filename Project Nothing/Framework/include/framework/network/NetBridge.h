@@ -31,7 +31,6 @@ public:
 
 	void Shutdown ();
 
-	void ResolveUdpInput (uint32_t _nIP, uint32_t _nKey, CBitInStream& _rkInStream);
 	void ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
 	void ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
 

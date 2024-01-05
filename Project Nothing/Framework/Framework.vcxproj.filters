@@ -120,6 +120,9 @@
     <ClInclude Include="include\framework\network\UdpConnection.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
+    <ClInclude Include="include\framework\network\SequenceBuffer.h">
+      <Filter>include\framework\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
@@ -206,6 +209,9 @@
       <Filter>src\framework\network</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\UdpConnection.cpp">
+      <Filter>src\framework\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\SequenceBuffer.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
   </ItemGroup>

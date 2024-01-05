@@ -56,7 +56,23 @@ void CNetworkManager::UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, shor
 		return;
 	}
 
-	Instance->SetupUdpConnection (_pkNetBridge, _nUdpPort);
+	std::shared_ptr<CTcpConnection> tcpConnection = _pkNetBridge->GetTcpConnection ();
+	if (tcpConnection == nullptr) {
+		return;
+	}
+
+	tcp::endpoint tcpEndPoint = tcpConnection->GetEndpoint ();
+	udp::endpoint udpEndPoint = udp::endpoint (tcpEndPoint.address (), _nUdpPort);
+
+	udp::socket socket (Instance->m_rkContext, udp::endpoint (boost::asio::ip::address::from_string (Instance->m_kHostAddr.c_str ()), Instance->m_nUdpPort));
+	socket.async_connect (udpEndPoint, [](const boost::system::error_code& _rkErrorCode)
+		{
+			if (_rkErrorCode) {
+				LOG_ERROR (_rkErrorCode.message ());
+			}
+		});
+
+	Instance->SetupUdpConnection (_pkNetBridge, socket);
 }
 
 std::shared_ptr<CNetBridge> CNetworkManager::GetNetBridge (uint32_t _nID)
@@ -112,25 +128,9 @@ void CNetworkManager::SetupTcpConnection (std::shared_ptr<CNetBridge> _pkNetBrid
 	_pkNetBridge->SetTcpConnection (connection);
 }
 
-void CNetworkManager::SetupUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, short _nUdpPort)
+void CNetworkManager::SetupUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, udp::socket& _rkSocket)
 {
-	std::shared_ptr<CTcpConnection> tcpConnection = _pkNetBridge->GetTcpConnection ();
-	if (tcpConnection == nullptr) {
-		return;
-	}
-
-	tcp::endpoint tcpEndPoint = tcpConnection->GetEndpoint ();
-	udp::endpoint udpEndPoint = udp::endpoint (tcpEndPoint.address (), _nUdpPort);
-
-	udp::socket socket (m_rkContext, udp::endpoint (boost::asio::ip::address::from_string (m_kHostAddr.c_str ()), m_nUdpPort));
-	socket.async_connect (udpEndPoint, [](const boost::system::error_code& _rkErrorCode)
-		{
-			if (_rkErrorCode) {
-				LOG_ERROR (_rkErrorCode.message ());
-			}
-		});
-
-	std::shared_ptr<CUdpConnection> connection = std::make_shared<CUdpConnection> (_pkNetBridge, std::make_shared<CUdpSession> (socket));
+	std::shared_ptr<CUdpConnection> connection = std::make_shared<CUdpConnection> (_pkNetBridge, std::make_shared<CUdpSession> (_rkSocket));
 	connection->Init ();
 	_pkNetBridge->SetUdpConnection (connection);
 }

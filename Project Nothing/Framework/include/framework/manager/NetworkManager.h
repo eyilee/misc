@@ -2,10 +2,10 @@
 #include "framework/manager/BaseManager.h"
 
 using boost::asio::ip::tcp;
+using boost::asio::ip::udp;
 
 class CNetBridge;
 class CTcpListener;
-class CUdpSession;
 
 class CNetworkManager : public CBaseManager<CNetworkManager>
 {
@@ -28,7 +28,7 @@ private:
 	std::shared_ptr<CNetBridge> CreateNetBridge ();
 
 	void SetupTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, tcp::socket& _rkSocket);
-	void SetupUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, short _nUdpPort);
+	void SetupUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, udp::socket& _rkSocket);
 
 private:
 	boost::asio::io_context& m_rkContext;

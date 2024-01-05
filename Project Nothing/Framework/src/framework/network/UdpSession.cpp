@@ -3,6 +3,7 @@
 #include "framework/network/Entity.h"
 #include "framework/network/NetBridge.h"
 #include "framework/network/NetProtocol.h"
+#include "framework/network/UdpConnection.h"
 #include "framework/manager/NetWorkManager.h"
 #include "framework/network/UdpSession.h"
 
@@ -67,19 +68,7 @@ void CUdpSession::AsyncReceive ()
 void CUdpSession::OnReceive (size_t _nLength)
 {
 	CBitInStream inStream (&m_kReceiveBuffer[0], _nLength);
-	//m_pkUdpConnection->ResolveInput (inStream);
-
-	//uint32_t id;
-	//uint32_t key;
-	//inStream.Read (id);
-	//inStream.Read (key);
-
-	//std::shared_ptr<CNetBridge> netBridge = CNetworkManager::GetNetBridge (id);
-	//if (netBridge == nullptr) {
-	//	return;
-	//}
-
-	//netBridge->ResolveUdpInput (0, key, inStream);
+	m_pkUdpConnection->ResolveInput (inStream);
 }
 
 void CUdpSession::AsyncSend ()

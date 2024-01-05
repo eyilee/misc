@@ -43,24 +43,13 @@ void CNetBridge::Shutdown ()
 	}
 }
 
-void CNetBridge::ResolveUdpInput (uint32_t _nIP, uint32_t _nKey, CBitInStream& _rkInStream)
-{
-	if (m_pkUdpConnection == nullptr) {
-		return;
-	}
-
-	m_pkUdpConnection->ResolveInput (_rkInStream);
-}
-
 void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
 {
 	if (m_pkTcpConnection == nullptr) {
 		return;
 	}
 
-	CBitOutStream outStream;
-	_pkProtocol->OnSerialize (outStream);
-	m_pkTcpConnection->ComposeOutput (outStream);
+	m_pkTcpConnection->ComposeOutput (_pkProtocol);
 }
 
 void CNetBridge::ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
@@ -69,8 +58,5 @@ void CNetBridge::ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) co
 		return;
 	}
 
-	CBitOutStream outStream;
-	outStream.Write (m_nKey);
-	_pkProtocol->OnSerialize (outStream);
-	m_pkUdpConnection->ComposeOutput (outStream);
+	m_pkUdpConnection->ComposeOutput (_pkProtocol);
 }

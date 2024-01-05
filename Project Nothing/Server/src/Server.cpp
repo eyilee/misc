@@ -89,17 +89,17 @@ void CServer::InitProtocolManager ()
 {
 	CProtocolManager::Init ();
 
-	CProtocolManager::RegisterNetEvent<NE_ServerLogin> (1, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetEvent<NE_ServerUdpConnect> (2, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetCommand<NC_ClientLoginResult> (51, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetCommand<NC_ClientUdpConnectResult> (52, EProtocolType::Udp);
+	CProtocolManager::RegisterNetEvent<NE_ServerLogin> (1);
+	CProtocolManager::RegisterNetEvent<NE_ServerUdpConnect> (2);
+	CProtocolManager::RegisterNetCommand<NC_ClientLoginResult> (51);
+	CProtocolManager::RegisterNetCommand<NC_ClientUdpConnectResult> (52);
 
-	CProtocolManager::RegisterNetEvent<NE_ServerEcho> (100, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200, EProtocolType::Tcp);
-	CProtocolManager::RegisterNetCommand<NC_ClientCreateGameResult> (201, EProtocolType::Tcp);
+	CProtocolManager::RegisterNetEvent<NE_ServerEcho> (100);
+	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101);
+	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
+	CProtocolManager::RegisterNetCommand<NC_ClientCreateGameResult> (201);
 
-	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000, EProtocolType::Tcp);
+	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);
 }
 
 void CServer::InitNetworkManager ()
