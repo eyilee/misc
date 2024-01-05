@@ -42,44 +42,41 @@ namespace ProjectNothing
             }
         }
 
-        private readonly TcpClient m_TcpClient = new ();
-        private NetworkStream m_NetworkStream;
+        TcpConnection m_Connection = null;
+        readonly TcpClient m_TcpClient = new ();
+        NetworkStream m_NetworkStream = null;
 
-        private readonly LinkedList<ReadCommand> m_ReadQueue = new ();
-        private readonly LinkedList<WriteCommand> m_WriteQueue = new ();
-        private readonly byte[] m_ReadBuffer = new byte[TCP_SOCKET_BUFFER_SIZE];
+        readonly LinkedList<ReadCommand> m_ReadQueue = new ();
+        readonly LinkedList<WriteCommand> m_WriteQueue = new ();
+        readonly byte[] m_ReadBuffer = new byte[TCP_SOCKET_BUFFER_SIZE];
 
-        public bool Connected { get { return m_TcpClient != null && m_TcpClient.Connected; } }
-
-        public IEnumerator Init (IPAddress ipAddress, int port)
+        public IEnumerator Init (TcpConnection connection, IPAddress ipAddress, int port)
         {
+            m_Connection = connection;
+
             m_TcpClient.NoDelay = false;
             m_TcpClient.BeginConnect (ipAddress, port, (IAsyncResult asyncResult) =>
             {
                 if (!m_TcpClient.Connected)
                 {
-                    Debug.Log ("Server connect failed.");
                     return;
                 }
 
                 m_TcpClient.EndConnect (asyncResult);
                 m_NetworkStream = m_TcpClient.GetStream ();
 
-                Debug.Log ("Server connected.");
-
                 AsyncRead ();
             }, null);
 
-            yield return new WaitUntil (() => Connected);
+            yield return new WaitUntil (() => m_TcpClient.Connected);
         }
 
-        private void AsyncRead ()
+        public void Shutdown ()
         {
-            if (!m_TcpClient.Connected)
-            {
-                return;
-            }
+        }
 
+        void AsyncRead ()
+        {
             m_NetworkStream.BeginRead (m_ReadBuffer, 0, m_ReadBuffer.Length, (IAsyncResult asyncResult) =>
             {
                 int length = m_NetworkStream.EndRead (asyncResult);
@@ -88,7 +85,7 @@ namespace ProjectNothing
             }, null);
         }
 
-        private void OnRead (int length)
+        void OnRead (int length)
         {
             int offset = 0;
             int tail = length;
@@ -162,19 +159,14 @@ namespace ProjectNothing
                 }
 
                 BitInStream inStream = new (command.m_Bytes);
-                NetworkManager.ResolveInput (inStream);
+                m_Connection.ResolveInput (inStream);
 
                 m_ReadQueue.RemoveFirst ();
             }
         }
 
-        private void AsyncWrite ()
+        void AsyncWrite ()
         {
-            if (!m_TcpClient.Connected)
-            {
-                return;
-            }
-
             if (m_WriteQueue.First == null)
             {
                 return;
@@ -192,7 +184,7 @@ namespace ProjectNothing
             }, null);
         }
 
-        public void OnWrite (BitOutStream outStream)
+        public void Write (BitOutStream outStream)
         {
             int size = outStream.GetSize ();
             if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE)

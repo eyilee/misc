@@ -1,6 +1,16 @@
 #pragma once
 
-struct ISerializable;
+class CBitInStream;
+class CBitOutStream;
+
+struct IBitSerializable
+{
+	IBitSerializable ();
+	virtual ~IBitSerializable ();
+
+	virtual void Serialize (CBitOutStream& _rkOutStream) = 0;
+	virtual void Deserialize (CBitInStream& _rkInStream) = 0;
+};
 
 class CBitInStream
 {
@@ -14,7 +24,7 @@ public:
 	template<typename T> requires std::is_arithmetic_v<T>
 	void Read (T& _rnValue);
 
-	template<typename T> requires std::is_base_of_v<ISerializable, T>
+	template<typename T> requires std::is_base_of_v<IBitSerializable, T>
 	void Read (T& _rkValue);
 
 	void Read (std::string& _rkValue);
@@ -60,7 +70,7 @@ inline void CBitInStream::Read (T& _rnValue)
 	}
 }
 
-template<typename T> requires std::is_base_of_v<ISerializable, T>
+template<typename T> requires std::is_base_of_v<IBitSerializable, T>
 inline void CBitInStream::Read (T& _rkValue)
 {
 	_rkValue.Deserialize (*this);
@@ -81,7 +91,7 @@ public:
 	template<typename T> requires std::is_arithmetic_v<T>
 	void Write (T _nValue);
 
-	template<typename T> requires std::is_base_of_v<ISerializable, T>
+	template<typename T> requires std::is_base_of_v<IBitSerializable, T>
 	void Write (T& _rkValue);
 
 	void Write (const std::string& _rkValue);
@@ -128,7 +138,7 @@ inline void CBitOutStream::Write (T _nValue)
 	}
 }
 
-template<typename T> requires std::is_base_of_v<ISerializable, T>
+template<typename T> requires std::is_base_of_v<IBitSerializable, T>
 inline void CBitOutStream::Write (T& _rkValue)
 {
 	_rkValue.Serialize (*this);

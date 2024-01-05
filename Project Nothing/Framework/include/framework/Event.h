@@ -8,11 +8,11 @@ public:
 
 	virtual void Excute () = 0;
 
-	uint64_t GetTime () const { return m_nTime; }
-	void SetTime (uint64_t _nTime) { m_nTime = _nTime; }
+	inline uint64_t GetTime () const { return m_nTime; }
+	inline void SetTime (uint64_t _nTime) { m_nTime = _nTime; }
 
-	void Cancel () { m_bIsValid = false; }
-	bool IsValid () const { return m_bIsValid; }
+	inline void Cancel () { m_bIsValid = false; }
+	inline bool IsValid () const { return m_bIsValid; }
 
 protected:
 	uint64_t m_nTime;

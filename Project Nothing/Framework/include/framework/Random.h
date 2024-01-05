@@ -7,16 +7,16 @@ public:
 	virtual ~CRandom ();
 
 	template<typename T> requires std::is_integral<T>::value
-		static T GetValue ();
+	static T GetValue ();
 
 	template<typename T> requires std::is_floating_point<T>::value
-		static T GetValue ();
+	static T GetValue ();
 
 	template<typename T> requires std::is_integral<T>::value
-		static T GetValue (T _nMin, T _nMax);
+	static T GetValue (T _nMin, T _nMax);
 
 	template<typename T> requires std::is_floating_point<T>::value
-		static T GetValue (T _nMin, T _nMax);
+	static T GetValue (T _nMin, T _nMax);
 
 private:
 	static void Init ();

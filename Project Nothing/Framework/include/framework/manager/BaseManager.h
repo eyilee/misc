@@ -19,6 +19,9 @@ protected:
 };
 
 template<typename T>
+std::shared_ptr<T> CBaseManager<T>::Instance = nullptr;
+
+template<typename T>
 inline CBaseManager<T>::CBaseManager ()
 {
 }
@@ -27,6 +30,3 @@ template<typename T>
 inline CBaseManager<T>::~CBaseManager ()
 {
 }
-
-template<typename T>
-std::shared_ptr<T> CBaseManager<T>::Instance = nullptr;

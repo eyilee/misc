@@ -20,12 +20,8 @@ private:
 		size_t m_nByteOffset;
 		std::vector<uint8_t> m_kBytes;
 
-		SReadCommand ()
-			: m_nHeaderOffset (0)
-			, m_nByteOffset (0)
-		{
-			m_kHeader.resize (2);
-		}
+		SReadCommand ();
+		virtual ~SReadCommand ();
 	};
 
 	struct SWriteCommand
@@ -33,25 +29,18 @@ private:
 		size_t m_nByteOffset;
 		std::vector<uint8_t> m_kBytes;
 
-		SWriteCommand (CBitOutStream& _rkOutStream)
-			: m_nByteOffset (0)
-		{
-			const std::vector<uint8_t>& header = _rkOutStream.GetHeader ();
-			const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
-			m_kBytes.resize (header.size () + bytes.size ());
-			std::copy (header.begin (), header.end (), m_kBytes.begin ());
-			std::copy (bytes.begin (), bytes.end (), m_kBytes.begin () + header.size ());
-		}
+		SWriteCommand (CBitOutStream& _rkOutStream);
+		virtual ~SWriteCommand ();
 	};
 
 public:
 	CTcpSession (tcp::socket& _rkSocket);
 	virtual ~CTcpSession ();
 
+	inline tcp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
+
 	void Init (std::shared_ptr<CTcpConnection> _pkTcpConnection);
 	void Shutdown ();
-
-	inline tcp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
 
 private:
 	void AsyncRead ();

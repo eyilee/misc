@@ -1,11 +1,33 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
 #include "framework/network/BitConverter.h"
-#include "framework/network/Entity.h"
-#include "framework/network/NetBridge.h"
 #include "framework/network/TcpConnection.h"
-#include "framework/manager/EntityManager.h"
 #include "framework/network/TcpSession.h"
+
+CTcpSession::SReadCommand::SReadCommand ()
+	: m_nHeaderOffset (0)
+	, m_nByteOffset (0)
+{
+	m_kHeader.resize (2);
+}
+
+CTcpSession::SReadCommand::~SReadCommand ()
+{
+}
+
+CTcpSession::SWriteCommand::SWriteCommand (CBitOutStream& _rkOutStream)
+	: m_nByteOffset (0)
+{
+	const std::vector<uint8_t>& header = _rkOutStream.GetHeader ();
+	const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
+	m_kBytes.resize (header.size () + bytes.size ());
+	std::copy (header.begin (), header.end (), m_kBytes.begin ());
+	std::copy (bytes.begin (), bytes.end (), m_kBytes.begin () + header.size ());
+}
+
+CTcpSession::SWriteCommand::~SWriteCommand ()
+{
+}
 
 CTcpSession::CTcpSession (tcp::socket& _rkSocket)
 	: m_kSocket (std::move (_rkSocket))

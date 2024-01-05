@@ -4,6 +4,12 @@ using System.Net;
 
 namespace ProjectNothing
 {
+    public interface IBitSerializable
+    {
+        void Serialize (BitOutStream outStream);
+        void Deserialize (BitInStream inStream);
+    }
+
     public class BitInStream
     {
         private readonly byte[] m_Bytes;
@@ -226,6 +232,11 @@ namespace ProjectNothing
             outValue = new string (list.ToArray ());
         }
 
+        public void Read<T> (ref T refValue) where T : IBitSerializable
+        {
+            refValue.Deserialize (this);
+        }
+
         private void ReadByte (out byte outValue)
         {
             int byteOffset = m_BitOffset >> 3;
@@ -385,6 +396,11 @@ namespace ProjectNothing
             {
                 Write (value[i]);
             }
+        }
+
+        public void Write<T> (ref T refValue) where T : IBitSerializable
+        {
+            refValue.Serialize (this);
         }
 
         private void WriteByte (ref byte refValue)

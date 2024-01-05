@@ -23,18 +23,17 @@ namespace ProjectNothing
             }
         }
 
-        private UdpClient m_UdpClient = null;
-        private IPEndPoint m_LocalIPEndPoint = null;
-        private IPEndPoint m_RemoteIPEndPoint = null;
+        UdpConnection m_Connection = null;
+        readonly UdpClient m_UdpClient = new (0);
+        IPEndPoint m_RemoteIPEndPoint = null;
 
-        private readonly LinkedList<SendCommand> m_SendQueue = new ();
+        readonly LinkedList<SendCommand> m_SendQueue = new ();
 
-        public IPEndPoint GetIPEndPoint () { return  m_LocalIPEndPoint; }
+        public IPEndPoint GetIPEndPoint () { return m_UdpClient.Client.LocalEndPoint as IPEndPoint; }
 
-        public IEnumerator Init (IPAddress ipAddress, int port)
+        public IEnumerator Init (UdpConnection connection, IPAddress ipAddress, int port)
         {
-            m_UdpClient = new UdpClient (0);
-            m_LocalIPEndPoint = m_UdpClient.Client.LocalEndPoint as IPEndPoint;
+            m_Connection = connection;
             m_RemoteIPEndPoint = new IPEndPoint (ipAddress, port);
 
             AsyncReceive ();
@@ -42,7 +41,11 @@ namespace ProjectNothing
             yield break;
         }
 
-        private void AsyncReceive ()
+        public void Shutdown ()
+        {
+        }
+
+        void AsyncReceive ()
         {
             m_UdpClient.BeginReceive ((IAsyncResult asyncResult) =>
             {
@@ -52,18 +55,13 @@ namespace ProjectNothing
             }, null);
         }
 
-        private void OnReceive (byte[] bytes)
+        void OnReceive (byte[] bytes)
         {
             BitInStream inStream = new (bytes);
-            inStream.Read (out uint key);
-
-            if (NetworkManager.m_Key == key)
-            {
-                NetworkManager.ResolveInput (inStream);
-            }
+            m_Connection.ResolveInput (inStream);
         }
 
-        private void AsyncSend ()
+        void AsyncSend ()
         {
             if (m_SendQueue.First == null)
             {
@@ -82,7 +80,7 @@ namespace ProjectNothing
             }, null);
         }
 
-        public void OnSend (BitOutStream outStream)
+        public void Send (BitOutStream outStream)
         {
             int size = outStream.GetSize ();
             if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE)

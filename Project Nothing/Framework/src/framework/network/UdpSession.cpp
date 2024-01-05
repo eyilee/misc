@@ -1,11 +1,16 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
-#include "framework/network/Entity.h"
-#include "framework/network/NetBridge.h"
-#include "framework/network/NetProtocol.h"
 #include "framework/network/UdpConnection.h"
-#include "framework/manager/NetWorkManager.h"
 #include "framework/network/UdpSession.h"
+
+CUdpSession::SSendCommand::SSendCommand (const std::vector<uint8_t>& _rkBytes)
+	: m_kBytes (_rkBytes)
+{
+}
+
+CUdpSession::SSendCommand::~SSendCommand ()
+{
+}
 
 CUdpSession::CUdpSession (udp::socket& _rkSocket)
 	: m_kSocket (std::move (_rkSocket))

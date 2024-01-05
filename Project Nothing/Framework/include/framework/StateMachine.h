@@ -5,17 +5,8 @@ class CStateMachine
 {
 	struct SState
 	{
-		SState (TState _nState, std::function<void ()>&& _rfnEnter, std::function<void ()>&& _rfnUpdate, std::function<void ()>&& _rfnLeave)
-			: m_nState (_nState)
-			, m_fnEnter (std::move (_rfnEnter))
-			, m_fnUpdate (std::move (_rfnUpdate))
-			, m_fnLeave (std::move (_rfnLeave))
-		{
-		}
-
-		virtual ~SState ()
-		{
-		}
+		SState (TState _nState, std::function<void ()>&& _rfnEnter, std::function<void ()>&& _rfnUpdate, std::function<void ()>&& _rfnLeave);
+		virtual ~SState ();
 
 		TState m_nState;
 		std::function<void ()> m_fnEnter;
@@ -36,6 +27,20 @@ private:
 	std::shared_ptr<SState> m_pkCurrentState;
 	std::map<TState, std::shared_ptr<SState>> m_kStateMap;
 };
+
+template<typename TState> requires std::is_enum_v<TState>
+inline CStateMachine<TState>::SState::SState (TState _nState, std::function<void ()>&& _rfnEnter, std::function<void ()>&& _rfnUpdate, std::function<void ()>&& _rfnLeave)
+	: m_nState (_nState)
+	, m_fnEnter (std::move (_rfnEnter))
+	, m_fnUpdate (std::move (_rfnUpdate))
+	, m_fnLeave (std::move (_rfnLeave))
+{
+}
+
+template<typename TState> requires std::is_enum_v<TState>
+inline CStateMachine<TState>::SState::~SState ()
+{
+}
 
 template<typename TState> requires std::is_enum_v<TState>
 inline CStateMachine<TState>::CStateMachine ()

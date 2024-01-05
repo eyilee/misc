@@ -3,6 +3,7 @@
 
 using boost::asio::ip::tcp;
 
+class INetProtocol;
 class CNetBridge;
 class CTcpSession;
 
@@ -12,10 +13,10 @@ public:
 	CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession);
 	virtual ~CTcpConnection ();
 
+	inline tcp::endpoint GetEndpoint () const { return m_kEndPoint; }
+
 	void Init ();
 	void Shutdown ();
-
-	inline tcp::endpoint GetEndpoint () const { return m_kEndPoint; }
 
 	void ResolveInput (CBitInStream& _rkInStream);
 	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);

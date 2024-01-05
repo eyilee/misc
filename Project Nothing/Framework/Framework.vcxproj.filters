@@ -81,9 +81,6 @@
     <ClInclude Include="include\framework\network\BitStream.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\Serializable.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
     <ClInclude Include="include\framework\network\UdpSession.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
@@ -173,9 +170,6 @@
       <Filter>src\framework\manager</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\BitStream.cpp">
-      <Filter>src\framework\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\network\Serializable.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\UdpSession.cpp">

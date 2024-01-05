@@ -3,7 +3,8 @@
 #include "framework/network/Entity.h"
 
 IEntity::IEntity ()
-	: m_pkNetBridge (nullptr)
+	: m_nID (0)
+	, m_pkNetBridge (nullptr)
 {
 }
 

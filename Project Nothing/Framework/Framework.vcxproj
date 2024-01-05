@@ -68,7 +68,6 @@
     <ClInclude Include="include\framework\network\NetProtocolGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="include\framework\network\Serializable.h" />
     <ClInclude Include="include\framework\network\TcpClient.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -94,7 +93,6 @@
     <ClCompile Include="src\framework\network\NetBridge.cpp" />
     <ClCompile Include="src\framework\network\NetProtocol.cpp" />
     <ClCompile Include="src\framework\network\NetProtocolGenerator.cpp" />
-    <ClCompile Include="src\framework\network\Serializable.cpp" />
     <ClCompile Include="src\framework\network\TcpClient.cpp" />
     <ClCompile Include="src\framework\network\TcpListener.cpp" />
     <ClCompile Include="src\framework\network\TcpSession.cpp" />

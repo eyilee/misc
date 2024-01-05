@@ -16,20 +16,18 @@ private:
 	{
 		std::vector<uint8_t> m_kBytes;
 
-		SSendCommand (const std::vector<uint8_t>& _rkBytes)
-			: m_kBytes (_rkBytes)
-		{
-		}
+		SSendCommand (const std::vector<uint8_t>& _rkBytes);
+		virtual ~SSendCommand ();
 	};
 
 public:
 	CUdpSession (udp::socket& _rkSocket);
 	virtual ~CUdpSession ();
 
+	inline udp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
+
 	void Init (std::shared_ptr<CUdpConnection> _pkUdpConnection);
 	void Shutdown ();
-
-	inline udp::endpoint GetEndpoint () const { return m_kSocket.remote_endpoint (); }
 
 private:
 	void AsyncReceive ();

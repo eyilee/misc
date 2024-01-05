@@ -1,63 +1,81 @@
 #pragma once
 
-template<typename TPacketInfo, uint16_t BUFFER_SIZE>
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
 class SequenceBuffer
 {
 public:
-	SequenceBuffer ()
-	{
-	}
+	SequenceBuffer ();
+	virtual ~SequenceBuffer ();
 
-	virtual ~SequenceBuffer ()
-	{
-	}
+	constexpr uint32_t GetSize () { return BUFFER_SIZE; }
 
-	constexpr uint16_t GetSize () { return BUFFER_SIZE; }
+	TPacketInfo& Insert (uint32_t _nSequence);
+	void Remove (uint32_t _nSequence);
 
-	TPacketInfo& Insert (uint16_t _nSequence)
-	{
-		uint16_t index = _nSequence % BUFFER_SIZE;
-		m_kIndexes[index] = _nSequence;
-		return m_kPacketInfos[index];
-	}
+	TPacketInfo* TryGet (uint32_t _nSequence);
+	TPacketInfo* TryGetByIndex (uint32_t _nIndex, uint32_t& _rnSequence);
 
-	void Remove (uint16_t _nSequence)
-	{
-		uint16_t index = _nSequence % BUFFER_SIZE;
-		if (m_kIndexes[index] = _nSequence) {
-			m_kIndexes[index] = BUFFER_SIZE;
-		}
-	}
-
-	TPacketInfo* TryGet (uint16_t _nSequence)
-	{
-		uint16_t index = _nSequence % BUFFER_SIZE;
-		if (m_kIndexes[index] == _nSequence) {
-			return &m_kPacketInfos[index];
-		}
-		else {
-			return nullptr;
-		}
-	}
-
-	TPacketInfo* TryGetByIndex (uint16_t _nIndex, uint16_t& _rnSequence)
-	{
-		if (m_kIndexes[_nIndex] != BUFFER_SIZE) {
-			_rnSequence = m_kIndexes[_nIndex];
-			return m_kPacketInfos[_nIndex];
-		}
-		else {
-			return nullptr;
-		}
-	}
-
-	bool IsExist (uint16_t _nSequence)
-	{
-		uint16_t index = _nSequence % BUFFER_SIZE;
-		return m_kIndexes[index] == _nSequence;
-	}
+	bool IsExist (uint32_t _nSequence);
 
 private:
-	uint16_t m_kIndexes[BUFFER_SIZE];
+	uint32_t m_kIndexes[BUFFER_SIZE];
 	TPacketInfo m_kPacketInfos[BUFFER_SIZE];
 };
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline SequenceBuffer<TPacketInfo, BUFFER_SIZE>::SequenceBuffer ()
+{
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline SequenceBuffer<TPacketInfo, BUFFER_SIZE>::~SequenceBuffer ()
+{
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline TPacketInfo& SequenceBuffer<TPacketInfo, BUFFER_SIZE>::Insert (uint32_t _nSequence)
+{
+	uint32_t index = _nSequence % BUFFER_SIZE;
+	m_kIndexes[index] = _nSequence;
+	return m_kPacketInfos[index];
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline void SequenceBuffer<TPacketInfo, BUFFER_SIZE>::Remove (uint32_t _nSequence)
+{
+	uint32_t index = _nSequence % BUFFER_SIZE;
+	if (m_kIndexes[index] == _nSequence) {
+		m_kIndexes[index] = BUFFER_SIZE;
+	}
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline TPacketInfo* SequenceBuffer<TPacketInfo, BUFFER_SIZE>::TryGet (uint32_t _nSequence)
+{
+	uint32_t index = _nSequence % BUFFER_SIZE;
+	if (m_kIndexes[index] == _nSequence) {
+		return &m_kPacketInfos[index];
+	}
+	else {
+		return nullptr;
+	}
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline TPacketInfo* SequenceBuffer<TPacketInfo, BUFFER_SIZE>::TryGetByIndex (uint32_t _nIndex, uint32_t& _rnSequence)
+{
+	if (m_kIndexes[_nIndex] != BUFFER_SIZE) {
+		_rnSequence = m_kIndexes[_nIndex];
+		return m_kPacketInfos[_nIndex];
+	}
+	else {
+		return nullptr;
+	}
+}
+
+template<typename TPacketInfo, uint32_t BUFFER_SIZE>
+inline bool SequenceBuffer<TPacketInfo, BUFFER_SIZE>::IsExist (uint32_t _nSequence)
+{
+	uint32_t index = _nSequence % BUFFER_SIZE;
+	return m_kIndexes[index] == _nSequence;
+}

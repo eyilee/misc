@@ -31,6 +31,11 @@ CUdpConnection::CUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::s
 	: m_pkNetBridge (_pkNetBridge)
 	, m_pkUdpSession (_pkUdpSession)
 	, m_kEndPoint (_pkUdpSession->GetEndpoint ())
+	, m_nInSequece (0)
+	, m_nInAckBits (0)
+	, m_nOutSequece (0)
+	, m_nOutAck (0)
+	, m_nOutAckBits (0)
 {
 }
 
@@ -65,13 +70,13 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 	SHeader header;
 	_rkInStream.Read (header);
 
-	uint16_t newInSequence = header.m_nSequence;
-	uint16_t newOutAck = header.m_nAck;
+	uint32_t newInSequence = header.m_nSequence;
+	uint32_t newOutAck = header.m_nAck;
 	uint32_t newOutAckBits = header.m_nAckBits;
 
 	if (newInSequence > m_nInSequece)
 	{
-		uint16_t distance = newInSequence - m_nInSequece;
+		uint32_t distance = newInSequence - m_nInSequece;
 		if (distance > 31) {
 			m_nInAckBits = 1;
 		}
@@ -85,7 +90,7 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 	}
 	else if (newInSequence < m_nInSequece)
 	{
-		uint16_t distance = m_nInSequece - newInSequence;
+		uint32_t distance = m_nInSequece - newInSequence;
 		if (distance > 31) {
 			return;
 		}
@@ -105,11 +110,11 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 		return;
 	}
 
-	uint16_t latestLostSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
-	uint16_t oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
-	for (uint16_t sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
+	uint32_t latestLostSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
+	uint32_t oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
+	for (uint32_t sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
 	{
-		uint16_t distance = m_nOutAck >= sequence ? m_nOutAck - sequence : 0;
+		uint32_t distance = m_nOutAck >= sequence ? m_nOutAck - sequence : 0;
 		uint32_t ackBit = 1 << distance;
 		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
 
@@ -128,11 +133,11 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 	m_nOutAck = newOutAck;
 	m_nOutAckBits = newOutAckBits;
 
-	uint16_t latestSequence = m_nOutAck;
-	uint16_t oldestSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
-	for (uint16_t sequence = oldestSequence; sequence <= latestSequence; sequence++)
+	uint32_t latestSequence = m_nOutAck;
+	uint32_t oldestSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
+	for (uint32_t sequence = oldestSequence; sequence <= latestSequence; sequence++)
 	{
-		uint16_t distance = m_nOutAck - sequence;
+		uint32_t distance = m_nOutAck - sequence;
 		uint32_t ackBit = 1 << distance;
 		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
 
@@ -182,10 +187,11 @@ void CUdpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 	_pkProtocol->OnSerialize (outStream);
 	m_pkUdpSession->Send (outStream);
 
+	// NOTE: in an extreme case sequence may overflow
 	m_nOutSequece++;
 }
 
-void CUdpConnection::OnPacketAcked (uint16_t _nSequence, SOutPacket* _pkOutPacket)
+void CUdpConnection::OnPacketAcked (uint32_t _nSequence, SOutPacket* _pkOutPacket)
 {
 	// TODO: on acked
 }
