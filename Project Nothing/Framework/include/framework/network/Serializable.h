@@ -3,9 +3,8 @@
 class CBitInStream;
 class CBitOutStream;
 
-class ISerializable
+struct ISerializable
 {
-public:
 	ISerializable ();
 	virtual ~ISerializable ();
 

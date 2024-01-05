@@ -5,22 +5,22 @@
 #include "framework/manager/ProtocolManager.h"
 #include "framework/network/UdpConnection.h"
 
-CUdpConnection::CHeader::CHeader ()
+CUdpConnection::SHeader::SHeader ()
 {
 }
 
-CUdpConnection::CHeader::~CHeader ()
+CUdpConnection::SHeader::~SHeader ()
 {
 }
 
-void CUdpConnection::CHeader::Serialize (CBitOutStream& _rkOutStream)
+void CUdpConnection::SHeader::Serialize (CBitOutStream& _rkOutStream)
 {
 	_rkOutStream.Write (m_nSequence);
 	_rkOutStream.Write (m_nAck);
 	_rkOutStream.Write (m_nAckBits);
 }
 
-void CUdpConnection::CHeader::Deserialize (CBitInStream& _rkInStream)
+void CUdpConnection::SHeader::Deserialize (CBitInStream& _rkInStream)
 {
 	_rkInStream.Read (m_nSequence);
 	_rkInStream.Read (m_nAck);
@@ -62,7 +62,7 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 		return;
 	}
 
-	CHeader header;
+	SHeader header;
 	_rkInStream.Read (header);
 
 	uint16_t newInSequence = header.m_nSequence;
@@ -167,7 +167,7 @@ void CUdpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 		return;
 	}
 
-	CHeader header;
+	SHeader header;
 	header.m_nSequence = m_nOutSequece;
 	header.m_nAck = m_nInSequece;
 	header.m_nAckBits = m_nInAckBits;

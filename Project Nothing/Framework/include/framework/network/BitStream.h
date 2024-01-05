@@ -1,6 +1,6 @@
 #pragma once
 
-class ISerializable;
+struct ISerializable;
 
 class CBitInStream
 {

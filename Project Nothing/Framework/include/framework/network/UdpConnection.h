@@ -13,16 +13,14 @@ constexpr uint16_t SEQUENCE_BUFFER_SIZE = 256;
 class CUdpConnection : public std::enable_shared_from_this<CUdpConnection>
 {
 private:
-	class CHeader : public ISerializable
+	struct SHeader : public ISerializable
 	{
-	public:
 		uint16_t m_nSequence;
 		uint16_t m_nAck;
 		uint32_t m_nAckBits;
 
-	public:
-		CHeader ();
-		virtual ~CHeader ();
+		SHeader ();
+		virtual ~SHeader ();
 
 		virtual void Serialize (CBitOutStream& _rkOutStream) override;
 		virtual void Deserialize (CBitInStream& _rkInStream) override;
