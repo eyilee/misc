@@ -6,6 +6,9 @@ namespace ProjectNothing
     public class GameManager : MonoSingleton<GameManager>
     {
         [SerializeField]
+        GameConfig m_Config;
+
+        [SerializeField]
         public GameObject m_PlayerPrefab;
 
         private Game m_Game = null;
@@ -23,7 +26,7 @@ namespace ProjectNothing
 
             ProtocolManager.Init ();
 
-            yield return NetworkManager.Init ("127.0.0.1", 8484);
+            yield return NetworkManager.Init (m_Config.Host, m_Config.Port);
 
             m_IsInit = true;
         }

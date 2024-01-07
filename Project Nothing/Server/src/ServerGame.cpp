@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "ServerGame.h"
 
-unsigned short CServerGame::TickRate = 30;
+unsigned short CServerGame::ServerTickRate = 20;
+unsigned short CServerGame::ClientTickRate = 60;
+uint64_t CServerGame::TickStep = 3;
+uint64_t CServerGame::TickDuration = 50;
 
 CServerGame::CServerGame ()
+	: Tick (0)
 {
 }
 

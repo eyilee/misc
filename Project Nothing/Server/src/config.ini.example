@@ -3,7 +3,8 @@ hostaddr = 127.0.0.1
 port = 8484
 
 [game]
-tickrate = 30
+server_tickrate = 20
+client_tickrate = 60
 
 [db]
 user = postgres

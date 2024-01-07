@@ -26,15 +26,21 @@ private:
 		virtual void Deserialize (CBitInStream& _rkInStream) override;
 	};
 
-	struct SInPacket
-	{
-		bool m_bAcked;
-	};
-
 	struct SOutPacket
 	{
 		bool m_bReliable;
-		std::vector<uint8_t> m_kBytes;
+		std::shared_ptr<INetProtocol> m_pkProtocol;
+
+		SOutPacket ()
+		{
+			Reset ();
+		}
+
+		void Reset ()
+		{
+			m_bReliable = false;
+			m_pkProtocol = nullptr;
+		}
 	};
 
 public:
@@ -61,8 +67,6 @@ private:
 
 	uint32_t m_nInSequence;
 	uint32_t m_nInAckBits;
-	SequenceBuffer<SInPacket, SEQUENCE_BUFFER_SIZE> m_kInPackets;
-
 	uint32_t m_nOutSequence;
 	uint32_t m_nOutAck;
 	uint32_t m_nOutAckBits;

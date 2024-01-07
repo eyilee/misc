@@ -6,6 +6,9 @@
 #include "framework/network/UdpConnection.h"
 
 CUdpConnection::SHeader::SHeader ()
+	: m_nSequence (0)
+	, m_nAck (0)
+	, m_nAckBits (0)
 {
 }
 
@@ -102,7 +105,8 @@ void CUdpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 	header.m_nAckBits = m_nInAckBits;
 
 	SOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequence);
-	// TODO: reliable packet
+	outPacket.m_bReliable = false;
+	outPacket.m_pkProtocol = _pkProtocol;
 
 	CBitOutStream outStream;
 	outStream.Write (m_pkNetBridge->GetID ());
@@ -208,5 +212,5 @@ uint32_t CUdpConnection::ResolveHeader (CBitInStream& _rkInStream)
 
 void CUdpConnection::OnPacketAcked (uint32_t _nSequence, SOutPacket* _pkOutPacket)
 {
-	// TODO: on acked
+	_pkOutPacket->Reset ();
 }

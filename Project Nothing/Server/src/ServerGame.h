@@ -27,8 +27,12 @@ private:
 	void LeaveActiveState ();
 
 public:
-	static unsigned short TickRate;
+	static unsigned short ServerTickRate;
+	static unsigned short ClientTickRate;
+	static uint64_t TickStep;
+	static uint64_t TickDuration;
 
 private:
+	uint64_t Tick;
 	CStateMachine<EGameState> m_kStateMachine;
 };

@@ -23,7 +23,7 @@ namespace ProjectNothing
                 inStream.Read (out m_AckBits);
             }
 
-            public void Serialize (BitOutStream outStream)
+            public readonly void Serialize (BitOutStream outStream)
             {
                 outStream.Write (m_Sequence);
                 outStream.Write (m_Ack);
@@ -31,15 +31,21 @@ namespace ProjectNothing
             }
         }
 
-        class InPacket
-        {
-            public bool m_Acked;
-        }
-
         class OutPacket
         {
             public bool m_Reliable;
-            public byte[] m_Bytes;
+            public INetProtocol m_Protocol;
+
+            public OutPacket ()
+            {
+                Reset ();
+            }
+
+            public void Reset ()
+            {
+                m_Reliable = false;
+                m_Protocol = null;
+            }
         }
 
         readonly UdpSession m_UdpSession = new ();
@@ -47,12 +53,10 @@ namespace ProjectNothing
 
         uint m_InSequence = 0;
         uint m_InAckBits = 0;
-        SequenceBuffer<InPacket> m_InPackets = new (SEQUENCE_BUFFER_SIZE);
-
         uint m_OutSequence = 1;
         uint m_OutAck = 0;
         uint m_OutAckBits = 0;
-        SequenceBuffer<OutPacket> m_OutPackets = new (SEQUENCE_BUFFER_SIZE);
+        readonly SequenceBuffer<OutPacket> m_OutPackets = new (SEQUENCE_BUFFER_SIZE);
 
         bool m_IsInit = false;
 
@@ -142,7 +146,8 @@ namespace ProjectNothing
             };
 
             OutPacket outPacket = m_OutPackets.Insert (m_OutSequence);
-            // TODO: reliable packet
+            outPacket.m_Reliable = false;
+            outPacket.m_Protocol = protocol;
 
             BitOutStream outStream = new ();
             outStream.Write (NetworkManager.m_ID);
@@ -253,7 +258,7 @@ namespace ProjectNothing
 
         void OnPacketAcked (uint sequence, OutPacket outPacket)
         {
-
+            outPacket.Reset ();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ProjectNothing
         {
             m_InputSystem.SampleInput (ref m_UserCommand);
 
-            Debug.Log ((uint)m_UserCommand.buttons.flags);
+            //Debug.Log ((uint)m_UserCommand.buttons.flags);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ProjectNothing
 {
-    public sealed class SequenceBuffer<TPacketInfo> where TPacketInfo : class
+    public sealed class SequenceBuffer<TPacketInfo> where TPacketInfo : class, new()
     {
         readonly uint m_Size;
         readonly uint[] m_Indexes;
@@ -12,9 +12,9 @@ namespace ProjectNothing
         {
             m_Size = bufferSize;
             m_Indexes = new uint[bufferSize];
+            Array.Fill (m_Indexes, m_Size);
             m_PacketInfos = new TPacketInfo[bufferSize];
-
-            Clear ();
+            Array.Fill (m_PacketInfos, new TPacketInfo ());
         }
 
         public uint GetSize () { return m_Size; }

@@ -68,8 +68,10 @@ void CServer::InitDBManager ()
 
 void CServer::InitGameLoopManager ()
 {
-	unsigned short tickRate = CConfigLoader::GetConfig<unsigned short> ("game.tickrate");
-	CServerGame::TickRate = tickRate;
+	CServerGame::ServerTickRate = CConfigLoader::GetConfig<unsigned short> ("game.server_tickrate");
+	CServerGame::ClientTickRate = CConfigLoader::GetConfig<unsigned short> ("game.client_tickrate");
+	CServerGame::TickStep = CServerGame::ClientTickRate / CServerGame::ServerTickRate;
+	CServerGame::TickDuration = 1000 / CServerGame::ServerTickRate;
 
 	CGameManager::Init (m_kContext);
 }
