@@ -20,6 +20,7 @@ namespace ProjectNothing
             RegisterNetCommand<NC_ServerCreateGame> (101);
             RegisterNetEvent<NE_ClientEchoResult> (200);
             RegisterNetEvent<NE_ClientCreateGameResult> (201);
+            RegisterNetEvent<NE_ClientGameSnapshot> (202);
 
             RegisterNetCommand<NC_ServerShutdown> (9000);
         }

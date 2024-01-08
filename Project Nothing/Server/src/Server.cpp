@@ -24,12 +24,15 @@ void CServer::Init ()
 	}
 
 	Instance = std::make_shared<CServer> ();
+
 	Instance->InitDBManager ();
-	Instance->InitGameLoopManager ();
-	Instance->InitNetEntityManager ();
-	Instance->InitEventManager ();
+
 	Instance->InitProtocolManager ();
+	Instance->InitNetEntityManager ();
 	Instance->InitNetworkManager ();
+
+	Instance->InitEventManager ();
+	Instance->InitGameManager ();
 }
 
 void CServer::Shutdown ()
@@ -38,12 +41,14 @@ void CServer::Shutdown ()
 		return;
 	}
 
-	CDBManager::Shutdown ();
 	CGameManager::Shutdown ();
-	CNetEntityManager::Shutdown ();
 	CEventManager::Shutdown ();
-	CProtocolManager::Shutdown ();
+
 	CNetworkManager::Shutdown ();
+	CNetEntityManager::Shutdown ();
+	CProtocolManager::Shutdown ();
+
+	CDBManager::Shutdown ();
 
 	Instance->m_kContext.stop ();
 }
@@ -66,7 +71,7 @@ void CServer::InitDBManager ()
 	CDBManager::Init (user, password, dbname, hostaddr);
 }
 
-void CServer::InitGameLoopManager ()
+void CServer::InitGameManager ()
 {
 	CServerGame::ServerTickRate = CConfigLoader::GetConfig<unsigned short> ("game.server_tickrate");
 	CServerGame::ClientTickRate = CConfigLoader::GetConfig<unsigned short> ("game.client_tickrate");
@@ -100,6 +105,7 @@ void CServer::InitProtocolManager ()
 	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101);
 	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
 	CProtocolManager::RegisterNetCommand<NC_ClientCreateGameResult> (201);
+	CProtocolManager::RegisterNetCommand<NC_ClientGameSnapshot> (202);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);
 }

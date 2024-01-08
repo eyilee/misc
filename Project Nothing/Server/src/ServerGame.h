@@ -1,5 +1,7 @@
 #pragma once
 
+class CPlayerEntity;
+
 enum class EGameState
 {
 	Idle,
@@ -18,7 +20,7 @@ public:
 
 	virtual void Update () override;
 
-	void Join ();
+	void Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
 
 private:
 	void UpdateLoadingState ();
@@ -28,6 +30,8 @@ private:
 	void LeaveActiveState ();
 
 	void TickUpdate ();
+	void GenerateSnapshot ();
+	void BroadcastSnapshot ();
 
 public:
 	static unsigned short ServerTickRate;
@@ -36,7 +40,10 @@ public:
 	static uint64_t TickInterval;
 
 private:
+	CStateMachine<EGameState> m_kStateMachine;
+
 	uint32_t m_nTick;
 	uint64_t m_nNextTickTime;
-	CStateMachine<EGameState> m_kStateMachine;
+
+	std::map<int, std::shared_ptr<CPlayerEntity>> m_kPlayers;
 };

@@ -23,6 +23,7 @@
     <ClCompile Include="src\PlayerEntity.cpp" />
     <ClCompile Include="src\protocol\netcommand\NC_ClientCreateGameResult.cpp" />
     <ClCompile Include="src\protocol\netcommand\NC_ClientEchoResult.cpp" />
+    <ClCompile Include="src\protocol\netcommand\NC_ClientGameSnapshot.cpp" />
     <ClCompile Include="src\protocol\netcommand\NC_ClientLoginResult.cpp" />
     <ClCompile Include="src\protocol\netcommand\NC_ClientUdpConnectResult.cpp" />
     <ClCompile Include="src\protocol\netevent\NE_ServerCreateGame.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="src\protocol\NetCommandProtocols.h" />
     <ClInclude Include="src\protocol\netcommand\NC_ClientCreateGameResult.h" />
     <ClInclude Include="src\protocol\netcommand\NC_ClientEchoResult.h" />
+    <ClInclude Include="src\protocol\netcommand\NC_ClientGameSnapshot.h" />
     <ClInclude Include="src\protocol\netcommand\NC_ClientLoginResult.h" />
     <ClInclude Include="src\protocol\netcommand\NC_ClientUdpConnectResult.h" />
     <ClInclude Include="src\protocol\NetEventProtocols.h" />

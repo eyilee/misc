@@ -66,6 +66,9 @@
     <ClCompile Include="src\protocol\netevent\NE_ServerUdpConnect.cpp">
       <Filter>src\protocol\netevent</Filter>
     </ClCompile>
+    <ClCompile Include="src\protocol\netcommand\NC_ClientGameSnapshot.cpp">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="src\protocol\netevent\NE_ServerUdpConnect.h">
       <Filter>src\protocol\netevent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netcommand\NC_ClientGameSnapshot.h">
+      <Filter>src\protocol\netcommand</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,7 @@ public:
 
 private:
 	void InitDBManager ();
-	void InitGameLoopManager ();
+	void InitGameManager ();
 	void InitNetEntityManager ();
 	void InitEventManager ();
 	void InitProtocolManager ();

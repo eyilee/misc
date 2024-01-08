@@ -37,6 +37,10 @@ void CServerGame::Update ()
 	m_kStateMachine.Update ();
 }
 
+void CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+{
+}
+
 void CServerGame::UpdateLoadingState ()
 {
 }
@@ -55,7 +59,8 @@ void CServerGame::UpdateActiveState ()
 			TickUpdate ();
 		}
 
-		// TODO: broadcast game snapshot
+		GenerateSnapshot ();
+		BroadcastSnapshot ();
 
 		m_nNextTickTime += TickInterval;
 	}
@@ -72,4 +77,12 @@ void CServerGame::TickUpdate ()
 	// TODO: handle client commands
 
 	// TODO: update systems
+}
+
+void CServerGame::GenerateSnapshot ()
+{
+}
+
+void CServerGame::BroadcastSnapshot ()
+{
 }
