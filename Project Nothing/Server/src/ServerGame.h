@@ -29,10 +29,10 @@ private:
 public:
 	static unsigned short ServerTickRate;
 	static unsigned short ClientTickRate;
-	static uint64_t TickStep;
-	static uint64_t TickDuration;
+	static uint32_t TickStep;
+	static uint64_t TickInterval;
 
 private:
-	uint64_t Tick;
+	int Tick;
 	CStateMachine<EGameState> m_kStateMachine;
 };

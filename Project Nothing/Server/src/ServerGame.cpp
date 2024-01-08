@@ -3,8 +3,8 @@
 
 unsigned short CServerGame::ServerTickRate = 20;
 unsigned short CServerGame::ClientTickRate = 60;
-uint64_t CServerGame::TickStep = 3;
-uint64_t CServerGame::TickDuration = 50;
+uint32_t CServerGame::TickStep = 3;
+uint64_t CServerGame::TickInterval = 50;
 
 CServerGame::CServerGame ()
 	: Tick (0)

@@ -73,7 +73,6 @@ namespace ProjectNothing
             m_TcpConnection.Update ();
             m_UdpConnection.Update ();
 
-
             long time = m_StopWatch.ElapsedMilliseconds;
             if (time >= m_NextEchoTime)
             {

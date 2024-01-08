@@ -11,9 +11,12 @@ namespace ProjectNothing
         [SerializeField]
         public GameObject m_PlayerPrefab;
 
-        private Game m_Game = null;
+        Game m_Game = null;
 
-        private bool m_IsInit = false;
+        uint m_TickStep = 1;
+        ulong m_TickInterval = 16;
+
+        bool m_IsInit = false;
 
         public void Awake ()
         {
@@ -28,6 +31,9 @@ namespace ProjectNothing
 
             yield return NetworkManager.Init (m_Config.Host, m_Config.Port);
 
+            m_TickStep = 1;
+            m_TickInterval = (ulong)(1000 / m_Config.TickRate);
+
             m_IsInit = true;
         }
 
@@ -40,7 +46,8 @@ namespace ProjectNothing
 
             NetworkManager.Update ();
 
-            m_Game?.Update ();
+            ulong duration = (ulong)(Time.deltaTime * 1000);
+            m_Game?.Update (duration);
         }
 
         public void CreateGame ()
