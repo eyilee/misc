@@ -1,6 +1,6 @@
 #pragma once
 
-class NC_ClientEchoResult : public CNetCommand<NC_ClientEchoResult>
+class NC_ClientEchoResult : public INetCommand<NC_ClientEchoResult>
 {
 public:
 	NC_ClientEchoResult ();

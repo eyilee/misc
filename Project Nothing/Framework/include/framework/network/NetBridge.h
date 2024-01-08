@@ -2,7 +2,7 @@
 
 using boost::asio::ip::udp;
 
-class IEntity;
+class INetEntity;
 class INetProtocol;
 class CBitInStream;
 class CTcpConnection;
@@ -26,8 +26,8 @@ public:
 	inline std::shared_ptr<CUdpConnection> GetUdpConnection () const { return m_pkUdpConnection; }
 	inline void SetUdpConnection (std::shared_ptr<CUdpConnection> _pkUdpConnection) { m_pkUdpConnection = _pkUdpConnection; }
 
-	inline std::shared_ptr<IEntity> GetEntity () const { return m_pkEntity; }
-	inline void SetEntity (std::shared_ptr<IEntity> _pkEntity) { m_pkEntity = _pkEntity; }
+	inline std::shared_ptr<INetEntity> GetNetEntity () const { return m_pkNetEntity; }
+	inline void SetNetEntity (std::shared_ptr<INetEntity> _pkNetEntity) { m_pkNetEntity = _pkNetEntity; }
 
 	void Shutdown ();
 	void OnDisconnect ();
@@ -41,5 +41,5 @@ private:
 
 	std::shared_ptr<CTcpConnection> m_pkTcpConnection;
 	std::shared_ptr<CUdpConnection> m_pkUdpConnection;
-	std::shared_ptr<IEntity> m_pkEntity;
+	std::shared_ptr<INetEntity> m_pkNetEntity;
 };

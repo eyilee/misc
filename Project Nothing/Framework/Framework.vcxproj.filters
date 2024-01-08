@@ -39,7 +39,7 @@
     <ClInclude Include="include\framework\manager\DBManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\EntityManager.h">
+    <ClInclude Include="include\framework\manager\NetEntityManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\manager\ProtocolManager.h">
@@ -48,7 +48,7 @@
     <ClInclude Include="include\framework\manager\NetworkManager.h">
       <Filter>include\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\Entity.h">
+    <ClInclude Include="include\framework\network\NetEntity.h">
       <Filter>include\framework\network</Filter>
     </ClInclude>
     <ClInclude Include="include\framework\network\NetBridge.h">
@@ -133,7 +133,7 @@
     <ClCompile Include="src\framework\manager\DBManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\manager\EntityManager.cpp">
+    <ClCompile Include="src\framework\manager\NetEntityManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\manager\ProtocolManager.cpp">
@@ -142,7 +142,7 @@
     <ClCompile Include="src\framework\manager\NetworkManager.cpp">
       <Filter>src\framework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\Entity.cpp">
+    <ClCompile Include="src\framework\network\NetEntity.cpp">
       <Filter>src\framework\network</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\NetBridge.cpp">

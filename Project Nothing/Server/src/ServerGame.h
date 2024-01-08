@@ -17,7 +17,8 @@ public:
 	virtual void Shutdown () override;
 
 	virtual void Update () override;
-	virtual void LateUpdate () override;
+
+	void Join ();
 
 private:
 	void UpdateLoadingState ();
@@ -26,6 +27,8 @@ private:
 	void UpdateActiveState ();
 	void LeaveActiveState ();
 
+	void TickUpdate ();
+
 public:
 	static unsigned short ServerTickRate;
 	static unsigned short ClientTickRate;
@@ -33,6 +36,7 @@ public:
 	static uint64_t TickInterval;
 
 private:
-	int Tick;
+	uint32_t m_nTick;
+	uint64_t m_nNextTickTime;
 	CStateMachine<EGameState> m_kStateMachine;
 };

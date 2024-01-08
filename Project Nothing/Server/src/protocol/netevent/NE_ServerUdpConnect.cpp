@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "protocol/command/NC_ClientUdpConnectResult.h"
-#include "protocol/event/NE_ServerUdpConnect.h"
+#include "protocol/netcommand/NC_ClientUdpConnectResult.h"
+#include "protocol/netevent/NE_ServerUdpConnect.h"
 
 NE_ServerUdpConnect::NE_ServerUdpConnect ()
 	: m_nPort (0)

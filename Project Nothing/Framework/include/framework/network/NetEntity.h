@@ -2,11 +2,11 @@
 
 class CNetBridge;
 
-class IEntity
+class INetEntity
 {
 public:
-	IEntity ();
-	virtual ~IEntity ();
+	INetEntity ();
+	virtual ~INetEntity ();
 
 	inline int GetID () const { return m_nID; }
 	inline void SetID (int _nID) { m_nID = _nID; }

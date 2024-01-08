@@ -1,6 +1,6 @@
 #pragma once
 
-class NE_ServerShutdown : public CNetEvent<NE_ServerShutdown>
+class NE_ServerShutdown : public INetEvent<NE_ServerShutdown>
 {
 public:
 	NE_ServerShutdown ();

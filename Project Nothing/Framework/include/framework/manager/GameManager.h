@@ -2,7 +2,6 @@
 #include "framework/manager/BaseManager.h"
 
 class IGameLoop;
-class CEvent;
 
 class CGameManager : public CBaseManager<CGameManager>
 {

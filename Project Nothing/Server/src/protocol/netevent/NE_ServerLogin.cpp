@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ConfigLoader.h"
 #include "PlayerEntity.h"
-#include "protocol/command/NC_ClientLoginResult.h"
-#include "protocol/event/NE_ServerLogin.h"
+#include "protocol/netcommand/NC_ClientLoginResult.h"
+#include "protocol/netevent/NE_ServerLogin.h"
 
 NE_ServerLogin::NE_ServerLogin ()
 	: m_nID (0)
@@ -20,11 +20,11 @@ void NE_ServerLogin::Deserialize (CBitInStream& _rkInStream)
 
 void NE_ServerLogin::Excute ()
 {
-	std::shared_ptr<IEntity> entity = CEntityManager::GetOrCreateEntity<CPlayerEntity> (m_nID);
-	if (entity != nullptr)
+	std::shared_ptr<INetEntity> netEntity = CNetEntityManager::GetOrCreateNetEntity<CPlayerEntity> (m_nID);
+	if (netEntity != nullptr)
 	{
-		entity->SetNetBridge (m_pkNetBridge);
-		m_pkNetBridge->SetEntity (entity);
+		netEntity->SetNetBridge (m_pkNetBridge);
+		m_pkNetBridge->SetNetEntity (netEntity);
 	}
 
 	uint32_t id = m_pkNetBridge->GetID ();

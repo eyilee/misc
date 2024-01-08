@@ -1,6 +1,6 @@
 #pragma once
 
-class CEventHeartbeat : public CEvent
+class CEventHeartbeat : public IEvent
 {
 public:
 	CEventHeartbeat ();

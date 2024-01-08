@@ -21,11 +21,11 @@ protected:
 };
 
 template<typename T>
-class CNetCommand : public INetProtocol
+class INetCommand : public INetProtocol
 {
 public:
-	CNetCommand ();
-	virtual ~CNetCommand ();
+	INetCommand ();
+	virtual ~INetCommand ();
 
 	static unsigned short GetID () { return m_nID; };
 	static void SetID (unsigned short _nID) { m_nID = _nID; }
@@ -40,31 +40,31 @@ private:
 };
 
 template<typename T>
-inline CNetCommand<T>::CNetCommand ()
+inline INetCommand<T>::INetCommand ()
 {
 }
 
 template<typename T>
-inline CNetCommand<T>::~CNetCommand ()
+inline INetCommand<T>::~INetCommand ()
 {
 }
 
 template<typename T>
-inline void CNetCommand<T>::OnSerialize (CBitOutStream& _rkOutStream)
+inline void INetCommand<T>::OnSerialize (CBitOutStream& _rkOutStream)
 {
 	_rkOutStream.Write (m_nID);
 	Serialize (_rkOutStream);
 }
 
 template<typename T>
-unsigned short CNetCommand<T>::m_nID;
+unsigned short INetCommand<T>::m_nID;
 
 template<typename T>
-class CNetEvent : public INetProtocol
+class INetEvent : public INetProtocol
 {
 public:
-	CNetEvent ();
-	virtual ~CNetEvent ();
+	INetEvent ();
+	virtual ~INetEvent ();
 
 	static unsigned short GetID () { return m_nID; };
 	static void SetID (unsigned short _nID) { m_nID = _nID; }
@@ -79,14 +79,14 @@ private:
 };
 
 template<typename T>
-inline CNetEvent<T>::CNetEvent ()
+inline INetEvent<T>::INetEvent ()
 {
 }
 
 template<typename T>
-inline CNetEvent<T>::~CNetEvent ()
+inline INetEvent<T>::~INetEvent ()
 {
 }
 
 template<typename T>
-unsigned short CNetEvent<T>::m_nID;
+unsigned short INetEvent<T>::m_nID;

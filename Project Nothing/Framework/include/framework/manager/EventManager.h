@@ -1,7 +1,7 @@
 #pragma once
 #include "framework/manager/BaseManager.h"
 
-class CEvent;
+class IEvent;
 
 class CEventManager : public CBaseManager<CEventManager>
 {
@@ -12,14 +12,14 @@ public:
 	static void Init (boost::asio::io_context& _rkContext);
 	static void Shutdown ();
 
-	static void PushEvent (std::shared_ptr<CEvent> _pkEvent);
+	static void PushEvent (std::shared_ptr<IEvent> _pkEvent);
 
 private:
 	void Run (boost::asio::io_context& _rkContext);
 	void Stop ();
 	void Update ();
 
-	void Queue (std::shared_ptr<CEvent> _pkEvent);
+	void Queue (std::shared_ptr<IEvent> _pkEvent);
 	void Flush ();
 
 private:
@@ -30,6 +30,6 @@ private:
 	boost::posix_time::seconds m_kInterval;
 	std::shared_ptr<boost::asio::deadline_timer> m_pkTimer;
 
-	std::forward_list<std::shared_ptr<CEvent>> m_kEventList;
-	std::forward_list<std::shared_ptr<CEvent>> m_kEventQueue;
+	std::forward_list<std::shared_ptr<IEvent>> m_kEventList;
+	std::forward_list<std::shared_ptr<IEvent>> m_kEventQueue;
 };

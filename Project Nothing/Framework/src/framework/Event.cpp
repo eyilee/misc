@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "framework/Event.h"
 
-CEvent::CEvent ()
+IEvent::IEvent ()
 	: m_nTime (0)
 	, m_bIsValid (true)
 {
 }
 
-CEvent::~CEvent ()
+IEvent::~IEvent ()
 {
 }

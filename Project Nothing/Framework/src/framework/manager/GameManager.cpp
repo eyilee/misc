@@ -6,7 +6,7 @@
 
 CGameManager::CGameManager ()
 	: m_bIsRunning (false)
-	, m_kInterval (boost::posix_time::milliseconds (1))
+	, m_kInterval (boost::posix_time::milliseconds (10))
 	, m_pkTimer (nullptr)
 {
 }
@@ -94,9 +94,5 @@ void CGameManager::Update ()
 
 	for (auto& gameLoop : m_kGameLoops) {
 		gameLoop->Update ();
-	}
-
-	for (auto& gameLoop : m_kGameLoops) {
-		gameLoop->LateUpdate ();
 	}
 }

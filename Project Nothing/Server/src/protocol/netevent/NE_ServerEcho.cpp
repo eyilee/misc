@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "protocol/command/NC_ClientEchoResult.h"
-#include "protocol/event/NE_ServerEcho.h"
+#include "protocol/netcommand/NC_ClientEchoResult.h"
+#include "protocol/netevent/NE_ServerEcho.h"
 
 NE_ServerEcho::NE_ServerEcho ()
 	: m_nSequence (0)

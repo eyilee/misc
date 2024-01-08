@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "framework/network/NetBridge.h"
-#include "framework/network/Entity.h"
+#include "framework/network/NetEntity.h"
 
-IEntity::IEntity ()
+INetEntity::INetEntity ()
 	: m_nID (0)
 	, m_pkNetBridge (nullptr)
 {
 }
 
-IEntity::~IEntity ()
+INetEntity::~INetEntity ()
 {
 }

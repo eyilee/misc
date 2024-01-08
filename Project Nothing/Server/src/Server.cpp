@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ConfigLoader.h"
 #include "ServerGame.h"
-#include "protocol/CommandProtocols.h"
-#include "protocol/EventProtocols.h"
+#include "protocol/NetCommandProtocols.h"
+#include "protocol/NetEventProtocols.h"
 #include "event/EventHeartbeat.h"
 #include "Server.h"
 
@@ -26,7 +26,7 @@ void CServer::Init ()
 	Instance = std::make_shared<CServer> ();
 	Instance->InitDBManager ();
 	Instance->InitGameLoopManager ();
-	Instance->InitEntityManager ();
+	Instance->InitNetEntityManager ();
 	Instance->InitEventManager ();
 	Instance->InitProtocolManager ();
 	Instance->InitNetworkManager ();
@@ -40,7 +40,7 @@ void CServer::Shutdown ()
 
 	CDBManager::Shutdown ();
 	CGameManager::Shutdown ();
-	CEntityManager::Shutdown ();
+	CNetEntityManager::Shutdown ();
 	CEventManager::Shutdown ();
 	CProtocolManager::Shutdown ();
 	CNetworkManager::Shutdown ();
@@ -76,9 +76,9 @@ void CServer::InitGameLoopManager ()
 	CGameManager::Init (m_kContext);
 }
 
-void CServer::InitEntityManager ()
+void CServer::InitNetEntityManager ()
 {
-	CEntityManager::Init ();
+	CNetEntityManager::Init ();
 }
 
 void CServer::InitEventManager ()

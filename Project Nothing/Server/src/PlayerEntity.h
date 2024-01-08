@@ -1,6 +1,6 @@
 #pragma once
 
-class CPlayerEntity : public IEntity
+class CPlayerEntity : public INetEntity
 {
 public:
 	CPlayerEntity ();

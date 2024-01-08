@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "protocol/command/NC_ClientCreateGameResult.h"
+#include "protocol/netcommand/NC_ClientCreateGameResult.h"
 
 NC_ClientCreateGameResult::NC_ClientCreateGameResult ()
 {

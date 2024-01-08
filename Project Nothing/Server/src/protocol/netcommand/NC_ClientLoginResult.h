@@ -1,6 +1,6 @@
 #pragma once
 
-class NC_ClientLoginResult : public CNetCommand<NC_ClientLoginResult>
+class NC_ClientLoginResult : public INetCommand<NC_ClientLoginResult>
 {
 public:
 	NC_ClientLoginResult ();

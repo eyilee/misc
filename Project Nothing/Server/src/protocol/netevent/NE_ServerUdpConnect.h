@@ -1,6 +1,6 @@
 #pragma once
 
-class NE_ServerUdpConnect : public CNetEvent<NE_ServerUdpConnect>
+class NE_ServerUdpConnect : public INetEvent<NE_ServerUdpConnect>
 {
 public:
 	NE_ServerUdpConnect ();

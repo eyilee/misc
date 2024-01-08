@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "framework/Random.h"
 #include "framework/network/BitStream.h"
-#include "framework/network/Entity.h"
+#include "framework/network/NetEntity.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/TcpConnection.h"
 #include "framework/network/UdpConnection.h"
@@ -14,7 +14,7 @@ CNetBridge::CNetBridge ()
 	, m_pkUdpConnection (nullptr)
 	, m_nID (0)
 	, m_nKey (0)
-	, m_pkEntity (nullptr)
+	, m_pkNetEntity (nullptr)
 {
 }
 
@@ -36,10 +36,10 @@ void CNetBridge::Shutdown ()
 		m_pkUdpConnection = nullptr;
 	}
 
-	if (m_pkEntity != nullptr)
+	if (m_pkNetEntity != nullptr)
 	{
-		m_pkEntity->SetNetBridge (nullptr);
-		m_pkEntity = nullptr;
+		m_pkNetEntity->SetNetBridge (nullptr);
+		m_pkNetEntity = nullptr;
 	}
 
 	CNetworkManager::RemoveNetBridge (GetID ());

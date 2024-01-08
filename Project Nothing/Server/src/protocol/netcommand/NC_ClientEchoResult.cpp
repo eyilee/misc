@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "protocol/command/NC_ClientEchoResult.h"
+#include "protocol/netcommand/NC_ClientEchoResult.h"
 
 NC_ClientEchoResult::NC_ClientEchoResult ()
 {

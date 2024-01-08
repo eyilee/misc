@@ -1,6 +1,6 @@
 #pragma once
 
-class NE_ServerLogin : public CNetEvent<NE_ServerLogin>
+class NE_ServerLogin : public INetEvent<NE_ServerLogin>
 {
 public:
 	NE_ServerLogin ();

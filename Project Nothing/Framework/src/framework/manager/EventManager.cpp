@@ -35,7 +35,7 @@ void CEventManager::Shutdown ()
 	Instance = nullptr;
 }
 
-void CEventManager::PushEvent (std::shared_ptr<CEvent> _pkEvent)
+void CEventManager::PushEvent (std::shared_ptr<IEvent> _pkEvent)
 {
 	if (Instance == nullptr) {
 		return;
@@ -90,7 +90,7 @@ void CEventManager::Update ()
 
 	while (!m_kEventList.empty ())
 	{
-		std::shared_ptr<CEvent> latest = m_kEventList.front ();
+		std::shared_ptr<IEvent> latest = m_kEventList.front ();
 		if (latest->IsValid ())
 		{
 			if (time >= latest->GetTime ())
@@ -115,7 +115,7 @@ void CEventManager::Update ()
 	Flush ();
 }
 
-void CEventManager::Queue (std::shared_ptr<CEvent> _pkEvent)
+void CEventManager::Queue (std::shared_ptr<IEvent> _pkEvent)
 {
 	m_kEventQueue.emplace_front (_pkEvent);
 }
@@ -124,7 +124,7 @@ void CEventManager::Flush ()
 {
 	uint64_t time = CTime::GetMiliSecond ();
 
-	std::for_each (m_kEventQueue.begin (), m_kEventQueue.end (), [this, &time](std::shared_ptr<CEvent> _pkEvent)
+	std::for_each (m_kEventQueue.begin (), m_kEventQueue.end (), [this, &time](std::shared_ptr<IEvent> _pkEvent)
 		{
 			auto pos = m_kEventList.before_begin ();
 			for (auto it = m_kEventList.begin (); it != m_kEventList.end (); it++)

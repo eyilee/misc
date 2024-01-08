@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ServerGame.h"
-#include "protocol/command/NC_ClientCreateGameResult.h"
-#include "protocol/event/NE_ServerCreateGame.h"
+#include "protocol/netcommand/NC_ClientCreateGameResult.h"
+#include "protocol/netevent/NE_ServerCreateGame.h"
 
 NE_ServerCreateGame::NE_ServerCreateGame ()
 {

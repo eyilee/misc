@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "protocol/command/NC_ClientLoginResult.h"
+#include "protocol/netcommand/NC_ClientLoginResult.h"
 
 NC_ClientLoginResult::NC_ClientLoginResult ()
 {

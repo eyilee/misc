@@ -1,6 +1,6 @@
 #pragma once
 
-class NE_ServerEcho : public CNetEvent<NE_ServerEcho>
+class NE_ServerEcho : public INetEvent<NE_ServerEcho>
 {
 public:
 	NE_ServerEcho ();

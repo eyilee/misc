@@ -1,6 +1,6 @@
 #pragma once
 
-class NC_ClientUdpConnectResult : public CNetCommand<NC_ClientUdpConnectResult>
+class NC_ClientUdpConnectResult : public INetCommand<NC_ClientUdpConnectResult>
 {
 public:
 	NC_ClientUdpConnectResult ();

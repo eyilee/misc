@@ -7,7 +7,8 @@ uint32_t CServerGame::TickStep = 3;
 uint64_t CServerGame::TickInterval = 50;
 
 CServerGame::CServerGame ()
-	: Tick (0)
+	: m_nTick (0)
+	, m_nNextTickTime (0)
 {
 }
 
@@ -24,7 +25,7 @@ void CServerGame::Init ()
 		std::bind (&CServerGame::UpdateActiveState, this),
 		std::bind (&CServerGame::LeaveActiveState, this));
 
-	m_kStateMachine.SwitchTo (EGameState::Idle);
+	m_kStateMachine.SwitchTo (EGameState::Active);
 }
 
 void CServerGame::Shutdown ()
@@ -33,10 +34,7 @@ void CServerGame::Shutdown ()
 
 void CServerGame::Update ()
 {
-}
-
-void CServerGame::LateUpdate ()
-{
+	m_kStateMachine.Update ();
 }
 
 void CServerGame::UpdateLoadingState ()
@@ -45,12 +43,33 @@ void CServerGame::UpdateLoadingState ()
 
 void CServerGame::EnterActiveState ()
 {
+	m_nTick = 0;
+	m_nNextTickTime = CTime::FrameTime + TickInterval;
 }
 
 void CServerGame::UpdateActiveState ()
 {
+	if (CTime::FrameTime >= m_nNextTickTime)
+	{
+		for (uint32_t i = 0; i < TickStep; i++) {
+			TickUpdate ();
+		}
+
+		// TODO: broadcast game snapshot
+
+		m_nNextTickTime += TickInterval;
+	}
 }
 
 void CServerGame::LeaveActiveState ()
 {
+}
+
+void CServerGame::TickUpdate ()
+{
+	m_nTick++;
+
+	// TODO: handle client commands
+
+	// TODO: update systems
 }

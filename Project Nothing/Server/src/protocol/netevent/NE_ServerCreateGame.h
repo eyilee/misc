@@ -1,6 +1,6 @@
 #pragma once
 
-class NE_ServerCreateGame : public CNetEvent<NE_ServerCreateGame>
+class NE_ServerCreateGame : public INetEvent<NE_ServerCreateGame>
 {
 public:
 	NE_ServerCreateGame ();

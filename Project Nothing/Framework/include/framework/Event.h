@@ -1,10 +1,10 @@
 #pragma once
 
-class CEvent
+class IEvent
 {
 public:
-	CEvent ();
-	virtual ~CEvent ();
+	IEvent ();
+	virtual ~IEvent ();
 
 	virtual void Excute () = 0;
 

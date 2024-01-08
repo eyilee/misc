@@ -1,6 +1,6 @@
 #pragma once
 
-class NC_ClientCreateGameResult : public CNetCommand<NC_ClientCreateGameResult>
+class NC_ClientCreateGameResult : public INetCommand<NC_ClientCreateGameResult>
 {
 public:
 	NC_ClientCreateGameResult ();

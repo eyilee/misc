@@ -21,15 +21,15 @@
   <ItemGroup>
     <ClCompile Include="src\ConfigLoader.cpp" />
     <ClCompile Include="src\PlayerEntity.cpp" />
-    <ClCompile Include="src\protocol\command\NC_ClientCreateGameResult.cpp" />
-    <ClCompile Include="src\protocol\command\NC_ClientEchoResult.cpp" />
-    <ClCompile Include="src\protocol\command\NC_ClientLoginResult.cpp" />
-    <ClCompile Include="src\protocol\command\NC_ClientUdpConnectResult.cpp" />
-    <ClCompile Include="src\protocol\event\NE_ServerCreateGame.cpp" />
-    <ClCompile Include="src\protocol\event\NE_ServerEcho.cpp" />
-    <ClCompile Include="src\protocol\event\NE_ServerLogin.cpp" />
-    <ClCompile Include="src\protocol\event\NE_ServerShutdown.cpp" />
-    <ClCompile Include="src\protocol\event\NE_ServerUdpConnect.cpp" />
+    <ClCompile Include="src\protocol\netcommand\NC_ClientCreateGameResult.cpp" />
+    <ClCompile Include="src\protocol\netcommand\NC_ClientEchoResult.cpp" />
+    <ClCompile Include="src\protocol\netcommand\NC_ClientLoginResult.cpp" />
+    <ClCompile Include="src\protocol\netcommand\NC_ClientUdpConnectResult.cpp" />
+    <ClCompile Include="src\protocol\netevent\NE_ServerCreateGame.cpp" />
+    <ClCompile Include="src\protocol\netevent\NE_ServerEcho.cpp" />
+    <ClCompile Include="src\protocol\netevent\NE_ServerLogin.cpp" />
+    <ClCompile Include="src\protocol\netevent\NE_ServerShutdown.cpp" />
+    <ClCompile Include="src\protocol\netevent\NE_ServerUdpConnect.cpp" />
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\event\EventHeartbeat.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -42,19 +42,19 @@
   <ItemGroup>
     <ClInclude Include="src\ConfigLoader.h" />
     <ClInclude Include="src\PlayerEntity.h" />
-    <ClInclude Include="src\protocol\command\NC_ClientCreateGameResult.h" />
-    <ClInclude Include="src\protocol\command\NC_ClientEchoResult.h" />
-    <ClInclude Include="src\protocol\command\NC_ClientLoginResult.h" />
-    <ClInclude Include="src\protocol\command\NC_ClientUdpConnectResult.h" />
-    <ClInclude Include="src\protocol\event\NE_ServerCreateGame.h" />
-    <ClInclude Include="src\protocol\event\NE_ServerEcho.h" />
-    <ClInclude Include="src\protocol\event\NE_ServerLogin.h" />
-    <ClInclude Include="src\protocol\event\NE_ServerShutdown.h" />
-    <ClInclude Include="src\protocol\event\NE_ServerUdpConnect.h" />
+    <ClInclude Include="src\protocol\NetCommandProtocols.h" />
+    <ClInclude Include="src\protocol\netcommand\NC_ClientCreateGameResult.h" />
+    <ClInclude Include="src\protocol\netcommand\NC_ClientEchoResult.h" />
+    <ClInclude Include="src\protocol\netcommand\NC_ClientLoginResult.h" />
+    <ClInclude Include="src\protocol\netcommand\NC_ClientUdpConnectResult.h" />
+    <ClInclude Include="src\protocol\NetEventProtocols.h" />
+    <ClInclude Include="src\protocol\netevent\NE_ServerCreateGame.h" />
+    <ClInclude Include="src\protocol\netevent\NE_ServerEcho.h" />
+    <ClInclude Include="src\protocol\netevent\NE_ServerLogin.h" />
+    <ClInclude Include="src\protocol\netevent\NE_ServerShutdown.h" />
+    <ClInclude Include="src\protocol\netevent\NE_ServerUdpConnect.h" />
     <ClInclude Include="src\Server.h" />
     <ClInclude Include="src\event\EventHeartbeat.h" />
-    <ClInclude Include="src\protocol\CommandProtocols.h" />
-    <ClInclude Include="src\protocol\EventProtocols.h" />
     <ClInclude Include="src\ServerGame.h" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>

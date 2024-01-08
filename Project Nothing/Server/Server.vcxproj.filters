@@ -10,10 +10,10 @@
     <Filter Include="src\event">
       <UniqueIdentifier>{0d2882ec-190d-4755-8047-605e3642b0bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\protocol\command">
+    <Filter Include="src\protocol\netcommand">
       <UniqueIdentifier>{ebc83ef0-d344-49a6-877c-2598ab5d82b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\protocol\event">
+    <Filter Include="src\protocol\netevent">
       <UniqueIdentifier>{fca341d7-eada-4d50-ad75-531ddc28249f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -36,35 +36,35 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\command\NC_ClientLoginResult.cpp">
-      <Filter>src\protocol\command</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\command\NC_ClientUdpConnectResult.cpp">
-      <Filter>src\protocol\command</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\command\NC_ClientEchoResult.cpp">
-      <Filter>src\protocol\command</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\event\NE_ServerLogin.cpp">
-      <Filter>src\protocol\event</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\event\NE_ServerShutdown.cpp">
-      <Filter>src\protocol\event</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\event\NE_ServerUdpConnect.cpp">
-      <Filter>src\protocol\event</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\event\NE_ServerEcho.cpp">
-      <Filter>src\protocol\event</Filter>
-    </ClCompile>
     <ClCompile Include="src\ServerGame.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\event\NE_ServerCreateGame.cpp">
-      <Filter>src\protocol\event</Filter>
+    <ClCompile Include="src\protocol\netcommand\NC_ClientCreateGameResult.cpp">
+      <Filter>src\protocol\netcommand</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\command\NC_ClientCreateGameResult.cpp">
-      <Filter>src\protocol\command</Filter>
+    <ClCompile Include="src\protocol\netcommand\NC_ClientEchoResult.cpp">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netcommand\NC_ClientLoginResult.cpp">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netcommand\NC_ClientUdpConnectResult.cpp">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netevent\NE_ServerCreateGame.cpp">
+      <Filter>src\protocol\netevent</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netevent\NE_ServerEcho.cpp">
+      <Filter>src\protocol\netevent</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netevent\NE_ServerLogin.cpp">
+      <Filter>src\protocol\netevent</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netevent\NE_ServerShutdown.cpp">
+      <Filter>src\protocol\netevent</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netevent\NE_ServerUdpConnect.cpp">
+      <Filter>src\protocol\netevent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,47 +77,47 @@
     <ClInclude Include="src\ConfigLoader.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\CommandProtocols.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\EventProtocols.h">
-      <Filter>src\protocol</Filter>
-    </ClInclude>
     <ClInclude Include="src\PlayerEntity.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\event\EventHeartbeat.h">
       <Filter>src\event</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\command\NC_ClientEchoResult.h">
-      <Filter>src\protocol\command</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\command\NC_ClientLoginResult.h">
-      <Filter>src\protocol\command</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\command\NC_ClientUdpConnectResult.h">
-      <Filter>src\protocol\command</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\event\NE_ServerEcho.h">
-      <Filter>src\protocol\event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\event\NE_ServerLogin.h">
-      <Filter>src\protocol\event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\event\NE_ServerShutdown.h">
-      <Filter>src\protocol\event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\event\NE_ServerUdpConnect.h">
-      <Filter>src\protocol\event</Filter>
-    </ClInclude>
     <ClInclude Include="src\ServerGame.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\event\NE_ServerCreateGame.h">
-      <Filter>src\protocol\event</Filter>
+    <ClInclude Include="src\protocol\NetCommandProtocols.h">
+      <Filter>src\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\command\NC_ClientCreateGameResult.h">
-      <Filter>src\protocol\command</Filter>
+    <ClInclude Include="src\protocol\NetEventProtocols.h">
+      <Filter>src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netcommand\NC_ClientCreateGameResult.h">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netcommand\NC_ClientEchoResult.h">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netcommand\NC_ClientLoginResult.h">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netcommand\NC_ClientUdpConnectResult.h">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netevent\NE_ServerCreateGame.h">
+      <Filter>src\protocol\netevent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netevent\NE_ServerEcho.h">
+      <Filter>src\protocol\netevent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netevent\NE_ServerLogin.h">
+      <Filter>src\protocol\netevent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netevent\NE_ServerShutdown.h">
+      <Filter>src\protocol\netevent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netevent\NE_ServerUdpConnect.h">
+      <Filter>src\protocol\netevent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
