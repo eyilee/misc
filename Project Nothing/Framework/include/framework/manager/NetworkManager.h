@@ -38,6 +38,6 @@ private:
 
 	std::shared_ptr<CTcpListener> m_pkListener;
 
-	std::map<uint32_t, std::shared_ptr<CNetBridge>> m_pkNetBridges;
+	std::map<uint32_t, std::shared_ptr<CNetBridge>> m_kNetBridges;
 };
 

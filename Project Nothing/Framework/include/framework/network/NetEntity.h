@@ -8,13 +8,13 @@ public:
 	INetEntity ();
 	virtual ~INetEntity ();
 
-	inline int GetID () const { return m_nID; }
-	inline void SetID (int _nID) { m_nID = _nID; }
+	inline uint32_t GetID () const { return m_nID; }
+	inline void SetID (uint32_t _nID) { m_nID = _nID; }
 
 	std::shared_ptr<CNetBridge> GetNetBridge () { return m_pkNetBridge; }
 	void SetNetBridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; };
 
 protected:
-	int m_nID;
+	uint32_t m_nID;
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 };

@@ -1,19 +1,18 @@
 #pragma once
 
-class IGameLoop
+class IGameObject
 {
 public:
-	IGameLoop ();
-	virtual ~IGameLoop ();
+	IGameObject ();
+	virtual ~IGameObject ();
 
 	inline uint32_t GetID () const { return m_nID; }
 	inline void SetID (uint32_t _nID) { m_nID = _nID; }
 
-	virtual void Init () = 0;
-	virtual void Shutdown () = 0;
-
-	virtual void Update () = 0;
+	void SetPosition (float _nX, float _nY);
 
 protected:
 	uint32_t m_nID;
+	float m_nX;
+	float m_nY;
 };

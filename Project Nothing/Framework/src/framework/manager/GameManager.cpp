@@ -35,13 +35,18 @@ void CGameManager::Shutdown ()
 	Instance = nullptr;
 }
 
-void CGameManager::AddGame (std::shared_ptr<IGameLoop> _pkGameLoop)
+std::shared_ptr<IGameLoop> CGameManager::GetGame (uint32_t _nID)
 {
 	if (Instance == nullptr) {
-		return;
+		return nullptr;
 	}
 
-	Instance->m_kGameLoops.emplace_back (_pkGameLoop);
+	auto it = Instance->m_kGameLoops.find (_nID);
+	if (it != Instance->m_kGameLoops.end ()) {
+		return it->second;
+	}
+
+	return nullptr;
 }
 
 void CGameManager::Run (boost::asio::io_context& _rkContext)
@@ -53,8 +58,8 @@ void CGameManager::Run (boost::asio::io_context& _rkContext)
 		{
 			if (!m_bIsRunning)
 			{
-				for (auto& gameLoop : m_kGameLoops) {
-					gameLoop->Shutdown ();
+				for (auto& pair : m_kGameLoops) {
+					pair.second->Shutdown ();
 				}
 
 				m_pkTimer->cancel ();
@@ -92,7 +97,7 @@ void CGameManager::Update ()
 {
 	CTime::FrameTime = CTime::GetMiliSecond ();
 
-	for (auto& gameLoop : m_kGameLoops) {
-		gameLoop->Update ();
+	for (auto& pair : m_kGameLoops) {
+		pair.second->Update ();
 	}
 }

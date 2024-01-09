@@ -12,16 +12,16 @@ public:
 	static void Init ();
 	static void Shutdown ();
 
-	static std::shared_ptr<INetEntity> GetNetEntity (int _nID);
+	static std::shared_ptr<INetEntity> GetNetEntity (uint32_t _nID);
 
 	template<typename T> requires std::is_base_of_v<INetEntity, T>
-	static std::shared_ptr<INetEntity> GetOrCreateNetEntity (int _nID);
+	static std::shared_ptr<INetEntity> GetOrCreateNetEntity (uint32_t _nID);
 
 private:
-	std::shared_ptr<INetEntity> Get (int _nID);
+	std::shared_ptr<INetEntity> Get (uint32_t _nID);
 
 	template<typename T> requires std::is_base_of_v<INetEntity, T>
-	std::shared_ptr<INetEntity> GetOrCreate (int _nID);
+	std::shared_ptr<INetEntity> GetOrCreate (uint32_t _nID);
 
 
 private:
@@ -29,7 +29,7 @@ private:
 };
 
 template<typename T> requires std::is_base_of_v<INetEntity, T>
-inline std::shared_ptr<INetEntity> CNetEntityManager::GetOrCreateNetEntity (int _nID)
+inline std::shared_ptr<INetEntity> CNetEntityManager::GetOrCreateNetEntity (uint32_t _nID)
 {
 	if (Instance == nullptr) {
 		return nullptr;
@@ -39,7 +39,7 @@ inline std::shared_ptr<INetEntity> CNetEntityManager::GetOrCreateNetEntity (int 
 }
 
 template<typename T> requires std::is_base_of_v<INetEntity, T>
-inline std::shared_ptr<INetEntity> CNetEntityManager::GetOrCreate (int _nID)
+inline std::shared_ptr<INetEntity> CNetEntityManager::GetOrCreate (uint32_t _nID)
 {
 	auto it = m_kNetEntityMap.find (_nID);
 	if (it == m_kNetEntityMap.end ())

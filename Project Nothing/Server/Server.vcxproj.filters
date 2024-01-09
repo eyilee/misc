@@ -16,6 +16,9 @@
     <Filter Include="src\protocol\netevent">
       <UniqueIdentifier>{fca341d7-eada-4d50-ad75-531ddc28249f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{53e20623-c740-4c36-910e-67dc1b24a1e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -34,9 +37,6 @@
       <Filter>src\event</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ServerGame.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\protocol\netcommand\NC_ClientCreateGameResult.cpp">
@@ -69,6 +69,18 @@
     <ClCompile Include="src\protocol\netcommand\NC_ClientGameSnapshot.cpp">
       <Filter>src\protocol\netcommand</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\ServerGame.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GameWorld.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GameObject.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netcommand\NC_ClientJoinGame.cpp">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -85,9 +97,6 @@
     </ClInclude>
     <ClInclude Include="src\event\EventHeartbeat.h">
       <Filter>src\event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ServerGame.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\NetCommandProtocols.h">
       <Filter>src\protocol</Filter>
@@ -123,6 +132,18 @@
       <Filter>src\protocol\netevent</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\netcommand\NC_ClientGameSnapshot.h">
+      <Filter>src\protocol\netcommand</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\ServerGame.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\GameWorld.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\GameObject.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netcommand\NC_ClientJoinGame.h">
       <Filter>src\protocol\netcommand</Filter>
     </ClInclude>
   </ItemGroup>

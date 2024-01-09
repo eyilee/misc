@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ConfigLoader.h"
-#include "ServerGame.h"
+#include "event/EventHeartbeat.h"
+#include "game/ServerGame.h"
 #include "protocol/NetCommandProtocols.h"
 #include "protocol/NetEventProtocols.h"
-#include "event/EventHeartbeat.h"
 #include "Server.h"
 
 std::shared_ptr<CServer> CServer::Instance = nullptr;
@@ -105,7 +105,8 @@ void CServer::InitProtocolManager ()
 	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101);
 	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
 	CProtocolManager::RegisterNetCommand<NC_ClientCreateGameResult> (201);
-	CProtocolManager::RegisterNetCommand<NC_ClientGameSnapshot> (202);
+	CProtocolManager::RegisterNetCommand<NC_ClientJoinGame> (202);
+	CProtocolManager::RegisterNetCommand<NC_ClientGameSnapshot> (203);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);
 }

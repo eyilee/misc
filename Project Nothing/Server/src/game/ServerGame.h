@@ -1,4 +1,5 @@
 #pragma once
+#include "game/GameWorld.h"
 
 class CPlayerEntity;
 
@@ -21,6 +22,7 @@ public:
 	virtual void Update () override;
 
 	void Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
+	void Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
 
 private:
 	void UpdateLoadingState ();
@@ -28,6 +30,9 @@ private:
 	void EnterActiveState ();
 	void UpdateActiveState ();
 	void LeaveActiveState ();
+
+	void OnJoin (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
+	void OnLeave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
 
 	void TickUpdate ();
 	void GenerateSnapshot ();
@@ -45,5 +50,7 @@ private:
 	uint32_t m_nTick;
 	uint64_t m_nNextTickTime;
 
-	std::map<int, std::shared_ptr<CPlayerEntity>> m_kPlayers;
+	std::map<int, std::shared_ptr<CPlayerEntity>> m_kPlayerEntities;
+
+	CGameWorld m_kGameWorld;
 };

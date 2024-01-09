@@ -2,6 +2,7 @@
 #include "framework/GameLoop.h"
 
 IGameLoop::IGameLoop ()
+	: m_nID (0)
 {
 }
 

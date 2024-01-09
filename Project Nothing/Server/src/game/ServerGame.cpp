@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "ServerGame.h"
+#include "PlayerEntity.h"
+#include "protocol/netcommand/NC_ClientJoinGame.h"
+#include "game/ServerGame.h"
 
 unsigned short CServerGame::ServerTickRate = 20;
 unsigned short CServerGame::ClientTickRate = 60;
@@ -39,6 +41,30 @@ void CServerGame::Update ()
 
 void CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 {
+	uint32_t id = _pkPlayerEntity->GetID ();
+
+	auto it = m_kPlayerEntities.find (id);
+	if (it != m_kPlayerEntities.end ()) {
+		return;
+	}
+
+	m_kPlayerEntities.emplace (id, _pkPlayerEntity);
+
+	OnJoin (_pkPlayerEntity);
+}
+
+void CServerGame::Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+{
+	uint32_t id = _pkPlayerEntity->GetID ();
+
+	auto it = m_kPlayerEntities.find (id);
+	if (it == m_kPlayerEntities.end ()) {
+		return;
+	}
+
+	OnLeave (_pkPlayerEntity);
+
+	m_kPlayerEntities.erase (id);
 }
 
 void CServerGame::UpdateLoadingState ()
@@ -68,6 +94,19 @@ void CServerGame::UpdateActiveState ()
 
 void CServerGame::LeaveActiveState ()
 {
+}
+
+void CServerGame::OnJoin (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+{
+	m_kGameWorld.CreatePlayer (_pkPlayerEntity->GetID ());
+
+	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientJoinGame> (m_nID);
+	_pkPlayerEntity->GetNetBridge ()->ComposeTcpOutput (protocol);
+}
+
+void CServerGame::OnLeave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+{
+	m_kGameWorld.RemovePlayer (_pkPlayerEntity->GetID ());
 }
 
 void CServerGame::TickUpdate ()

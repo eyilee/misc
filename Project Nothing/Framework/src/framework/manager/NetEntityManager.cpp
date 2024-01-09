@@ -28,7 +28,7 @@ void CNetEntityManager::Shutdown ()
 	Instance = nullptr;
 }
 
-std::shared_ptr<INetEntity> CNetEntityManager::GetNetEntity (int _nID)
+std::shared_ptr<INetEntity> CNetEntityManager::GetNetEntity (uint32_t _nID)
 {
 	if (Instance == nullptr) {
 		return nullptr;
@@ -37,7 +37,7 @@ std::shared_ptr<INetEntity> CNetEntityManager::GetNetEntity (int _nID)
 	return Instance->Get (_nID);
 }
 
-std::shared_ptr<INetEntity> CNetEntityManager::Get (int _nID)
+std::shared_ptr<INetEntity> CNetEntityManager::Get (uint32_t _nID)
 {
 	auto it = m_kNetEntityMap.find (_nID);
 	if (it == m_kNetEntityMap.end ())

@@ -10,5 +10,5 @@ public:
 	virtual void Excute () override;
 
 private:
-	int m_nID;
+	uint32_t m_nID;
 };
