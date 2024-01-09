@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
 #include "protocol/netcommand/NC_ClientJoinGame.h"
+#include "protocol/netcommand/NC_ClientGameSnapshot.h"
 #include "game/ServerGame.h"
 
 unsigned short CServerGame::ServerTickRate = 20;
@@ -124,4 +125,12 @@ void CServerGame::GenerateSnapshot ()
 
 void CServerGame::BroadcastSnapshot ()
 {
+	for (auto& pair : m_kPlayerEntities)
+	{
+		uint32_t id = pair.first;
+		std::shared_ptr<CPlayerEntity> playerEntity = pair.second;
+
+		//std::shared_ptr<CNetBridge> netBridge = playerEntity->GetNetBridge ();
+		//netBridge->ComposeUdpOutput ();
+	}
 }

@@ -12,6 +12,12 @@ enum class EGameState
 
 class CServerGame : public IGameLoop
 {
+	struct SGameObjectInfo
+	{
+		uint32_t m_nType;
+
+	};
+
 public:
 	CServerGame ();
 	virtual ~CServerGame ();
@@ -50,7 +56,10 @@ private:
 	uint32_t m_nTick;
 	uint64_t m_nNextTickTime;
 
-	std::map<int, std::shared_ptr<CPlayerEntity>> m_kPlayerEntities;
+	std::map<uint32_t, std::shared_ptr<CPlayerEntity>> m_kPlayerEntities; // TODO: udp connections
+
+	std::vector<SGameObjectInfo> m_kGameObjectInfos;
+	std::vector<uint32_t> m_kFreeGameObjectInfos;
 
 	CGameWorld m_kGameWorld;
 };
