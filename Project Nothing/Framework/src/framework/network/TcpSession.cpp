@@ -41,7 +41,7 @@ CTcpSession::~CTcpSession ()
 
 void CTcpSession::Init (std::shared_ptr<CTcpConnection> _pkTcpConnection)
 {
-	m_pkTcpConnection = _pkTcpConnection;
+	m_pkConnection = _pkTcpConnection;
 
 	AsyncRead ();
 }
@@ -50,7 +50,7 @@ void CTcpSession::Shutdown ()
 {
 	if (!m_kSocket.is_open ())
 	{
-		m_pkTcpConnection = nullptr;
+		m_pkConnection = nullptr;
 		return;
 	}
 
@@ -64,8 +64,8 @@ void CTcpSession::Shutdown ()
 			m_kSocket.shutdown (tcp::socket::shutdown_type::shutdown_both);
 			m_kSocket.close ();
 
-			m_pkTcpConnection->OnDisconnect ();
-			m_pkTcpConnection = nullptr;
+			m_pkConnection->OnDisconnect ();
+			m_pkConnection = nullptr;
 		});
 }
 
@@ -163,7 +163,7 @@ void CTcpSession::OnRead (const size_t& _rnLength)
 		}
 
 		CBitInStream inStream (command.m_kBytes);
-		m_pkTcpConnection->ResolveInput (inStream);
+		m_pkConnection->ResolveInput (inStream);
 
 		m_kReadQueue.pop_front ();
 	}

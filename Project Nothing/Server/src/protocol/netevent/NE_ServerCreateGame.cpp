@@ -18,18 +18,13 @@ void NE_ServerCreateGame::Deserialize (CBitInStream& _rkInStream)
 
 void NE_ServerCreateGame::Excute ()
 {
-	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientCreateGameResult> ();
-	m_pkNetBridge->ComposeTcpOutput (protocol);
+	uint32_t gameID = 0;
 
 	std::shared_ptr<CServerGame> game = CGameManager::CreateGame<CServerGame> ();
-	if (game == nullptr) {
-		return;
+	if (game != nullptr) {
+		gameID = game->GetID ();
 	}
 
-	std::shared_ptr<CPlayerEntity> playerEntity = std::static_pointer_cast<CPlayerEntity> (m_pkNetBridge->GetNetEntity ());
-	if (playerEntity == nullptr) {
-		return;
-	}
-
-	game->Join (playerEntity);
+	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientCreateGameResult> (gameID);
+	m_pkNetBridge->ComposeOutput (protocol);
 }

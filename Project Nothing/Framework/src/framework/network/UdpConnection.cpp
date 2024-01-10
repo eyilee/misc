@@ -30,10 +30,10 @@ void CUdpConnection::SHeader::Deserialize (CBitInStream& _rkInStream)
 	_rkInStream.Read (m_nAckBits);
 }
 
-CUdpConnection::CUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CUdpSession> _pkUdpSession)
-	: m_pkNetBridge (_pkNetBridge)
-	, m_pkUdpSession (_pkUdpSession)
+CUdpConnection::CUdpConnection (std::shared_ptr<CUdpSession> _pkUdpSession)
+	: m_pkUdpSession (_pkUdpSession)
 	, m_kLocalEndPoint (_pkUdpSession->GetLocalEndpoint ())
+	, m_nKey (0)
 	, m_nInSequence (0)
 	, m_nInAckBits (0)
 	, m_nOutSequence (1)
@@ -53,8 +53,6 @@ void CUdpConnection::Init ()
 
 void CUdpConnection::Shutdown ()
 {
-	m_pkNetBridge = nullptr;
-
 	m_pkUdpSession->Shutdown ();
 	m_pkUdpSession = nullptr;
 }
@@ -66,12 +64,10 @@ void CUdpConnection::OnDisconnect ()
 
 void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 {
-	uint32_t id;
 	uint32_t key;
-	_rkInStream.Read (id);
 	_rkInStream.Read (key);
 
-	if (id != m_pkNetBridge->GetID () || key != m_pkNetBridge->GetKey ()) {
+	if (key != m_nKey) {
 		return;
 	}
 
@@ -80,37 +76,28 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 		return;
 	}
 
-	unsigned short protocolID;
-	_rkInStream.Read (protocolID);
-
-	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
-	if (protocol != nullptr)
-	{
-		protocol->SetNetBridge (m_pkNetBridge);
-		protocol->Deserialize (_rkInStream);
-		protocol->Excute ();
-	}
+	ResolvePackage (_rkInStream);
 }
 
-void CUdpConnection::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
+void CUdpConnection::ComposeOutput (EPackageType _nPackageType, bool _bReliable, std::shared_ptr<INetProtocol> _pkProtocol)
 {
 	if (m_kOutPackets.IsExist (m_nOutSequence)) {
 		// TODO: need client send data to update ack
 		return;
 	}
 
+	SOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequence);
+	outPacket.m_nPackageType = _nPackageType;
+	outPacket.m_bReliable = _bReliable;
+	outPacket.m_pkProtocol = _pkProtocol;
+
 	SHeader header;
 	header.m_nSequence = m_nOutSequence;
 	header.m_nAck = m_nInSequence;
 	header.m_nAckBits = m_nInAckBits;
 
-	SOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequence);
-	outPacket.m_bReliable = false;
-	outPacket.m_pkProtocol = _pkProtocol;
-
 	CBitOutStream outStream;
-	outStream.Write (m_pkNetBridge->GetID ());
-	outStream.Write (m_pkNetBridge->GetKey ());
+	outStream.Write (m_nKey);
 	outStream.Write (header);
 	_pkProtocol->OnSerialize (outStream);
 	m_pkUdpSession->Send (outStream);
@@ -177,7 +164,7 @@ uint32_t CUdpConnection::ResolveHeader (CBitInStream& _rkInStream)
 			SOutPacket* packet = m_kOutPackets.TryGet (sequence);
 			if (packet != nullptr)
 			{
-				OnPacketAcked (sequence, packet);
+				OnPacketAcked (sequence, *packet);
 			}
 
 			m_kOutPackets.Remove (sequence);
@@ -200,7 +187,7 @@ uint32_t CUdpConnection::ResolveHeader (CBitInStream& _rkInStream)
 			SOutPacket* packet = m_kOutPackets.TryGet (sequence);
 			if (packet != nullptr)
 			{
-				OnPacketAcked (sequence, packet);
+				OnPacketAcked (sequence, *packet);
 			}
 
 			m_kOutPackets.Remove (sequence);
@@ -210,7 +197,20 @@ uint32_t CUdpConnection::ResolveHeader (CBitInStream& _rkInStream)
 	return newInSequence;
 }
 
-void CUdpConnection::OnPacketAcked (uint32_t _nSequence, SOutPacket* _pkOutPacket)
+void CUdpConnection::ResolvePackage (CBitInStream& _rkInStream)
 {
-	_pkOutPacket->Reset ();
+	unsigned short protocolID;
+	_rkInStream.Read (protocolID);
+
+	std::shared_ptr<INetProtocol> protocol = CProtocolManager::GenerateProtocol (protocolID);
+	if (protocol != nullptr)
+	{
+		protocol->Deserialize (_rkInStream);
+		protocol->Excute ();
+	}
+}
+
+void CUdpConnection::OnPacketAcked (uint32_t _nSequence, SOutPacket& _rkOutPacket)
+{
+	_rkOutPacket.Reset ();
 }

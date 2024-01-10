@@ -35,20 +35,6 @@ void CGameManager::Shutdown ()
 	Instance = nullptr;
 }
 
-std::shared_ptr<IGameLoop> CGameManager::GetGame (uint32_t _nID)
-{
-	if (Instance == nullptr) {
-		return nullptr;
-	}
-
-	auto it = Instance->m_kGameLoops.find (_nID);
-	if (it != Instance->m_kGameLoops.end ()) {
-		return it->second;
-	}
-
-	return nullptr;
-}
-
 void CGameManager::Run (boost::asio::io_context& _rkContext)
 {
 	m_bIsRunning = true;

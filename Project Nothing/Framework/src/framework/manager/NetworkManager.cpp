@@ -5,13 +5,15 @@
 #include "framework/network/TcpListener.h"
 #include "framework/network/TcpConnection.h"
 #include "framework/network/TcpSession.h"
-#include "framework/network/UdpConnection.h"
 #include "framework/network/UdpSession.h"
 #include "framework/manager/NetworkManager.h"
 
-CNetworkManager::CNetworkManager (boost::asio::io_context& _rkContext)
+using boost::asio::ip::udp;
+
+CNetworkManager::CNetworkManager (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, unsigned short _nPort)
 	: m_rkContext (_rkContext)
-	, m_nPort (0)
+	, m_kHostAddr (_rkHostAddr)
+	, m_nPort (_nPort)
 	, m_pkListener (nullptr)
 {
 }
@@ -26,8 +28,8 @@ void CNetworkManager::Init (boost::asio::io_context& _rkContext, const std::stri
 		return;
 	}
 
-	Instance = std::make_shared<CNetworkManager> (_rkContext);
-	Instance->Run (_rkHostAddr, _nPort);
+	Instance = std::make_shared<CNetworkManager> (_rkContext, _rkHostAddr, _nPort);
+	Instance->Run ();
 }
 
 void CNetworkManager::Shutdown ()
@@ -46,45 +48,38 @@ void CNetworkManager::TcpAccept (tcp::socket& _rkSocket)
 		return;
 	}
 
-	Instance->SetupTcpConnection (Instance->CreateNetBridge (), _rkSocket);
+	std::shared_ptr<CNetBridge> netBridge = Instance->CreateNetBridge ();
+	std::shared_ptr<CTcpConnection> connection = std::make_shared<CTcpConnection> (std::make_shared<CTcpSession> (_rkSocket));
+	connection->SetNetBridge (netBridge);
+	netBridge->SetConnection (connection);
+	connection->Init ();
 }
 
-void CNetworkManager::UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, unsigned short _nPort)
+std::shared_ptr<CUdpSession> CNetworkManager::UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, unsigned short _nPort)
 {
 	if (Instance == nullptr) {
-		return;
+		return nullptr;
 	}
 
-	std::shared_ptr<CUdpConnection> udpConnection = _pkNetBridge->GetUdpConnection ();
-	if (udpConnection != nullptr) {
-		return;
+	std::shared_ptr<CTcpConnection> connection = _pkNetBridge->GetConnection ();
+	if (connection == nullptr) {
+		return nullptr;
 	}
-
-	std::shared_ptr<CTcpConnection> tcpConnection = _pkNetBridge->GetTcpConnection ();
-	if (tcpConnection == nullptr) {
-		return;
-	}
-
-	tcp::endpoint tcpEndPoint = tcpConnection->GetRemoteEndpoint ();
-	udp::endpoint udpEndPoint = udp::endpoint (tcpEndPoint.address (), _nPort);
 
 	udp::socket socket (Instance->m_rkContext, udp::endpoint (boost::asio::ip::address::from_string (Instance->m_kHostAddr.c_str ()), 0));
 
+	udp::endpoint udpEndPoint = udp::endpoint (connection->GetRemoteEndpoint ().address (), _nPort);
 	boost::system::error_code errorCode;
 	socket.connect (udpEndPoint, errorCode);
 
-	if (errorCode) {
+	if (errorCode)
+	{
 		LOG_ERROR (errorCode.message ());
+
+		return nullptr;
 	}
 
-	//socket.async_connect (udpEndPoint, [](const boost::system::error_code& _rkErrorCode)
-	//	{
-	//		if (_rkErrorCode) {
-	//			LOG_ERROR (_rkErrorCode.message ());
-	//		}
-	//	});
-
-	Instance->SetupUdpConnection (_pkNetBridge, socket);
+	return std::make_shared<CUdpSession> (socket);
 }
 
 std::shared_ptr<CNetBridge> CNetworkManager::GetNetBridge (uint32_t _nID)
@@ -110,12 +105,9 @@ void CNetworkManager::RemoveNetBridge (uint32_t _nID)
 	Instance->m_kNetBridges.erase (_nID);
 }
 
-void CNetworkManager::Run (const std::string& _rkHostAddr, unsigned short _nPort)
+void CNetworkManager::Run ()
 {
-	m_kHostAddr = _rkHostAddr;
-	m_nPort = _nPort;
-
-	m_pkListener = std::make_shared<CTcpListener> (m_rkContext, m_kHostAddr, _nPort);
+	m_pkListener = std::make_shared<CTcpListener> (m_rkContext, m_kHostAddr, m_nPort);
 	m_pkListener->Init ();
 }
 
@@ -130,27 +122,12 @@ void CNetworkManager::Stop ()
 
 std::shared_ptr<CNetBridge> CNetworkManager::CreateNetBridge ()
 {
-	uint32_t id = CRandom::GetValue<uint32_t> ();
-	while (m_kNetBridges.find (id) != m_kNetBridges.end ()) {
+	uint32_t id = 0;
+	while (id == 0 || m_kNetBridges.find (id) != m_kNetBridges.end ()) {
 		id = CRandom::GetValue<uint32_t> ();
 	}
 
-	std::shared_ptr<CNetBridge> netBridge = std::make_shared<CNetBridge> ();
-	netBridge->SetID (id);
+	std::shared_ptr<CNetBridge> netBridge = std::make_shared<CNetBridge> (id);
 	m_kNetBridges.emplace (id, netBridge);
 	return netBridge;
-}
-
-void CNetworkManager::SetupTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, tcp::socket& _rkSocket)
-{
-	std::shared_ptr<CTcpConnection> connection = std::make_shared<CTcpConnection> (_pkNetBridge, std::make_shared<CTcpSession> (_rkSocket));
-	connection->Init ();
-	_pkNetBridge->SetTcpConnection (connection);
-}
-
-void CNetworkManager::SetupUdpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, udp::socket& _rkSocket)
-{
-	std::shared_ptr<CUdpConnection> connection = std::make_shared<CUdpConnection> (_pkNetBridge, std::make_shared<CUdpSession> (_rkSocket));
-	connection->Init ();
-	_pkNetBridge->SetUdpConnection (connection);
 }

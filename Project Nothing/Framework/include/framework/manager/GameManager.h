@@ -16,7 +16,8 @@ public:
 	template<typename T> requires std::is_base_of_v<IGameLoop, T>
 	static std::shared_ptr<T> CreateGame ();
 
-	static std::shared_ptr<IGameLoop> GetGame (uint32_t _nID);
+	template<typename T = IGameLoop> requires std::is_base_of_v<IGameLoop, T>
+	static std::shared_ptr<T> GetGame (uint32_t _nID);
 
 private:
 	void Run (boost::asio::io_context& _rkContext);
@@ -25,6 +26,9 @@ private:
 
 	template<typename T> requires std::is_base_of_v<IGameLoop, T>
 	std::shared_ptr<T> Create ();
+
+	template<typename T = IGameLoop> requires std::is_base_of_v<IGameLoop, T>
+	std::shared_ptr<T> Get (uint32_t _nID);
 
 private:
 	std::function<void (const boost::system::error_code& _rkErrorCode)> m_fnTick;
@@ -48,10 +52,20 @@ inline std::shared_ptr<T> CGameManager::CreateGame ()
 }
 
 template<typename T> requires std::is_base_of_v<IGameLoop, T>
+inline std::shared_ptr<T> CGameManager::GetGame (uint32_t _nID)
+{
+	if (Instance == nullptr) {
+		return nullptr;
+	}
+
+	return Instance->Get<T> (_nID);
+}
+
+template<typename T> requires std::is_base_of_v<IGameLoop, T>
 inline std::shared_ptr<T> CGameManager::Create ()
 {
-	uint32_t id = CRandom::GetValue<uint32_t> ();
-	while (m_kGameLoops.find (id) != m_kGameLoops.end ()) {
+	uint32_t id = 0;
+	while (id == 0 || m_kGameLoops.find (id) != m_kGameLoops.end ()) {
 		id = CRandom::GetValue<uint32_t> ();
 	}
 
@@ -59,4 +73,15 @@ inline std::shared_ptr<T> CGameManager::Create ()
 	gameLoop->SetID (id);
 	m_kGameLoops.emplace (id, gameLoop);
 	return gameLoop;
+}
+
+template<typename T> requires std::is_base_of_v<IGameLoop, T>
+inline std::shared_ptr<T> CGameManager::Get (uint32_t _nID)
+{
+	auto it = m_kGameLoops.find (_nID);
+	if (it != m_kGameLoops.end ()) {
+		return std::static_pointer_cast<T> (it->second);
+	}
+
+	return nullptr;
 }

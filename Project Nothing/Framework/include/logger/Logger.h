@@ -2,7 +2,7 @@
 
 using std::chrono::system_clock;
 
-class CLogger : public std::enable_shared_from_this<CLogger>
+class CLogger
 {
 public:
 	CLogger ();

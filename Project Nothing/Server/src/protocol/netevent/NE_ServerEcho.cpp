@@ -20,6 +20,6 @@ void NE_ServerEcho::Deserialize (CBitInStream& _rkInStream)
 
 void NE_ServerEcho::Excute ()
 {
-	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientEchoResult> (m_nSequence, m_nSendTime);
-	m_pkNetBridge->ComposeUdpOutput (protocol);
+	//std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientEchoResult> (m_nSequence, m_nSendTime);
+	//m_pkNetBridge->ComposeUdpOutput (protocol);
 }

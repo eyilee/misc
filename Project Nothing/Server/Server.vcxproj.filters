@@ -48,9 +48,6 @@
     <ClCompile Include="src\protocol\netcommand\NC_ClientLoginResult.cpp">
       <Filter>src\protocol\netcommand</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\netcommand\NC_ClientUdpConnectResult.cpp">
-      <Filter>src\protocol\netcommand</Filter>
-    </ClCompile>
     <ClCompile Include="src\protocol\netevent\NE_ServerCreateGame.cpp">
       <Filter>src\protocol\netevent</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
       <Filter>src\protocol\netevent</Filter>
     </ClCompile>
     <ClCompile Include="src\protocol\netevent\NE_ServerShutdown.cpp">
-      <Filter>src\protocol\netevent</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocol\netevent\NE_ServerUdpConnect.cpp">
       <Filter>src\protocol\netevent</Filter>
     </ClCompile>
     <ClCompile Include="src\protocol\netcommand\NC_ClientGameSnapshot.cpp">
@@ -78,8 +72,14 @@
     <ClCompile Include="src\game\GameObject.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\netcommand\NC_ClientJoinGame.cpp">
+    <ClCompile Include="src\protocol\netcommand\NC_ClientJoinGameResult.cpp">
       <Filter>src\protocol\netcommand</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol\netevent\NE_ServerJoinGame.cpp">
+      <Filter>src\protocol\netevent</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\ServerConnection.cpp">
+      <Filter>src\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +113,6 @@
     <ClInclude Include="src\protocol\netcommand\NC_ClientLoginResult.h">
       <Filter>src\protocol\netcommand</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\netcommand\NC_ClientUdpConnectResult.h">
-      <Filter>src\protocol\netcommand</Filter>
-    </ClInclude>
     <ClInclude Include="src\protocol\netevent\NE_ServerCreateGame.h">
       <Filter>src\protocol\netevent</Filter>
     </ClInclude>
@@ -126,9 +123,6 @@
       <Filter>src\protocol\netevent</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\netevent\NE_ServerShutdown.h">
-      <Filter>src\protocol\netevent</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\netevent\NE_ServerUdpConnect.h">
       <Filter>src\protocol\netevent</Filter>
     </ClInclude>
     <ClInclude Include="src\protocol\netcommand\NC_ClientGameSnapshot.h">
@@ -143,8 +137,14 @@
     <ClInclude Include="src\game\GameObject.h">
       <Filter>src\game</Filter>
     </ClInclude>
-    <ClInclude Include="src\protocol\netcommand\NC_ClientJoinGame.h">
+    <ClInclude Include="src\protocol\netcommand\NC_ClientJoinGameResult.h">
       <Filter>src\protocol\netcommand</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protocol\netevent\NE_ServerJoinGame.h">
+      <Filter>src\protocol\netevent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\ServerConnection.h">
+      <Filter>src\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

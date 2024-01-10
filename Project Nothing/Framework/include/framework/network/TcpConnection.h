@@ -10,8 +10,11 @@ class CTcpSession;
 class CTcpConnection : public std::enable_shared_from_this<CTcpConnection>
 {
 public:
-	CTcpConnection (std::shared_ptr<CNetBridge> _pkNetBridge, std::shared_ptr<CTcpSession> _pkTcpSession);
+	CTcpConnection (std::shared_ptr<CTcpSession> _pkTcpSession);
 	virtual ~CTcpConnection ();
+
+	inline std::shared_ptr<CNetBridge> GetNetBridge () const { return m_pkNetBridge; }
+	inline void SetNetBridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; }
 
 	inline tcp::endpoint GetRemoteEndpoint () const { return m_kRemoteEndPoint; }
 

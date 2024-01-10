@@ -8,7 +8,7 @@ template<typename T>
 class INetCommand;
 template<typename T>
 class INetEvent;
-template<typename T>
+template<typename T> requires std::is_base_of_v<INetProtocol, T>
 class CNetProtocolGenerator;
 
 class CProtocolManager : public CBaseManager<CProtocolManager>
@@ -68,7 +68,7 @@ inline void CProtocolManager::RegisterCommand (unsigned short _nID)
 
 	auto it = m_kProtocolMap.find (_nID);
 	if (it == m_kProtocolMap.end ()) {
-		m_kProtocolMap.emplace (_nID, std::static_pointer_cast<INetProtocolGenerator> (std::make_shared<CNetProtocolGenerator<T>> ()));
+		m_kProtocolMap.emplace (_nID, std::make_shared<CNetProtocolGenerator<T>> ());
 	}
 	else {
 		LOG_ERROR ("ID(%hu) has registered.", _nID);
@@ -82,7 +82,7 @@ inline void CProtocolManager::RegisterEvent (unsigned short _nID)
 
 	auto it = m_kProtocolMap.find (_nID);
 	if (it == m_kProtocolMap.end ()) {
-		m_kProtocolMap.emplace (_nID, std::static_pointer_cast<INetProtocolGenerator> (std::make_shared<CNetProtocolGenerator<T>> ()));
+		m_kProtocolMap.emplace (_nID, std::make_shared<CNetProtocolGenerator<T>> ());
 	}
 	else {
 		LOG_ERROR ("ID(%hu) has registered.", _nID);

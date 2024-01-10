@@ -50,7 +50,7 @@ private:
 	void Write (CBitOutStream& _rkOutStream);
 
 private:
-	std::shared_ptr<CTcpConnection> m_pkTcpConnection;
+	std::shared_ptr<CTcpConnection> m_pkConnection;
 	tcp::socket m_kSocket;
 
 	std::deque<SReadCommand> m_kReadQueue;

@@ -3,15 +3,15 @@
 
 class CPlayerEntity;
 
-enum class EGameState
-{
-	Idle,
-	Loading,
-	Active
-};
-
 class CServerGame : public IGameLoop
 {
+	enum class EGameState
+	{
+		Idle,
+		Loading,
+		Active
+	};
+
 	struct SGameObjectInfo
 	{
 		uint32_t m_nType;

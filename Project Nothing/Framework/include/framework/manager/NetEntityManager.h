@@ -44,7 +44,7 @@ inline std::shared_ptr<INetEntity> CNetEntityManager::GetOrCreate (uint32_t _nID
 	auto it = m_kNetEntityMap.find (_nID);
 	if (it == m_kNetEntityMap.end ())
 	{
-		std::shared_ptr<INetEntity> netEntity = std::static_pointer_cast<INetEntity> (std::make_shared<T> ());
+		std::shared_ptr<T> netEntity = std::make_shared<T> ();
 		netEntity->SetID (_nID);
 		m_kNetEntityMap.emplace (_nID, netEntity);
 		return netEntity;

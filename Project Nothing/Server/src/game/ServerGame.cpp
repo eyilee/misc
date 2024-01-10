@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
-#include "protocol/netcommand/NC_ClientJoinGame.h"
 #include "protocol/netcommand/NC_ClientGameSnapshot.h"
 #include "game/ServerGame.h"
 
@@ -100,9 +99,6 @@ void CServerGame::LeaveActiveState ()
 void CServerGame::OnJoin (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 {
 	m_kGameWorld.CreatePlayer (_pkPlayerEntity->GetID ());
-
-	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientJoinGame> (m_nID);
-	_pkPlayerEntity->GetNetBridge ()->ComposeTcpOutput (protocol);
 }
 
 void CServerGame::OnLeave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)

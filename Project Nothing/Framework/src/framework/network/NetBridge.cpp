@@ -1,19 +1,14 @@
 #include "stdafx.h"
 #include "framework/Random.h"
-#include "framework/network/BitStream.h"
 #include "framework/network/NetEntity.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/TcpConnection.h"
-#include "framework/network/UdpConnection.h"
 #include "framework/manager/NetworkManager.h"
-#include "framework/manager/ProtocolManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge ()
-	: m_pkTcpConnection (nullptr)
-	, m_pkUdpConnection (nullptr)
-	, m_nID (0)
-	, m_nKey (0)
+CNetBridge::CNetBridge (uint32_t _nID)
+	: m_nID (_nID)
+	, m_pkConnection (nullptr)
 	, m_pkNetEntity (nullptr)
 {
 }
@@ -22,18 +17,17 @@ CNetBridge::~CNetBridge ()
 {
 }
 
+void CNetBridge::Init (std::shared_ptr<CTcpConnection> _pkConnection)
+{
+	m_pkConnection = _pkConnection;
+}
+
 void CNetBridge::Shutdown ()
 {
-	if (m_pkTcpConnection != nullptr)
+	if (m_pkConnection != nullptr)
 	{
-		m_pkTcpConnection->Shutdown ();
-		m_pkTcpConnection = nullptr;
-	}
-
-	if (m_pkUdpConnection != nullptr)
-	{
-		m_pkUdpConnection->Shutdown ();
-		m_pkUdpConnection = nullptr;
+		m_pkConnection->Shutdown ();
+		m_pkConnection = nullptr;
 	}
 
 	if (m_pkNetEntity != nullptr)
@@ -42,7 +36,7 @@ void CNetBridge::Shutdown ()
 		m_pkNetEntity = nullptr;
 	}
 
-	CNetworkManager::RemoveNetBridge (GetID ());
+	CNetworkManager::RemoveNetBridge (m_nID);
 }
 
 void CNetBridge::OnDisconnect ()
@@ -50,20 +44,11 @@ void CNetBridge::OnDisconnect ()
 	Shutdown ();
 }
 
-void CNetBridge::ComposeTcpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
+void CNetBridge::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
 {
-	if (m_pkTcpConnection == nullptr) {
+	if (m_pkConnection == nullptr) {
 		return;
 	}
 
-	m_pkTcpConnection->ComposeOutput (_pkProtocol);
-}
-
-void CNetBridge::ComposeUdpOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
-{
-	if (m_pkUdpConnection == nullptr) {
-		return;
-	}
-
-	m_pkUdpConnection->ComposeOutput (_pkProtocol);
+	m_pkConnection->ComposeOutput (_pkProtocol);
 }

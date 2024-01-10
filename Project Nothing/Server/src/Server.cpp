@@ -97,15 +97,13 @@ void CServer::InitProtocolManager ()
 	CProtocolManager::Init ();
 
 	CProtocolManager::RegisterNetEvent<NE_ServerLogin> (1);
-	CProtocolManager::RegisterNetEvent<NE_ServerUdpConnect> (2);
 	CProtocolManager::RegisterNetCommand<NC_ClientLoginResult> (51);
-	CProtocolManager::RegisterNetCommand<NC_ClientUdpConnectResult> (52);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerEcho> (100);
 	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101);
 	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
 	CProtocolManager::RegisterNetCommand<NC_ClientCreateGameResult> (201);
-	CProtocolManager::RegisterNetCommand<NC_ClientJoinGame> (202);
+	CProtocolManager::RegisterNetCommand<NC_ClientJoinGameResult> (202);
 	CProtocolManager::RegisterNetCommand<NC_ClientGameSnapshot> (203);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);
