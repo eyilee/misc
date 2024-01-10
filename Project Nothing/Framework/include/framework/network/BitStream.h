@@ -96,10 +96,12 @@ public:
 
 	void Write (const std::string& _rkValue);
 	void Write (const std::wstring& _rkValue);
+	void Write (CBitOutStream& _rkOutStream);
 
 private:
 	void WriteValue (void* _pValue, size_t _nByteCount);
 	void WriteByte (uint8_t& _rnByte);
+	void WriteBits (uint8_t& _rnByte, size_t _nBitCount);
 	void WriteBit (bool& _rbBit);
 
 public:

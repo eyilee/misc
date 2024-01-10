@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
+#include "framework/Random.h"
 #include "framework/network/UdpConnection.h"
 #include "framework/network/UdpSession.h"
 
@@ -13,7 +14,8 @@ CUdpSession::SSendCommand::~SSendCommand ()
 }
 
 CUdpSession::CUdpSession (udp::socket& _rkSocket)
-	: m_kSocket (std::move (_rkSocket))
+	: m_nKey (CRandom::GetValue<uint32_t> ())
+	, m_kSocket (std::move (_rkSocket))
 	, m_kReceiveBuffer {}
 {
 }

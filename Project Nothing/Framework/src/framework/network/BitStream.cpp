@@ -160,6 +160,19 @@ void CBitOutStream::Write (const std::wstring& _rkValue)
 	}
 }
 
+void CBitOutStream::Write (CBitOutStream& _rkOutStream)
+{
+	size_t byteCount = _rkOutStream.m_nBitOffset / 8;
+	for (size_t i = 0; i < byteCount; i++) {
+		WriteByte (_rkOutStream.m_kBytes[i]);
+	}
+
+	size_t bitOffset = _rkOutStream.m_nBitOffset & 0x7;
+	if (bitOffset > 0) {
+		WriteBits (_rkOutStream.m_kBytes.back (), bitOffset);
+	}
+}
+
 void CBitOutStream::WriteValue (void* _pValue, size_t _nByteCount)
 {
 	uint8_t* byte = reinterpret_cast<uint8_t*> (_pValue);
@@ -183,6 +196,25 @@ void CBitOutStream::WriteByte (uint8_t& _rnByte)
 	}
 
 	m_nBitOffset += 8;
+}
+
+void CBitOutStream::WriteBits (uint8_t& _rnByte, size_t _nBitCount)
+{
+	size_t bitOffset = m_nBitOffset & 0x7;
+
+	if (bitOffset == 0) {
+		m_kBytes.emplace_back (_rnByte);
+	}
+	else
+	{
+		m_kBytes.back () |= (_rnByte >> bitOffset);
+
+		if (bitOffset + _nBitCount > 8) {
+			m_kBytes.emplace_back (_rnByte << (8 - bitOffset));
+		}
+	}
+
+	m_nBitOffset += _nBitCount;
 }
 
 void CBitOutStream::WriteBit (bool& _rbBit)

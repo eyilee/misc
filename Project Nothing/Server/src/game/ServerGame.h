@@ -2,8 +2,9 @@
 #include "game/GameWorld.h"
 
 class CPlayerEntity;
+class CServerConnection;
 
-class CServerGame : public IGameLoop
+class CServerGame : public IGameLoop, public std::enable_shared_from_this<CServerGame>
 {
 	enum class EGameState
 	{
@@ -27,7 +28,7 @@ public:
 
 	virtual void Update () override;
 
-	void Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
+	bool Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity, std::shared_ptr<CUdpSession> _pkUdpSession);
 	void Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
 
 private:
@@ -37,8 +38,8 @@ private:
 	void UpdateActiveState ();
 	void LeaveActiveState ();
 
-	void OnJoin (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
-	void OnLeave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
+	void OnJoin (std::shared_ptr<CServerConnection> _pkConnection);
+	void OnLeave (std::shared_ptr<CServerConnection> _pkConnection);
 
 	void TickUpdate ();
 	void GenerateSnapshot ();
@@ -56,7 +57,7 @@ private:
 	uint32_t m_nTick;
 	uint64_t m_nNextTickTime;
 
-	std::map<uint32_t, std::shared_ptr<CPlayerEntity>> m_kPlayerEntities; // TODO: udp connections
+	std::map<uint32_t, std::shared_ptr<CServerConnection>> m_kServerConnections;
 
 	std::vector<SGameObjectInfo> m_kGameObjectInfos;
 	std::vector<uint32_t> m_kFreeGameObjectInfos;

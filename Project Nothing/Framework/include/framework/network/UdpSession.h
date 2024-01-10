@@ -24,7 +24,8 @@ public:
 	CUdpSession (udp::socket& _rkSocket);
 	virtual ~CUdpSession ();
 
-	inline udp::endpoint GetLocalEndpoint () const { return m_kSocket.local_endpoint (); }
+	inline unsigned short GetPort () const { return m_kSocket.local_endpoint ().port (); }
+	inline uint32_t GetKey () const { return m_nKey; }
 
 	void Init (std::shared_ptr<CUdpConnection> _pkUdpConnection);
 	void Shutdown ();
@@ -38,6 +39,7 @@ private:
 
 private:
 	std::shared_ptr<CUdpConnection> m_pkUdpConnection;
+	uint32_t m_nKey;
 	udp::socket m_kSocket;
 
 	std::deque<SSendCommand> m_kSendQueue;

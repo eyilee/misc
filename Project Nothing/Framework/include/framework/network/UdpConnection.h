@@ -53,8 +53,6 @@ public:
 	CUdpConnection (std::shared_ptr<CUdpSession> _pkUdpSession);
 	virtual ~CUdpConnection ();
 
-	inline udp::endpoint GetLocalEndpoint () const { return m_kLocalEndPoint; }
-
 	void Init ();
 	void Shutdown ();
 	void OnDisconnect ();
@@ -69,9 +67,7 @@ protected:
 
 protected:
 	std::shared_ptr<CUdpSession> m_pkUdpSession;
-	udp::endpoint m_kLocalEndPoint;
 
-	uint32_t m_nKey;
 	uint32_t m_nInSequence;
 	uint32_t m_nInAckBits;
 	uint32_t m_nOutSequence;

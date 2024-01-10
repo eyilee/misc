@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "framework/Random.h"
 #include "framework/network/NetBridge.h"
 #include "framework/network/NetProtocol.h"
 #include "framework/network/UdpSession.h"
@@ -32,8 +33,6 @@ void CUdpConnection::SHeader::Deserialize (CBitInStream& _rkInStream)
 
 CUdpConnection::CUdpConnection (std::shared_ptr<CUdpSession> _pkUdpSession)
 	: m_pkUdpSession (_pkUdpSession)
-	, m_kLocalEndPoint (_pkUdpSession->GetLocalEndpoint ())
-	, m_nKey (0)
 	, m_nInSequence (0)
 	, m_nInAckBits (0)
 	, m_nOutSequence (1)
@@ -67,7 +66,7 @@ void CUdpConnection::ResolveInput (CBitInStream& _rkInStream)
 	uint32_t key;
 	_rkInStream.Read (key);
 
-	if (key != m_nKey) {
+	if (key != m_pkUdpSession->m_nKey) {
 		return;
 	}
 
@@ -97,7 +96,7 @@ void CUdpConnection::ComposeOutput (EPackageType _nPackageType, bool _bReliable,
 	header.m_nAckBits = m_nInAckBits;
 
 	CBitOutStream outStream;
-	outStream.Write (m_nKey);
+	outStream.Write (m_pkUdpSession->m_nKey);
 	outStream.Write (header);
 	_pkProtocol->OnSerialize (outStream);
 	m_pkUdpSession->Send (outStream);

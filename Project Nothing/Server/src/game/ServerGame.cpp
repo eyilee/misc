@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
+#include "game/ServerConnection.h"
 #include "protocol/netcommand/NC_ClientGameSnapshot.h"
 #include "game/ServerGame.h"
 
@@ -39,32 +40,36 @@ void CServerGame::Update ()
 	m_kStateMachine.Update ();
 }
 
-void CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+bool CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity, std::shared_ptr<CUdpSession> _pkUdpSession)
 {
-	uint32_t id = _pkPlayerEntity->GetID ();
+	uint32_t playerID = _pkPlayerEntity->GetID ();
 
-	auto it = m_kPlayerEntities.find (id);
-	if (it != m_kPlayerEntities.end ()) {
-		return;
+	auto it = m_kServerConnections.find (playerID);
+	if (it != m_kServerConnections.end ()) {
+		return false;
 	}
 
-	m_kPlayerEntities.emplace (id, _pkPlayerEntity);
+	std::shared_ptr<CServerConnection> serverConnection = std::make_shared<CServerConnection> (_pkUdpSession, shared_from_this (), _pkPlayerEntity);
 
-	OnJoin (_pkPlayerEntity);
+	m_kServerConnections.emplace (playerID, serverConnection);
+
+	OnJoin (serverConnection);
+
+	return true;
 }
 
 void CServerGame::Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 {
-	uint32_t id = _pkPlayerEntity->GetID ();
+	uint32_t playerID = _pkPlayerEntity->GetID ();
 
-	auto it = m_kPlayerEntities.find (id);
-	if (it == m_kPlayerEntities.end ()) {
+	auto it = m_kServerConnections.find (playerID);
+	if (it == m_kServerConnections.end ()) {
 		return;
 	}
 
-	OnLeave (_pkPlayerEntity);
+	OnLeave (it->second);
 
-	m_kPlayerEntities.erase (id);
+	m_kServerConnections.erase (it);
 }
 
 void CServerGame::UpdateLoadingState ()
@@ -96,14 +101,24 @@ void CServerGame::LeaveActiveState ()
 {
 }
 
-void CServerGame::OnJoin (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+void CServerGame::OnJoin (std::shared_ptr<CServerConnection> _pkConnection)
 {
-	m_kGameWorld.CreatePlayer (_pkPlayerEntity->GetID ());
+	_pkConnection->Init ();
+
+	uint32_t playerID = _pkConnection->GetPlayerID ();
+	if (playerID != 0) {
+		m_kGameWorld.CreatePlayer (_pkConnection->GetPlayerID ());
+	}
 }
 
-void CServerGame::OnLeave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
+void CServerGame::OnLeave (std::shared_ptr<CServerConnection> _pkConnection)
 {
-	m_kGameWorld.RemovePlayer (_pkPlayerEntity->GetID ());
+	uint32_t playerID = _pkConnection->GetPlayerID ();
+	if (playerID != 0) {
+		m_kGameWorld.RemovePlayer (_pkConnection->GetPlayerID ());
+	}
+
+	_pkConnection->Shutdown ();
 }
 
 void CServerGame::TickUpdate ()
@@ -121,11 +136,8 @@ void CServerGame::GenerateSnapshot ()
 
 void CServerGame::BroadcastSnapshot ()
 {
-	for (auto& pair : m_kPlayerEntities)
+	for (auto& pair : m_kServerConnections)
 	{
-		uint32_t id = pair.first;
-		std::shared_ptr<CPlayerEntity> playerEntity = pair.second;
-
 		//std::shared_ptr<CNetBridge> netBridge = playerEntity->GetNetBridge ();
 		//netBridge->ComposeUdpOutput ();
 	}

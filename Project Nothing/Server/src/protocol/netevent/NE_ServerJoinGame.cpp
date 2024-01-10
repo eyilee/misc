@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
-#include "game/ServerConnection.h"
 #include "game/ServerGame.h"
 #include "protocol/netcommand/NC_ClientJoinGameResult.h"
 #include "protocol/netevent/NE_ServerJoinGame.h"
@@ -25,6 +24,7 @@ void NE_ServerJoinGame::Excute ()
 {
 	uint32_t gameID = 0;
 	unsigned short port = 0;
+	uint32_t key = 0;
 
 	std::shared_ptr<CServerGame> game = CGameManager::GetGame<CServerGame> (m_nGameID);
 	if (game != nullptr)
@@ -39,14 +39,14 @@ void NE_ServerJoinGame::Excute ()
 			return;
 		}
 
-		//if (game->Join (playerEntity, udpSession)) {
-		//
-		//}
-
-		gameID = game->GetID ();
-		port = udpSession->GetLocalEndpoint ().port ();
+		if (game->Join (playerEntity, udpSession))
+		{
+			gameID = game->GetID ();
+			port = udpSession->GetPort ();
+			key = udpSession->GetKey ();
+		}
 	}
 
-	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientJoinGameResult> (gameID, port);
+	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientJoinGameResult> (gameID, port, key);
 	m_pkNetBridge->ComposeOutput (protocol);
 }

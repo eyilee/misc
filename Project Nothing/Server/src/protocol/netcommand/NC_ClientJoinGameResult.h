@@ -4,7 +4,7 @@ class NC_ClientJoinGameResult : public INetCommand<NC_ClientJoinGameResult>
 {
 public:
 	NC_ClientJoinGameResult ();
-	NC_ClientJoinGameResult (uint32_t _nGameID, unsigned short _nPort);
+	NC_ClientJoinGameResult (uint32_t _nGameID, unsigned short _nPort, uint32_t _nKey);
 	virtual ~NC_ClientJoinGameResult ();
 
 	virtual void Serialize (CBitOutStream& _rkOutStream) override;
@@ -12,4 +12,5 @@ public:
 private:
 	uint32_t m_nGameID;
 	unsigned short m_nPort;
+	uint32_t m_nKey;
 };
