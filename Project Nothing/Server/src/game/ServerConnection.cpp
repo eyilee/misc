@@ -23,6 +23,10 @@ uint32_t CServerConnection::GetPlayerID ()
 	return 0;
 }
 
+void CServerConnection::ProcessCommands (uint32_t _nTick)
+{
+}
+
 void CServerConnection::ResolvePackage (CBitInStream& _rkInStream)
 {
 	unsigned short protocolID;

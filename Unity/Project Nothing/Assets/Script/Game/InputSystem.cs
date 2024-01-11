@@ -55,10 +55,10 @@ namespace ProjectNothing
 
         public void SampleInput (ref UserCommand userCommand)
         {
-            userCommand.m_Buttons.Or (UserCommand.Button.Forward, GetKey (KeyCode.UpArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.Backward, GetKey (KeyCode.DownArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.TurnLeft, GetKey (KeyCode.LeftArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.TurnRight, GetKey (KeyCode.RightArrow));
+            userCommand.m_Buttons.Or (UserCommand.Button.Up, GetKey (KeyCode.UpArrow));
+            userCommand.m_Buttons.Or (UserCommand.Button.Down, GetKey (KeyCode.DownArrow));
+            userCommand.m_Buttons.Or (UserCommand.Button.Left, GetKey (KeyCode.LeftArrow));
+            userCommand.m_Buttons.Or (UserCommand.Button.Right, GetKey (KeyCode.RightArrow));
             userCommand.m_Buttons.Or (UserCommand.Button.Accel, GetKey (KeyCode.A));
             userCommand.m_Buttons.Or (UserCommand.Button.Melee, GetKeyDown (KeyCode.S));
             userCommand.m_Buttons.Or (UserCommand.Button.Shoot, GetKeyDown (KeyCode.D));

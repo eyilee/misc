@@ -8,10 +8,10 @@ namespace ProjectNothing
         public enum Button : uint
         {
             None = 0,
-            Forward = 1 << 0,
-            Backward = 1 << 1,
-            TurnLeft = 1 << 2,
-            TurnRight = 1 << 3,
+            Up = 1 << 0,
+            Down = 1 << 1,
+            Left = 1 << 2,
+            Right = 1 << 3,
             Accel = 1 << 4,
             Melee = 1 << 5,
             Shoot = 1 << 6,

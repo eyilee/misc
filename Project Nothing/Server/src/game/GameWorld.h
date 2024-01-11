@@ -12,5 +12,5 @@ public:
 	void RemovePlayer (uint32_t _nID);
 
 private:
-	std::map<uint32_t, std::shared_ptr<IGameObject>> m_kGameObjects;
+	std::map<uint32_t, std::shared_ptr<IGameObject>> m_kPlayers;
 };

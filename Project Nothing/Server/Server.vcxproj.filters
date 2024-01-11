@@ -81,6 +81,9 @@
     <ClCompile Include="src\game\ServerConnection.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\UserCommand.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -144,6 +147,9 @@
       <Filter>src\protocol\netevent</Filter>
     </ClInclude>
     <ClInclude Include="src\game\ServerConnection.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\UserCommand.h">
       <Filter>src\game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -126,6 +126,11 @@ void CServerGame::TickUpdate ()
 	m_nTick++;
 
 	// TODO: handle client commands
+	for (auto& pair : m_kServerConnections)	{
+		pair.second->ProcessCommands (m_nTick);
+		//std::shared_ptr<CNetBridge> netBridge = playerEntity->GetNetBridge ();
+		//netBridge->ComposeUdpOutput ();
+	}
 
 	// TODO: update systems
 }

@@ -24,6 +24,7 @@
     <ClCompile Include="src\game\GameWorld.cpp" />
     <ClCompile Include="src\game\ServerConnection.cpp" />
     <ClCompile Include="src\game\ServerGame.cpp" />
+    <ClCompile Include="src\game\UserCommand.cpp" />
     <ClCompile Include="src\PlayerEntity.cpp" />
     <ClCompile Include="src\protocol\netcommand\NC_ClientCreateGameResult.cpp" />
     <ClCompile Include="src\protocol\netcommand\NC_ClientEchoResult.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="src\game\GameWorld.h" />
     <ClInclude Include="src\game\ServerConnection.h" />
     <ClInclude Include="src\game\ServerGame.h" />
+    <ClInclude Include="src\game\UserCommand.h" />
     <ClInclude Include="src\PlayerEntity.h" />
     <ClInclude Include="src\protocol\NetCommandProtocols.h" />
     <ClInclude Include="src\protocol\netcommand\NC_ClientCreateGameResult.h" />

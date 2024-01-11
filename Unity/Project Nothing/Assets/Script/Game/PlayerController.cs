@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace ProjectNothing
 {
@@ -65,12 +64,12 @@ namespace ProjectNothing
             UserCommand command = UserCommand.m_DefaultCommand;
             if (m_CommandBuffer.TryGetValue (tick, ref command))
             {
-                if (command.m_Buttons.IsSet (UserCommand.Button.Forward))
+                if (command.m_Buttons.IsSet (UserCommand.Button.Up))
                 {
                     m_Player.transform.Translate (Vector3.up * 0.05f);
                 }
 
-                if (command.m_Buttons.IsSet (UserCommand.Button.Backward))
+                if (command.m_Buttons.IsSet (UserCommand.Button.Down))
                 {
                     m_Player.transform.Translate (Vector3.down * 0.05f);
                 }
