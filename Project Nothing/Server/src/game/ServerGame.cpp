@@ -72,6 +72,11 @@ void CServerGame::Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 	m_kServerConnections.erase (it);
 }
 
+void CServerGame::ProcessCommand (uint32_t _nPlayerID, const SUserCommand& _rkCommand, uint32_t _nTick)
+{
+	// TODO: store commands to systems
+}
+
 void CServerGame::UpdateLoadingState ()
 {
 }
@@ -126,10 +131,8 @@ void CServerGame::TickUpdate ()
 	m_nTick++;
 
 	// TODO: handle client commands
-	for (auto& pair : m_kServerConnections)	{
+	for (auto& pair : m_kServerConnections) {
 		pair.second->ProcessCommands (m_nTick);
-		//std::shared_ptr<CNetBridge> netBridge = playerEntity->GetNetBridge ();
-		//netBridge->ComposeUdpOutput ();
 	}
 
 	// TODO: update systems
@@ -141,9 +144,7 @@ void CServerGame::GenerateSnapshot ()
 
 void CServerGame::BroadcastSnapshot ()
 {
-	for (auto& pair : m_kServerConnections)
-	{
-		//std::shared_ptr<CNetBridge> netBridge = playerEntity->GetNetBridge ();
-		//netBridge->ComposeUdpOutput ();
+	for (auto& pair : m_kServerConnections) {
+		pair.second->ComposePackage ();
 	}
 }

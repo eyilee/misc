@@ -1,12 +1,31 @@
 #pragma once
+#include "game/UserCommand.h"
 
-struct SUserCommand;
 class CServerGame;
 class CPlayerEntity;
 
 constexpr uint32_t COMMAND_BUFFER_SIZE = 32;
 
-class CServerConnection : public CUdpConnection
+enum class EGameMessage : uint32_t
+{
+	None = 0,
+	Command = 1 << 0,
+	Snapshot = 1 << 1
+};
+
+struct SGameOutPacket
+{
+public:
+	SGameOutPacket ();
+	virtual ~SGameOutPacket ();
+
+	void Reset ();
+
+public:
+	EGameMessage m_nMessage;
+};
+
+class CServerConnection : public CUdpConnection<SGameOutPacket>
 {
 public:
 	CServerConnection (std::shared_ptr<CUdpSession> _pkUdpSession, std::shared_ptr<CServerGame> _pkServerGame, std::shared_ptr<CPlayerEntity> _pkPlayerEntity);
@@ -19,9 +38,12 @@ public:
 
 	void ProcessCommands (uint32_t _nTick);
 
+	void ComposePackage ();
+
 protected:
 	virtual void ResolvePackage (CBitInStream& _rkInStream) override;
-	virtual void OnPacketAcked (uint32_t _nSequence, SOutPacket& _rkOutPacket) override;
+	void ResolveCommand (CBitInStream& _rkInStream);
+	virtual void OnPacketAcked (uint32_t _nSequence, SGameOutPacket& _rkOutPacket) override;
 
 protected:
 	std::shared_ptr<CServerGame> m_pkServerGame;
@@ -29,5 +51,5 @@ protected:
 
 	uint32_t m_nInCommandSequence;
 	uint32_t m_nProcessedCommandSequence;
-	SequenceBuffer<SUserCommand, COMMAND_BUFFER_SIZE> m_kOutPackets;
+	SequenceBuffer<SUserCommand, COMMAND_BUFFER_SIZE> m_kInCommands;
 };

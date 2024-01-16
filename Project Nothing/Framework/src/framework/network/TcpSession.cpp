@@ -69,6 +69,23 @@ void CTcpSession::Shutdown ()
 		});
 }
 
+void CTcpSession::Write (CBitOutStream& _rkOutStream)
+{
+	size_t size = _rkOutStream.GetSize ();
+	if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE) {
+		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", size, TCP_SOCKET_BUFFER_SIZE);
+		return;
+	}
+
+	bool isSending = !m_kWriteQueue.empty ();
+
+	m_kWriteQueue.emplace_back (_rkOutStream);
+
+	if (!isSending) {
+		AsyncWrite ();
+	}
+}
+
 void CTcpSession::AsyncRead ()
 {
 	auto self (shared_from_this ());
@@ -192,21 +209,4 @@ void CTcpSession::AsyncWrite ()
 
 			AsyncWrite ();
 		});
-}
-
-void CTcpSession::Write (CBitOutStream& _rkOutStream)
-{
-	size_t size = _rkOutStream.GetSize ();
-	if (size == 0 || size > TCP_SOCKET_BUFFER_SIZE) {
-		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", size, TCP_SOCKET_BUFFER_SIZE);
-		return;
-	}
-
-	bool isSending = !m_kWriteQueue.empty ();
-
-	m_kWriteQueue.emplace_back (_rkOutStream);
-
-	if (!isSending) {
-		AsyncWrite ();
-	}
 }

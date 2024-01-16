@@ -9,8 +9,6 @@ constexpr size_t TCP_SOCKET_BUFFER_SIZE = 8192;
 
 class CTcpSession : public std::enable_shared_from_this<CTcpSession>
 {
-	friend CTcpConnection;
-
 private:
 	struct SReadCommand
 	{
@@ -42,12 +40,13 @@ public:
 	void Init (std::shared_ptr<CTcpConnection> _pkTcpConnection);
 	void Shutdown ();
 
+	void Write (CBitOutStream& _rkOutStream);
+
 private:
 	void AsyncRead ();
 	void OnRead (const size_t& _rnLength);
 
 	void AsyncWrite ();
-	void Write (CBitOutStream& _rkOutStream);
 
 private:
 	std::shared_ptr<CTcpConnection> m_pkConnection;

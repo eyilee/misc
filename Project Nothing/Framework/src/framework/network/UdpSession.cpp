@@ -24,7 +24,7 @@ CUdpSession::~CUdpSession ()
 {
 }
 
-void CUdpSession::Init (std::shared_ptr<CUdpConnection> _pkUdpConnection)
+void CUdpSession::Init (std::shared_ptr<IUdpConnection> _pkUdpConnection)
 {
 	m_pkUdpConnection = _pkUdpConnection;
 
@@ -52,6 +52,23 @@ void CUdpSession::Shutdown ()
 			m_pkUdpConnection->OnDisconnect ();
 			m_pkUdpConnection = nullptr;
 		});
+}
+
+void CUdpSession::Send (const CBitOutStream& _rkOutStream)
+{
+	size_t size = _rkOutStream.GetSize ();
+	if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE) {
+		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", size, UDP_SOCKET_BUFFER_SIZE);
+		return;
+	}
+
+	bool isSending = !m_kSendQueue.empty ();
+
+	m_kSendQueue.emplace_back (_rkOutStream.GetBytes ());
+
+	if (!isSending) {
+		AsyncSend ();
+	}
 }
 
 void CUdpSession::AsyncReceive ()
@@ -103,21 +120,4 @@ void CUdpSession::AsyncSend ()
 
 			AsyncSend ();
 		});
-}
-
-void CUdpSession::Send (const CBitOutStream& _rkOutStream)
-{
-	size_t size = _rkOutStream.GetSize ();
-	if (size == 0 || size > UDP_SOCKET_BUFFER_SIZE) {
-		LOG_ERROR ("Bytes size(%llu) is 0 or more than %llu.", size, UDP_SOCKET_BUFFER_SIZE);
-		return;
-	}
-
-	bool isSending = !m_kSendQueue.empty ();
-
-	m_kSendQueue.emplace_back (_rkOutStream.GetBytes ());
-
-	if (!isSending) {
-		AsyncSend ();
-	}
 }

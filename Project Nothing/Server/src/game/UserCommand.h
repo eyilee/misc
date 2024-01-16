@@ -1,6 +1,6 @@
 #pragma once
 
-struct SUserCommand
+struct SUserCommand : public IBitSerializable
 {
 public:
 	enum class EButton : uint32_t
@@ -18,31 +18,26 @@ public:
 	struct SButtonBitField
 	{
 	public:
-		EButton m_nFlags;
+		SButtonBitField (EButton _nButton);
+		virtual ~SButtonBitField ();
 
-		bool IsSet (EButton _nButton)
-		{
-			return (static_cast<uint32_t> (m_nFlags) & static_cast<uint32_t> (_nButton)) > 0;
-		}
+		inline bool IsSet (EButton _nButton) { return (static_cast<uint32_t> (m_nFlags) & static_cast<uint32_t> (_nButton)) > 0; }
+
+	public:
+		EButton m_nFlags;
 	};
 
+public:
+	SUserCommand ();
+	SUserCommand (uint32_t _nTick);
+	virtual ~SUserCommand ();
+
+	void Reset ();
+
+	virtual void Serialize (CBitOutStream& _rkOutStream) override;
+	virtual void Deserialize (CBitInStream& _rkInStream) override;
+
+public:
 	uint32_t m_nTick;
 	SButtonBitField m_kButtons;
-
-	SUserCommand ()
-	{
-		Reset ();
-	}
-
-	SUserCommand (uint32_t _nTick)
-	{
-		m_nTick = _nTick;
-		m_kButtons.m_nFlags = EButton::None;
-	}
-
-	void Reset ()
-	{
-		m_nTick = 0;
-		m_kButtons.m_nFlags = EButton::None;
-	}
 };

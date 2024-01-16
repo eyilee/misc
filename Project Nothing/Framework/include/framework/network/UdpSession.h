@@ -3,14 +3,12 @@
 
 using boost::asio::ip::udp;
 
-class CUdpConnection;
+class IUdpConnection;
 
 constexpr size_t UDP_SOCKET_BUFFER_SIZE = 512;
 
 class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 {
-	friend CUdpConnection;
-
 private:
 	struct SSendCommand
 	{
@@ -27,18 +25,19 @@ public:
 	inline unsigned short GetPort () const { return m_kSocket.local_endpoint ().port (); }
 	inline uint32_t GetKey () const { return m_nKey; }
 
-	void Init (std::shared_ptr<CUdpConnection> _pkUdpConnection);
+	void Init (std::shared_ptr<IUdpConnection> _pkUdpConnection);
 	void Shutdown ();
+
+	void Send (const CBitOutStream& _rkOutStream);
 
 private:
 	void AsyncReceive ();
 	void OnReceive (size_t _nLength);
 
 	void AsyncSend ();
-	void Send (const CBitOutStream& _rkOutStream);
 
 private:
-	std::shared_ptr<CUdpConnection> m_pkUdpConnection;
+	std::shared_ptr<IUdpConnection> m_pkUdpConnection;
 	uint32_t m_nKey;
 	udp::socket m_kSocket;
 

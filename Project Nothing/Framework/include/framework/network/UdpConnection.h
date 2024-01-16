@@ -4,66 +4,58 @@
 
 using boost::asio::ip::udp;
 
-class INetProtocol;
 class CUdpSession;
 
 constexpr uint32_t SEQUENCE_BUFFER_SIZE = 256;
 
-class CUdpConnection : public std::enable_shared_from_this<CUdpConnection>
+struct SUdpHeader : public IBitSerializable
 {
-protected:
-	struct SHeader : public IBitSerializable
-	{
-		uint32_t m_nSequence;
-		uint32_t m_nAck;
-		uint32_t m_nAckBits;
+	uint32_t m_nSequence;
+	uint32_t m_nAck;
+	uint32_t m_nAckBits;
 
-		SHeader ();
-		virtual ~SHeader ();
+	SUdpHeader ();
+	virtual ~SUdpHeader ();
 
-		virtual void Serialize (CBitOutStream& _rkOutStream) override;
-		virtual void Deserialize (CBitInStream& _rkInStream) override;
-	};
+	virtual void Serialize (CBitOutStream& _rkOutStream) override;
+	virtual void Deserialize (CBitInStream& _rkInStream) override;
+};
 
-	enum class EPackageType
-	{
-		None = 0,
-	};
+class IUdpConnection : public std::enable_shared_from_this<IUdpConnection>
+{
+public:
+	IUdpConnection ();
+	virtual ~IUdpConnection ();
 
-	struct SOutPacket
-	{
-		EPackageType m_nPackageType;
-		bool m_bReliable;
-		std::shared_ptr<INetProtocol> m_pkProtocol;
+	virtual void Init () = 0;
+	virtual void Shutdown () = 0;
+	virtual void OnDisconnect () = 0;
 
-		SOutPacket ()
-		{
-			Reset ();
-		}
+	virtual void ResolveInput (CBitInStream& _rkInStream) = 0;
+};
 
-		void Reset ()
-		{
-			m_nPackageType = EPackageType::None;
-			m_bReliable = false;
-			m_pkProtocol = nullptr;
-		}
-	};
-
+template<typename TOutPacket>
+class CUdpConnection : public IUdpConnection
+{
 public:
 	CUdpConnection (std::shared_ptr<CUdpSession> _pkUdpSession);
 	virtual ~CUdpConnection ();
 
-	void Init ();
-	void Shutdown ();
-	void OnDisconnect ();
+	virtual void Init () override;
+	virtual void Shutdown () override;
+	virtual void OnDisconnect () override;
 
-	void ResolveInput (CBitInStream& _rkInStream);
-	void ComposeOutput (EPackageType _nPackageType, bool _bReliable, std::shared_ptr<INetProtocol> _pkProtocol);
+	virtual void ResolveInput (CBitInStream& _rkInStream) override;
+	virtual void ResolvePackage (CBitInStream& _rkInStream) = 0;
+	virtual void OnPacketAcked (uint32_t _nSequence, TOutPacket& _rkOutPacket) = 0;
+
+	bool CanComposeOutput ();
+	void BeginComposeOutput (CBitOutStream& _rkOutStream);
+	void EndComposeOutput (CBitOutStream& _rkOutStream);
 
 protected:
 	uint32_t ResolveHeader (CBitInStream& _rkInStream);
-	virtual void ResolvePackage (CBitInStream& _rkInStream);
-	virtual void OnPacketAcked (uint32_t _nSequence, SOutPacket& _rkOutPacket);
+	void ComposeHeader (CBitOutStream& _rkOutStream);
 
 protected:
 	std::shared_ptr<CUdpSession> m_pkUdpSession;
@@ -73,5 +65,190 @@ protected:
 	uint32_t m_nOutSequence;
 	uint32_t m_nOutAck;
 	uint32_t m_nOutAckBits;
-	SequenceBuffer<SOutPacket, SEQUENCE_BUFFER_SIZE> m_kOutPackets;
+	SequenceBuffer<TOutPacket, SEQUENCE_BUFFER_SIZE> m_kOutPackets;
 };
+
+template<typename TOutPacket>
+inline CUdpConnection<TOutPacket>::CUdpConnection (std::shared_ptr<CUdpSession> _pkUdpSession)
+	: m_pkUdpSession (_pkUdpSession)
+	, m_nInSequence (0)
+	, m_nInAckBits (0)
+	, m_nOutSequence (1)
+	, m_nOutAck (0)
+	, m_nOutAckBits (0)
+{
+}
+
+template<typename TOutPacket>
+inline CUdpConnection<TOutPacket>::~CUdpConnection ()
+{
+}
+
+
+template<typename TOutPacket>
+inline void CUdpConnection<TOutPacket>::Init ()
+{
+	m_pkUdpSession->Init (shared_from_this ());
+}
+
+template<typename TOutPacket>
+inline void CUdpConnection<TOutPacket>::Shutdown ()
+{
+	m_pkUdpSession->Shutdown ();
+	m_pkUdpSession = nullptr;
+}
+
+template<typename TOutPacket>
+inline void CUdpConnection<TOutPacket>::OnDisconnect ()
+{
+	m_pkUdpSession = nullptr;
+}
+
+template<typename TOutPacket>
+void CUdpConnection<TOutPacket>::ResolveInput (CBitInStream& _rkInStream)
+{
+	uint32_t key;
+	_rkInStream.Read (key);
+
+	if (key != m_pkUdpSession->GetKey ()) {
+		return;
+	}
+
+	uint32_t sequence = ResolveHeader (_rkInStream);
+	if (sequence == 0) {
+		return;
+	}
+
+	ResolvePackage (_rkInStream);
+}
+
+template<typename TOutPacket>
+inline bool CUdpConnection<TOutPacket>::CanComposeOutput ()
+{
+	if (m_kOutPackets.IsExist (m_nOutSequence)) {
+		// TODO: need client send data to update ack
+		return false;
+	}
+
+	return true;
+}
+
+template<typename TOutPacket>
+inline void CUdpConnection<TOutPacket>::BeginComposeOutput (CBitOutStream& _rkOutStream)
+{
+	_rkOutStream.Write (m_pkUdpSession->GetKey ());
+
+	ComposeHeader (_rkOutStream);
+}
+
+template<typename TOutPacket>
+inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutStream)
+{
+	m_pkUdpSession->Send (_rkOutStream);
+
+	// NOTE: in an extreme case sequence may overflow
+	m_nOutSequence++;
+}
+
+template<typename TOutPacket>
+uint32_t CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
+{
+	SUdpHeader header;
+	_rkInStream.Read (header);
+
+	uint32_t newInSequence = header.m_nSequence;
+	uint32_t newOutAck = header.m_nAck;
+	uint32_t newOutAckBits = header.m_nAckBits;
+
+	if (newInSequence > m_nInSequence)
+	{
+		uint32_t distance = newInSequence - m_nInSequence;
+		if (distance > 31) {
+			m_nInAckBits = 1;
+		}
+		else
+		{
+			m_nInAckBits <<= distance;
+			m_nInAckBits |= 1;
+		}
+
+		m_nInSequence = newInSequence;
+	}
+	else if (newInSequence < m_nInSequence)
+	{
+		uint32_t distance = m_nInSequence - newInSequence;
+		if (distance > 31) {
+			return 0;
+		}
+
+		uint32_t ackBit = 1 << distance;
+		if ((m_nInAckBits & ackBit) != 0) {
+			return 0;
+		}
+
+		m_nInAckBits |= ackBit;
+	}
+	else {
+		return 0;
+	}
+
+	if (newOutAck <= m_nOutAck) {
+		return newInSequence;
+	}
+
+	uint32_t latestLostSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
+	uint32_t oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
+	for (uint32_t sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
+	{
+		uint32_t distance = m_nOutAck >= sequence ? m_nOutAck - sequence : 0;
+		uint32_t ackBit = 1 << distance;
+		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
+
+		if (m_kOutPackets.IsExist (sequence) && !hasAcked)
+		{
+			TOutPacket* packet = m_kOutPackets.TryGet (sequence);
+			if (packet != nullptr)
+			{
+				OnPacketAcked (sequence, *packet);
+			}
+
+			m_kOutPackets.Remove (sequence);
+		}
+	}
+
+	m_nOutAck = newOutAck;
+	m_nOutAckBits = newOutAckBits;
+
+	uint32_t latestSequence = m_nOutAck;
+	uint32_t oldestSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
+	for (uint32_t sequence = oldestSequence; sequence <= latestSequence; sequence++)
+	{
+		uint32_t distance = m_nOutAck - sequence;
+		uint32_t ackBit = 1 << distance;
+		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
+
+		if (m_kOutPackets.IsExist (sequence) && !hasAcked)
+		{
+			TOutPacket* packet = m_kOutPackets.TryGet (sequence);
+			if (packet != nullptr)
+			{
+				OnPacketAcked (sequence, *packet);
+			}
+
+			m_kOutPackets.Remove (sequence);
+		}
+	}
+
+	return newInSequence;
+}
+
+template<typename TOutPacket>
+void CUdpConnection<TOutPacket>::ComposeHeader (CBitOutStream& _rkOutStream)
+{
+	SUdpHeader header;
+	header.m_nSequence = m_nOutSequence;
+	header.m_nAck = m_nInSequence;
+	header.m_nAckBits = m_nInAckBits;
+
+	_rkOutStream.Write (header);
+}
