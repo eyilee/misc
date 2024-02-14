@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
 #include "game/ServerConnection.h"
-#include "protocol/netcommand/NC_ClientGameSnapshot.h"
 #include "game/ServerGame.h"
 
 unsigned short CServerGame::ServerTickRate = 20;

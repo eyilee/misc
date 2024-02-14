@@ -44,7 +44,7 @@ void CNetBridge::OnDisconnect ()
 	Shutdown ();
 }
 
-void CNetBridge::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol) const
+void CNetBridge::ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol)
 {
 	if (m_pkConnection == nullptr) {
 		return;

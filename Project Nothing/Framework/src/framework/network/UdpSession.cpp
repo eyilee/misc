@@ -26,7 +26,7 @@ CUdpSession::~CUdpSession ()
 
 void CUdpSession::Init (std::shared_ptr<IUdpConnection> _pkUdpConnection)
 {
-	m_pkUdpConnection = _pkUdpConnection;
+	m_pkConnection = _pkUdpConnection;
 
 	AsyncReceive ();
 }
@@ -35,7 +35,7 @@ void CUdpSession::Shutdown ()
 {
 	if (!m_kSocket.is_open ())
 	{
-		m_pkUdpConnection = nullptr;
+		m_pkConnection = nullptr;
 		return;
 	}
 
@@ -49,8 +49,8 @@ void CUdpSession::Shutdown ()
 			m_kSocket.shutdown (udp::socket::shutdown_type::shutdown_both);
 			m_kSocket.close ();
 
-			m_pkUdpConnection->OnDisconnect ();
-			m_pkUdpConnection = nullptr;
+			m_pkConnection->OnDisconnect ();
+			m_pkConnection = nullptr;
 		});
 }
 
@@ -97,7 +97,7 @@ void CUdpSession::AsyncReceive ()
 void CUdpSession::OnReceive (size_t _nLength)
 {
 	CBitInStream inStream (&m_kReceiveBuffer[0], _nLength);
-	m_pkUdpConnection->ResolveInput (inStream);
+	m_pkConnection->ResolveInput (inStream);
 }
 
 void CUdpSession::AsyncSend ()

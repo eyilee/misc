@@ -60,9 +60,6 @@
     <ClCompile Include="src\protocol\netevent\NE_ServerShutdown.cpp">
       <Filter>src\protocol\netevent</Filter>
     </ClCompile>
-    <ClCompile Include="src\protocol\netcommand\NC_ClientGameSnapshot.cpp">
-      <Filter>src\protocol\netcommand</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\ServerGame.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
@@ -127,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="src\protocol\netevent\NE_ServerShutdown.h">
       <Filter>src\protocol\netevent</Filter>
-    </ClInclude>
-    <ClInclude Include="src\protocol\netcommand\NC_ClientGameSnapshot.h">
-      <Filter>src\protocol\netcommand</Filter>
     </ClInclude>
     <ClInclude Include="src\game\ServerGame.h">
       <Filter>src\game</Filter>

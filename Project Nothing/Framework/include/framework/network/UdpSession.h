@@ -37,7 +37,7 @@ private:
 	void AsyncSend ();
 
 private:
-	std::shared_ptr<IUdpConnection> m_pkUdpConnection;
+	std::shared_ptr<IUdpConnection> m_pkConnection;
 	uint32_t m_nKey;
 	udp::socket m_kSocket;
 

@@ -38,12 +38,11 @@ public:
 
 	void ProcessCommands (uint32_t _nTick);
 
-	void ComposePackage ();
-
-protected:
 	virtual void ResolvePackage (CBitInStream& _rkInStream) override;
 	void ResolveCommand (CBitInStream& _rkInStream);
 	virtual void OnPacketAcked (uint32_t _nSequence, SGameOutPacket& _rkOutPacket) override;
+
+	void ComposePackage ();
 
 protected:
 	std::shared_ptr<CServerGame> m_pkServerGame;

@@ -34,24 +34,25 @@ namespace ProjectNothing
 
             while (true)
             {
-                m_LatencyText.text = string.Format ("ping: {0} ms, sequence: {1}", NetworkManager.m_Latency, NetworkManager.m_Sequence);
+                //m_LatencyText.text = string.Format ("ping: {0} ms, sequence: {1}", NetworkManager.m_Latency, NetworkManager.m_Sequence);
+                m_LatencyText.text = string.Format ("ping: {0} ms, sequence: {1}", 0, 0);
                 yield return wait;
             }
         }
 
         void Connect ()
         {
-            NetworkManager.ComposeTcpOutput (new NC_ServerLogin { m_ID = 1 });
+            NetworkManager.ComposeOutput (new NC_ServerLogin { m_ID = 1 });
         }
 
         void CreateGame ()
         {
-            NetworkManager.ComposeTcpOutput (new NC_ServerCreateGame ());
+            NetworkManager.ComposeOutput (new NC_ServerCreateGame ());
         }
 
         void ShutdownServer ()
         {
-            NetworkManager.ComposeTcpOutput (new NC_ServerShutdown ());
+            NetworkManager.ComposeOutput (new NC_ServerShutdown ());
         }
     }
 }

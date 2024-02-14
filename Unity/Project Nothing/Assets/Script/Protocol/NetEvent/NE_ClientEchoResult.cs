@@ -13,7 +13,7 @@
 
         public override void Excute ()
         {
-            NetworkManager.RefreshLatency (m_Sequence, m_SendTime);
+            //NetworkManager.RefreshLatency (m_Sequence, m_SendTime);
         }
     }
 }

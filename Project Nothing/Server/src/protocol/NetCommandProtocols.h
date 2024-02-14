@@ -3,4 +3,3 @@
 #include "protocol/netcommand/NC_ClientEchoResult.h"
 #include "protocol/netcommand/NC_ClientCreateGameResult.h"
 #include "protocol/netcommand/NC_ClientJoinGameResult.h"
-#include "protocol/netcommand/NC_ClientGameSnapShot.h"

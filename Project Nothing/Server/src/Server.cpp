@@ -101,10 +101,10 @@ void CServer::InitProtocolManager ()
 
 	CProtocolManager::RegisterNetEvent<NE_ServerEcho> (100);
 	CProtocolManager::RegisterNetEvent<NE_ServerCreateGame> (101);
+	CProtocolManager::RegisterNetEvent<NE_ServerJoinGame> (102);
 	CProtocolManager::RegisterNetCommand<NC_ClientEchoResult> (200);
 	CProtocolManager::RegisterNetCommand<NC_ClientCreateGameResult> (201);
 	CProtocolManager::RegisterNetCommand<NC_ClientJoinGameResult> (202);
-	CProtocolManager::RegisterNetCommand<NC_ClientGameSnapshot> (203);
 
 	CProtocolManager::RegisterNetEvent<NE_ServerShutdown> (9000);
 }

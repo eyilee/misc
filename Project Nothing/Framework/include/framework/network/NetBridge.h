@@ -24,7 +24,7 @@ public:
 	void Shutdown ();
 	void OnDisconnect ();
 
-	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol) const;
+	void ComposeOutput (std::shared_ptr<INetProtocol> _pkProtocol);
 
 private:
 	uint32_t m_nID;

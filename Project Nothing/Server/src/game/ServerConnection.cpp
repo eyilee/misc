@@ -54,22 +54,6 @@ void CServerConnection::ProcessCommands (uint32_t _nTick)
 	}
 }
 
-void CServerConnection::ComposePackage ()
-{
-	if (!CanComposeOutput ()) {
-		return;
-	}
-
-	SGameOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequence);
-
-	CBitOutStream outStream;
-	BeginComposeOutput (outStream);
-
-	// TODO: write snapshot
-
-	EndComposeOutput (outStream);
-}
-
 void CServerConnection::ResolvePackage (CBitInStream& _rkInStream)
 {
 	uint32_t message;
@@ -96,4 +80,20 @@ void CServerConnection::ResolveCommand (CBitInStream& _rkInStream)
 void CServerConnection::OnPacketAcked (uint32_t _nSequence, SGameOutPacket& _rkOutPacket)
 {
 	_rkOutPacket.Reset ();
+}
+
+void CServerConnection::ComposePackage ()
+{
+	if (!CanComposeOutput ()) {
+		return;
+	}
+
+	SGameOutPacket& outPacket = m_kOutPackets.Insert (m_nOutSequence);
+
+	CBitOutStream outStream;
+	BeginComposeOutput (outStream);
+
+	// TODO: write snapshot
+
+	EndComposeOutput (outStream);
 }

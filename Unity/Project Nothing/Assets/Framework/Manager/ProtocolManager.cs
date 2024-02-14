@@ -10,20 +10,6 @@ namespace ProjectNothing
         public static void Init ()
         {
             m_ProtocolMap = new Dictionary<ushort, INetProtocolGenerator> ();
-
-            RegisterNetCommand<NC_ServerLogin> (1);
-            RegisterNetCommand<NC_ServerUdpConnect> (2);
-            RegisterNetEvent<NE_ClientLoginResult> (51);
-            RegisterNetEvent<NE_ClientUdpConnectResult> (52);
-
-            RegisterNetCommand<NC_ServerEcho> (100);
-            RegisterNetCommand<NC_ServerCreateGame> (101);
-            RegisterNetEvent<NE_ClientEchoResult> (200);
-            RegisterNetEvent<NE_ClientCreateGameResult> (201);
-            RegisterNetEvent<NE_ClientJoinGame> (202);
-            RegisterNetEvent<NE_ClientGameSnapshot> (203);
-
-            RegisterNetCommand<NC_ServerShutdown> (9000);
         }
 
         public static INetProtocol GenerateProtocol (ushort protocolID)
@@ -36,7 +22,7 @@ namespace ProjectNothing
             return generator.Generate ();
         }
 
-        private static void RegisterNetCommand<T> (ushort protocolID) where T : NetCommand<T>, new()
+        public static void RegisterNetCommand<T> (ushort protocolID) where T : NetCommand<T>, new()
         {
             NetCommand<T>.m_ProtocolID = protocolID;
 
@@ -50,7 +36,7 @@ namespace ProjectNothing
             }
         }
 
-        private static void RegisterNetEvent<T> (ushort protocolID) where T : NetEvent<T>, new()
+        public static void RegisterNetEvent<T> (ushort protocolID) where T : NetEvent<T>, new()
         {
             NetEvent<T>.m_ProtocolID = protocolID;
 
