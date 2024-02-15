@@ -1,4 +1,6 @@
-﻿namespace ProjectNothing
+﻿using UnityEngine;
+
+namespace ProjectNothing
 {
     public sealed class NE_ClientCreateGameResult : NetEvent<NE_ClientCreateGameResult>
     {
@@ -11,11 +13,13 @@
 
         public override void Excute ()
         {
-            GameConnection gameConnection = new ();
+            ClientConnection connection = new ();
 
-            // TODO: game manager add game
+            GameManager.CreateGame (m_GameID, connection);
 
-            NetworkManager.ComposeOutput (new NC_ServerJoinGame { m_GameID = m_GameID, m_Port = gameConnection.Port });
+            NetworkManager.ComposeOutput (new NC_ServerJoinGame { m_GameID = m_GameID, m_Port = connection.Port });
+
+            Debug.Log ("Created.");
         }
     }
 }

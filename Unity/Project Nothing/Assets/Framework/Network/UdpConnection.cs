@@ -1,4 +1,5 @@
 using System.Net;
+using UnityEngine;
 
 namespace ProjectNothing
 {
@@ -92,6 +93,8 @@ namespace ProjectNothing
             {
                 return;
             }
+
+            Debug.LogFormat ("Insequence: {0}", sequence);
 
             ResolvePackage (inStream);
         }

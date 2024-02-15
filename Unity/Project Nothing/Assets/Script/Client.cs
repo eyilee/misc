@@ -10,11 +10,17 @@ namespace ProjectNothing
 
         bool m_IsInit = false;
 
+        public void Awake ()
+        {
+            DontDestroyOnLoad (gameObject);
+        }
+
         public IEnumerator Start ()
         {
-            InitGameManager ();
             InitProtocolManager ();
             yield return InitNetworkManager ();
+
+            InitGameManager ();
 
             m_IsInit = true;
         }
@@ -26,14 +32,9 @@ namespace ProjectNothing
                 return;
             }
 
-            // GameManager.Update ();
-
             NetworkManager.Update ();
-        }
 
-        void InitGameManager ()
-        {
-
+            GameManager.Update ();
         }
 
         void InitProtocolManager ()
@@ -56,6 +57,11 @@ namespace ProjectNothing
         public IEnumerator InitNetworkManager ()
         {
             yield return NetworkManager.Init (m_Config.Host, m_Config.Port);
+        }
+
+        void InitGameManager ()
+        {
+            GameManager.Init ();
         }
     }
 }

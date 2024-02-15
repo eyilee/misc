@@ -6,14 +6,21 @@ using System.Threading.Tasks;
 
 namespace ProjectNothing
 {
+    enum EGameMessage : uint
+    {
+        None = 0,
+        Command = 1 << 0,
+        Snapshot = 1 << 1
+    };
+
     public class GameOutPacket
     {
 
     }
 
-    public sealed class GameConnection : UdpConnection<GameOutPacket>
+    public sealed class ClientConnection : UdpConnection<GameOutPacket>
     {
-        public GameConnection ()
+        public ClientConnection ()
         {
         }
 
@@ -21,10 +28,10 @@ namespace ProjectNothing
         {
             inStream.Read (out uint message);
 
-            //if ((message & static_cast<uint32_t> (EGameMessage::Command)) > 0)
-            //{
-            //    ResolveSnapshot (inStream);
-            //}
+            if (((EGameMessage)message & EGameMessage.Snapshot) > 0)
+            {
+                ResolveSnapshot (inStream);
+            }
         }
 
         public void ResolveSnapshot (BitInStream inStream)
@@ -48,7 +55,7 @@ namespace ProjectNothing
             BitOutStream outStream = new ();
             BeginComposeOutput (outStream);
 
-            // TODO: write snapshot
+            // TODO: write commands
 
             EndComposeOutput (outStream);
         }

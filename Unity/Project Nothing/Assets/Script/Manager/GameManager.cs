@@ -1,60 +1,57 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectNothing
 {
-    public class GameManager : MonoSingleton<GameManager>
+    public sealed class GameManager
     {
-        [SerializeField]
-        GameConfig m_Config;
+        static Game m_Game = null;
 
-        [SerializeField]
-        public GameObject m_PlayerPrefab;
+        static bool m_IsInit = false;
 
-        Game m_Game = null;
-
-        uint m_TickStep = 1;
-        ulong m_TickInterval = 16;
-
-        bool m_IsInit = false;
-
-        public void Awake ()
+        public static void Init ()
         {
-            DontDestroyOnLoad (gameObject);
-        }
-
-        public IEnumerator Start ()
-        {
-            Initialize (gameObject);
-
-            ProtocolManager.Init ();
-
-            yield return NetworkManager.Init (m_Config.Host, m_Config.Port);
-
-            m_TickStep = 1;
-            m_TickInterval = (ulong)(1000 / m_Config.TickRate);
-
             m_IsInit = true;
         }
 
-        public void Update ()
+        public static void Update ()
         {
             if (!m_IsInit)
             {
                 return;
             }
 
-            NetworkManager.Update ();
-
-            ulong duration = (ulong)(Time.deltaTime * 1000);
-            m_Game?.Update (duration);
+            if (m_Game != null)
+            {
+                ulong duration = (ulong)(Time.deltaTime * 1000);
+                m_Game.Update (duration);
+            }
         }
 
-        public void CreateGame ()
+        public static void CreateGame (uint gameID, ClientConnection connection)
         {
-            m_Game = new Game ();
-            m_Game.Load (m_PlayerPrefab);
-            m_Game.Start ();
+            if (m_Game != null)
+            {
+                return;
+            }
+
+            m_Game = new Game (gameID, connection);
+        }
+
+        public static void JoinGame (uint gameID, ushort port, uint key)
+        {
+            if (m_Game == null || m_Game.GameID != gameID)
+            {
+                return;
+            }
+
+            NetworkManager.UdpConnect (m_Game.Connection, port, key);
+
+            m_Game.Connection.Init ();
+        }
+
+        public static void LeaveGame ()
+        {
+            m_Game = null;
         }
     }
 }

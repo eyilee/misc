@@ -5,6 +5,12 @@ namespace ProjectNothing
 {
     public class Game
     {
+        readonly uint m_GameID;
+        readonly ClientConnection m_Connection;
+
+        public uint GameID => m_GameID;
+        public ClientConnection Connection => m_Connection;
+
         private GameObject m_Player = null;
         private PlayerController m_PlayerController = null;
 
@@ -13,6 +19,12 @@ namespace ProjectNothing
         GameTime m_ServerTime;
 
         private bool m_IsRunning;
+
+        public Game (uint gameID, ClientConnection connection)
+        {
+            m_GameID = gameID;
+            m_Connection = connection;
+        }
 
         public void Load (GameObject playerPrefab)
         {

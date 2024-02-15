@@ -55,18 +55,18 @@ namespace ProjectNothing
 
         public void SampleInput (ref UserCommand userCommand)
         {
-            userCommand.m_Buttons.Or (UserCommand.Button.Up, GetKey (KeyCode.UpArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.Down, GetKey (KeyCode.DownArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.Left, GetKey (KeyCode.LeftArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.Right, GetKey (KeyCode.RightArrow));
-            userCommand.m_Buttons.Or (UserCommand.Button.Accel, GetKey (KeyCode.A));
-            userCommand.m_Buttons.Or (UserCommand.Button.Melee, GetKeyDown (KeyCode.S));
-            userCommand.m_Buttons.Or (UserCommand.Button.Shoot, GetKeyDown (KeyCode.D));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Up, GetKey (KeyCode.UpArrow));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Down, GetKey (KeyCode.DownArrow));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Left, GetKey (KeyCode.LeftArrow));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Right, GetKey (KeyCode.RightArrow));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Accel, GetKey (KeyCode.A));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Melee, GetKeyDown (KeyCode.S));
+            userCommand.m_Buttons.Or (UserCommand.EButton.Shoot, GetKeyDown (KeyCode.D));
         }
 
         public void ClearInput (ref UserCommand userCommand)
         {
-            userCommand.m_Buttons.m_Flags = UserCommand.Button.None;
+            userCommand.m_Buttons.m_Flags = UserCommand.EButton.None;
         }
     }
 }

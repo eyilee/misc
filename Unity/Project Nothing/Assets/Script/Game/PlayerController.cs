@@ -64,12 +64,12 @@ namespace ProjectNothing
             UserCommand command = UserCommand.m_DefaultCommand;
             if (m_CommandBuffer.TryGetValue (tick, ref command))
             {
-                if (command.m_Buttons.IsSet (UserCommand.Button.Up))
+                if (command.m_Buttons.IsSet (UserCommand.EButton.Up))
                 {
                     m_Player.transform.Translate (Vector3.up * 0.05f);
                 }
 
-                if (command.m_Buttons.IsSet (UserCommand.Button.Down))
+                if (command.m_Buttons.IsSet (UserCommand.EButton.Down))
                 {
                     m_Player.transform.Translate (Vector3.down * 0.05f);
                 }

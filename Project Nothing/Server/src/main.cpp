@@ -2,7 +2,7 @@
 #include "ConfigLoader.h"
 #include "Server.h"
 
-BOOL WINAPI CtrlHandler (DWORD fdwCtrlType)
+static BOOL WINAPI CtrlHandler (DWORD fdwCtrlType)
 {
 	switch (fdwCtrlType)
 	{

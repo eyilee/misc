@@ -23,6 +23,7 @@ void NE_ServerCreateGame::Excute ()
 	std::shared_ptr<CServerGame> game = CGameManager::CreateGame<CServerGame> ();
 	if (game != nullptr) {
 		gameID = game->GetID ();
+		game->Init (); // TODO: for test, remove
 	}
 
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientCreateGameResult> (gameID);

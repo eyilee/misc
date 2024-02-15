@@ -130,8 +130,8 @@ void CServerGame::TickUpdate ()
 	m_nTick++;
 
 	// TODO: handle client commands
-	for (auto& pair : m_kServerConnections) {
-		pair.second->ProcessCommands (m_nTick);
+	for (auto& [id, connection] : m_kServerConnections) {
+		connection->ProcessCommands (m_nTick);
 	}
 
 	// TODO: update systems
@@ -143,7 +143,7 @@ void CServerGame::GenerateSnapshot ()
 
 void CServerGame::BroadcastSnapshot ()
 {
-	for (auto& pair : m_kServerConnections) {
-		pair.second->ComposePackage ();
+	for (auto& [id, connection] : m_kServerConnections) {
+		connection->ComposePackage ();
 	}
 }

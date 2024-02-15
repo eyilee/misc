@@ -1,4 +1,6 @@
-﻿namespace ProjectNothing
+﻿using UnityEngine;
+
+namespace ProjectNothing
 {
     public sealed class NE_ClientJoinGameResult : NetEvent<NE_ClientJoinGameResult>
     {
@@ -15,6 +17,16 @@
 
         public override void Excute ()
         {
+            if (m_GameID != 0)
+            {
+                GameManager.JoinGame (m_GameID, m_Port, m_Key);
+            }
+            else
+            {
+                GameManager.LeaveGame ();
+            }
+
+            Debug.Log ("Joined.");
         }
     }
 }

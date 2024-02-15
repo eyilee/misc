@@ -115,8 +115,8 @@ void CNetworkManager::Stop ()
 {
 	m_pkListener->Shutdown ();
 
-	for (auto& pair : m_kNetBridges) {
-		pair.second->Shutdown ();
+	for (auto& [id, netBridge] : m_kNetBridges) {
+		netBridge->Shutdown ();
 	}
 }
 

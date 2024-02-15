@@ -5,7 +5,7 @@ namespace ProjectNothing
     public struct UserCommand
     {
         [Flags]
-        public enum Button : uint
+        public enum EButton : uint
         {
             None = 0,
             Up = 1 << 0,
@@ -19,14 +19,14 @@ namespace ProjectNothing
 
         public struct ButtonBitField
         {
-            public Button m_Flags;
+            public EButton m_Flags;
 
-            public readonly bool IsSet (Button button)
+            public readonly bool IsSet (EButton button)
             {
                 return (m_Flags & button) > 0;
             }
 
-            public void Or (Button button, bool isOn)
+            public void Or (EButton button, bool isOn)
             {
                 if (isOn)
                 {
@@ -34,7 +34,7 @@ namespace ProjectNothing
                 }
             }
 
-            public void Set (Button button, bool isOn)
+            public void Set (EButton button, bool isOn)
             {
                 if (isOn)
                 {
@@ -55,7 +55,7 @@ namespace ProjectNothing
         public UserCommand (uint tick)
         {
             m_Tick = tick;
-            m_Buttons.m_Flags = Button.None;
+            m_Buttons.m_Flags = EButton.None;
         }
     }
 }

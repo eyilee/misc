@@ -44,8 +44,8 @@ void CGameManager::Run (boost::asio::io_context& _rkContext)
 		{
 			if (!m_bIsRunning)
 			{
-				for (auto& pair : m_kGameLoops) {
-					pair.second->Shutdown ();
+				for (auto& [id, gameloop] : m_kGameLoops) {
+					gameloop->Shutdown ();
 				}
 
 				m_pkTimer->cancel ();
@@ -83,7 +83,7 @@ void CGameManager::Update ()
 {
 	CTime::FrameTime = CTime::GetMiliSecond ();
 
-	for (auto& pair : m_kGameLoops) {
-		pair.second->Update ();
+	for (auto& [id, gameloop] : m_kGameLoops) {
+		gameloop->Update ();
 	}
 }
