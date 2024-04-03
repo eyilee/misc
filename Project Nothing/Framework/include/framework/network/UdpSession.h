@@ -5,7 +5,7 @@ using boost::asio::ip::udp;
 
 class IUdpConnection;
 
-constexpr size_t UDP_SOCKET_BUFFER_SIZE = 512;
+constexpr size_t UDP_SOCKET_BUFFER_SIZE = 1432; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header)
 
 class CUdpSession : public std::enable_shared_from_this<CUdpSession>
 {

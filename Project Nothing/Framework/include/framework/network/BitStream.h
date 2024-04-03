@@ -19,6 +19,8 @@ public:
 	CBitInStream (const uint8_t* _pnData, size_t _nSize);
 	virtual ~CBitInStream ();
 
+	void Align ();
+
 	void Read (bool& _rbValue);
 
 	template<typename T> requires std::is_arithmetic_v<T>
@@ -29,6 +31,8 @@ public:
 
 	void Read (std::string& _rkValue);
 	void Read (std::wstring& _rkValue);
+
+	void ReadBytes (std::vector<uint8_t>& _rkValue, size_t _nSize);
 
 private:
 	void ReadValue (void* _pValue, size_t _nByteCount);
@@ -86,6 +90,8 @@ public:
 	const std::vector<uint8_t>& GetBytes () const { return m_kBytes; }
 	size_t GetSize () const { return m_kBytes.size (); }
 
+	void Align ();
+
 	void Write (bool _bValue);
 
 	template<typename T> requires std::is_arithmetic_v<T>
@@ -96,7 +102,8 @@ public:
 
 	void Write (const std::string& _rkValue);
 	void Write (const std::wstring& _rkValue);
-	void Write (CBitOutStream& _rkOutStream);
+
+	void WriteBytes (const std::vector<uint8_t>& _rkValue, size_t _nSize);
 
 private:
 	void WriteValue (void* _pValue, size_t _nByteCount);

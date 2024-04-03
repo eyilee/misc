@@ -6,7 +6,22 @@ using boost::asio::ip::udp;
 
 class CUdpSession;
 
-constexpr uint32_t SEQUENCE_BUFFER_SIZE = 256;
+constexpr uint32_t FRAGMENT_SIZE = 1420; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 12(fragment header)
+constexpr uint32_t PACKET_BUFFER_SIZE = 256;
+
+struct SFragmentHeader : public IBitSerializable
+{
+	uint32_t m_nSequence;
+	uint32_t m_nCount;
+	uint32_t m_nIndex;
+	uint32_t m_Size;
+
+	SFragmentHeader ();
+	virtual ~SFragmentHeader ();
+
+	virtual void Serialize (CBitOutStream& _rkOutStream) override;
+	virtual void Deserialize (CBitInStream& _rkInStream) override;
+};
 
 struct SUdpHeader : public IBitSerializable
 {
@@ -65,7 +80,7 @@ protected:
 	uint32_t m_nOutSequence;
 	uint32_t m_nOutAck;
 	uint32_t m_nOutAckBits;
-	SequenceBuffer<TOutPacket, SEQUENCE_BUFFER_SIZE> m_kOutPackets;
+	SequenceBuffer<TOutPacket, PACKET_BUFFER_SIZE> m_kOutPackets;
 };
 
 template<typename TOutPacket>
@@ -144,7 +159,43 @@ inline void CUdpConnection<TOutPacket>::BeginComposeOutput (CBitOutStream& _rkOu
 template<typename TOutPacket>
 inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutStream)
 {
-	m_pkUdpSession->Send (_rkOutStream);
+	uint32_t size = static_cast<uint32_t> (_rkOutStream.GetSize ());
+	if (size > FRAGMENT_SIZE) {
+		uint32_t fragmentCount = size / FRAGMENT_SIZE;
+		uint32_t lastFragmentSize = size % FRAGMENT_SIZE;
+		if (lastFragmentSize != 0) {
+			fragmentCount++;
+		}
+		else {
+			lastFragmentSize = FRAGMENT_SIZE;
+		}
+
+		for (uint32_t i = 0; i < size; i++)
+		{
+			uint32_t fragmentSize = i < fragmentCount - 1 ? FRAGMENT_SIZE : lastFragmentSize;
+
+			SFragmentHeader header;
+			header.m_nSequence = m_nOutSequence;
+			header.m_nCount = fragmentCount;
+			header.m_nIndex = i;
+			header.m_Size = fragmentSize;
+
+			const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
+			uint32_t position = i * FRAGMENT_SIZE;
+			auto it = bytes.begin () + position;
+			std::vector<uint8_t> fragmentBytes (it, it + fragmentSize);
+
+			CBitOutStream outStream;
+			outStream.Write (static_cast<uint8_t> (1));
+			outStream.Write (header);
+			outStream.Align ();
+			outStream.WriteBytes (fragmentBytes, fragmentSize);
+			m_pkUdpSession->Send (outStream);
+		}
+	}
+	else {
+		m_pkUdpSession->Send (_rkOutStream);
+	}
 
 	// NOTE: in an extreme case sequence may overflow
 	m_nOutSequence++;
@@ -153,8 +204,17 @@ inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutS
 template<typename TOutPacket>
 uint32_t CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 {
+	uint8_t isFragment;
+	_rkInStream.Read (isFragment);
+
+	if (isFragment == 1)
+	{
+		// TODO: read fragment
+	}
+
 	SUdpHeader header;
 	_rkInStream.Read (header);
+	_rkInStream.Align ();
 
 	uint32_t newInSequence = header.m_nSequence;
 	uint32_t newOutAck = header.m_nAck;
@@ -250,5 +310,7 @@ void CUdpConnection<TOutPacket>::ComposeHeader (CBitOutStream& _rkOutStream)
 	header.m_nAck = m_nInSequence;
 	header.m_nAckBits = m_nInAckBits;
 
+	_rkOutStream.Write (static_cast<uint8_t> (0));
 	_rkOutStream.Write (header);
+	_rkOutStream.Align ();
 }

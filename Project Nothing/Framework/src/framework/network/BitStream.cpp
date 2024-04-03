@@ -25,6 +25,14 @@ CBitInStream::~CBitInStream ()
 {
 }
 
+void CBitInStream::Align ()
+{
+	size_t offset = m_nBitOffset % 8;
+	if (offset > 0) {
+		m_nBitOffset += (8 - offset);
+	}
+}
+
 void CBitInStream::Read (bool& _rbValue)
 {
 	if (m_nBitOffset + 1 > m_kBytes.size () * 8)
@@ -67,6 +75,21 @@ void CBitInStream::Read (std::wstring& _rkValue)
 		wchar_t c;
 		Read (c);
 		value.push_back (c);
+	}
+
+	_rkValue.swap (value);
+}
+
+void CBitInStream::ReadBytes (std::vector<uint8_t>& _rkValue, size_t _nSize)
+{
+	std::vector<uint8_t> value;
+	value.reserve (_nSize);
+
+	for (size_t i = 0; i < _nSize; i++)
+	{
+		uint8_t byte;
+		Read (byte);
+		value.push_back (byte);
 	}
 
 	_rkValue.swap (value);
@@ -135,6 +158,14 @@ const std::vector<uint8_t>& CBitOutStream::GetHeader ()
 	return m_kHeader;
 }
 
+void CBitOutStream::Align ()
+{
+	size_t offset = m_nBitOffset % 8;
+	if (offset > 0) {
+		m_nBitOffset += (8 - offset);
+	}
+}
+
 void CBitOutStream::Write (bool _bValue)
 {
 	WriteBit (_bValue);
@@ -160,16 +191,10 @@ void CBitOutStream::Write (const std::wstring& _rkValue)
 	}
 }
 
-void CBitOutStream::Write (CBitOutStream& _rkOutStream)
+void CBitOutStream::WriteBytes (const std::vector<uint8_t>& _rkValue, size_t _nSize)
 {
-	size_t byteCount = _rkOutStream.m_nBitOffset / 8;
-	for (size_t i = 0; i < byteCount; i++) {
-		WriteByte (_rkOutStream.m_kBytes[i]);
-	}
-
-	size_t bitOffset = _rkOutStream.m_nBitOffset & 0x7;
-	if (bitOffset > 0) {
-		WriteBits (_rkOutStream.m_kBytes.back (), bitOffset);
+	for (size_t i = 0; i < _nSize; i++) {
+		Write (_rkValue[i]);
 	}
 }
 
