@@ -6,15 +6,17 @@ using boost::asio::ip::udp;
 
 class CUdpSession;
 
-constexpr uint32_t FRAGMENT_SIZE = 1420; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 12(fragment header)
-constexpr uint32_t PACKET_BUFFER_SIZE = 256;
+constexpr size_t PACKET_BUFFER_SIZE = 256;
+constexpr size_t FRAGMENT_BUFFER_SIZE = 32;
+constexpr size_t FRAGMENT_SIZE = 10; //1420; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 12(fragment header)
+constexpr size_t REASSEMBLY_SIZE = 1024 * 32;
 
 struct SFragmentHeader : public IBitSerializable
 {
-	uint32_t m_nSequence;
-	uint32_t m_nCount;
-	uint32_t m_nIndex;
-	uint32_t m_Size;
+	int m_nSequence;
+	int m_nCount;
+	int m_nIndex;
+	int m_nSize;
 
 	SFragmentHeader ();
 	virtual ~SFragmentHeader ();
@@ -23,11 +25,22 @@ struct SFragmentHeader : public IBitSerializable
 	virtual void Deserialize (CBitInStream& _rkInStream) override;
 };
 
+struct SFragmentReassembly
+{
+	int m_nCount;
+	int m_nReceivedMask;
+	int m_nReceivedCount;
+	std::vector<uint8_t> m_kBytes;
+
+	SFragmentReassembly ();
+	virtual ~SFragmentReassembly ();
+};
+
 struct SUdpHeader : public IBitSerializable
 {
-	uint32_t m_nSequence;
-	uint32_t m_nAck;
-	uint32_t m_nAckBits;
+	int m_nSequence;
+	int m_nAck;
+	int m_nAckBits;
 
 	SUdpHeader ();
 	virtual ~SUdpHeader ();
@@ -62,25 +75,26 @@ public:
 
 	virtual void ResolveInput (CBitInStream& _rkInStream) override;
 	virtual void ResolvePackage (CBitInStream& _rkInStream) = 0;
-	virtual void OnPacketAcked (uint32_t _nSequence, TOutPacket& _rkOutPacket) = 0;
+	virtual void OnPacketAcked (int _nSequence, TOutPacket& _rkOutPacket) = 0;
 
 	bool CanComposeOutput ();
 	void BeginComposeOutput (CBitOutStream& _rkOutStream);
 	void EndComposeOutput (CBitOutStream& _rkOutStream);
 
 protected:
-	uint32_t ResolveHeader (CBitInStream& _rkInStream);
+	int ResolveHeader (CBitInStream& _rkInStream);
 	void ComposeHeader (CBitOutStream& _rkOutStream);
 
 protected:
 	std::shared_ptr<CUdpSession> m_pkUdpSession;
 
-	uint32_t m_nInSequence;
-	uint32_t m_nInAckBits;
-	uint32_t m_nOutSequence;
-	uint32_t m_nOutAck;
-	uint32_t m_nOutAckBits;
+	int m_nInSequence;
+	int m_nInAckBits;
+	int m_nOutSequence;
+	int m_nOutAck;
+	int m_nOutAckBits;
 	SequenceBuffer<TOutPacket, PACKET_BUFFER_SIZE> m_kOutPackets;
+	SequenceBuffer<SFragmentReassembly, FRAGMENT_BUFFER_SIZE> m_kFragmentReassembly;
 };
 
 template<typename TOutPacket>
@@ -129,7 +143,7 @@ void CUdpConnection<TOutPacket>::ResolveInput (CBitInStream& _rkInStream)
 		return;
 	}
 
-	uint32_t sequence = ResolveHeader (_rkInStream);
+	int sequence = ResolveHeader (_rkInStream);
 	if (sequence == 0) {
 		return;
 	}
@@ -151,18 +165,16 @@ inline bool CUdpConnection<TOutPacket>::CanComposeOutput ()
 template<typename TOutPacket>
 inline void CUdpConnection<TOutPacket>::BeginComposeOutput (CBitOutStream& _rkOutStream)
 {
-	_rkOutStream.Write (m_pkUdpSession->GetKey ());
-
 	ComposeHeader (_rkOutStream);
 }
 
 template<typename TOutPacket>
 inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutStream)
 {
-	uint32_t size = static_cast<uint32_t> (_rkOutStream.GetSize ());
+	int size = static_cast<int> (_rkOutStream.GetSize ());
 	if (size > FRAGMENT_SIZE) {
-		uint32_t fragmentCount = size / FRAGMENT_SIZE;
-		uint32_t lastFragmentSize = size % FRAGMENT_SIZE;
+		int fragmentCount = size / FRAGMENT_SIZE;
+		int lastFragmentSize = size % FRAGMENT_SIZE;
 		if (lastFragmentSize != 0) {
 			fragmentCount++;
 		}
@@ -170,27 +182,21 @@ inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutS
 			lastFragmentSize = FRAGMENT_SIZE;
 		}
 
-		for (uint32_t i = 0; i < size; i++)
+		for (int i = 0; i < fragmentCount; i++)
 		{
-			uint32_t fragmentSize = i < fragmentCount - 1 ? FRAGMENT_SIZE : lastFragmentSize;
+			int fragmentSize = i < fragmentCount - 1 ? FRAGMENT_SIZE : lastFragmentSize;
 
 			SFragmentHeader header;
 			header.m_nSequence = m_nOutSequence;
 			header.m_nCount = fragmentCount;
 			header.m_nIndex = i;
-			header.m_Size = fragmentSize;
+			header.m_nSize = fragmentSize;
 
-			const std::vector<uint8_t>& bytes = _rkOutStream.GetBytes ();
-			uint32_t position = i * FRAGMENT_SIZE;
-			auto it = bytes.begin () + position;
-			std::vector<uint8_t> fragmentBytes (it, it + fragmentSize);
-
-			CBitOutStream outStream;
-			outStream.Write (static_cast<uint8_t> (1));
-			outStream.Write (header);
-			outStream.Align ();
-			outStream.WriteBytes (fragmentBytes, fragmentSize);
-			m_pkUdpSession->Send (outStream);
+			CBitOutStream fragmentStream;
+			fragmentStream.Write (static_cast<uint8_t> (1));
+			fragmentStream.Write (header);
+			fragmentStream.WriteBytes (_rkOutStream.GetBytes (), i * FRAGMENT_SIZE, fragmentSize);
+			m_pkUdpSession->Send (fragmentStream);
 		}
 	}
 	else {
@@ -202,27 +208,50 @@ inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutS
 }
 
 template<typename TOutPacket>
-uint32_t CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
+int CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 {
 	uint8_t isFragment;
 	_rkInStream.Read (isFragment);
 
 	if (isFragment == 1)
 	{
-		// TODO: read fragment
+		SFragmentHeader fragmentHeader;
+		_rkInStream.Read (fragmentHeader);
+
+		SFragmentReassembly* reassembly = m_kFragmentReassembly.TryGet (fragmentHeader.m_nSequence);
+		if (reassembly == nullptr) {
+			reassembly = &m_kFragmentReassembly.Insert (fragmentHeader.m_nSequence);
+			reassembly->m_nCount = fragmentHeader.m_nCount;
+			reassembly->m_nReceivedMask = 0;
+			reassembly->m_nReceivedCount = 0;
+		}
+
+		if ((reassembly->m_nReceivedMask & (1 << fragmentHeader.m_nIndex)) != 0) {
+			return 0;
+		}
+
+		reassembly->m_nReceivedMask |= 1 << fragmentHeader.m_nIndex;
+		reassembly->m_nReceivedCount++;
+
+		_rkInStream.ReadBytes (reassembly->m_kBytes, fragmentHeader.m_nIndex * FRAGMENT_SIZE, fragmentHeader.m_nSize);
+
+		if (reassembly->m_nReceivedCount < fragmentHeader.m_nCount) {
+			return 0;
+		}
+
+		_rkInStream = CBitInStream (reassembly->m_kBytes);
 	}
 
 	SUdpHeader header;
 	_rkInStream.Read (header);
-	_rkInStream.Align ();
 
-	uint32_t newInSequence = header.m_nSequence;
-	uint32_t newOutAck = header.m_nAck;
-	uint32_t newOutAckBits = header.m_nAckBits;
+	int newInSequence = header.m_nSequence;
+	int newOutAck = header.m_nAck;
+	int newOutAckBits = header.m_nAckBits;
 
 	if (newInSequence > m_nInSequence)
 	{
-		uint32_t distance = newInSequence - m_nInSequence;
+		int distance = newInSequence - m_nInSequence;
 		if (distance > 31) {
 			m_nInAckBits = 1;
 		}
@@ -236,12 +265,12 @@ uint32_t CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 	}
 	else if (newInSequence < m_nInSequence)
 	{
-		uint32_t distance = m_nInSequence - newInSequence;
+		int distance = m_nInSequence - newInSequence;
 		if (distance > 31) {
 			return 0;
 		}
 
-		uint32_t ackBit = 1 << distance;
+		int ackBit = 1 << distance;
 		if ((m_nInAckBits & ackBit) != 0) {
 			return 0;
 		}
@@ -256,12 +285,12 @@ uint32_t CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 		return newInSequence;
 	}
 
-	uint32_t latestLostSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
-	uint32_t oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
-	for (uint32_t sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
+	int latestLostSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
+	int oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
+	for (int sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
 	{
-		uint32_t distance = m_nOutAck >= sequence ? m_nOutAck - sequence : 0;
-		uint32_t ackBit = 1 << distance;
+		int distance = m_nOutAck >= sequence ? m_nOutAck - sequence : 0;
+		int ackBit = 1 << distance;
 		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
 
 		if (m_kOutPackets.IsExist (sequence) && !hasAcked)
@@ -279,12 +308,12 @@ uint32_t CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 	m_nOutAck = newOutAck;
 	m_nOutAckBits = newOutAckBits;
 
-	uint32_t latestSequence = m_nOutAck;
-	uint32_t oldestSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
-	for (uint32_t sequence = oldestSequence; sequence <= latestSequence; sequence++)
+	int latestSequence = m_nOutAck;
+	int oldestSequence = m_nOutAck >= 31 ? m_nOutAck - 31 : 0;
+	for (int sequence = oldestSequence; sequence <= latestSequence; sequence++)
 	{
-		uint32_t distance = m_nOutAck - sequence;
-		uint32_t ackBit = 1 << distance;
+		int distance = m_nOutAck - sequence;
+		int ackBit = 1 << distance;
 		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
 
 		if (m_kOutPackets.IsExist (sequence) && !hasAcked)
@@ -312,5 +341,4 @@ void CUdpConnection<TOutPacket>::ComposeHeader (CBitOutStream& _rkOutStream)
 
 	_rkOutStream.Write (static_cast<uint8_t> (0));
 	_rkOutStream.Write (header);
-	_rkOutStream.Align ();
 }

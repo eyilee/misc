@@ -80,19 +80,13 @@ void CBitInStream::Read (std::wstring& _rkValue)
 	_rkValue.swap (value);
 }
 
-void CBitInStream::ReadBytes (std::vector<uint8_t>& _rkValue, size_t _nSize)
+void CBitInStream::ReadBytes (std::vector<uint8_t>& _rkValue, size_t _nPosition, size_t _nSize)
 {
-	std::vector<uint8_t> value;
-	value.reserve (_nSize);
+	Align ();
 
-	for (size_t i = 0; i < _nSize; i++)
-	{
-		uint8_t byte;
-		Read (byte);
-		value.push_back (byte);
-	}
-
-	_rkValue.swap (value);
+	size_t byteOffset = m_nBitOffset >> 3;
+	auto it = m_kBytes.begin () + byteOffset;
+	std::copy (it, it + _nSize, _rkValue.begin () + _nPosition);
 }
 
 void CBitInStream::ReadValue (void* _pValue, size_t _nByteCount)
@@ -191,11 +185,12 @@ void CBitOutStream::Write (const std::wstring& _rkValue)
 	}
 }
 
-void CBitOutStream::WriteBytes (const std::vector<uint8_t>& _rkValue, size_t _nSize)
+void CBitOutStream::WriteBytes (const std::vector<uint8_t>& _rkValue, size_t _nPosition, size_t _nSize)
 {
-	for (size_t i = 0; i < _nSize; i++) {
-		Write (_rkValue[i]);
-	}
+	Align ();
+
+	m_kBytes.insert (m_kBytes.end (), _rkValue.begin () + _nPosition, _rkValue.begin () + _nPosition + _nSize);
+	m_nBitOffset += 8 * _nSize;
 }
 
 void CBitOutStream::WriteValue (void* _pValue, size_t _nByteCount)

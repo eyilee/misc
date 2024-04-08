@@ -6,7 +6,7 @@ SFragmentHeader::SFragmentHeader ()
 	: m_nSequence (0)
 	, m_nCount (0)
 	, m_nIndex (0)
-	, m_Size (0)
+	, m_nSize (0)
 {
 }
 
@@ -19,7 +19,7 @@ void SFragmentHeader::Serialize (CBitOutStream& _rkOutStream)
 	_rkOutStream.Write (m_nSequence);
 	_rkOutStream.Write (m_nCount);
 	_rkOutStream.Write (m_nIndex);
-	_rkOutStream.Write (m_Size);
+	_rkOutStream.Write (m_nSize);
 }
 
 void SFragmentHeader::Deserialize (CBitInStream& _rkInStream)
@@ -27,7 +27,19 @@ void SFragmentHeader::Deserialize (CBitInStream& _rkInStream)
 	_rkInStream.Read (m_nSequence);
 	_rkInStream.Read (m_nCount);
 	_rkInStream.Read (m_nIndex);
-	_rkInStream.Read (m_Size);
+	_rkInStream.Read (m_nSize);
+}
+
+SFragmentReassembly::SFragmentReassembly ()
+	: m_nCount (0)
+	, m_nReceivedMask (0)
+	, m_nReceivedCount (0)
+{
+	m_kBytes.resize (REASSEMBLY_SIZE);
+}
+
+SFragmentReassembly::~SFragmentReassembly ()
+{
 }
 
 SUdpHeader::SUdpHeader ()

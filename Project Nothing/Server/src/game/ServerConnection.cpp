@@ -41,7 +41,7 @@ uint32_t CServerConnection::GetPlayerID ()
 
 void CServerConnection::ProcessCommands (uint32_t _nTick)
 {
-	for (uint32_t sequence = m_nProcessedCommandSequence + 1; sequence <= m_nInCommandSequence; sequence++)
+	for (int sequence = m_nProcessedCommandSequence + 1; sequence <= m_nInCommandSequence; sequence++)
 	{
 		SUserCommand* command = m_kInCommands.TryGet (sequence);
 		if (command != nullptr && command->m_nTick <= _nTick)
@@ -56,17 +56,17 @@ void CServerConnection::ProcessCommands (uint32_t _nTick)
 
 void CServerConnection::ResolvePackage (CBitInStream& _rkInStream)
 {
-	uint32_t message;
+	int message;
 	_rkInStream.Read (message);
 
-	if ((message & static_cast<uint32_t> (EGameMessage::Command)) > 0) {
+	if ((message & static_cast<int> (EGameMessage::Command)) > 0) {
 		ResolveCommand (_rkInStream);
 	}
 }
 
 void CServerConnection::ResolveCommand (CBitInStream& _rkInStream)
 {
-	uint32_t sequence;
+	int sequence;
 	_rkInStream.Read (sequence);
 
 	if (sequence > m_nInCommandSequence) {
@@ -77,7 +77,7 @@ void CServerConnection::ResolveCommand (CBitInStream& _rkInStream)
 	_rkInStream.Read (command);
 }
 
-void CServerConnection::OnPacketAcked (uint32_t _nSequence, SGameOutPacket& _rkOutPacket)
+void CServerConnection::OnPacketAcked (int _nSequence, SGameOutPacket& _rkOutPacket)
 {
 	_rkOutPacket.Reset ();
 }
@@ -93,6 +93,13 @@ void CServerConnection::ComposePackage ()
 	CBitOutStream outStream;
 	BeginComposeOutput (outStream);
 
+	for (char i = 0; i < 10; i++)
+	{
+		for (char j = 0; j < 10; j++)
+		{
+			outStream.Write ((uint8_t)i);
+		}
+	}
 	// TODO: write snapshot
 
 	EndComposeOutput (outStream);

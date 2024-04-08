@@ -32,7 +32,7 @@ public:
 	void Read (std::string& _rkValue);
 	void Read (std::wstring& _rkValue);
 
-	void ReadBytes (std::vector<uint8_t>& _rkValue, size_t _nSize);
+	void ReadBytes (std::vector<uint8_t>& _rkValue, size_t _nPos, size_t _nSize);
 
 private:
 	void ReadValue (void* _pValue, size_t _nByteCount);
@@ -103,7 +103,7 @@ public:
 	void Write (const std::string& _rkValue);
 	void Write (const std::wstring& _rkValue);
 
-	void WriteBytes (const std::vector<uint8_t>& _rkValue, size_t _nSize);
+	void WriteBytes (const std::vector<uint8_t>& _rkValue, size_t _nPosition, size_t _nSize);
 
 private:
 	void WriteValue (void* _pValue, size_t _nByteCount);

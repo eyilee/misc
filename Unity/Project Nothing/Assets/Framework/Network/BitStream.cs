@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace ProjectNothing
@@ -18,8 +19,24 @@ namespace ProjectNothing
         public BitInStream (byte[] bytes)
         {
             m_Bytes = new byte[bytes.Length];
-            bytes.CopyTo (m_Bytes, 0);
+            Array.Copy (bytes, 0, m_Bytes, 0, bytes.Length);
             m_BitOffset = 0;
+        }
+
+        public BitInStream (byte[] bytes, int size)
+        {
+            m_Bytes = new byte[size];
+            Array.Copy (bytes, 0, m_Bytes, 0, size);
+            m_BitOffset = 0;
+        }
+
+        public void Align ()
+        {
+            int offset = m_BitOffset % 8;
+            if (offset > 0)
+            {
+                m_BitOffset += (8 - offset);
+            }
         }
 
         public void Read (out bool outValue)
@@ -237,6 +254,12 @@ namespace ProjectNothing
             refValue.Deserialize (this);
         }
 
+        public void ReadBytes (ref byte[] refValue, int position, int size)
+        {
+            int byteOffset = m_BitOffset >> 3;
+            Array.Copy (m_Bytes, byteOffset, refValue, position, size);
+        }
+
         private void ReadByte (out byte outValue)
         {
             int byteOffset = m_BitOffset >> 3;
@@ -287,6 +310,15 @@ namespace ProjectNothing
         public int GetSize ()
         {
             return m_Bytes.Count;
+        }
+
+        public void Align ()
+        {
+            int offset = m_BitOffset % 8;
+            if (offset > 0)
+            {
+                m_BitOffset += (8 - offset);
+            }
         }
 
         public void Write (bool value)
@@ -401,6 +433,14 @@ namespace ProjectNothing
         public void Write<T> (ref T refValue) where T : IBitSerializable
         {
             refValue.Serialize (this);
+        }
+
+        public void WriteBytes (ref byte[] value, int position, int size)
+        {
+            Align ();
+
+            m_Bytes.AddRange (value.ToList ().GetRange (position, size));
+            m_BitOffset += 8 * size;
         }
 
         private void WriteByte (ref byte refValue)

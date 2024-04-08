@@ -2,33 +2,33 @@
 
 namespace ProjectNothing
 {
-    public sealed class SequenceBuffer<TPacket> where TPacket : class, new()
+    public sealed class SequenceBuffer<T> where T : class, new()
     {
-        readonly uint m_Size;
-        readonly uint[] m_Indexes;
-        readonly TPacket[] m_Packets;
+        readonly int m_Size;
+        readonly int[] m_Indexes;
+        readonly T[] m_Packets;
 
-        public SequenceBuffer (uint bufferSize)
+        public SequenceBuffer (int bufferSize)
         {
             m_Size = bufferSize;
-            m_Indexes = new uint[bufferSize];
+            m_Indexes = new int[bufferSize];
             Array.Fill (m_Indexes, m_Size);
-            m_Packets = new TPacket[bufferSize];
-            Array.Fill (m_Packets, new TPacket ());
+            m_Packets = new T[bufferSize];
+            Array.Fill (m_Packets, new T ());
         }
 
-        public uint GetSize () { return m_Size; }
+        public int GetSize () { return m_Size; }
 
-        public TPacket Insert (uint sequence)
+        public T Insert (int sequence)
         {
-            uint index = sequence % m_Size;
+            int index = sequence % m_Size;
             m_Indexes[index] = sequence;
             return m_Packets[index];
         }
 
-        public void Remove (uint sequence)
+        public void Remove (int sequence)
         {
-            uint index = sequence % m_Size;
+            int index = sequence % m_Size;
             if (m_Indexes[index] == sequence)
             {
                 m_Indexes[index] = m_Size;
@@ -40,9 +40,9 @@ namespace ProjectNothing
             Array.Fill (m_Indexes, m_Size);
         }
 
-        public TPacket TryGet (uint sequence)
+        public T TryGet (int sequence)
         {
-            uint index = sequence % m_Size;
+            int index = sequence % m_Size;
             if (m_Indexes[index] == sequence)
             {
                 return m_Packets[index];
@@ -53,7 +53,7 @@ namespace ProjectNothing
             }
         }
 
-        public TPacket TryGetByIndex (uint index, ref uint sequence)
+        public T TryGetByIndex (int index, ref int sequence)
         {
             if (m_Indexes[index] != m_Size)
             {
@@ -66,9 +66,9 @@ namespace ProjectNothing
             }
         }
 
-        public bool IsExist (uint sequence)
+        public bool IsExist (int sequence)
         {
-            uint index = sequence % m_Size;
+            int index = sequence % m_Size;
             return m_Indexes[index] == sequence;
         }
     }

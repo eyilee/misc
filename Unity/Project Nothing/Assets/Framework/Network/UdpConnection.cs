@@ -3,11 +3,46 @@ using UnityEngine;
 
 namespace ProjectNothing
 {
-    struct UdpHeader : IBitSerializable
+    public struct FragmentHeader : IBitSerializable
     {
-        public uint m_Sequence;
-        public uint m_Ack;
-        public uint m_AckBits;
+        public int m_Sequence;
+        public int m_Count;
+        public int m_Index;
+        public int m_Size;
+
+        public void Deserialize (BitInStream inStream)
+        {
+            inStream.Read (out m_Sequence);
+            inStream.Read (out m_Count);
+            inStream.Read (out m_Index);
+            inStream.Read (out m_Size);
+        }
+
+        public readonly void Serialize (BitOutStream outStream)
+        {
+            outStream.Write (m_Sequence);
+            outStream.Write (m_Count);
+            outStream.Write (m_Index);
+            outStream.Write (m_Size);
+        }
+    };
+
+    public class FragmentReassembly
+    {
+        public const int REASSEMBLY_SIZE = 1024 * 32;
+
+        public int m_Count;
+        public int m_ReceivedMask;
+        public int m_ReceivedCount;
+        public int m_ReceivedSize;
+        public byte[] m_Bytes = new byte[REASSEMBLY_SIZE];
+    };
+
+    public struct UdpHeader : IBitSerializable
+    {
+        public int m_Sequence;
+        public int m_Ack;
+        public int m_AckBits;
 
         public void Deserialize (BitInStream inStream)
         {
@@ -36,17 +71,20 @@ namespace ProjectNothing
 
     public abstract class UdpConnection<TOutPacket> : IUdpConnection where TOutPacket : class, new()
     {
-        public const int SEQUENCE_BUFFER_SIZE = 256;
+        public const int PACKET_BUFFER_SIZE = 256;
+        public const int FRAGMENT_BUFFER_SIZE = 32;
+        public const int FRAGMENT_SIZE = 10; //1420; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 12(fragment header)
 
         #region Field
         protected UdpSession m_UdpSession = null;
 
-        protected uint m_InSequence = 0;
-        protected uint m_InAckBits = 0;
-        protected uint m_OutSequence = 1;
-        protected uint m_OutAck = 0;
-        protected uint m_OutAckBits = 0;
-        protected readonly SequenceBuffer<TOutPacket> m_OutPackets = new (SEQUENCE_BUFFER_SIZE);
+        protected int m_InSequence = 0;
+        protected int m_InAckBits = 0;
+        protected int m_OutSequence = 1;
+        protected int m_OutAck = 0;
+        protected int m_OutAckBits = 0;
+        protected readonly SequenceBuffer<TOutPacket> m_OutPackets = new (PACKET_BUFFER_SIZE);
+        protected readonly SequenceBuffer<FragmentReassembly> m_FragmentReassembly = new (FRAGMENT_BUFFER_SIZE);
         #endregion
 
         #region Property
@@ -81,14 +119,14 @@ namespace ProjectNothing
 
         public override void ResolveInput (BitInStream inStream)
         {
-            inStream.Read (out uint key);
+            //inStream.Read (out uint key);
 
-            if (key != m_UdpSession.Key)
-            {
-                return;
-            }
+            //if (key != m_UdpSession.Key)
+            //{
+            //    return;
+            //}
 
-            uint sequence = ResolveHeader (inStream);
+            int sequence = ResolveHeader (inStream);
             if (sequence == 0)
             {
                 return;
@@ -101,7 +139,7 @@ namespace ProjectNothing
 
         public abstract void ResolvePackage (BitInStream inStream);
 
-        public abstract void OnPacketAcked (uint sequence, TOutPacket outPacket);
+        public abstract void OnPacketAcked (int sequence, TOutPacket outPacket);
 
         public bool CanComposeOutput ()
         {
@@ -123,24 +161,97 @@ namespace ProjectNothing
 
         public void EndComposeOutput (BitOutStream outStream)
         {
-            m_UdpSession.Send (outStream);
+            int size = outStream.GetSize ();
+            if (size > FRAGMENT_SIZE)
+            {
+                int fragmentCount = size / FRAGMENT_SIZE;
+                int lastFragmentSize = size % FRAGMENT_SIZE;
+                if (lastFragmentSize != 0)
+                {
+                    fragmentCount++;
+                }
+                else
+                {
+                    lastFragmentSize = FRAGMENT_SIZE;
+                }
+
+                for (int i = 0; i < fragmentCount; i++)
+                {
+                    int fragmentSize = i < fragmentCount - 1 ? FRAGMENT_SIZE : lastFragmentSize;
+
+                    FragmentHeader header;
+                    header.m_Sequence = m_OutSequence;
+                    header.m_Count = fragmentCount;
+                    header.m_Index = i;
+                    header.m_Size = fragmentSize;
+
+                    byte[] bytes = outStream.GetBytes ();
+
+                    BitOutStream fragmentStream = new ();
+                    fragmentStream.Write ((byte)1);
+                    fragmentStream.Write (ref header);
+                    fragmentStream.WriteBytes (ref bytes, i * FRAGMENT_SIZE, fragmentSize);
+                    m_UdpSession.Send (fragmentStream);
+                }
+            }
+            else
+            {
+                m_UdpSession.Send (outStream);
+            }
 
             // NOTE: in an extreme case sequence may overflow
             m_OutSequence++;
         }
 
-        protected uint ResolveHeader (BitInStream inStream)
+        protected int ResolveHeader (BitInStream inStream)
         {
+            inStream.Read (out byte isFragment);
+
+            if (isFragment == 1)
+            {
+                FragmentHeader fragmentHeader = new ();
+                inStream.Read (ref fragmentHeader);
+
+                FragmentReassembly reassembly = m_FragmentReassembly.TryGet (fragmentHeader.m_Sequence);
+                if (reassembly == null)
+                {
+                    reassembly = m_FragmentReassembly.Insert (fragmentHeader.m_Sequence);
+                    reassembly.m_Count = fragmentHeader.m_Count;
+                    reassembly.m_ReceivedMask = 0;
+                    reassembly.m_ReceivedCount = 0;
+                    reassembly.m_ReceivedSize = 0;
+                }
+
+                if ((reassembly.m_ReceivedMask & (1 << fragmentHeader.m_Index)) != 0)
+                {
+                    return 0;
+                }
+
+                reassembly.m_ReceivedMask |= 1 << fragmentHeader.m_Index;
+                reassembly.m_ReceivedCount++;
+                reassembly.m_ReceivedSize += fragmentHeader.m_Size;
+
+                inStream.ReadBytes (ref reassembly.m_Bytes, fragmentHeader.m_Index * FRAGMENT_SIZE, fragmentHeader.m_Size);
+
+                if (reassembly.m_ReceivedCount < fragmentHeader.m_Count)
+                {
+                    return 0;
+                }
+
+                inStream = new BitInStream (reassembly.m_Bytes, reassembly.m_ReceivedSize);
+            }
+
             UdpHeader header = new ();
+            inStream.Read (out isFragment); // TODO: fix
             inStream.Read (ref header);
 
-            uint newInSequence = header.m_Sequence;
-            uint newOutAck = header.m_Ack;
-            uint newOutAckBits = header.m_AckBits;
+            int newInSequence = header.m_Sequence;
+            int newOutAck = header.m_Ack;
+            int newOutAckBits = header.m_AckBits;
 
             if (newInSequence > m_InSequence)
             {
-                int distance = (int)(newInSequence - m_InSequence);
+                int distance = newInSequence - m_InSequence;
                 if (distance > 31)
                 {
                     m_InAckBits = 1;
@@ -155,13 +266,13 @@ namespace ProjectNothing
             }
             else if (newInSequence < m_InSequence)
             {
-                int distance = (int)(m_InSequence - newInSequence);
+                int distance = m_InSequence - newInSequence;
                 if (distance > 31)
                 {
                     return 0;
                 }
 
-                uint ackBit = (uint)(1 << distance);
+                int ackBit = 1 << distance;
                 if ((m_InAckBits & ackBit) != 0)
                 {
                     return 0;
@@ -179,12 +290,12 @@ namespace ProjectNothing
                 return newInSequence;
             }
 
-            uint latestLostSequence = m_OutAck >= 31 ? m_OutAck - 31 : 0;
-            uint oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
-            for (uint sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
+            int latestLostSequence = m_OutAck >= 31 ? m_OutAck - 31 : 0;
+            int oldestLostSequence = newOutAck >= 31 ? newOutAck - 31 : 0;
+            for (int sequence = oldestLostSequence; sequence < latestLostSequence; sequence++)
             {
-                int distance = (int)(m_OutAck >= sequence ? m_OutAck - sequence : 0);
-                uint ackBit = ((uint)(1 << distance));
+                int distance = m_OutAck >= sequence ? m_OutAck - sequence : 0;
+                int ackBit = 1 << distance;
                 bool hasAcked = (m_OutAckBits & ackBit) != 0;
 
                 if (m_OutPackets.IsExist (sequence) && !hasAcked)
@@ -202,12 +313,12 @@ namespace ProjectNothing
             m_OutAck = newOutAck;
             m_OutAckBits = newOutAckBits;
 
-            uint latestSequence = m_OutAck;
-            uint oldestSequence = m_OutAck >= 31 ? m_OutAck - 31 : 0;
-            for (uint sequence = oldestSequence; sequence <= latestSequence; sequence++)
+            int latestSequence = m_OutAck;
+            int oldestSequence = m_OutAck >= 31 ? m_OutAck - 31 : 0;
+            for (int sequence = oldestSequence; sequence <= latestSequence; sequence++)
             {
-                int distance = (int)(m_OutAck - sequence);
-                uint ackBit = (uint)(1 << distance);
+                int distance = m_OutAck - sequence;
+                int ackBit = 1 << distance;
                 bool hasAcked = (m_OutAckBits & ackBit) != 0;
 
                 if (m_OutPackets.IsExist (sequence) && !hasAcked)
@@ -227,11 +338,14 @@ namespace ProjectNothing
 
         protected void ComposeHeader (BitOutStream outStream)
         {
-            UdpHeader header;
-            header.m_Sequence = m_OutSequence;
-            header.m_Ack = m_InSequence;
-            header.m_AckBits = m_InAckBits;
+            UdpHeader header = new ()
+            {
+                m_Sequence = m_OutSequence,
+                m_Ack = m_InSequence,
+                m_AckBits = m_InAckBits
+            };
 
+            outStream.Write ((byte)0);
             outStream.Write (ref header);
         }
     }

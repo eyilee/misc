@@ -8,7 +8,7 @@ namespace ProjectNothing
 
         InputSystem m_InputSystem = null;
         UserCommand m_UserCommand = new (0);
-        CommandBuffer<UserCommand> m_CommandBuffer = new (COMMAND_BUFFER_SIZE);
+        readonly CommandBuffer<UserCommand> m_CommandBuffer = new (COMMAND_BUFFER_SIZE);
 
         GameObject m_Player = null;
 

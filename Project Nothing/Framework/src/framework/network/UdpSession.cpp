@@ -64,6 +64,7 @@ void CUdpSession::Send (const CBitOutStream& _rkOutStream)
 
 	bool isSending = !m_kSendQueue.empty ();
 
+	// TODO: udp key
 	m_kSendQueue.emplace_back (_rkOutStream.GetBytes ());
 
 	if (!isSending) {

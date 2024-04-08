@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectNothing
+﻿namespace ProjectNothing
 {
     enum EGameMessage : uint
     {
@@ -38,7 +32,7 @@ namespace ProjectNothing
         {
         }
 
-        public override void OnPacketAcked (uint sequence, GameOutPacket outPacket)
+        public override void OnPacketAcked (int sequence, GameOutPacket outPacket)
         {
             // outPacket.Reset ();
         }

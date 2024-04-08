@@ -40,7 +40,7 @@ public:
 
 	virtual void ResolvePackage (CBitInStream& _rkInStream) override;
 	void ResolveCommand (CBitInStream& _rkInStream);
-	virtual void OnPacketAcked (uint32_t _nSequence, SGameOutPacket& _rkOutPacket) override;
+	virtual void OnPacketAcked (int _nSequence, SGameOutPacket& _rkOutPacket) override;
 
 	void ComposePackage ();
 
@@ -48,7 +48,7 @@ protected:
 	std::shared_ptr<CServerGame> m_pkServerGame;
 	std::shared_ptr<CPlayerEntity> m_pkPlayerEntity;
 
-	uint32_t m_nInCommandSequence;
-	uint32_t m_nProcessedCommandSequence;
+	int m_nInCommandSequence;
+	int m_nProcessedCommandSequence;
 	SequenceBuffer<SUserCommand, COMMAND_BUFFER_SIZE> m_kInCommands;
 };
