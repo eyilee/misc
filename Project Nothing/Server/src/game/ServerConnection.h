@@ -4,7 +4,7 @@
 class CServerGame;
 class CPlayerEntity;
 
-constexpr uint32_t COMMAND_BUFFER_SIZE = 32;
+constexpr size_t COMMAND_BUFFER_SIZE = 32;
 
 enum class EGameMessage : uint32_t
 {

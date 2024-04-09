@@ -4,13 +4,20 @@ namespace ProjectNothing
 {
     public class PlayerController
     {
-        public const uint COMMAND_BUFFER_SIZE = 32;
+        public const int COMMAND_BUFFER_SIZE = 32;
+
+        readonly Game m_Game;
 
         InputSystem m_InputSystem = null;
         UserCommand m_UserCommand = new (0);
         readonly CommandBuffer<UserCommand> m_CommandBuffer = new (COMMAND_BUFFER_SIZE);
 
         GameObject m_Player = null;
+
+        public PlayerController (Game game)
+        {
+            m_Game = game;
+        }
 
         public void Init ()
         {
@@ -78,7 +85,11 @@ namespace ProjectNothing
 
         public void SendCommand (uint tick)
         {
-
+            UserCommand command = UserCommand.m_DefaultCommand;
+            if (m_CommandBuffer.TryGetValue (tick, ref command))
+            {
+                m_Game.Connection.QueueCommand (tick, ref command);
+            }
         }
 
         public bool HasCommands (uint firstCommandTick, uint lastCommandTick)

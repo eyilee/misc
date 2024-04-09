@@ -8,7 +8,7 @@ class CUdpSession;
 
 constexpr size_t PACKET_BUFFER_SIZE = 256;
 constexpr size_t FRAGMENT_BUFFER_SIZE = 32;
-constexpr size_t FRAGMENT_SIZE = 10; //1420; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 12(fragment header)
+constexpr size_t FRAGMENT_SIZE = 1399; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 33(custom header)
 constexpr size_t REASSEMBLY_SIZE = 1024 * 32;
 
 struct SFragmentHeader : public IBitSerializable
@@ -83,7 +83,6 @@ public:
 
 protected:
 	int ResolveHeader (CBitInStream& _rkInStream);
-	void ComposeHeader (CBitOutStream& _rkOutStream);
 
 protected:
 	std::shared_ptr<CUdpSession> m_pkUdpSession;
@@ -136,13 +135,6 @@ inline void CUdpConnection<TOutPacket>::OnDisconnect ()
 template<typename TOutPacket>
 void CUdpConnection<TOutPacket>::ResolveInput (CBitInStream& _rkInStream)
 {
-	uint32_t key;
-	_rkInStream.Read (key);
-
-	if (key != m_pkUdpSession->GetKey ()) {
-		return;
-	}
-
 	int sequence = ResolveHeader (_rkInStream);
 	if (sequence == 0) {
 		return;
@@ -165,7 +157,12 @@ inline bool CUdpConnection<TOutPacket>::CanComposeOutput ()
 template<typename TOutPacket>
 inline void CUdpConnection<TOutPacket>::BeginComposeOutput (CBitOutStream& _rkOutStream)
 {
-	ComposeHeader (_rkOutStream);
+	SUdpHeader udpHeader;
+	udpHeader.m_nSequence = m_nOutSequence;
+	udpHeader.m_nAck = m_nInSequence;
+	udpHeader.m_nAckBits = m_nInAckBits;
+
+	_rkOutStream.Write (udpHeader);
 }
 
 template<typename TOutPacket>
@@ -186,21 +183,27 @@ inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutS
 		{
 			int fragmentSize = i < fragmentCount - 1 ? FRAGMENT_SIZE : lastFragmentSize;
 
-			SFragmentHeader header;
-			header.m_nSequence = m_nOutSequence;
-			header.m_nCount = fragmentCount;
-			header.m_nIndex = i;
-			header.m_nSize = fragmentSize;
+			SFragmentHeader fragmentHeader;
+			fragmentHeader.m_nSequence = m_nOutSequence;
+			fragmentHeader.m_nCount = fragmentCount;
+			fragmentHeader.m_nIndex = i;
+			fragmentHeader.m_nSize = fragmentSize;
 
 			CBitOutStream fragmentStream;
+			fragmentStream.Write (m_pkUdpSession->GetKey ());
 			fragmentStream.Write (static_cast<uint8_t> (1));
-			fragmentStream.Write (header);
+			fragmentStream.Write (fragmentHeader);
 			fragmentStream.WriteBytes (_rkOutStream.GetBytes (), i * FRAGMENT_SIZE, fragmentSize);
 			m_pkUdpSession->Send (fragmentStream);
 		}
 	}
-	else {
-		m_pkUdpSession->Send (_rkOutStream);
+	else
+	{
+		CBitOutStream udpStream;
+		udpStream.Write (m_pkUdpSession->GetKey ());
+		udpStream.Write (static_cast<uint8_t> (0));
+		udpStream.WriteBytes (_rkOutStream.GetBytes (), 0, _rkOutStream.GetSize ());
+		m_pkUdpSession->Send (udpStream);
 	}
 
 	// NOTE: in an extreme case sequence may overflow
@@ -210,6 +213,13 @@ inline void CUdpConnection<TOutPacket>::EndComposeOutput (CBitOutStream& _rkOutS
 template<typename TOutPacket>
 int CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 {
+	uint32_t key;
+	_rkInStream.Read (key);
+
+	if (key != m_pkUdpSession->GetKey ()) {
+		return 0;
+	}
+
 	uint8_t isFragment;
 	_rkInStream.Read (isFragment);
 
@@ -242,12 +252,12 @@ int CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 		_rkInStream = CBitInStream (reassembly->m_kBytes);
 	}
 
-	SUdpHeader header;
-	_rkInStream.Read (header);
+	SUdpHeader udpHeader;
+	_rkInStream.Read (udpHeader);
 
-	int newInSequence = header.m_nSequence;
-	int newOutAck = header.m_nAck;
-	int newOutAckBits = header.m_nAckBits;
+	int newInSequence = udpHeader.m_nSequence;
+	int newOutAck = udpHeader.m_nAck;
+	int newOutAckBits = udpHeader.m_nAckBits;
 
 	if (newInSequence > m_nInSequence)
 	{
@@ -329,16 +339,4 @@ int CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 	}
 
 	return newInSequence;
-}
-
-template<typename TOutPacket>
-void CUdpConnection<TOutPacket>::ComposeHeader (CBitOutStream& _rkOutStream)
-{
-	SUdpHeader header;
-	header.m_nSequence = m_nOutSequence;
-	header.m_nAck = m_nInSequence;
-	header.m_nAckBits = m_nInAckBits;
-
-	_rkOutStream.Write (static_cast<uint8_t> (0));
-	_rkOutStream.Write (header);
 }

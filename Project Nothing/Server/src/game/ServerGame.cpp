@@ -88,7 +88,7 @@ void CServerGame::EnterActiveState ()
 
 void CServerGame::UpdateActiveState ()
 {
-	if (CTime::FrameTime >= m_nNextTickTime)
+	while (CTime::FrameTime >= m_nNextTickTime)
 	{
 		for (uint32_t i = 0; i < TickStep; i++) {
 			TickUpdate ();

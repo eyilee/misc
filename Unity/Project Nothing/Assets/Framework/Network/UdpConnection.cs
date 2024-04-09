@@ -10,20 +10,20 @@ namespace ProjectNothing
         public int m_Index;
         public int m_Size;
 
-        public void Deserialize (BitInStream inStream)
-        {
-            inStream.Read (out m_Sequence);
-            inStream.Read (out m_Count);
-            inStream.Read (out m_Index);
-            inStream.Read (out m_Size);
-        }
-
         public readonly void Serialize (BitOutStream outStream)
         {
             outStream.Write (m_Sequence);
             outStream.Write (m_Count);
             outStream.Write (m_Index);
             outStream.Write (m_Size);
+        }
+
+        public void Deserialize (BitInStream inStream)
+        {
+            inStream.Read (out m_Sequence);
+            inStream.Read (out m_Count);
+            inStream.Read (out m_Index);
+            inStream.Read (out m_Size);
         }
     };
 
@@ -44,18 +44,18 @@ namespace ProjectNothing
         public int m_Ack;
         public int m_AckBits;
 
-        public void Deserialize (BitInStream inStream)
-        {
-            inStream.Read (out m_Sequence);
-            inStream.Read (out m_Ack);
-            inStream.Read (out m_AckBits);
-        }
-
         public readonly void Serialize (BitOutStream outStream)
         {
             outStream.Write (m_Sequence);
             outStream.Write (m_Ack);
             outStream.Write (m_AckBits);
+        }
+
+        public void Deserialize (BitInStream inStream)
+        {
+            inStream.Read (out m_Sequence);
+            inStream.Read (out m_Ack);
+            inStream.Read (out m_AckBits);
         }
     }
 
@@ -73,7 +73,7 @@ namespace ProjectNothing
     {
         public const int PACKET_BUFFER_SIZE = 256;
         public const int FRAGMENT_BUFFER_SIZE = 32;
-        public const int FRAGMENT_SIZE = 10; //1420; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 12(fragment header)
+        public const int FRAGMENT_SIZE = 1399; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header) - 33(custom header)
 
         #region Field
         protected UdpSession m_UdpSession = null;
@@ -119,14 +119,7 @@ namespace ProjectNothing
 
         public override void ResolveInput (BitInStream inStream)
         {
-            //inStream.Read (out uint key);
-
-            //if (key != m_UdpSession.Key)
-            //{
-            //    return;
-            //}
-
-            int sequence = ResolveHeader (inStream);
+            int sequence = ResolveHeader (ref inStream);
             if (sequence == 0)
             {
                 return;
@@ -154,9 +147,14 @@ namespace ProjectNothing
 
         public void BeginComposeOutput (BitOutStream outStream)
         {
-            outStream.Write (m_UdpSession.Key);
+            UdpHeader udpHeader = new ()
+            {
+                m_Sequence = m_OutSequence,
+                m_Ack = m_InSequence,
+                m_AckBits = m_InAckBits
+            };
 
-            ComposeHeader (outStream);
+            outStream.Write (ref udpHeader);
         }
 
         public void EndComposeOutput (BitOutStream outStream)
@@ -179,34 +177,46 @@ namespace ProjectNothing
                 {
                     int fragmentSize = i < fragmentCount - 1 ? FRAGMENT_SIZE : lastFragmentSize;
 
-                    FragmentHeader header;
-                    header.m_Sequence = m_OutSequence;
-                    header.m_Count = fragmentCount;
-                    header.m_Index = i;
-                    header.m_Size = fragmentSize;
+                    FragmentHeader fragmentHeader;
+                    fragmentHeader.m_Sequence = m_OutSequence;
+                    fragmentHeader.m_Count = fragmentCount;
+                    fragmentHeader.m_Index = i;
+                    fragmentHeader.m_Size = fragmentSize;
 
                     byte[] bytes = outStream.GetBytes ();
 
                     BitOutStream fragmentStream = new ();
+                    fragmentStream.Write (m_UdpSession.Key);
                     fragmentStream.Write ((byte)1);
-                    fragmentStream.Write (ref header);
+                    fragmentStream.Write (ref fragmentHeader);
                     fragmentStream.WriteBytes (ref bytes, i * FRAGMENT_SIZE, fragmentSize);
                     m_UdpSession.Send (fragmentStream);
                 }
             }
             else
             {
-                m_UdpSession.Send (outStream);
+                byte[] bytes = outStream.GetBytes ();
+
+                BitOutStream udpStream = new ();
+                udpStream.Write (m_UdpSession.Key);
+                udpStream.Write ((byte)0);
+                udpStream.WriteBytes (ref bytes, 0, outStream.GetSize ());
+                m_UdpSession.Send (udpStream);
             }
 
             // NOTE: in an extreme case sequence may overflow
             m_OutSequence++;
         }
 
-        protected int ResolveHeader (BitInStream inStream)
+        protected int ResolveHeader (ref BitInStream inStream)
         {
-            inStream.Read (out byte isFragment);
+            inStream.Read (out uint key);
+            if (key != m_UdpSession.Key)
+            {
+                return 0;
+            }
 
+            inStream.Read (out byte isFragment);
             if (isFragment == 1)
             {
                 FragmentHeader fragmentHeader = new ();
@@ -241,13 +251,12 @@ namespace ProjectNothing
                 inStream = new BitInStream (reassembly.m_Bytes, reassembly.m_ReceivedSize);
             }
 
-            UdpHeader header = new ();
-            inStream.Read (out isFragment); // TODO: fix
-            inStream.Read (ref header);
+            UdpHeader udpHeader = new ();
+            inStream.Read (ref udpHeader);
 
-            int newInSequence = header.m_Sequence;
-            int newOutAck = header.m_Ack;
-            int newOutAckBits = header.m_AckBits;
+            int newInSequence = udpHeader.m_Sequence;
+            int newOutAck = udpHeader.m_Ack;
+            int newOutAckBits = udpHeader.m_AckBits;
 
             if (newInSequence > m_InSequence)
             {
@@ -334,19 +343,6 @@ namespace ProjectNothing
             }
 
             return newInSequence;
-        }
-
-        protected void ComposeHeader (BitOutStream outStream)
-        {
-            UdpHeader header = new ()
-            {
-                m_Sequence = m_OutSequence,
-                m_Ack = m_InSequence,
-                m_AckBits = m_InAckBits
-            };
-
-            outStream.Write ((byte)0);
-            outStream.Write (ref header);
         }
     }
 }

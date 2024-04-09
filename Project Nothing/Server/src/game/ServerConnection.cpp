@@ -93,13 +93,6 @@ void CServerConnection::ComposePackage ()
 	CBitOutStream outStream;
 	BeginComposeOutput (outStream);
 
-	for (char i = 0; i < 10; i++)
-	{
-		for (char j = 0; j < 10; j++)
-		{
-			outStream.Write ((uint8_t)i);
-		}
-	}
 	// TODO: write snapshot
 
 	EndComposeOutput (outStream);

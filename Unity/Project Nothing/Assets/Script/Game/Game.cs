@@ -30,7 +30,7 @@ namespace ProjectNothing
         {
             m_Player = UnityEngine.Object.Instantiate (playerPrefab);
 
-            m_PlayerController = new PlayerController ();
+            m_PlayerController = new PlayerController (this);
             m_PlayerController.Init ();
             m_PlayerController.SetPlayer (m_Player);
         }
@@ -68,6 +68,8 @@ namespace ProjectNothing
             {
                 m_PlayerController.RetrieveCommand (tick);
             }
+
+            m_Connection.ComposePackage ();
         }
 
         void UpdateTime (ulong duration)

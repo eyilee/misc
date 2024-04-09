@@ -7,7 +7,7 @@ namespace ProjectNothing
 {
     public sealed class UdpSession
     {
-        public const int UDP_SOCKET_BUFFER_SIZE = 512;
+        public const int UDP_SOCKET_BUFFER_SIZE = 1432; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header)
 
         class SendCommand
         {

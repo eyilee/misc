@@ -2,7 +2,7 @@ using System;
 
 namespace ProjectNothing
 {
-    public struct UserCommand
+    public struct UserCommand : IBitSerializable
     {
         [Flags]
         public enum EButton : uint
@@ -56,6 +56,19 @@ namespace ProjectNothing
         {
             m_Tick = tick;
             m_Buttons.m_Flags = EButton.None;
+        }
+
+        public readonly void Serialize (BitOutStream outStream)
+        {
+            outStream.Write (m_Tick);
+            outStream.Write ((uint)m_Buttons.m_Flags);
+        }
+
+        public void Deserialize (BitInStream inStream)
+        {
+            inStream.Read (out m_Tick);
+            inStream.Read (out uint flags);
+            m_Buttons.m_Flags = (EButton)flags;
         }
     }
 }
