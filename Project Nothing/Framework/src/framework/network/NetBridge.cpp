@@ -32,6 +32,7 @@ void CNetBridge::Shutdown ()
 
 	if (m_pkNetEntity != nullptr)
 	{
+		m_pkNetEntity->OnDisconnected ();
 		m_pkNetEntity->SetNetBridge (nullptr);
 		m_pkNetEntity = nullptr;
 	}

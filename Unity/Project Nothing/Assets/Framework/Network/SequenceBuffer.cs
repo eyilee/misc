@@ -12,7 +12,7 @@ namespace ProjectNothing
         {
             m_Size = bufferSize;
             m_Indexes = new int[bufferSize];
-            Array.Fill (m_Indexes, m_Size);
+            Array.Fill (m_Indexes, -1);
             m_Packets = new T[bufferSize];
             Array.Fill (m_Packets, new T ());
         }
@@ -31,13 +31,13 @@ namespace ProjectNothing
             int index = sequence % m_Size;
             if (m_Indexes[index] == sequence)
             {
-                m_Indexes[index] = m_Size;
+                m_Indexes[index] = -1;
             }
         }
 
         public void Clear ()
         {
-            Array.Fill (m_Indexes, m_Size);
+            Array.Fill (m_Indexes, -1);
         }
 
         public T TryGet (int sequence)
@@ -55,7 +55,7 @@ namespace ProjectNothing
 
         public T TryGetByIndex (int index, ref int sequence)
         {
-            if (m_Indexes[index] != m_Size)
+            if (m_Indexes[index] != -1)
             {
                 sequence = m_Indexes[index];
                 return m_Packets[index];

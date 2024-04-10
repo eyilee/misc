@@ -61,13 +61,13 @@ namespace ProjectNothing
             }
 
             // simulate server result
-            uint prevServerTick = m_ServerTime.m_Tick;
-            m_ServerTime.AddDuration (duration);
-
-            for (uint tick = prevServerTick; tick < m_ServerTime.m_Tick; tick++)
-            {
-                m_PlayerController.RetrieveCommand (tick);
-            }
+            // uint prevServerTick = m_ServerTime.m_Tick;
+            // m_ServerTime.AddDuration (duration);
+            // 
+            // for (uint tick = prevServerTick; tick < m_ServerTime.m_Tick; tick++)
+            // {
+            //     m_PlayerController.RetrieveCommand (tick);
+            // }
 
             m_Connection.ComposePackage ();
         }

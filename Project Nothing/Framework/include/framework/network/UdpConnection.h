@@ -326,7 +326,7 @@ int CUdpConnection<TOutPacket>::ResolveHeader (CBitInStream& _rkInStream)
 		int ackBit = 1 << distance;
 		bool hasAcked = (m_nOutAckBits & ackBit) != 0;
 
-		if (m_kOutPackets.IsExist (sequence) && !hasAcked)
+		if (m_kOutPackets.IsExist (sequence) && hasAcked)
 		{
 			TOutPacket* packet = m_kOutPackets.TryGet (sequence);
 			if (packet != nullptr)

@@ -47,14 +47,14 @@ inline void SequenceBuffer<T, BUFFER_SIZE>::Remove (int _nSequence)
 {
 	int index = _nSequence % BUFFER_SIZE;
 	if (m_kIndexes[index] == _nSequence) {
-		m_kIndexes[index] = BUFFER_SIZE;
+		m_kIndexes[index] = -1;
 	}
 }
 
 template<typename T, size_t BUFFER_SIZE>
 inline void SequenceBuffer<T, BUFFER_SIZE>::Clear ()
 {
-	m_kIndexes.fill (BUFFER_SIZE);
+	m_kIndexes.fill (-1);
 }
 
 template<typename T, size_t BUFFER_SIZE>
@@ -72,7 +72,7 @@ inline T* SequenceBuffer<T, BUFFER_SIZE>::TryGet (int _nSequence)
 template<typename T, size_t BUFFER_SIZE>
 inline T* SequenceBuffer<T, BUFFER_SIZE>::TryGetByIndex (int _nIndex, int _nSequence)
 {
-	if (m_kIndexes[_nIndex] != BUFFER_SIZE) {
+	if (m_kIndexes[_nIndex] != -1) {
 		_nSequence = m_kIndexes[_nIndex];
 		return m_kPackets[_nIndex];
 	}

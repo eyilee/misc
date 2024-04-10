@@ -125,8 +125,6 @@ namespace ProjectNothing
                 return;
             }
 
-            Debug.LogFormat ("Insequence: {0}", sequence);
-
             ResolvePackage (inStream);
         }
 
@@ -330,7 +328,7 @@ namespace ProjectNothing
                 int ackBit = 1 << distance;
                 bool hasAcked = (m_OutAckBits & ackBit) != 0;
 
-                if (m_OutPackets.IsExist (sequence) && !hasAcked)
+                if (m_OutPackets.IsExist (sequence) && hasAcked)
                 {
                     TOutPacket packet = m_OutPackets.TryGet (sequence);
                     if (packet != null)

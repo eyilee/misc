@@ -3,6 +3,7 @@
 
 IGameLoop::IGameLoop ()
 	: m_nID (0)
+	, m_bIsRunning (true)
 {
 }
 

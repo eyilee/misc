@@ -1,4 +1,6 @@
-﻿namespace ProjectNothing
+﻿using UnityEngine;
+
+namespace ProjectNothing
 {
     public enum EGameMessage : uint
     {
@@ -67,6 +69,10 @@
             BitOutStream outStream = new ();
             BeginComposeOutput (outStream);
 
+            int message = 0;
+            message |= (int)EGameMessage.Command;
+            outStream.Write (message);
+
             if (m_CommandSequence > 0)
             {
                 m_LastSentCommandSequence = m_CommandSequence;
@@ -91,7 +97,7 @@
 
             while (true)
             {
-                CommandInfo commandInfo = m_OutCommands.TryGet (m_CommandSequence);
+                CommandInfo commandInfo = m_OutCommands.TryGet (sequence--);
                 if (commandInfo == null)
                 {
                     break;

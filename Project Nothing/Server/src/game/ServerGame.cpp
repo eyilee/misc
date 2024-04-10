@@ -32,6 +32,7 @@ void CServerGame::Init ()
 
 void CServerGame::Shutdown ()
 {
+	SetRunning (false);
 }
 
 void CServerGame::Update ()
@@ -41,6 +42,10 @@ void CServerGame::Update ()
 
 bool CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity, std::shared_ptr<CUdpSession> _pkUdpSession)
 {
+	if (_pkPlayerEntity->GetGameID () != 0) {
+		return false;
+	}
+
 	uint32_t playerID = _pkPlayerEntity->GetID ();
 
 	auto it = m_kServerConnections.find (playerID);
@@ -53,6 +58,8 @@ bool CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity, std::sha
 	m_kServerConnections.emplace (playerID, serverConnection);
 
 	OnJoin (serverConnection);
+
+	_pkPlayerEntity->SetGameID (m_nID);
 
 	return true;
 }
@@ -69,6 +76,12 @@ void CServerGame::Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 	OnLeave (it->second);
 
 	m_kServerConnections.erase (it);
+
+	_pkPlayerEntity->SetGameID (0);
+
+	if (m_kServerConnections.empty ()) {
+		Shutdown ();
+	}
 }
 
 void CServerGame::ProcessCommand (uint32_t _nPlayerID, const SUserCommand& _rkCommand, uint32_t _nTick)

@@ -73,8 +73,20 @@ void CServerConnection::ResolveCommand (CBitInStream& _rkInStream)
 		m_nInCommandSequence = sequence;
 	}
 
-	SUserCommand& command = m_kInCommands.Insert (sequence);
-	_rkInStream.Read (command);
+	while (true)
+	{
+		uint8_t hasCommand;
+		_rkInStream.Read (hasCommand);
+
+		if (hasCommand == 0) {
+			break;
+		}
+
+		SUserCommand& command = m_kInCommands.Insert (sequence);
+		_rkInStream.Read (command);
+
+		sequence--;
+	}
 }
 
 void CServerConnection::OnPacketAcked (int _nSequence, SGameOutPacket& _rkOutPacket)
@@ -92,6 +104,10 @@ void CServerConnection::ComposePackage ()
 
 	CBitOutStream outStream;
 	BeginComposeOutput (outStream);
+
+	int message = 0;
+	message |= static_cast<int> (EGameMessage::Snapshot);
+	outStream.Write (message);
 
 	// TODO: write snapshot
 

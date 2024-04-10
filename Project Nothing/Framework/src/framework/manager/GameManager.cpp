@@ -44,9 +44,14 @@ void CGameManager::Run (boost::asio::io_context& _rkContext)
 		{
 			if (!m_bIsRunning)
 			{
-				for (auto& [id, gameloop] : m_kGameLoops) {
-					gameloop->Shutdown ();
+				for (auto& [id, gameloop] : m_kGameLoops)
+				{
+					if (gameloop->IsRunning ()) {
+						gameloop->Shutdown ();
+					}
 				}
+
+				m_kGameLoops.clear ();
 
 				m_pkTimer->cancel ();
 				m_pkTimer = nullptr;
@@ -83,7 +88,18 @@ void CGameManager::Update ()
 {
 	CTime::FrameTime = CTime::GetMiliSecond ();
 
-	for (auto& [id, gameloop] : m_kGameLoops) {
-		gameloop->Update ();
+	std::set<uint32_t> shutdownIDs;
+	for (auto& [id, gameloop] : m_kGameLoops)
+	{
+		if (gameloop->IsRunning ()) {
+			gameloop->Update ();
+		}
+		else {
+			shutdownIDs.emplace (id);
+		}
+	}
+
+	for (auto& id : shutdownIDs) {
+		m_kGameLoops.erase (id);
 	}
 }

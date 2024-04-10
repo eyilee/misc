@@ -23,8 +23,9 @@ void NE_ServerLogin::Excute ()
 	std::shared_ptr<INetEntity> netEntity = CNetEntityManager::GetOrCreateNetEntity<CPlayerEntity> (m_nID);
 	if (netEntity != nullptr)
 	{
-		netEntity->SetNetBridge (m_pkNetBridge);
 		m_pkNetBridge->SetNetEntity (netEntity);
+		netEntity->SetNetBridge (m_pkNetBridge);
+		netEntity->OnConnected ();
 	}
 
 	std::shared_ptr<INetProtocol> protocol = std::make_shared<NC_ClientLoginResult> (m_pkNetBridge->GetID ());

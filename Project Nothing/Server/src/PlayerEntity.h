@@ -1,12 +1,16 @@
 #pragma once
 
-class CPlayerEntity : public INetEntity
+class CPlayerEntity : public INetEntity, public std::enable_shared_from_this<CPlayerEntity>
 {
 public:
 	CPlayerEntity ();
 	virtual ~CPlayerEntity ();
 
-	inline bool IsInGame () const { return m_nGameID != 0; };
+	virtual void OnConnected () override;
+	virtual void OnDisconnected () override;
+
+	inline uint32_t GetGameID () const { return m_nGameID; }
+	inline void SetGameID (uint32_t _nGameID) { m_nGameID = _nGameID; }
 
 private:
 	uint32_t m_nGameID;

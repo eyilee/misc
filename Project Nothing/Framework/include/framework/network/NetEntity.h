@@ -14,6 +14,9 @@ public:
 	std::shared_ptr<CNetBridge> GetNetBridge () { return m_pkNetBridge; }
 	void SetNetBridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; };
 
+	virtual void OnConnected () {}
+	virtual void OnDisconnected () {}
+
 protected:
 	uint32_t m_nID;
 	std::shared_ptr<CNetBridge> m_pkNetBridge;

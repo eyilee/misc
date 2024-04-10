@@ -8,6 +8,9 @@ namespace ProjectNothing
         [SerializeField]
         GameConfig m_Config;
 
+        [SerializeField]
+        GameObject m_PlayerPrefab;
+
         bool m_IsInit = false;
 
         public void Awake ()
@@ -19,10 +22,20 @@ namespace ProjectNothing
         {
             InitProtocolManager ();
             yield return InitNetworkManager ();
-
             InitGameManager ();
 
             m_IsInit = true;
+        }
+
+        public void OnDestroy ()
+        {
+            if (!m_IsInit)
+            {
+                return;
+            }
+
+            NetworkManager.Shutdown ();
+            GameManager.Shutdown ();
         }
 
         public void Update ()
@@ -33,7 +46,6 @@ namespace ProjectNothing
             }
 
             NetworkManager.Update ();
-
             GameManager.Update ();
         }
 
@@ -61,7 +73,7 @@ namespace ProjectNothing
 
         void InitGameManager ()
         {
-            GameManager.Init ();
+            GameManager.Init (m_PlayerPrefab);
         }
     }
 }
