@@ -1,8 +1,6 @@
 #pragma once
 #include "framework/network/BitStream.h"
 
-using boost::asio::ip::tcp;
-
 class INetProtocol;
 class CNetBridge;
 class CTcpSession;
@@ -16,7 +14,7 @@ public:
 	inline std::shared_ptr<CNetBridge> GetNetBridge () const { return m_pkNetBridge; }
 	inline void SetNetBridge (std::shared_ptr<CNetBridge> _pkNetBridge) { m_pkNetBridge = _pkNetBridge; }
 
-	inline tcp::endpoint GetRemoteEndpoint () const { return m_kRemoteEndPoint; }
+	inline boost::asio::ip::tcp::endpoint GetRemoteEndpoint () const { return m_kRemoteEndPoint; }
 
 	void Init ();
 	void Shutdown ();
@@ -28,5 +26,5 @@ public:
 private:
 	std::shared_ptr<CNetBridge> m_pkNetBridge;
 	std::shared_ptr<CTcpSession> m_pkTcpSession;
-	tcp::endpoint m_kRemoteEndPoint;
+	boost::asio::ip::tcp::endpoint m_kRemoteEndPoint;
 };

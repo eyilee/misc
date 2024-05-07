@@ -4,6 +4,8 @@
 #include "framework/network/UdpConnection.h"
 #include "framework/network/UdpSession.h"
 
+using boost::asio::ip::udp;
+
 CUdpSession::SSendCommand::SSendCommand (const std::vector<uint8_t>& _rkBytes)
 	: m_kBytes (_rkBytes)
 {

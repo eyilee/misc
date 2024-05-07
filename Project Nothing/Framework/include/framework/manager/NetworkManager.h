@@ -1,8 +1,6 @@
 #pragma once
 #include "framework/manager/BaseManager.h"
 
-using boost::asio::ip::tcp;
-
 class CNetBridge;
 class CTcpListener;
 class CUdpSession;
@@ -16,7 +14,7 @@ public:
 	static void Init (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, unsigned short _nPort);
 	static void Shutdown ();
 
-	static void TcpAccept (tcp::socket& _rkSocket);
+	static void TcpAccept (boost::asio::ip::tcp::socket& _rkSocket);
 	static std::shared_ptr<CUdpSession> UdpConnect (std::shared_ptr<CNetBridge> _pkNetBridge, unsigned short _nPort);
 
 	static std::shared_ptr<CNetBridge> GetNetBridge (uint32_t _nID);

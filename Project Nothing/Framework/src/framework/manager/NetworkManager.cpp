@@ -8,6 +8,7 @@
 #include "framework/network/UdpSession.h"
 #include "framework/manager/NetworkManager.h"
 
+using boost::asio::ip::tcp;
 using boost::asio::ip::udp;
 
 CNetworkManager::CNetworkManager (boost::asio::io_context& _rkContext, const std::string& _rkHostAddr, unsigned short _nPort)

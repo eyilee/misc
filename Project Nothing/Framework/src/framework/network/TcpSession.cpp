@@ -4,6 +4,8 @@
 #include "framework/network/TcpConnection.h"
 #include "framework/network/TcpSession.h"
 
+using boost::asio::ip::tcp;
+
 CTcpSession::SReadCommand::SReadCommand ()
 	: m_nHeaderOffset (0)
 	, m_nByteOffset (0)

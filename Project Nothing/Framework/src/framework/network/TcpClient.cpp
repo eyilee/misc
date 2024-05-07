@@ -4,6 +4,8 @@
 #include "framework/network/NetProtocol.h"
 #include "framework/network/TcpClient.h"
 
+using boost::asio::ip::tcp;
+
 CTcpClient::CTcpClient (boost::asio::io_context& _rkContext, std::string _kHostAddr, std::string _kPort)
 	: m_kResolver (_rkContext)
 	, m_kSocket (_rkContext)

@@ -1,8 +1,6 @@
 #pragma once
 #include "framework/network/BitStream.h"
 
-using boost::asio::ip::tcp;
-
 class CTcpConnection;
 
 constexpr size_t TCP_SOCKET_BUFFER_SIZE = 8192;
@@ -32,10 +30,10 @@ private:
 	};
 
 public:
-	CTcpSession (tcp::socket& _rkSocket);
+	CTcpSession (boost::asio::ip::tcp::socket& _rkSocket);
 	virtual ~CTcpSession ();
 
-	inline tcp::endpoint GetRemoteEndpoint () const { return m_kSocket.remote_endpoint (); }
+	inline boost::asio::ip::tcp::endpoint GetRemoteEndpoint () const { return m_kSocket.remote_endpoint (); }
 
 	void Init (std::shared_ptr<CTcpConnection> _pkTcpConnection);
 	void Shutdown ();
@@ -50,7 +48,7 @@ private:
 
 private:
 	std::shared_ptr<CTcpConnection> m_pkConnection;
-	tcp::socket m_kSocket;
+	boost::asio::ip::tcp::socket m_kSocket;
 
 	std::deque<SReadCommand> m_kReadQueue;
 	std::deque<SWriteCommand> m_kWriteQueue;

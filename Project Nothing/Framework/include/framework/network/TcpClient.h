@@ -1,7 +1,5 @@
 #pragma once
 
-using boost::asio::ip::tcp;
-
 class INetProtocol;
 class CBitOutStream;
 
@@ -23,8 +21,8 @@ private:
 	void OnWrite (const CBitOutStream& _rkOutStream);
 
 private:
-	tcp::resolver m_kResolver;
-	tcp::socket m_kSocket;
+	boost::asio::ip::tcp::resolver m_kResolver;
+	boost::asio::ip::tcp::socket m_kSocket;
 
 	std::string m_kHostAddr;
 	std::string m_kPort;

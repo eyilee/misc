@@ -1,7 +1,5 @@
 #pragma once
 
-using std::chrono::system_clock;
-
 class CLogger
 {
 public:
@@ -34,7 +32,7 @@ inline static void CLogger::Log (const char* _szMessage, ARGS&& ... _Args)
 		return;
 	}
 
-	std::time_t now = system_clock::to_time_t (system_clock::now ());
+	std::time_t now = std::chrono::system_clock::to_time_t (std::chrono::system_clock::now ());
 	struct tm time;
 	localtime_s (&time, &now);
 

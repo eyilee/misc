@@ -1,7 +1,5 @@
 #pragma once
 
-using boost::asio::ip::tcp;
-
 class CTcpListener : public std::enable_shared_from_this<CTcpListener>
 {
 public:
@@ -15,7 +13,7 @@ private:
 	void AsyncAccept ();
 
 private:
-	tcp::acceptor m_kAcceptor;
+	boost::asio::ip::tcp::acceptor m_kAcceptor;
 
 	bool m_bIsRunning;
 };

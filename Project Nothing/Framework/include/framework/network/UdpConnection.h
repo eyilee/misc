@@ -2,8 +2,6 @@
 #include "framework/network/BitStream.h"
 #include "framework/network/SequenceBuffer.h"
 
-using boost::asio::ip::udp;
-
 class CUdpSession;
 
 constexpr size_t PACKET_BUFFER_SIZE = 256;

@@ -1,8 +1,6 @@
 #pragma once
 #include "framework/network/BitStream.h"
 
-using boost::asio::ip::udp;
-
 class IUdpConnection;
 
 constexpr size_t UDP_SOCKET_BUFFER_SIZE = 1432; // 1500(Ethernet MTU) - 60(IPv4 header) - 8(udp header)
@@ -19,7 +17,7 @@ private:
 	};
 
 public:
-	CUdpSession (udp::socket& _rkSocket);
+	CUdpSession (boost::asio::ip::udp::socket& _rkSocket);
 	virtual ~CUdpSession ();
 
 	inline unsigned short GetPort () const { return m_kSocket.local_endpoint ().port (); }
@@ -39,7 +37,7 @@ private:
 private:
 	std::shared_ptr<IUdpConnection> m_pkConnection;
 	uint32_t m_nKey;
-	udp::socket m_kSocket;
+	boost::asio::ip::udp::socket m_kSocket;
 
 	std::deque<SSendCommand> m_kSendQueue;
 	std::array<uint8_t, UDP_SOCKET_BUFFER_SIZE> m_kReceiveBuffer;

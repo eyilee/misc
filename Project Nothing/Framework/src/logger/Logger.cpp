@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "logger/Logger.h"
 
+using std::chrono::system_clock;
+
 std::shared_ptr<CLogger> CLogger::Instance = nullptr;
 
 CLogger::CLogger ()
