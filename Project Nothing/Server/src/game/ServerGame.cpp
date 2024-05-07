@@ -11,6 +11,8 @@ uint64_t CServerGame::TickInterval = 50;
 CServerGame::CServerGame ()
 	: m_nTick (0)
 	, m_nNextTickTime (0)
+	, m_nServerSequence ()
+	, m_kSnapshots {}
 {
 }
 

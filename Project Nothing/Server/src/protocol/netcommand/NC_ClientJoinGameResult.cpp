@@ -2,6 +2,9 @@
 #include "protocol/netcommand/NC_ClientJoinGameResult.h"
 
 NC_ClientJoinGameResult::NC_ClientJoinGameResult ()
+	: m_nGameID (0)
+	, m_nPort (0)
+	, m_nKey (0)
 {
 }
 

@@ -2,6 +2,7 @@
 #include "protocol/netcommand/NC_ClientLoginResult.h"
 
 NC_ClientLoginResult::NC_ClientLoginResult ()
+	: m_nID (0)
 {
 }
 

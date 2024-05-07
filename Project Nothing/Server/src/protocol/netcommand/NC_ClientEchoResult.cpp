@@ -2,6 +2,8 @@
 #include "protocol/netcommand/NC_ClientEchoResult.h"
 
 NC_ClientEchoResult::NC_ClientEchoResult ()
+	: m_nSequence (0)
+	, m_nSendTime (0)
 {
 }
 

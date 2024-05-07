@@ -1,7 +1,5 @@
 #pragma once
 
-namespace po = boost::program_options;
-
 class CConfigLoader
 {
 public:
@@ -14,7 +12,7 @@ public:
 	static T GetConfig (const std::string& _rkKey);
 
 private:
-	static po::variables_map m_kVM;
+	static boost::program_options::variables_map m_kVM;
 };
 
 template<typename T>

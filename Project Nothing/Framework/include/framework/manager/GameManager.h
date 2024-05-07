@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework/Random.h"
 #include "framework/manager/BaseManager.h"
 

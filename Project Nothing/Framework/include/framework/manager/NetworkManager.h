@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework/manager/BaseManager.h"
 
 class CNetBridge;
@@ -35,4 +36,3 @@ private:
 
 	std::map<uint32_t, std::shared_ptr<CNetBridge>> m_kNetBridges;
 };
-

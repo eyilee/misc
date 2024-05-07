@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework/network/BitStream.h"
 #include "framework/network/SequenceBuffer.h"
 

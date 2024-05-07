@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "ConfigLoader.h"
 
+namespace po = boost::program_options;
+
 po::variables_map CConfigLoader::m_kVM;
 
 CConfigLoader::CConfigLoader ()

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework/manager/BaseManager.h"
 
 class INetEntity;

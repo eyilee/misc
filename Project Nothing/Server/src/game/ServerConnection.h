@@ -1,4 +1,5 @@
 #pragma once
+
 #include "game/UserCommand.h"
 
 class CServerGame;

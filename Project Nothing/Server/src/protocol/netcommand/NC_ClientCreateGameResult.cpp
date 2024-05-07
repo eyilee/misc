@@ -2,6 +2,7 @@
 #include "protocol/netcommand/NC_ClientCreateGameResult.h"
 
 NC_ClientCreateGameResult::NC_ClientCreateGameResult ()
+	: m_nGameID (0)
 {
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "libpq-fe.h"
 #include "framework/manager/BaseManager.h"
 

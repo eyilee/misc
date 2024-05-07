@@ -226,6 +226,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rdparty\postgresql-10.11\include;include;src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -252,6 +253,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rdparty\postgresql-10.11\include;include;src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
     </ClCompile>
     <Link>
       <SubSystem>

@@ -76,7 +76,7 @@ inline void CStateMachine<TState>::Update ()
 template<typename TState> requires std::is_enum_v<TState>
 inline void CStateMachine<TState>::Shutdown ()
 {
-	if (m_pkCurrentState != nullptr && m_pkCurrentState->m_fnUpdate != nullptr) {
+	if (m_pkCurrentState != nullptr && m_pkCurrentState->m_fnLeave != nullptr) {
 		m_pkCurrentState->m_fnLeave ();
 	}
 
@@ -91,8 +91,7 @@ inline void CStateMachine<TState>::SwitchTo (TState _nState)
 		return;
 	}
 
-
-	if (m_pkCurrentState != nullptr && m_pkCurrentState->m_fnUpdate != nullptr) {
+	if (m_pkCurrentState != nullptr && m_pkCurrentState->m_fnLeave != nullptr) {
 		m_pkCurrentState->m_fnLeave ();
 	}
 
