@@ -2,6 +2,7 @@
 #include "game/GameWorld.h"
 
 struct SUserCommand;
+class CClientInfo;
 class CPlayerEntity;
 class CServerConnection;
 
@@ -63,8 +64,10 @@ private:
 	void UpdateActiveState ();
 	void LeaveActiveState ();
 
-	void OnJoin (std::shared_ptr<CServerConnection> _pkConnection);
-	void OnLeave (std::shared_ptr<CServerConnection> _pkConnection);
+	void OnConnected (std::shared_ptr<CServerConnection> _pkConnection);
+	void OnDisconnected (std::shared_ptr<CServerConnection> _pkConnection);
+	void OnJoin (uint32_t _nPlayerID);
+	void OnLeave (uint32_t _nPlayerID);
 
 	void TickUpdate ();
 	void GenerateSnapshot ();
@@ -83,6 +86,7 @@ private:
 	uint64_t m_nNextTickTime;
 
 	std::map<uint32_t, std::shared_ptr<CServerConnection>> m_kServerConnections;
+	std::map<uint32_t, std::shared_ptr<CClientInfo>> m_kClientInfos;
 
 	uint32_t m_nServerSequence;
 	std::vector<SGameObjectInfo> m_kGameObjectInfos;

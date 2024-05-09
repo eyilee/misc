@@ -6,8 +6,8 @@
 #include "framework/manager/NetworkManager.h"
 #include "framework/network/NetBridge.h"
 
-CNetBridge::CNetBridge (uint32_t _nID)
-	: m_nID (_nID)
+CNetBridge::CNetBridge ()
+	: m_nID (0)
 	, m_pkConnection (nullptr)
 	, m_pkNetEntity (nullptr)
 {

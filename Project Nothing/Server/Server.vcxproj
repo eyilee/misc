@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConfigLoader.cpp" />
+    <ClCompile Include="src\game\ClientInfo.cpp" />
     <ClCompile Include="src\game\GameObject.cpp" />
     <ClCompile Include="src\game\GameWorld.cpp" />
     <ClCompile Include="src\game\ServerConnection.cpp" />
@@ -45,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ConfigLoader.h" />
+    <ClInclude Include="src\game\ClientInfo.h" />
     <ClInclude Include="src\game\GameObject.h" />
     <ClInclude Include="src\game\GameWorld.h" />
     <ClInclude Include="src\game\ServerConnection.h" />

@@ -21,7 +21,7 @@ public:
 		SButtonBitField (EButton _nButton);
 		virtual ~SButtonBitField ();
 
-		inline bool IsSet (EButton _nButton) { return (static_cast<uint32_t> (m_nFlags) & static_cast<uint32_t> (_nButton)) > 0; }
+		inline bool IsSet (EButton _nButton) const { return (static_cast<uint32_t> (m_nFlags) & static_cast<uint32_t> (_nButton)) > 0; }
 
 	public:
 		EButton m_nFlags;

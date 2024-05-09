@@ -90,11 +90,11 @@ std::shared_ptr<CNetBridge> CNetworkManager::GetNetBridge (uint32_t _nID)
 	}
 
 	auto it = Instance->m_kNetBridges.find (_nID);
-	if (it != Instance->m_kNetBridges.end ()) {
-		return it->second;
+	if (it == Instance->m_kNetBridges.end ()) {
+		return nullptr;
 	}
 
-	return nullptr;
+	return it->second;
 }
 
 void CNetworkManager::RemoveNetBridge (uint32_t _nID)
@@ -128,7 +128,8 @@ std::shared_ptr<CNetBridge> CNetworkManager::CreateNetBridge ()
 		id = CRandom::GetValue<uint32_t> ();
 	}
 
-	std::shared_ptr<CNetBridge> netBridge = std::make_shared<CNetBridge> (id);
+	std::shared_ptr<CNetBridge> netBridge = std::make_shared<CNetBridge> ();
+	netBridge->SetID (id);
 	m_kNetBridges.emplace (id, netBridge);
 	return netBridge;
 }

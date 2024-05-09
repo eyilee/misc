@@ -80,9 +80,9 @@ template<typename T> requires std::is_base_of_v<IGameLoop, T>
 inline std::shared_ptr<T> CGameManager::Get (uint32_t _nID)
 {
 	auto it = m_kGameLoops.find (_nID);
-	if (it != m_kGameLoops.end ()) {
-		return std::static_pointer_cast<T> (it->second);
+	if (it == m_kGameLoops.end ()) {
+		return nullptr;
 	}
 
-	return nullptr;
+	return std::static_pointer_cast<T> (it->second);
 }

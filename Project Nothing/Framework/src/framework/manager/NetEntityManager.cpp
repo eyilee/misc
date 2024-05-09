@@ -40,8 +40,7 @@ std::shared_ptr<INetEntity> CNetEntityManager::GetNetEntity (uint32_t _nID)
 std::shared_ptr<INetEntity> CNetEntityManager::Get (uint32_t _nID)
 {
 	auto it = m_kNetEntityMap.find (_nID);
-	if (it == m_kNetEntityMap.end ())
-	{
+	if (it == m_kNetEntityMap.end ()) {
 		return nullptr;
 	}
 

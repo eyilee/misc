@@ -7,10 +7,11 @@ class CTcpConnection;
 class CNetBridge
 {
 public:
-	CNetBridge (uint32_t _nID);
+	CNetBridge ();
 	virtual ~CNetBridge ();
 
 	inline uint32_t GetID () const { return m_nID; }
+	inline void SetID (uint32_t _nID) { m_nID = _nID; }
 
 	inline std::shared_ptr<CTcpConnection> GetConnection () const { return m_pkConnection; }
 	inline void SetConnection (std::shared_ptr<CTcpConnection> _pkConnection) { m_pkConnection = _pkConnection; }

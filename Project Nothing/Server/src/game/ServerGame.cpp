@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlayerEntity.h"
+#include "game/ClientInfo.h"
 #include "game/ServerConnection.h"
 #include "game/ServerGame.h"
 
@@ -59,7 +60,7 @@ bool CServerGame::Join (std::shared_ptr<CPlayerEntity> _pkPlayerEntity, std::sha
 
 	m_kServerConnections.emplace (playerID, serverConnection);
 
-	OnJoin (serverConnection);
+	OnConnected (serverConnection);
 
 	_pkPlayerEntity->SetGameID (m_nID);
 
@@ -75,9 +76,11 @@ void CServerGame::Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 		return;
 	}
 
-	OnLeave (it->second);
+	std::shared_ptr<CServerConnection> serverConnection = it->second;
 
 	m_kServerConnections.erase (it);
+
+	OnDisconnected (it->second);
 
 	_pkPlayerEntity->SetGameID (0);
 
@@ -88,6 +91,17 @@ void CServerGame::Leave (std::shared_ptr<CPlayerEntity> _pkPlayerEntity)
 
 void CServerGame::ProcessCommand (uint32_t _nPlayerID, const SUserCommand& _rkCommand, uint32_t _nTick)
 {
+	auto it = m_kClientInfos.find (_nPlayerID);
+	if (it == m_kClientInfos.end ()) {
+		return;
+	}
+
+	std::shared_ptr<CClientInfo> clientInfo = it->second;
+
+	if (_nTick == m_nTick) {
+		clientInfo->m_kLatestCommand = _rkCommand;
+	}
+
 	// TODO: store commands to systems
 }
 
@@ -120,24 +134,48 @@ void CServerGame::LeaveActiveState ()
 {
 }
 
-void CServerGame::OnJoin (std::shared_ptr<CServerConnection> _pkConnection)
+void CServerGame::OnConnected (std::shared_ptr<CServerConnection> _pkConnection)
 {
 	_pkConnection->Init ();
 
 	uint32_t playerID = _pkConnection->GetPlayerID ();
 	if (playerID != 0) {
-		m_kGameWorld.CreatePlayer (_pkConnection->GetPlayerID ());
+		OnJoin (playerID);
 	}
 }
 
-void CServerGame::OnLeave (std::shared_ptr<CServerConnection> _pkConnection)
+void CServerGame::OnDisconnected (std::shared_ptr<CServerConnection> _pkConnection)
 {
 	uint32_t playerID = _pkConnection->GetPlayerID ();
 	if (playerID != 0) {
-		m_kGameWorld.RemovePlayer (_pkConnection->GetPlayerID ());
+		OnLeave (playerID);
 	}
 
 	_pkConnection->Shutdown ();
+}
+
+void CServerGame::OnJoin (uint32_t _nPlayerID)
+{
+	auto it = m_kClientInfos.find (_nPlayerID);
+	if (it != m_kClientInfos.end ()) {
+		return;
+	}
+
+	m_kClientInfos.emplace (_nPlayerID, std::make_shared<CClientInfo> ());
+
+	m_kGameWorld.CreatePlayer (_nPlayerID);
+}
+
+void CServerGame::OnLeave (uint32_t _nPlayerID)
+{
+	auto it = m_kClientInfos.find (_nPlayerID);
+	if (it == m_kClientInfos.end ()) {
+		return;
+	}
+
+	m_kClientInfos.erase (it);
+
+	m_kGameWorld.RemovePlayer (_nPlayerID);
 }
 
 void CServerGame::TickUpdate ()

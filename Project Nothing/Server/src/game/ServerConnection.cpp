@@ -32,11 +32,11 @@ CServerConnection::~CServerConnection ()
 
 uint32_t CServerConnection::GetPlayerID ()
 {
-	if (m_pkPlayerEntity != nullptr) {
-		return m_pkPlayerEntity->GetID ();
+	if (m_pkPlayerEntity == nullptr) {
+		return 0;
 	}
 
-	return 0;
+	return m_pkPlayerEntity->GetID ();
 }
 
 void CServerConnection::ProcessCommands (uint32_t _nTick)
