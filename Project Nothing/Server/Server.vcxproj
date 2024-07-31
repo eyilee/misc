@@ -31,7 +31,7 @@
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\event\EventHeartbeat.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -58,7 +58,7 @@
     <ClInclude Include="src\protocol\netevent\NE_ServerShutdown.h" />
     <ClInclude Include="src\Server.h" />
     <ClInclude Include="src\event\EventHeartbeat.h" />
-    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="src\config.ini.example">
@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0A00;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\PostgreSQL\16\include;$(SolutionDir)Framework\src;src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\PostgreSQL\16\include;$(SolutionDir)Framework\src;.\;.\src</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
@@ -144,7 +144,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
-      <AdditionalIncludeDirectories>C:\Program Files\PostgreSQL\16\include;$(SolutionDir)Framework\src;src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\PostgreSQL\16\include;$(SolutionDir)Framework\src;.\;.\src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

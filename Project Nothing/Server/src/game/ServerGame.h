@@ -1,4 +1,5 @@
 #pragma once
+
 #include "game/GameWorld.h"
 
 struct SUserCommand;

@@ -36,9 +36,6 @@
     <ClCompile Include="src\event\EventHeartbeat.cpp">
       <Filter>src\event</Filter>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\protocol\netcommand\NC_ClientCreateGameResult.cpp">
       <Filter>src\protocol\netcommand</Filter>
     </ClCompile>
@@ -84,11 +81,9 @@
     <ClCompile Include="src\game\ClientInfo.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\stdafx.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Server.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -152,6 +147,7 @@
     <ClInclude Include="src\game\ClientInfo.h">
       <Filter>src\game</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="src\config.ini.example">
