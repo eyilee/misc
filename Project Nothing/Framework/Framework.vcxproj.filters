@@ -4,26 +4,8 @@
     <Filter Include="src">
       <UniqueIdentifier>{2a2dff26-0589-4e28-9774-21e553b495f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{f38f5a74-28f0-4e96-aa32-96ec47eff6db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="dll">
-      <UniqueIdentifier>{efdb3cbc-f39d-486e-ace4-ec4545b8cf4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\framework">
-      <UniqueIdentifier>{52a05fee-87a9-4aa7-b928-3a5762a2ca9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\framework\network">
-      <UniqueIdentifier>{1c0f1cb7-7a21-4f62-8e94-dee691ec0fef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\framework\manager">
-      <UniqueIdentifier>{286f1569-37ce-428a-99f5-2d7c612612ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\logger">
       <UniqueIdentifier>{2db5660b-8cd7-43d0-b422-55fa408f2c1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\logger">
-      <UniqueIdentifier>{8c971f23-3687-4c3d-ab1b-c51d0e68d761}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\framework">
       <UniqueIdentifier>{59fbb02d-fa7d-4f10-aad8-d2323b53fc04}</UniqueIdentifier>
@@ -36,95 +18,90 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework\manager\DBManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\manager\NetEntityManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\manager\ProtocolManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\manager\NetworkManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\NetEntity.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\NetBridge.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\NetProtocol.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\NetProtocolGenerator.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\TcpClient.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\TcpListener.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\TcpSession.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\manager\BaseManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\logger\Logger.h">
-      <Filter>include\logger</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\manager\EventManager.h">
-      <Filter>include\framework\manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\BitStream.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\framework\network\UdpSession.h">
-      <Filter>include\framework\network</Filter>
-    </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\Event.h">
-      <Filter>include\framework</Filter>
+    <ClInclude Include="src\framework\Event.h">
+      <Filter>src\framework</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\Time.h">
-      <Filter>include\framework</Filter>
+    <ClInclude Include="src\framework\GameLoop.h">
+      <Filter>src\framework</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\Random.h">
-      <Filter>include\framework</Filter>
+    <ClInclude Include="src\framework\Random.h">
+      <Filter>src\framework</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\BitConverter.h">
-      <Filter>include\framework\network</Filter>
+    <ClInclude Include="src\framework\StateMachine.h">
+      <Filter>src\framework</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\manager\GameManager.h">
-      <Filter>include\framework\manager</Filter>
+    <ClInclude Include="src\framework\Time.h">
+      <Filter>src\framework</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\GameLoop.h">
-      <Filter>include\framework</Filter>
+    <ClInclude Include="src\framework\manager\BaseManager.h">
+      <Filter>src\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\StateMachine.h">
-      <Filter>include\framework</Filter>
+    <ClInclude Include="src\framework\manager\DBManager.h">
+      <Filter>src\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\Framework.h">
-      <Filter>include\framework</Filter>
+    <ClInclude Include="src\framework\manager\EventManager.h">
+      <Filter>src\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\TcpConnection.h">
-      <Filter>include\framework\network</Filter>
+    <ClInclude Include="src\framework\manager\GameManager.h">
+      <Filter>src\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\UdpConnection.h">
-      <Filter>include\framework\network</Filter>
+    <ClInclude Include="src\framework\manager\NetEntityManager.h">
+      <Filter>src\framework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\framework\network\SequenceBuffer.h">
-      <Filter>include\framework\network</Filter>
+    <ClInclude Include="src\framework\manager\NetworkManager.h">
+      <Filter>src\framework\manager</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
-      <Filter>dll</Filter>
-    </CopyFileToFolders>
+    <ClInclude Include="src\framework\manager\ProtocolManager.h">
+      <Filter>src\framework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\BitConverter.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\BitStream.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\NetBridge.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\NetEntity.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\NetProtocol.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\NetProtocolGenerator.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\SequenceBuffer.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\TcpClient.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\TcpConnection.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\TcpListener.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\TcpSession.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\UdpConnection.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\UdpSession.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\logger\Logger.h">
+      <Filter>src\logger</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Framework.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\framework\manager\BaseManager.cpp">

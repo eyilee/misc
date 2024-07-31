@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libpq-fe.h"
+#include <libpq-fe.h>
 #include "framework/manager/BaseManager.h"
 
 class CDBManager : public CBaseManager<CDBManager>

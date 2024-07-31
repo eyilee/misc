@@ -30,7 +30,4 @@
 #include <boost/program_options.hpp>
 
 // framework
-#include "framework/Framework.h"
-
-// logger
-#include "logger/Logger.h"
+#include <Framework.h>

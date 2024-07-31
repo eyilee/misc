@@ -11,17 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework\Event.h" />
-    <ClInclude Include="include\framework\Framework.h" />
-    <ClInclude Include="include\framework\GameLoop.h" />
-    <ClInclude Include="include\framework\manager\GameManager.h" />
-    <ClInclude Include="include\framework\network\BitConverter.h" />
-    <ClInclude Include="include\framework\network\SequenceBuffer.h" />
-    <ClInclude Include="include\framework\network\TcpConnection.h" />
-    <ClInclude Include="include\framework\network\UdpConnection.h" />
-    <ClInclude Include="include\framework\Random.h" />
-    <ClInclude Include="include\framework\StateMachine.h" />
-    <ClInclude Include="include\framework\Time.h" />
     <ClCompile Include="src\framework\GameLoop.cpp" />
     <ClCompile Include="src\framework\manager\GameManager.cpp" />
     <ClCompile Include="src\framework\network\BitConverter.cpp" />
@@ -29,26 +18,34 @@
     <ClCompile Include="src\framework\network\TcpConnection.cpp" />
     <ClCompile Include="src\framework\network\UdpConnection.cpp" />
     <ClCompile Include="src\framework\Random.cpp" />
+    <ClInclude Include="src\Framework.h" />
+    <ClInclude Include="src\framework\Event.h" />
+    <ClInclude Include="src\framework\GameLoop.h" />
+    <ClInclude Include="src\framework\manager\BaseManager.h" />
+    <ClInclude Include="src\framework\manager\DBManager.h" />
+    <ClInclude Include="src\framework\manager\EventManager.h" />
+    <ClInclude Include="src\framework\manager\GameManager.h" />
+    <ClInclude Include="src\framework\manager\NetEntityManager.h" />
+    <ClInclude Include="src\framework\manager\NetworkManager.h" />
+    <ClInclude Include="src\framework\manager\ProtocolManager.h" />
+    <ClInclude Include="src\framework\network\BitConverter.h" />
+    <ClInclude Include="src\framework\network\BitStream.h" />
+    <ClInclude Include="src\framework\network\NetBridge.h" />
+    <ClInclude Include="src\framework\network\NetEntity.h" />
+    <ClInclude Include="src\framework\network\NetProtocol.h" />
+    <ClInclude Include="src\framework\network\NetProtocolGenerator.h" />
+    <ClInclude Include="src\framework\network\SequenceBuffer.h" />
+    <ClInclude Include="src\framework\network\TcpClient.h" />
+    <ClInclude Include="src\framework\network\TcpConnection.h" />
+    <ClInclude Include="src\framework\network\TcpListener.h" />
+    <ClInclude Include="src\framework\network\TcpSession.h" />
+    <ClInclude Include="src\framework\network\UdpConnection.h" />
+    <ClInclude Include="src\framework\network\UdpSession.h" />
+    <ClInclude Include="src\framework\Random.h" />
+    <ClInclude Include="src\framework\StateMachine.h" />
+    <ClInclude Include="src\framework\Time.h" />
+    <ClInclude Include="src\logger\Logger.h" />
     <ClInclude Include="src\stdafx.h" />
-    <CopyFileToFolders Include="..\3rdparty\postgresql-10.11\lib\libpq.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <ClInclude Include="include\framework\manager\BaseManager.h" />
-    <ClInclude Include="include\framework\manager\DBManager.h" />
-    <ClInclude Include="include\framework\manager\NetEntityManager.h" />
-    <ClInclude Include="include\framework\manager\EventManager.h" />
-    <ClInclude Include="include\framework\manager\ProtocolManager.h" />
-    <ClInclude Include="include\framework\manager\NetworkManager.h" />
-    <ClInclude Include="include\framework\network\BitStream.h" />
-    <ClInclude Include="include\framework\network\NetEntity.h" />
-    <ClInclude Include="include\framework\network\NetBridge.h" />
-    <ClInclude Include="include\framework\network\NetProtocol.h" />
-    <ClInclude Include="include\framework\network\NetProtocolGenerator.h" />
-    <ClInclude Include="include\framework\network\TcpClient.h" />
-    <ClInclude Include="include\framework\network\TcpListener.h" />
-    <ClInclude Include="include\framework\network\TcpSession.h" />
-    <ClInclude Include="include\framework\network\UdpSession.h" />
-    <ClInclude Include="include\logger\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\framework\Event.cpp" />
@@ -130,7 +127,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty\postgresql-10.11\include;include;src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\PostgreSQL\16\include;src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -140,7 +137,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>libpq.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdparty\postgresql-10.11\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\PostgreSQL\16\lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,7 +152,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty\postgresql-10.11\include;include;src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\PostgreSQL\16\include;src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -166,7 +163,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdparty\postgresql-10.11\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\PostgreSQL\16\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libpq.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
